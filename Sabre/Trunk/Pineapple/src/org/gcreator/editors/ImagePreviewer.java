@@ -41,6 +41,10 @@ public class ImagePreviewer extends DocumentPane{
     private JPanel panel;
     private BufferedImage img = null;
     
+    /**
+     * Creates an ImagePreviewer from a File
+     * @param file The image file
+     */
     public ImagePreviewer(File file){
         super(file);
         
@@ -68,6 +72,9 @@ public class ImagePreviewer extends DocumentPane{
         add(scroll, BorderLayout.CENTER);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean canSave(){
         return false;

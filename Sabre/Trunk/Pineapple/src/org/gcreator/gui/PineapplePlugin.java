@@ -56,8 +56,17 @@ public class PineapplePlugin extends PluginCore {
      * Owns {@link #tree} and the tabbed pane
      */
     public static JSplitPane splitter;
+    /**
+     * The project tree
+     */
     public static JTree tree;
+    /**
+     * The root node of {@link #tree}
+     */
     public static DefaultMutableTreeNode projectNode;
+    /**
+     * The menubar of the application
+     */
     public static JMenuBar menubar;
     public static JMenu fileMenu;
     public static JMenu editMenu;

@@ -44,6 +44,10 @@ public class TextEditor extends DocumentPane{
     private JScrollPane scroll;
     private JEditorPane editor;
     
+    /**
+     * Creates a text editor from a File
+     * @param file The text file
+     */
     public TextEditor(File file){
         super(file);
         setLayout(new BorderLayout());
@@ -77,6 +81,9 @@ public class TextEditor extends DocumentPane{
         });
     }
     
+    /**
+     * Saves the file
+     */
     @Override
     public boolean saveBackend(){
         try{
@@ -89,6 +96,9 @@ public class TextEditor extends DocumentPane{
         }
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean setupEditMenu(JMenu editMenu){
         JMenuItem cut = new JMenuItem("Cut");
