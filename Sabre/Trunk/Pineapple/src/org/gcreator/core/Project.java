@@ -182,4 +182,14 @@ public class Project {
         
         return p;
     }
+    
+    /**
+     * An utility function.
+     * Gets the directory of the project
+     */
+    public File getDirectory(){
+        File f = getManifest();
+        if(f==null) return null;
+        return f.getParentFile();
+    }
 }
