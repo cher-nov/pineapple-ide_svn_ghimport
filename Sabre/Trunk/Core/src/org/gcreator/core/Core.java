@@ -39,8 +39,8 @@ import org.gcreator.plugins.PluginImporter;
 public class Core {
 
     /* 0.97... -> Alpha
-     * ...001 -> 1       */
-    private static final double version = 0.97001;
+     * ...002 -> 1       */
+    private static final double version = 0.97002;
     private static boolean safe;
     private static final StaticContext staticContext = new StaticContext();
 
