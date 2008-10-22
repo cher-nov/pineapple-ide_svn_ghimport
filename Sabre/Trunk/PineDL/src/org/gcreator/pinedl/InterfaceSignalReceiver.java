@@ -51,4 +51,9 @@ public class InterfaceSignalReceiver extends SignalReceiver{
     public void sendImportSignal(String cls){
         System.out.println("import="+cls.toString());
     }
+    
+    @Override
+    public void sendClassDeclaration(String cls, String bcls){
+        System.out.println("cls="+cls+"; bcls="+bcls);
+    }
 }

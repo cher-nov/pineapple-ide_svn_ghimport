@@ -7,7 +7,7 @@ import pineapple.std;
  * No need to put "public" before class (like in Java)
  * And no need to put "public" after the ':'(like in C++)
 */
-class X : Y
+class X extends Y
 {
     //Constructors are referenced as "this" rather than classname
     //Base calls are handled just like in C++, but the super keyword
