@@ -154,18 +154,12 @@ situation
 	:	codel | (BBLOCK code EBLOCK);
 
 expression
-	:	value | ('(' value ')') | ('(' operation ')' );
-
-operation
-	:	sgloperation | mltoperation ;
+	:	(value | ('(' value ')') | ('(' sgloperation ')' ))
+		((PLUS | MINUS | MULT | DIV | MOD | BTWAND | BTWOR | BTWXOR | LOGAND | LOGOR | EQ | CEQ | NEQ | BG | BGE | LT | LTE)
+		expression)*;
 
 sgloperation
 	:	(BTWNOT | LOGNOT) expression;
-
-mltoperation
-	:	expression
-		(PLUS | MINUS | MULT | DIV | MOD | BTWAND | BTWOR | BTWXOR | LOGAND | LOGOR | EQ | CEQ | NEQ | BG | BGE | LT | LTE)
-		expression;
 
 value	:	type1value | type2value | type3value;
 
