@@ -1,0 +1,22 @@
+package pkg;
+
+import pineapple.lang;
+import pineapple.std;
+
+/*
+ * No need to put "public" before class (like in Java)
+ * And no need to put "public" after the ':'(like in C++)
+*/
+class X : Y
+{
+    //Constructors are referenced as "this" rather than classname
+    //Base calls are handled just like in C++, but the super keyword
+    //Is used, just like in Java.
+    public this() : super()
+    {
+        int a = 2;
+        double pi = 3.14159;
+        int life = 42;
+        Console.getOutputStream().PrintLine(life);
+    }
+}
