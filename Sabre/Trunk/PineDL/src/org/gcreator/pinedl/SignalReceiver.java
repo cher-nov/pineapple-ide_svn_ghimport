@@ -40,4 +40,11 @@ public class SignalReceiver {
      * @param cls The class to import
      */
     public void sendImportSignal(String cls){}
+    
+    /**
+     * Begins the class declaration
+     * @param cls The class name
+     * @param bcls The base class name. May be null and may contain dots('.')
+     */
+    public void sendClassDeclaration(String cls, String bcls){}
 }
