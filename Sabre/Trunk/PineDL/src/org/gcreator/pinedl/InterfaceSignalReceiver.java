@@ -23,31 +23,32 @@ THE SOFTWARE.
 
 package org.gcreator.pinedl;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import org.antlr.runtime.ANTLRInputStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
+import java.io.OutputStream;
 
 /**
- * Used only for testing purposes
+ * This signal receiver outputs a PDI interface.
  * @author Luís Reis
  */
-public class Test {
-    public static void main(String[] args){
-        try{
-            PineDLLexer lexer = new PineDLLexer(new ANTLRInputStream(
-                Test.class.getResourceAsStream("/org/gcreator/pinedl/test.pdl")));
-            CommonTokenStream ts = new CommonTokenStream(lexer);
-            PineDLParser parser = new PineDLParser(ts);
-            parser.setSignalReceiver(new InterfaceSignalReceiver(new FileOutputStream("dummy")));
-            parser.doc();
-        }
-        catch(IOException e){
-            System.out.println("IOException: " + e);
-        }
-        catch(RecognitionException e){
-            System.out.println("RecognitionException: " + e);
-        }
+public class InterfaceSignalReceiver extends SignalReceiver{
+    private OutputStream stream;
+    
+    public InterfaceSignalReceiver(OutputStream stream) throws IOException{
+        stream.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".getBytes());
+        this.stream = stream;
+    }
+    
+    public OutputStream getStream(){
+        return stream;
+    }
+    
+    @Override
+    public void sendPackageSignal(String pkg){
+        System.out.println("pkg="+pkg.toString());
+    }
+    
+    @Override
+    public void sendImportSignal(String cls){
+        System.out.println("import="+cls.toString());
     }
 }

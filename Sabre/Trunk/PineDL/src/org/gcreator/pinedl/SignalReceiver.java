@@ -23,31 +23,21 @@ THE SOFTWARE.
 
 package org.gcreator.pinedl;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import org.antlr.runtime.ANTLRInputStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
-
 /**
- * Used only for testing purposes
+ * A SignalReceiver gets information from the PineDL compiler
  * @author Luís Reis
  */
-public class Test {
-    public static void main(String[] args){
-        try{
-            PineDLLexer lexer = new PineDLLexer(new ANTLRInputStream(
-                Test.class.getResourceAsStream("/org/gcreator/pinedl/test.pdl")));
-            CommonTokenStream ts = new CommonTokenStream(lexer);
-            PineDLParser parser = new PineDLParser(ts);
-            parser.setSignalReceiver(new InterfaceSignalReceiver(new FileOutputStream("dummy")));
-            parser.doc();
-        }
-        catch(IOException e){
-            System.out.println("IOException: " + e);
-        }
-        catch(RecognitionException e){
-            System.out.println("RecognitionException: " + e);
-        }
-    }
+public class SignalReceiver {
+    /**
+     * A signal provided by the Antlr parser.
+     * Gives the SignalReceiver a package statement signal
+     * @param pkg The package
+     */
+    public void sendPackageSignal(String pkg){}
+    
+    /**
+     * Imports a class from a given package.class location.
+     * @param cls The class to import
+     */
+    public void sendImportSignal(String cls){}
 }
