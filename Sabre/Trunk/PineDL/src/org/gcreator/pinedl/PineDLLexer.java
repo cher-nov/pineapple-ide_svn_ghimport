@@ -1,4 +1,4 @@
-// $ANTLR 3.1 /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g 2008-10-22 17:14:16
+// $ANTLR 3.1 /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g 2008-10-22 17:21:18
 
 /*
 Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
@@ -1211,95 +1211,100 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:8: ( '\"' (~ ( '\"' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\n' ) '\"' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:10: '\"' (~ ( '\"' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\n' ) '\"'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:8: ( '\"' (~ ( '\\\"' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' )* '\"' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:10: '\"' (~ ( '\\\"' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' )* '\"'
             {
             match('\"'); 
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:14: (~ ( '\"' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\n' )
-            int alt4=4;
-            int LA4_0 = input.LA(1);
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:14: (~ ( '\\\"' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' )*
+            loop4:
+            do {
+                int alt4=6;
+                int LA4_0 = input.LA(1);
 
-            if ( (LA4_0=='\\') ) {
-                switch ( input.LA(2) ) {
-                case '\\':
-                    {
-                    alt4=2;
-                    }
-                    break;
-                case '\'':
-                    {
-                    alt4=3;
-                    }
-                    break;
-                case 'n':
-                    {
-                    alt4=4;
-                    }
-                    break;
-                case '\"':
-                    {
+                if ( ((LA4_0>='\u0000' && LA4_0<='!')||(LA4_0>='#' && LA4_0<='[')||(LA4_0>=']' && LA4_0<='\uFFFE')) ) {
                     alt4=1;
-                    }
-                    break;
-                default:
-                    NoViableAltException nvae =
-                        new NoViableAltException("", 4, 1, input);
+                }
+                else if ( (LA4_0=='\\') ) {
+                    switch ( input.LA(2) ) {
+                    case '\\':
+                        {
+                        alt4=2;
+                        }
+                        break;
+                    case '\'':
+                        {
+                        alt4=3;
+                        }
+                        break;
+                    case '\"':
+                        {
+                        alt4=4;
+                        }
+                        break;
+                    case 'n':
+                        {
+                        alt4=5;
+                        }
+                        break;
 
-                    throw nvae;
+                    }
+
                 }
 
-            }
-            else if ( ((LA4_0>='\u0000' && LA4_0<='!')||(LA4_0>='#' && LA4_0<='[')||(LA4_0>=']' && LA4_0<='\uFFFE')) ) {
-                alt4=1;
-            }
-            else {
-                NoViableAltException nvae =
-                    new NoViableAltException("", 4, 0, input);
 
-                throw nvae;
-            }
-            switch (alt4) {
-                case 1 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:15: ~ ( '\"' )
-                    {
-                    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='\uFFFE') ) {
-                        input.consume();
+                switch (alt4) {
+            	case 1 :
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:15: ~ ( '\\\"' | '\\\\' )
+            	    {
+            	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
+            	        input.consume();
 
-                    }
-                    else {
-                        MismatchedSetException mse = new MismatchedSetException(null,input);
-                        recover(mse);
-                        throw mse;}
+            	    }
+            	    else {
+            	        MismatchedSetException mse = new MismatchedSetException(null,input);
+            	        recover(mse);
+            	        throw mse;}
 
 
-                    }
-                    break;
-                case 2 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:22: '\\\\\\\\'
-                    {
-                    match("\\\\"); 
+            	    }
+            	    break;
+            	case 2 :
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:28: '\\\\\\\\'
+            	    {
+            	    match("\\\\"); 
 
 
-                    }
-                    break;
-                case 3 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:29: '\\\\\\''
-                    {
-                    match("\\\'"); 
+            	    }
+            	    break;
+            	case 3 :
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:35: '\\\\\\''
+            	    {
+            	    match("\\\'"); 
 
 
-                    }
-                    break;
-                case 4 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:36: '\\\\n'
-                    {
-                    match("\\n"); 
+            	    }
+            	    break;
+            	case 4 :
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:42: '\\\\\\\"'
+            	    {
+            	    match("\\\""); 
 
 
-                    }
-                    break;
+            	    }
+            	    break;
+            	case 5 :
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:199:49: '\\\\n'
+            	    {
+            	    match("\\n"); 
 
-            }
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop4;
+                }
+            } while (true);
 
             match('\"'); 
 
@@ -1318,15 +1323,18 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = CHAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:6: ( '\\'' (~ ( '\\'' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\n' ) '\\'' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:8: '\\'' (~ ( '\\'' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\n' ) '\\''
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:6: ( '\\'' (~ ( '\\'' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' ) '\\'' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:8: '\\'' (~ ( '\\'' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' ) '\\''
             {
             match('\''); 
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:13: (~ ( '\\'' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\n' )
-            int alt5=4;
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:13: (~ ( '\\'' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' )
+            int alt5=5;
             int LA5_0 = input.LA(1);
 
-            if ( (LA5_0=='\\') ) {
+            if ( ((LA5_0>='\u0000' && LA5_0<='&')||(LA5_0>='(' && LA5_0<='[')||(LA5_0>=']' && LA5_0<='\uFFFE')) ) {
+                alt5=1;
+            }
+            else if ( (LA5_0=='\\') ) {
                 switch ( input.LA(2) ) {
                 case '\\':
                     {
@@ -1335,30 +1343,26 @@ public class PineDLLexer extends Lexer {
                     break;
                 case '\'':
                     {
-                    int LA5_4 = input.LA(3);
-
-                    if ( (LA5_4=='\'') ) {
-                        alt5=3;
-                    }
-                    else {
-                        alt5=1;}
+                    alt5=3;
                     }
                     break;
-                case 'n':
+                case '\"':
                     {
                     alt5=4;
                     }
                     break;
+                case 'n':
+                    {
+                    alt5=5;
+                    }
+                    break;
                 default:
                     NoViableAltException nvae =
-                        new NoViableAltException("", 5, 1, input);
+                        new NoViableAltException("", 5, 2, input);
 
                     throw nvae;
                 }
 
-            }
-            else if ( ((LA5_0>='\u0000' && LA5_0<='&')||(LA5_0>='(' && LA5_0<='[')||(LA5_0>=']' && LA5_0<='\uFFFE')) ) {
-                alt5=1;
             }
             else {
                 NoViableAltException nvae =
@@ -1368,9 +1372,9 @@ public class PineDLLexer extends Lexer {
             }
             switch (alt5) {
                 case 1 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:14: ~ ( '\\'' )
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:14: ~ ( '\\'' | '\\\\' )
                     {
-                    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='\uFFFE') ) {
+                    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
                         input.consume();
 
                     }
@@ -1383,7 +1387,7 @@ public class PineDLLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:22: '\\\\\\\\'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:27: '\\\\\\\\'
                     {
                     match("\\\\"); 
 
@@ -1391,7 +1395,7 @@ public class PineDLLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:29: '\\\\\\''
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:34: '\\\\\\''
                     {
                     match("\\\'"); 
 
@@ -1399,7 +1403,15 @@ public class PineDLLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:36: '\\\\n'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:41: '\\\\\\\"'
+                    {
+                    match("\\\""); 
+
+
+                    }
+                    break;
+                case 5 :
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:201:48: '\\\\n'
                     {
                     match("\\n"); 
 

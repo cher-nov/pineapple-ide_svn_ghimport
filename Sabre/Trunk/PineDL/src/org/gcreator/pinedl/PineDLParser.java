@@ -1,4 +1,4 @@
-// $ANTLR 3.1 /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g 2008-10-22 17:14:15
+// $ANTLR 3.1 /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g 2008-10-22 17:21:18
 
 /*
 Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
@@ -1868,13 +1868,13 @@ public class PineDLParser extends Parser {
 
 
     // $ANTLR start "acelem"
-    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:1: acelem : ( ( LARRAY expression RARRAY ) | ( LPAREN ( WORD ( ',' WORD )* )? RPAREN ) ) ;
+    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:1: acelem : ( ( LARRAY expression RARRAY ) | ( LPAREN ( expression ( ',' expression )* )? RPAREN ) ) ;
     public final void acelem() throws RecognitionException {
         try {
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:8: ( ( ( LARRAY expression RARRAY ) | ( LPAREN ( WORD ( ',' WORD )* )? RPAREN ) ) )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:10: ( ( LARRAY expression RARRAY ) | ( LPAREN ( WORD ( ',' WORD )* )? RPAREN ) )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:8: ( ( ( LARRAY expression RARRAY ) | ( LPAREN ( expression ( ',' expression )* )? RPAREN ) ) )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:10: ( ( LARRAY expression RARRAY ) | ( LPAREN ( expression ( ',' expression )* )? RPAREN ) )
             {
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:10: ( ( LARRAY expression RARRAY ) | ( LPAREN ( WORD ( ',' WORD )* )? RPAREN ) )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:10: ( ( LARRAY expression RARRAY ) | ( LPAREN ( expression ( ',' expression )* )? RPAREN ) )
             int alt31=2;
             int LA31_0 = input.LA(1);
 
@@ -1912,25 +1912,29 @@ public class PineDLParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:40: ( LPAREN ( WORD ( ',' WORD )* )? RPAREN )
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:40: ( LPAREN ( expression ( ',' expression )* )? RPAREN )
                     {
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:40: ( LPAREN ( WORD ( ',' WORD )* )? RPAREN )
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:41: LPAREN ( WORD ( ',' WORD )* )? RPAREN
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:40: ( LPAREN ( expression ( ',' expression )* )? RPAREN )
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:41: LPAREN ( expression ( ',' expression )* )? RPAREN
                     {
                     match(input,LPAREN,FOLLOW_LPAREN_in_acelem930); if (state.failed) return ;
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:48: ( WORD ( ',' WORD )* )?
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:48: ( expression ( ',' expression )* )?
                     int alt30=2;
                     int LA30_0 = input.LA(1);
 
-                    if ( (LA30_0==WORD) ) {
+                    if ( (LA30_0==LPAREN||LA30_0==WORD||(LA30_0>=THIS && LA30_0<=INTEGER)) ) {
                         alt30=1;
                     }
                     switch (alt30) {
                         case 1 :
-                            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:49: WORD ( ',' WORD )*
+                            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:49: expression ( ',' expression )*
                             {
-                            match(input,WORD,FOLLOW_WORD_in_acelem933); if (state.failed) return ;
-                            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:54: ( ',' WORD )*
+                            pushFollow(FOLLOW_expression_in_acelem933);
+                            expression();
+
+                            state._fsp--;
+                            if (state.failed) return ;
+                            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:60: ( ',' expression )*
                             loop29:
                             do {
                                 int alt29=2;
@@ -1943,10 +1947,14 @@ public class PineDLParser extends Parser {
 
                                 switch (alt29) {
                             	case 1 :
-                            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:55: ',' WORD
+                            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:175:61: ',' expression
                             	    {
                             	    match(input,54,FOLLOW_54_in_acelem936); if (state.failed) return ;
-                            	    match(input,WORD,FOLLOW_WORD_in_acelem938); if (state.failed) return ;
+                            	    pushFollow(FOLLOW_expression_in_acelem938);
+                            	    expression();
+
+                            	    state._fsp--;
+                            	    if (state.failed) return ;
 
                             	    }
                             	    break;
@@ -2457,7 +2465,7 @@ public class PineDLParser extends Parser {
         "\7\uffff\1\0\1\1\1\uffff}>";
     static final String[] DFA22_transitionS = {
             "\1\1\1\uffff\2\2\7\3",
-            "\11\5\2\uffff\6\5\5\uffff\7\5\34\uffff\1\4",
+            "\11\5\2\uffff\6\5\5\uffff\7\5\25\uffff\1\5\6\uffff\1\4",
             "\1\6",
             "",
             "\1\7",
@@ -2677,10 +2685,10 @@ public class PineDLParser extends Parser {
     public static final BitSet FOLLOW_LARRAY_in_acelem920 = new BitSet(new long[]{0x00000FFA00000200L});
     public static final BitSet FOLLOW_expression_in_acelem922 = new BitSet(new long[]{0x0000000000001000L});
     public static final BitSet FOLLOW_RARRAY_in_acelem924 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LPAREN_in_acelem930 = new BitSet(new long[]{0x0000000200000400L});
-    public static final BitSet FOLLOW_WORD_in_acelem933 = new BitSet(new long[]{0x0040000000000400L});
-    public static final BitSet FOLLOW_54_in_acelem936 = new BitSet(new long[]{0x0000000200000000L});
-    public static final BitSet FOLLOW_WORD_in_acelem938 = new BitSet(new long[]{0x0040000000000400L});
+    public static final BitSet FOLLOW_LPAREN_in_acelem930 = new BitSet(new long[]{0x00000FFA00000600L});
+    public static final BitSet FOLLOW_expression_in_acelem933 = new BitSet(new long[]{0x0040000000000400L});
+    public static final BitSet FOLLOW_54_in_acelem936 = new BitSet(new long[]{0x00000FFA00000200L});
+    public static final BitSet FOLLOW_expression_in_acelem938 = new BitSet(new long[]{0x0040000000000400L});
     public static final BitSet FOLLOW_RPAREN_in_acelem945 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_type3value0 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_elemcontext990 = new BitSet(new long[]{0x2000000000000000L});
