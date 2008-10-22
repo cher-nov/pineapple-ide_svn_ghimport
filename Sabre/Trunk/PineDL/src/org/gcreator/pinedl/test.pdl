@@ -1,4 +1,4 @@
-package pkg;
+package pineapple.testcase.sample1;
 
 import pineapple.lang;
 import pineapple.std;

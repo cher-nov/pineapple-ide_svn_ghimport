@@ -88,12 +88,27 @@ THE SOFTWARE.
 package org.gcreator.pinedl;
 }
 
+@members{
+	private SignalReceiver signal = new SignalReceiver(); //Empty signal receiver
+	
+	public void setSignalReceiver(SignalReceiver signal){
+		this.signal = signal;
+		if(signal==null)
+			this.signal = new SignalReceiver(); //Prevent NullPointerExceptions
+	}
+	
+	public SignalReceiver getSignalReceiver(){
+		return signal;
+	}
+}
+
 doc	:	pkgstmt
 		impstmt*
 		clsstmt;
 
-pkgstmt	:	'package' context STMTCUT;
-impstmt	:	'import' context STMTCUT;
+pkgstmt
+	:	'package' c=context {signal.sendPackageSignal(c);} STMTCUT;
+impstmt	:	'import' c=context {signal.sendImportSignal(c);} STMTCUT;
 
 clsstmt	:	'class' WORD (DBLDOT context)
 		BBLOCK
@@ -182,7 +197,8 @@ elemcontext
 
 contextp:	WORD ('.' WORD (LARRAY expression RARRAY)* )+;
 
-context :	WORD ('.' WORD)*;
+context returns [String result = ""]
+	:	c=WORD {$result += c.getText();} ('.' t=WORD {$result += "." + t.getText();})*;
 
 THIS	:	'this';
 
@@ -217,4 +233,3 @@ MLCOMMENT
 	:	'/*' ( options {greedy=false;} : . )* '*/' { $channel = HIDDEN; };
 
 WHITESPACE : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ { $channel = HIDDEN; };
-
