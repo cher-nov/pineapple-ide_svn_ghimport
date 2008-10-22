@@ -172,7 +172,7 @@ type2value
 	:	((THIS|SUPER|WORD) '.')?
 		(WORD) acelem* ('.' WORD acelem*)*;
 
-acelem	:	((LARRAY expression RARRAY) | (LPAREN (WORD (',' WORD)* )? RPAREN) );
+acelem	:	((LARRAY expression RARRAY) | (LPAREN (expression (',' expression)* )? RPAREN) );
 
 type3value
 	:	NULL | BOOLEAN | STRING | CHAR | FLOAT | DOUBLE | INTEGER;
@@ -196,9 +196,9 @@ BOOLEAN	:	'true' | 'false';
 
 WORD	:	ALPHA (ALPHA|DIGIT)*;
 
-STRING	:	'"' (~('"')|'\\\\'|'\\\''|'\\n') '"';
+STRING	:	'"' (~('\"'|'\\')|'\\\\'|'\\\''|'\\\"'|'\\n')* '"';
 
-CHAR	:	'\'' (~('\'')|'\\\\'|'\\\''|'\\n') '\'';
+CHAR	:	'\'' (~('\''|'\\')|'\\\\'|'\\\''|'\\\"'|'\\n') '\'';
 
 FLOAT	:	DIGIT+ '.' DIGIT+ 'f';
 
