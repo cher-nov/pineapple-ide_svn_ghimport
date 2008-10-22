@@ -110,7 +110,9 @@ pkgstmt
 	:	'package' c=context {signal.sendPackageSignal(c);} STMTCUT;
 impstmt	:	'import' c=context {signal.sendImportSignal(c);} STMTCUT;
 
-clsstmt	:	'class' WORD (DBLDOT context)
+clsstmt @init{String cls = ""; String baseclass = null;}
+	:	'class' c=WORD {cls=c.getText();} ('extends' d=context {baseclass=d;})
+		{signal.sendClassDeclaration(cls, baseclass);}
 		BBLOCK
 			classcontent
 		EBLOCK;
@@ -216,11 +218,11 @@ STRING	:	'"' (~('\"'|'\\')|'\\\\'|'\\\''|'\\\"'|'\\n')* '"';
 
 CHAR	:	'\'' (~('\''|'\\')|'\\\\'|'\\\''|'\\\"'|'\\n') '\'';
 
-FLOAT	:	DIGIT+ '.' DIGIT+ 'f';
+FLOAT	:	'-'? DIGIT+ '.' DIGIT+ 'f';
 
-DOUBLE	:	DIGIT+ '.' DIGIT+;
+DOUBLE	:	'-'? DIGIT+ '.' DIGIT+;
 
-INTEGER	:	DIGIT+;
+INTEGER	:	'-'? DIGIT+;
 
 fragment ALPHA	:	'a'..'z'|'A'..'Z'|'_';
 
@@ -233,3 +235,4 @@ MLCOMMENT
 	:	'/*' ( options {greedy=false;} : . )* '*/' { $channel = HIDDEN; };
 
 WHITESPACE : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ { $channel = HIDDEN; };
+
