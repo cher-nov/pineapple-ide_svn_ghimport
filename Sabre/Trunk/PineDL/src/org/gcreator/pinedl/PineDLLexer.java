@@ -1,4 +1,4 @@
-// $ANTLR 3.1 /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g 2008-10-22 21:49:34
+// $ANTLR 3.1 /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g 2008-10-23 12:29:09
 
 /*
 Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
@@ -32,9 +32,14 @@ import java.util.ArrayList;
 
 public class PineDLLexer extends Lexer {
     public static final int DEC=25;
+    public static final int T__66=66;
     public static final int LT=31;
+    public static final int T__67=67;
+    public static final int T__64=64;
     public static final int RARRAY=12;
+    public static final int T__65=65;
     public static final int T__62=62;
+    public static final int T__63=63;
     public static final int MOD=8;
     public static final int BTWOR=16;
     public static final int CHAR=40;
@@ -42,12 +47,12 @@ public class PineDLLexer extends Lexer {
     public static final int SLCOMMENT=46;
     public static final int FLOAT=41;
     public static final int T__61=61;
-    public static final int T__60=60;
     public static final int EOF=-1;
-    public static final int BTWXOR=17;
+    public static final int T__60=60;
     public static final int LTE=32;
-    public static final int BTWAND=15;
+    public static final int BTWXOR=17;
     public static final int PRIVACY=34;
+    public static final int BTWAND=15;
     public static final int LPAREN=9;
     public static final int WORD=33;
     public static final int T__55=55;
@@ -66,11 +71,11 @@ public class PineDLLexer extends Lexer {
     public static final int THIS=35;
     public static final int DOUBLE=42;
     public static final int PLUS=4;
-    public static final int DIGIT=45;
     public static final int SUPER=36;
+    public static final int DIGIT=45;
     public static final int EQ=26;
-    public static final int BGE=30;
     public static final int T__50=50;
+    public static final int BGE=30;
     public static final int MLCOMMENT=47;
     public static final int INTEGER=43;
     public static final int LARRAY=11;
@@ -803,11 +808,10 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = T__54;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:63:7: ( 'const' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:63:9: 'const'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:63:7: ( ',' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:63:9: ','
             {
-            match("const"); 
-
+            match(','); 
 
             }
 
@@ -824,10 +828,11 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = T__55;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:64:7: ( ',' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:64:9: ','
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:64:7: ( 'try' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:64:9: 'try'
             {
-            match(','); 
+            match("try"); 
+
 
             }
 
@@ -844,10 +849,10 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = T__56;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:65:7: ( 'try' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:65:9: 'try'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:65:7: ( 'catch' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:65:9: 'catch'
             {
-            match("try"); 
+            match("catch"); 
 
 
             }
@@ -865,10 +870,10 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = T__57;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:66:7: ( 'catch' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:66:9: 'catch'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:66:7: ( 'if' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:66:9: 'if'
             {
-            match("catch"); 
+            match("if"); 
 
 
             }
@@ -886,10 +891,10 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = T__58;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:67:7: ( 'if' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:67:9: 'if'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:67:7: ( 'elsif' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:67:9: 'elsif'
             {
-            match("if"); 
+            match("elsif"); 
 
 
             }
@@ -907,10 +912,10 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = T__59;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:68:7: ( 'elsif' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:68:9: 'elsif'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:68:7: ( 'else' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:68:9: 'else'
             {
-            match("elsif"); 
+            match("else"); 
 
 
             }
@@ -928,10 +933,10 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = T__60;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:69:7: ( 'else' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:69:9: 'else'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:69:7: ( 'white' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:69:9: 'white'
             {
-            match("else"); 
+            match("white"); 
 
 
             }
@@ -949,11 +954,10 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = T__61;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:70:7: ( 'white' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:70:9: 'white'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:70:7: ( '.' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:70:9: '.'
             {
-            match("white"); 
-
+            match('.'); 
 
             }
 
@@ -970,10 +974,11 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = T__62;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:71:7: ( '.' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:71:9: '.'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:71:7: ( 'int' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:71:9: 'int'
             {
-            match('.'); 
+            match("int"); 
+
 
             }
 
@@ -985,13 +990,118 @@ public class PineDLLexer extends Lexer {
     }
     // $ANTLR end "T__62"
 
+    // $ANTLR start "T__63"
+    public final void mT__63() throws RecognitionException {
+        try {
+            int _type = T__63;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:72:7: ( 'float' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:72:9: 'float'
+            {
+            match("float"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__63"
+
+    // $ANTLR start "T__64"
+    public final void mT__64() throws RecognitionException {
+        try {
+            int _type = T__64;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:73:7: ( 'double' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:73:9: 'double'
+            {
+            match("double"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__64"
+
+    // $ANTLR start "T__65"
+    public final void mT__65() throws RecognitionException {
+        try {
+            int _type = T__65;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:74:7: ( 'uint' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:74:9: 'uint'
+            {
+            match("uint"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__65"
+
+    // $ANTLR start "T__66"
+    public final void mT__66() throws RecognitionException {
+        try {
+            int _type = T__66;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:75:7: ( 'char' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:75:9: 'char'
+            {
+            match("char"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__66"
+
+    // $ANTLR start "T__67"
+    public final void mT__67() throws RecognitionException {
+        try {
+            int _type = T__67;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:76:7: ( 'string' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:76:9: 'string'
+            {
+            match("string"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__67"
+
     // $ANTLR start "THIS"
     public final void mTHIS() throws RecognitionException {
         try {
             int _type = THIS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:205:6: ( 'this' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:205:8: 'this'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:221:6: ( 'this' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:221:8: 'this'
             {
             match("this"); 
 
@@ -1011,8 +1121,8 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = SUPER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:207:7: ( 'super' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:207:9: 'super'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:223:7: ( 'super' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:223:9: 'super'
             {
             match("super"); 
 
@@ -1032,7 +1142,7 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = PRIVACY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:209:9: ( 'public' | 'protected' | 'private' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:225:9: ( 'public' | 'protected' | 'private' )
             int alt1=3;
             int LA1_0 = input.LA(1);
 
@@ -1073,7 +1183,7 @@ public class PineDLLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:209:11: 'public'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:225:11: 'public'
                     {
                     match("public"); 
 
@@ -1081,7 +1191,7 @@ public class PineDLLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:209:22: 'protected'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:225:22: 'protected'
                     {
                     match("protected"); 
 
@@ -1089,7 +1199,7 @@ public class PineDLLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:209:36: 'private'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:225:36: 'private'
                     {
                     match("private"); 
 
@@ -1111,8 +1221,8 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = NULL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:211:6: ( 'null' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:211:8: 'null'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:227:6: ( 'null' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:227:8: 'null'
             {
             match("null"); 
 
@@ -1132,7 +1242,7 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = BOOLEAN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:213:9: ( 'true' | 'false' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:229:9: ( 'true' | 'false' )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -1150,7 +1260,7 @@ public class PineDLLexer extends Lexer {
             }
             switch (alt2) {
                 case 1 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:213:11: 'true'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:229:11: 'true'
                     {
                     match("true"); 
 
@@ -1158,7 +1268,7 @@ public class PineDLLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:213:20: 'false'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:229:20: 'false'
                     {
                     match("false"); 
 
@@ -1180,11 +1290,11 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = WORD;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:215:6: ( ALPHA ( ALPHA | DIGIT )* )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:215:8: ALPHA ( ALPHA | DIGIT )*
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:231:6: ( ALPHA ( ALPHA | DIGIT )* )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:231:8: ALPHA ( ALPHA | DIGIT )*
             {
             mALPHA(); 
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:215:14: ( ALPHA | DIGIT )*
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:231:14: ( ALPHA | DIGIT )*
             loop3:
             do {
                 int alt3=2;
@@ -1233,11 +1343,11 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:217:8: ( '\"' (~ ( '\\\"' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' )* '\"' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:217:10: '\"' (~ ( '\\\"' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' )* '\"'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:233:8: ( '\"' (~ ( '\\\"' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' )* '\"' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:233:10: '\"' (~ ( '\\\"' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' )* '\"'
             {
             match('\"'); 
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:217:14: (~ ( '\\\"' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' )*
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:233:14: (~ ( '\\\"' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' )*
             loop4:
             do {
                 int alt4=6;
@@ -1276,7 +1386,7 @@ public class PineDLLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:217:15: ~ ( '\\\"' | '\\\\' )
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:233:15: ~ ( '\\\"' | '\\\\' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
@@ -1291,7 +1401,7 @@ public class PineDLLexer extends Lexer {
             	    }
             	    break;
             	case 2 :
-            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:217:28: '\\\\\\\\'
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:233:28: '\\\\\\\\'
             	    {
             	    match("\\\\"); 
 
@@ -1299,7 +1409,7 @@ public class PineDLLexer extends Lexer {
             	    }
             	    break;
             	case 3 :
-            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:217:35: '\\\\\\''
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:233:35: '\\\\\\''
             	    {
             	    match("\\\'"); 
 
@@ -1307,7 +1417,7 @@ public class PineDLLexer extends Lexer {
             	    }
             	    break;
             	case 4 :
-            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:217:42: '\\\\\\\"'
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:233:42: '\\\\\\\"'
             	    {
             	    match("\\\""); 
 
@@ -1315,7 +1425,7 @@ public class PineDLLexer extends Lexer {
             	    }
             	    break;
             	case 5 :
-            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:217:49: '\\\\n'
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:233:49: '\\\\n'
             	    {
             	    match("\\n"); 
 
@@ -1345,11 +1455,11 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = CHAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:219:6: ( '\\'' (~ ( '\\'' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' ) '\\'' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:219:8: '\\'' (~ ( '\\'' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' ) '\\''
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:235:6: ( '\\'' (~ ( '\\'' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' ) '\\'' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:235:8: '\\'' (~ ( '\\'' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' ) '\\''
             {
             match('\''); 
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:219:13: (~ ( '\\'' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:235:13: (~ ( '\\'' | '\\\\' ) | '\\\\\\\\' | '\\\\\\'' | '\\\\\\\"' | '\\\\n' )
             int alt5=5;
             int LA5_0 = input.LA(1);
 
@@ -1394,7 +1504,7 @@ public class PineDLLexer extends Lexer {
             }
             switch (alt5) {
                 case 1 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:219:14: ~ ( '\\'' | '\\\\' )
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:235:14: ~ ( '\\'' | '\\\\' )
                     {
                     if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
                         input.consume();
@@ -1409,7 +1519,7 @@ public class PineDLLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:219:27: '\\\\\\\\'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:235:27: '\\\\\\\\'
                     {
                     match("\\\\"); 
 
@@ -1417,7 +1527,7 @@ public class PineDLLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:219:34: '\\\\\\''
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:235:34: '\\\\\\''
                     {
                     match("\\\'"); 
 
@@ -1425,7 +1535,7 @@ public class PineDLLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:219:41: '\\\\\\\"'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:235:41: '\\\\\\\"'
                     {
                     match("\\\""); 
 
@@ -1433,7 +1543,7 @@ public class PineDLLexer extends Lexer {
                     }
                     break;
                 case 5 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:219:48: '\\\\n'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:235:48: '\\\\n'
                     {
                     match("\\n"); 
 
@@ -1460,10 +1570,10 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = FLOAT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:221:7: ( ( '-' )? ( DIGIT )+ '.' ( DIGIT )+ 'f' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:221:9: ( '-' )? ( DIGIT )+ '.' ( DIGIT )+ 'f'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:237:7: ( ( '-' )? ( DIGIT )+ '.' ( DIGIT )+ 'f' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:237:9: ( '-' )? ( DIGIT )+ '.' ( DIGIT )+ 'f'
             {
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:221:9: ( '-' )?
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:237:9: ( '-' )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -1472,7 +1582,7 @@ public class PineDLLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:221:9: '-'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:237:9: '-'
                     {
                     match('-'); 
 
@@ -1481,7 +1591,7 @@ public class PineDLLexer extends Lexer {
 
             }
 
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:221:14: ( DIGIT )+
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:237:14: ( DIGIT )+
             int cnt7=0;
             loop7:
             do {
@@ -1495,7 +1605,7 @@ public class PineDLLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:221:14: DIGIT
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:237:14: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -1512,7 +1622,7 @@ public class PineDLLexer extends Lexer {
             } while (true);
 
             match('.'); 
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:221:25: ( DIGIT )+
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:237:25: ( DIGIT )+
             int cnt8=0;
             loop8:
             do {
@@ -1526,7 +1636,7 @@ public class PineDLLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:221:25: DIGIT
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:237:25: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -1559,10 +1669,10 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = DOUBLE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:223:8: ( ( '-' )? ( DIGIT )+ '.' ( DIGIT )+ )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:223:10: ( '-' )? ( DIGIT )+ '.' ( DIGIT )+
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:239:8: ( ( '-' )? ( DIGIT )+ '.' ( DIGIT )+ )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:239:10: ( '-' )? ( DIGIT )+ '.' ( DIGIT )+
             {
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:223:10: ( '-' )?
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:239:10: ( '-' )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -1571,7 +1681,7 @@ public class PineDLLexer extends Lexer {
             }
             switch (alt9) {
                 case 1 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:223:10: '-'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:239:10: '-'
                     {
                     match('-'); 
 
@@ -1580,7 +1690,7 @@ public class PineDLLexer extends Lexer {
 
             }
 
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:223:15: ( DIGIT )+
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:239:15: ( DIGIT )+
             int cnt10=0;
             loop10:
             do {
@@ -1594,7 +1704,7 @@ public class PineDLLexer extends Lexer {
 
                 switch (alt10) {
             	case 1 :
-            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:223:15: DIGIT
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:239:15: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -1611,7 +1721,7 @@ public class PineDLLexer extends Lexer {
             } while (true);
 
             match('.'); 
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:223:26: ( DIGIT )+
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:239:26: ( DIGIT )+
             int cnt11=0;
             loop11:
             do {
@@ -1625,7 +1735,7 @@ public class PineDLLexer extends Lexer {
 
                 switch (alt11) {
             	case 1 :
-            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:223:26: DIGIT
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:239:26: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -1657,10 +1767,10 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = INTEGER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:225:9: ( ( '-' )? ( DIGIT )+ )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:225:11: ( '-' )? ( DIGIT )+
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:241:9: ( ( '-' )? ( DIGIT )+ )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:241:11: ( '-' )? ( DIGIT )+
             {
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:225:11: ( '-' )?
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:241:11: ( '-' )?
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -1669,7 +1779,7 @@ public class PineDLLexer extends Lexer {
             }
             switch (alt12) {
                 case 1 :
-                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:225:11: '-'
+                    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:241:11: '-'
                     {
                     match('-'); 
 
@@ -1678,7 +1788,7 @@ public class PineDLLexer extends Lexer {
 
             }
 
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:225:16: ( DIGIT )+
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:241:16: ( DIGIT )+
             int cnt13=0;
             loop13:
             do {
@@ -1692,7 +1802,7 @@ public class PineDLLexer extends Lexer {
 
                 switch (alt13) {
             	case 1 :
-            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:225:16: DIGIT
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:241:16: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -1722,7 +1832,7 @@ public class PineDLLexer extends Lexer {
     // $ANTLR start "ALPHA"
     public final void mALPHA() throws RecognitionException {
         try {
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:227:16: ( 'a' .. 'z' | 'A' .. 'Z' | '_' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:243:16: ( 'a' .. 'z' | 'A' .. 'Z' | '_' )
             // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
@@ -1746,8 +1856,8 @@ public class PineDLLexer extends Lexer {
     // $ANTLR start "DIGIT"
     public final void mDIGIT() throws RecognitionException {
         try {
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:229:16: ( '0' .. '9' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:229:18: '0' .. '9'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:245:16: ( '0' .. '9' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:245:18: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -1764,12 +1874,12 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = SLCOMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:232:2: ( '//' (~ ( '\\r' | '\\n' ) )* )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:232:4: '//' (~ ( '\\r' | '\\n' ) )*
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:248:2: ( '//' (~ ( '\\r' | '\\n' ) )* )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:248:4: '//' (~ ( '\\r' | '\\n' ) )*
             {
             match("//"); 
 
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:232:9: (~ ( '\\r' | '\\n' ) )*
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:248:9: (~ ( '\\r' | '\\n' ) )*
             loop14:
             do {
                 int alt14=2;
@@ -1782,7 +1892,7 @@ public class PineDLLexer extends Lexer {
 
                 switch (alt14) {
             	case 1 :
-            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:232:10: ~ ( '\\r' | '\\n' )
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:248:10: ~ ( '\\r' | '\\n' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
@@ -1819,12 +1929,12 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = MLCOMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:235:2: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:235:4: '/*' ( options {greedy=false; } : . )* '*/'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:251:2: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:251:4: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:235:9: ( options {greedy=false; } : . )*
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:251:9: ( options {greedy=false; } : . )*
             loop15:
             do {
                 int alt15=2;
@@ -1849,7 +1959,7 @@ public class PineDLLexer extends Lexer {
 
                 switch (alt15) {
             	case 1 :
-            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:235:37: .
+            	    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:251:37: .
             	    {
             	    matchAny(); 
 
@@ -1880,10 +1990,10 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = WHITESPACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:237:12: ( ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+ )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:237:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:253:12: ( ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+ )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:253:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
             {
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:237:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:253:14: ( '\\t' | ' ' | '\\r' | '\\n' | '\\u000C' )+
             int cnt16=0;
             loop16:
             do {
@@ -1934,8 +2044,8 @@ public class PineDLLexer extends Lexer {
     // $ANTLR end "WHITESPACE"
 
     public void mTokens() throws RecognitionException {
-        // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:8: ( PLUS | MINUS | MULT | DIV | MOD | LPAREN | RPAREN | LARRAY | RARRAY | BBLOCK | EBLOCK | BTWAND | BTWOR | BTWXOR | LOGAND | LOGOR | STMTCUT | DBLDOT | BTWNOT | LOGNOT | INC | DEC | EQ | CEQ | NEQ | BG | BGE | LT | LTE | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | THIS | SUPER | PRIVACY | NULL | BOOLEAN | WORD | STRING | CHAR | FLOAT | DOUBLE | INTEGER | SLCOMMENT | MLCOMMENT | WHITESPACE )
-        int alt17=57;
+        // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:8: ( PLUS | MINUS | MULT | DIV | MOD | LPAREN | RPAREN | LARRAY | RARRAY | BBLOCK | EBLOCK | BTWAND | BTWOR | BTWXOR | LOGAND | LOGOR | STMTCUT | DBLDOT | BTWNOT | LOGNOT | INC | DEC | EQ | CEQ | NEQ | BG | BGE | LT | LTE | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | THIS | SUPER | PRIVACY | NULL | BOOLEAN | WORD | STRING | CHAR | FLOAT | DOUBLE | INTEGER | SLCOMMENT | MLCOMMENT | WHITESPACE )
+        int alt17=62;
         alt17 = dfa17.predict(input);
         switch (alt17) {
             case 1 :
@@ -2240,98 +2350,133 @@ public class PineDLLexer extends Lexer {
                 }
                 break;
             case 44 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:255: THIS
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:255: T__63
+                {
+                mT__63(); 
+
+                }
+                break;
+            case 45 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:261: T__64
+                {
+                mT__64(); 
+
+                }
+                break;
+            case 46 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:267: T__65
+                {
+                mT__65(); 
+
+                }
+                break;
+            case 47 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:273: T__66
+                {
+                mT__66(); 
+
+                }
+                break;
+            case 48 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:279: T__67
+                {
+                mT__67(); 
+
+                }
+                break;
+            case 49 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:285: THIS
                 {
                 mTHIS(); 
 
                 }
                 break;
-            case 45 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:260: SUPER
+            case 50 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:290: SUPER
                 {
                 mSUPER(); 
 
                 }
                 break;
-            case 46 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:266: PRIVACY
+            case 51 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:296: PRIVACY
                 {
                 mPRIVACY(); 
 
                 }
                 break;
-            case 47 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:274: NULL
+            case 52 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:304: NULL
                 {
                 mNULL(); 
 
                 }
                 break;
-            case 48 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:279: BOOLEAN
+            case 53 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:309: BOOLEAN
                 {
                 mBOOLEAN(); 
 
                 }
                 break;
-            case 49 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:287: WORD
+            case 54 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:317: WORD
                 {
                 mWORD(); 
 
                 }
                 break;
-            case 50 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:292: STRING
+            case 55 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:322: STRING
                 {
                 mSTRING(); 
 
                 }
                 break;
-            case 51 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:299: CHAR
+            case 56 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:329: CHAR
                 {
                 mCHAR(); 
 
                 }
                 break;
-            case 52 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:304: FLOAT
+            case 57 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:334: FLOAT
                 {
                 mFLOAT(); 
 
                 }
                 break;
-            case 53 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:310: DOUBLE
+            case 58 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:340: DOUBLE
                 {
                 mDOUBLE(); 
 
                 }
                 break;
-            case 54 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:317: INTEGER
+            case 59 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:347: INTEGER
                 {
                 mINTEGER(); 
 
                 }
                 break;
-            case 55 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:325: SLCOMMENT
+            case 60 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:355: SLCOMMENT
                 {
                 mSLCOMMENT(); 
 
                 }
                 break;
-            case 56 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:335: MLCOMMENT
+            case 61 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:365: MLCOMMENT
                 {
                 mMLCOMMENT(); 
 
                 }
                 break;
-            case 57 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:345: WHITESPACE
+            case 62 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:375: WHITESPACE
                 {
                 mWHITESPACE(); 
 
@@ -2345,215 +2490,244 @@ public class PineDLLexer extends Lexer {
 
     protected DFA17 dfa17 = new DFA17(this);
     static final String DFA17_eotS =
-        "\1\uffff\1\47\1\51\1\uffff\1\54\7\uffff\1\56\1\60\4\uffff\1\62\1"+
-        "\64\1\66\1\70\5\41\1\uffff\2\41\1\uffff\2\41\3\uffff\1\112\24\uffff"+
-        "\4\41\1\121\14\41\2\uffff\5\41\1\uffff\7\41\1\155\5\41\1\163\12"+
-        "\41\1\177\2\41\1\uffff\1\u0082\1\u0083\1\41\1\u0085\1\41\2\uffff"+
-        "\5\41\1\u008c\1\u008d\1\u008e\1\41\1\u0090\1\uffff\1\41\1\u0092"+
-        "\2\uffff\1\u0093\1\uffff\1\u0082\1\41\1\u0095\2\41\1\u0098\3\uffff"+
-        "\1\41\1\uffff\1\u009a\2\uffff\1\u009b\1\uffff\1\41\1\u0095\1\uffff"+
-        "\1\u009d\2\uffff\1\41\1\uffff\1\u0095";
+        "\1\uffff\1\51\1\53\1\uffff\1\56\7\uffff\1\60\1\62\4\uffff\1\64\1"+
+        "\66\1\70\1\72\5\43\1\uffff\2\43\1\uffff\4\43\3\uffff\1\120\24\uffff"+
+        "\4\43\1\127\20\43\2\uffff\5\43\1\uffff\1\160\10\43\1\172\10\43\1"+
+        "\u0083\5\43\1\uffff\2\43\1\u008c\2\43\1\u008f\3\43\1\uffff\1\u0093"+
+        "\1\u0094\4\43\1\u0099\1\u009a\2\uffff\5\43\1\u00a0\1\u00a1\1\uffff"+
+        "\1\43\1\u00a3\1\uffff\2\43\1\u00a6\2\uffff\1\u00a7\1\u00a8\1\u0093"+
+        "\1\43\2\uffff\1\43\1\u00ab\2\43\1\u00ae\2\uffff\1\43\1\uffff\1\u00b0"+
+        "\1\u00b1\3\uffff\1\u00b2\1\u00b3\1\uffff\1\43\1\u00ab\1\uffff\1"+
+        "\u00b5\4\uffff\1\43\1\uffff\1\u00ab";
     static final String DFA17_eofS =
-        "\u009f\uffff";
+        "\u00b7\uffff";
     static final String DFA17_minS =
         "\1\11\1\53\1\55\1\uffff\1\52\7\uffff\1\46\1\174\4\uffff\4\75\1\141"+
-        "\1\146\1\141\1\154\1\164\1\uffff\2\150\1\uffff\1\165\1\141\3\uffff"+
-        "\1\56\24\uffff\1\143\1\142\1\151\1\160\1\60\1\141\1\156\2\164\1"+
-        "\163\1\141\1\160\1\165\2\151\2\154\1\uffff\1\60\1\153\1\154\1\164"+
-        "\1\166\1\157\1\uffff\2\163\1\143\2\145\1\164\1\145\1\60\1\145\1"+
-        "\163\1\164\1\154\1\163\1\60\1\141\1\151\1\145\1\141\1\162\1\163"+
-        "\1\164\1\150\1\156\1\146\1\60\1\151\1\162\1\uffff\2\60\1\145\1\60"+
-        "\1\145\2\uffff\1\147\2\143\2\164\3\60\1\144\1\60\1\uffff\1\143\1"+
-        "\60\2\uffff\1\60\1\uffff\1\60\1\145\1\60\1\164\1\145\1\60\3\uffff"+
-        "\1\163\1\uffff\1\60\2\uffff\1\60\1\uffff\1\145\1\60\1\uffff\1\60"+
-        "\2\uffff\1\144\1\uffff\1\60";
+        "\1\146\1\141\1\154\1\164\1\uffff\2\150\1\uffff\1\141\1\157\1\151"+
+        "\1\165\3\uffff\1\56\24\uffff\1\143\1\142\1\151\1\160\1\60\1\164"+
+        "\1\141\1\164\1\141\1\164\1\163\1\141\1\160\1\165\2\151\1\157\1\154"+
+        "\1\165\1\156\1\154\1\uffff\1\60\1\153\1\154\1\164\1\166\1\157\1"+
+        "\uffff\1\60\1\163\1\143\1\162\2\145\1\164\1\151\1\145\1\60\1\145"+
+        "\1\163\1\164\1\141\1\163\1\142\1\164\1\154\1\60\1\141\1\151\1\145"+
+        "\1\141\1\162\1\uffff\1\163\1\150\1\60\1\156\1\146\1\60\1\151\1\156"+
+        "\1\162\1\uffff\2\60\1\145\1\164\1\145\1\154\2\60\2\uffff\1\147\2"+
+        "\143\2\164\2\60\1\uffff\1\144\1\60\1\uffff\1\143\1\147\1\60\2\uffff"+
+        "\3\60\1\145\2\uffff\1\145\1\60\1\164\1\145\1\60\2\uffff\1\163\1"+
+        "\uffff\2\60\3\uffff\2\60\1\uffff\1\145\1\60\1\uffff\1\60\4\uffff"+
+        "\1\144\1\uffff\1\60";
     static final String DFA17_maxS =
         "\1\176\1\53\1\71\1\uffff\1\57\7\uffff\1\46\1\174\4\uffff\4\75\1"+
-        "\165\1\155\1\157\1\170\1\165\1\uffff\1\162\1\150\1\uffff\1\165\1"+
-        "\141\3\uffff\1\71\24\uffff\1\143\1\142\1\157\1\160\1\172\1\141\1"+
-        "\156\2\164\1\163\1\141\1\160\1\171\2\151\2\154\1\uffff\1\71\1\153"+
-        "\1\154\1\164\1\166\1\157\1\uffff\2\163\1\143\1\145\1\151\1\164\1"+
-        "\145\1\172\1\145\1\163\1\164\1\154\1\163\1\146\1\141\1\151\1\145"+
-        "\1\141\1\162\1\163\1\164\1\150\1\156\1\146\1\172\1\151\1\162\1\uffff"+
-        "\2\172\1\145\1\172\1\145\2\uffff\1\147\2\143\2\164\3\172\1\144\1"+
-        "\172\1\uffff\1\143\1\172\2\uffff\1\172\1\uffff\1\172\1\145\1\172"+
-        "\1\164\1\145\1\172\3\uffff\1\163\1\uffff\1\172\2\uffff\1\172\1\uffff"+
-        "\1\145\1\172\1\uffff\1\172\2\uffff\1\144\1\uffff\1\172";
+        "\165\1\156\1\154\1\170\1\165\1\uffff\1\162\1\150\1\uffff\1\154\1"+
+        "\157\1\151\1\165\3\uffff\1\71\24\uffff\1\143\1\142\1\157\1\160\1"+
+        "\172\1\164\1\141\1\164\1\141\1\164\1\163\1\162\1\160\1\171\2\151"+
+        "\1\157\1\154\1\165\1\156\1\154\1\uffff\1\71\1\153\1\154\1\164\1"+
+        "\166\1\157\1\uffff\1\172\1\163\1\143\1\162\1\145\1\151\1\164\1\151"+
+        "\1\145\1\172\1\145\1\163\1\164\1\141\1\163\1\142\1\164\1\154\1\146"+
+        "\1\141\1\151\1\145\1\141\1\162\1\uffff\1\163\1\150\1\172\1\156\1"+
+        "\146\1\172\1\151\1\156\1\162\1\uffff\2\172\1\145\1\164\1\145\1\154"+
+        "\2\172\2\uffff\1\147\2\143\2\164\2\172\1\uffff\1\144\1\172\1\uffff"+
+        "\1\143\1\147\1\172\2\uffff\3\172\1\145\2\uffff\1\145\1\172\1\164"+
+        "\1\145\1\172\2\uffff\1\163\1\uffff\2\172\3\uffff\2\172\1\uffff\1"+
+        "\145\1\172\1\uffff\1\172\4\uffff\1\144\1\uffff\1\172";
     static final String DFA17_acceptS =
         "\3\uffff\1\3\1\uffff\1\5\1\6\1\7\1\10\1\11\1\12\1\13\2\uffff\1\16"+
-        "\1\21\1\22\1\23\11\uffff\1\44\2\uffff\1\53\2\uffff\1\61\1\62\1\63"+
-        "\1\uffff\1\71\1\25\1\1\1\26\1\2\1\67\1\70\1\4\1\17\1\14\1\20\1\15"+
-        "\1\31\1\24\1\30\1\27\1\33\1\32\1\35\1\34\21\uffff\1\66\6\uffff\1"+
-        "\47\33\uffff\1\45\5\uffff\1\65\1\64\12\uffff\1\51\2\uffff\1\60\1"+
-        "\54\1\uffff\1\57\6\uffff\1\40\1\43\1\46\1\uffff\1\50\1\uffff\1\55"+
-        "\1\52\1\uffff\1\56\2\uffff\1\37\1\uffff\1\42\1\36\1\uffff\1\41\1"+
-        "\uffff";
+        "\1\21\1\22\1\23\11\uffff\1\43\2\uffff\1\52\4\uffff\1\66\1\67\1\70"+
+        "\1\uffff\1\76\1\25\1\1\1\26\1\2\1\74\1\75\1\4\1\17\1\14\1\20\1\15"+
+        "\1\31\1\24\1\30\1\27\1\33\1\32\1\35\1\34\25\uffff\1\73\6\uffff\1"+
+        "\46\30\uffff\1\53\11\uffff\1\44\10\uffff\1\72\1\71\7\uffff\1\57"+
+        "\2\uffff\1\50\3\uffff\1\65\1\61\4\uffff\1\56\1\64\5\uffff\1\40\1"+
+        "\45\1\uffff\1\47\2\uffff\1\62\1\51\1\54\2\uffff\1\63\2\uffff\1\37"+
+        "\1\uffff\1\42\1\60\1\55\1\36\1\uffff\1\41\1\uffff";
     static final String DFA17_specialS =
-        "\u009f\uffff}>";
+        "\u00b7\uffff}>";
     static final String[] DFA17_transitionS = {
-            "\2\45\1\uffff\2\45\22\uffff\1\45\1\22\1\42\2\uffff\1\5\1\14"+
-            "\1\43\1\6\1\7\1\3\1\1\1\33\1\2\1\36\1\4\12\44\1\20\1\17\1\25"+
-            "\1\23\1\24\2\uffff\32\41\1\10\1\uffff\1\11\1\16\1\41\1\uffff"+
-            "\2\41\1\30\1\41\1\31\1\40\2\41\1\27\4\41\1\37\1\41\1\26\2\41"+
-            "\1\32\1\34\2\41\1\35\3\41\1\12\1\15\1\13\1\21",
-            "\1\46",
-            "\1\50\2\uffff\12\44",
+            "\2\47\1\uffff\2\47\22\uffff\1\47\1\22\1\44\2\uffff\1\5\1\14"+
+            "\1\45\1\6\1\7\1\3\1\1\1\33\1\2\1\36\1\4\12\46\1\20\1\17\1\25"+
+            "\1\23\1\24\2\uffff\32\43\1\10\1\uffff\1\11\1\16\1\43\1\uffff"+
+            "\2\43\1\30\1\40\1\31\1\37\2\43\1\27\4\43\1\42\1\43\1\26\2\43"+
+            "\1\32\1\34\1\41\1\43\1\35\3\43\1\12\1\15\1\13\1\21",
+            "\1\50",
+            "\1\52\2\uffff\12\46",
             "",
-            "\1\53\4\uffff\1\52",
-            "",
-            "",
+            "\1\55\4\uffff\1\54",
             "",
             "",
             "",
             "",
             "",
-            "\1\55",
+            "",
+            "",
             "\1\57",
-            "",
-            "",
-            "",
-            "",
             "\1\61",
+            "",
+            "",
+            "",
+            "",
             "\1\63",
             "\1\65",
             "\1\67",
-            "\1\71\20\uffff\1\73\2\uffff\1\72",
-            "\1\75\6\uffff\1\74",
-            "\1\100\12\uffff\1\76\2\uffff\1\77",
-            "\1\102\13\uffff\1\101",
-            "\1\103\1\104",
+            "\1\71",
+            "\1\73\20\uffff\1\75\2\uffff\1\74",
+            "\1\77\6\uffff\1\76\1\100",
+            "\1\102\6\uffff\1\103\3\uffff\1\101",
+            "\1\105\13\uffff\1\104",
+            "\1\106\1\107",
             "",
-            "\1\106\11\uffff\1\105",
-            "\1\107",
+            "\1\111\11\uffff\1\110",
+            "\1\112",
             "",
-            "\1\110",
-            "\1\111",
-            "",
-            "",
-            "",
-            "\1\113\1\uffff\12\44",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\114",
+            "\1\114\12\uffff\1\113",
             "\1\115",
-            "\1\117\5\uffff\1\116",
-            "\1\120",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
+            "\1\116",
+            "\1\117",
+            "",
+            "",
+            "",
+            "\1\121\1\uffff\12\46",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "\1\122",
             "\1\123",
-            "\1\124",
-            "\1\125",
+            "\1\125\5\uffff\1\124",
             "\1\126",
-            "\1\127",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
             "\1\130",
-            "\1\132\3\uffff\1\131",
+            "\1\131",
+            "\1\132",
             "\1\133",
             "\1\134",
             "\1\135",
-            "\1\136",
-            "",
-            "\12\137",
+            "\1\136\20\uffff\1\137",
             "\1\140",
-            "\1\141",
-            "\1\142",
+            "\1\142\3\uffff\1\141",
             "\1\143",
             "\1\144",
-            "",
             "\1\145",
             "\1\146",
             "\1\147",
             "\1\150",
-            "\1\152\3\uffff\1\151",
+            "\1\151",
+            "",
+            "\12\152",
             "\1\153",
             "\1\154",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
+            "\1\155",
             "\1\156",
             "\1\157",
-            "\1\160",
+            "",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
             "\1\161",
             "\1\162",
-            "\12\137\54\uffff\1\164",
-            "\1\165",
-            "\1\166",
+            "\1\163",
+            "\1\164",
+            "\1\166\3\uffff\1\165",
             "\1\167",
             "\1\170",
             "\1\171",
-            "\1\172",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
             "\1\173",
             "\1\174",
             "\1\175",
             "\1\176",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
+            "\1\177",
             "\1\u0080",
             "\1\u0081",
-            "",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-            "\1\u0084",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
+            "\1\u0082",
+            "\12\152\54\uffff\1\u0084",
+            "\1\u0085",
             "\1\u0086",
-            "",
-            "",
             "\1\u0087",
             "\1\u0088",
             "\1\u0089",
+            "",
             "\1\u008a",
             "\1\u008b",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-            "\1\u008f",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-            "",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\1\u008d",
+            "\1\u008e",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\1\u0090",
             "\1\u0091",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
+            "\1\u0092",
             "",
-            "",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-            "",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-            "\1\u0094",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\1\u0095",
             "\1\u0096",
             "\1\u0097",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
+            "\1\u0098",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
             "",
             "",
-            "",
-            "\1\u0099",
-            "",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-            "",
-            "",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-            "",
+            "\1\u009b",
             "\1\u009c",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-            "",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41",
-            "",
-            "",
+            "\1\u009d",
             "\1\u009e",
+            "\1\u009f",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
             "",
-            "\12\41\7\uffff\32\41\4\uffff\1\41\1\uffff\32\41"
+            "\1\u00a2",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "",
+            "\1\u00a4",
+            "\1\u00a5",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "",
+            "",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\1\u00a9",
+            "",
+            "",
+            "\1\u00aa",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\1\u00ac",
+            "\1\u00ad",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "",
+            "",
+            "\1\u00af",
+            "",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "",
+            "",
+            "",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "",
+            "\1\u00b4",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43",
+            "",
+            "",
+            "",
+            "",
+            "\1\u00b6",
+            "",
+            "\12\43\7\uffff\32\43\4\uffff\1\43\1\uffff\32\43"
     };
 
     static final short[] DFA17_eot = DFA.unpackEncodedString(DFA17_eotS);
@@ -2586,7 +2760,7 @@ public class PineDLLexer extends Lexer {
             this.transition = DFA17_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( PLUS | MINUS | MULT | DIV | MOD | LPAREN | RPAREN | LARRAY | RARRAY | BBLOCK | EBLOCK | BTWAND | BTWOR | BTWXOR | LOGAND | LOGOR | STMTCUT | DBLDOT | BTWNOT | LOGNOT | INC | DEC | EQ | CEQ | NEQ | BG | BGE | LT | LTE | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | THIS | SUPER | PRIVACY | NULL | BOOLEAN | WORD | STRING | CHAR | FLOAT | DOUBLE | INTEGER | SLCOMMENT | MLCOMMENT | WHITESPACE );";
+            return "1:1: Tokens : ( PLUS | MINUS | MULT | DIV | MOD | LPAREN | RPAREN | LARRAY | RARRAY | BBLOCK | EBLOCK | BTWAND | BTWOR | BTWXOR | LOGAND | LOGOR | STMTCUT | DBLDOT | BTWNOT | LOGNOT | INC | DEC | EQ | CEQ | NEQ | BG | BGE | LT | LTE | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | THIS | SUPER | PRIVACY | NULL | BOOLEAN | WORD | STRING | CHAR | FLOAT | DOUBLE | INTEGER | SLCOMMENT | MLCOMMENT | WHITESPACE );";
         }
     }
  

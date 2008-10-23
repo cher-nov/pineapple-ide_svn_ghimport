@@ -9,13 +9,15 @@ import pineapple.std;
 */
 class X extends Y
 {
+    public static int doIt;
+
     //Constructors are referenced as "this" rather than classname
     //Base calls are handled just like in C++, but the super keyword
     //Is used, just like in Java.
     public this() : super()
     {
-        int a = 2;
-        double pi = 3.14159;
+        int name = 2;
+        pi = 3.14159;
         int life = (-40) + 1 * 2;
         Console.getOutputStream().PrintLine("The meaning of line is " + life);
     }
