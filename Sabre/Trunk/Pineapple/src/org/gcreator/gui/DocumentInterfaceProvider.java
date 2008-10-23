@@ -23,53 +23,54 @@ THE SOFTWARE.
 package org.gcreator.gui;
 
 import javax.swing.JPanel;
-import org.gcreator.plugins.DefaultEventTypes;
 
 /**
  * Provides a way to display documents, such as JTabbedPane and a MDI view.
  * 
  * @author Luís Reis
  */
-public abstract class DocumentInterfaceProvider extends JPanel{
-    
+public abstract class DocumentInterfaceProvider extends JPanel {
+
     /**
      * Adds a new DocumentPane
      * @param title The title to be used
      * @param docs The DocumentPane to be added
      */
     public abstract void add(String title, DocumentPane doc);
-    
+
     /**
      * Gets the DocumentPane at a given index
      * @param i The index to be retrieved
      */
     public abstract DocumentPane getDocumentAt(int i);
-    
+
     /**
      * Gets the number of documents.
      */
     public abstract int getDocumentCount();
-    
+
     /**
      * Gets the selected index
      */
     public abstract int getSelectedIndex();
-    
+
     /**
      * Gets the selected document.<br>
      * Pineapple provides a default implementation. Classes extending
      * DocumentInterfaceProviders may override this method to obtain better
      * performance.
      */
-    public DocumentPane getSelectedDocument(){
+    public DocumentPane getSelectedDocument() {
         int i = getSelectedIndex();
-        if(i==-1)
+        if (i == -1) {
             return null;
-        if(i<getDocumentCount())
+        }
+        if (i < getDocumentCount()) {
             return getDocumentAt(i);
+        }
         return null;
     }
-    
+
     /**
      * Sets the selected index. If that index has no equivalent
      * DocumentPane, then either none will be selected, or this method will
@@ -79,53 +80,56 @@ public abstract class DocumentInterfaceProvider extends JPanel{
      * @see DefaultEventTypes#FILE_CHANGED
      */
     public abstract void setSelectedIndex(int index);
-    
+
     /**
      * Gets the title of the document at the given index
      * @param index The index
      */
     public abstract String getTitleAt(int index);
-    
+
     /**
      * Gets the index of a document
      * @param pane The document
      */
     public abstract int getDocumentIndex(DocumentPane pane);
-    
+
     /**
      * Sets the title of the document at the given index
      * @param index The index
      * @param title The new document title
      */
     public abstract void setTitleAt(int index, String title);
-    
+
     /**
      * Removes the document at the given index
      * @param index The index
      */
     public abstract void removeDocumentAt(int index);
-    
-     /**
+
+    /**
      * Removed a given {@link DocumentPane}<br>
      * Pineapple provides a default implementation. Classes extending
      * DocumentInterfaceProviders may override this method to obtain better
      * performance.
      */
-    public void remove(DocumentPane pane){
+    public void remove(DocumentPane pane) {
         int i = getDocumentIndex(pane);
-        if(i==-1)
+        if (i == -1) {
             return;
-        if(i<getDocumentCount())
+        }
+        if (i < getDocumentCount()) {
             removeDocumentAt(i);
+        }
     }
-    
+
     /**
      * Returns ALL DocumentPanes of the provider.
      */
-    public DocumentPane[] getDocuments(){
+    public DocumentPane[] getDocuments() {
         DocumentPane[] p = new DocumentPane[getDocumentCount()];
-        for(int i = 0; i < p.length; i++)
+        for (int i = 0; i < p.length; i++) {
             p[i] = getDocumentAt(i);
+        }
         return p;
     }
 }
