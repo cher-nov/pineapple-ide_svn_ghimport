@@ -22,6 +22,7 @@ THE SOFTWARE.
  */
 package org.gcreator.gui;
 
+import org.gcreator.pineapple.PineapplePlugin;
 import java.io.File;
 import java.net.URI;
 import javax.swing.JFileChooser;
@@ -136,10 +137,10 @@ public class DocumentPane extends JPanel {
      */
     public void setModified(boolean modified) {
         this.modified = modified;
-        if (PineapplePlugin.dip.getSelectedDocument() == this) {
-            PineapplePlugin.fileSave.setEnabled(canSave());
+        if (PineappleGUI.dip.getSelectedDocument() == this) {
+            PineappleGUI.fileSave.setEnabled(canSave());
         }
-        PineapplePlugin.dip.updateUI();
+        PineappleGUI.dip.updateUI();
     }
 
     /**
@@ -185,7 +186,7 @@ public class DocumentPane extends JPanel {
                 }
             }
         }
-        PineapplePlugin.dip.remove(this);
+        PineappleGUI.dip.remove(this);
         return true;
     }
 }

@@ -38,17 +38,19 @@ import org.gcreator.gui.DocumentPane;
 
 /**
  * Allows text edition
+ * 
  * @author Luís Reis
  */
-public class TextEditor extends DocumentPane{
+public class TextEditor extends DocumentPane {
+
     private JScrollPane scroll;
     private JEditorPane editor;
-    
+
     /**
      * Creates a text editor from a File
      * @param file The text file
      */
-    public TextEditor(File file){
+    public TextEditor(File file) {
         super(file);
         setLayout(new BorderLayout());
         scroll = new JScrollPane();
@@ -57,55 +59,58 @@ public class TextEditor extends DocumentPane{
         scroll.setVisible(true);
         scroll.setViewportView(editor);
         add(scroll, BorderLayout.CENTER);
-        if(file.exists()){
-            try{
+        if (file.exists()) {
+            try {
                 FileInputStream fs = new FileInputStream(file);
                 String text = "";
-                while(fs.available()>0){
+                while (fs.available() > 0) {
                     text += (char) fs.read();
                 }
                 editor.setText(text);
+            } catch (Exception e) {
             }
-            catch(Exception e){}
         }
-        editor.getDocument().addDocumentListener(new DocumentListener(){
-            public void insertUpdate(DocumentEvent evt){
+        editor.getDocument().addDocumentListener(new DocumentListener() {
+
+            public void insertUpdate(DocumentEvent evt) {
                 setModified(true);
             }
-            public void removeUpdate(DocumentEvent evt){
+
+            public void removeUpdate(DocumentEvent evt) {
                 setModified(true);
             }
-            public void changedUpdate(DocumentEvent evt){
+
+            public void changedUpdate(DocumentEvent evt) {
                 setModified(true);
             }
         });
     }
-    
+
     /**
      * Saves the file
      */
     @Override
-    public boolean saveBackend(){
-        try{
+    public boolean saveBackend() {
+        try {
             FileOutputStream fs = new FileOutputStream(getFile());
             fs.write(editor.getText().getBytes());
             return true;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean setupEditMenu(JMenu editMenu){
+    public boolean setupEditMenu(JMenu editMenu) {
         JMenuItem cut = new JMenuItem("Cut");
         cut.setMnemonic('t');
         cut.setVisible(true);
-        cut.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
+        cut.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
                 editor.cut();
             }
         });
@@ -113,8 +118,9 @@ public class TextEditor extends DocumentPane{
         JMenuItem copy = new JMenuItem("Copy");
         copy.setMnemonic('y');
         copy.setVisible(true);
-        copy.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
+        copy.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
                 editor.copy();
             }
         });
@@ -122,8 +128,9 @@ public class TextEditor extends DocumentPane{
         JMenuItem paste = new JMenuItem("Paste");
         paste.setMnemonic('P');
         paste.setVisible(true);
-        paste.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
+        paste.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
                 editor.paste();
             }
         });
@@ -131,13 +138,14 @@ public class TextEditor extends DocumentPane{
         JMenuItem selall = new JMenuItem("Select All");
         selall.setMnemonic('A');
         selall.setVisible(true);
-        selall.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
+        selall.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
                 editor.selectAll();
             }
         });
         editMenu.add(selall);
-        
+
         return true;
     }
 }

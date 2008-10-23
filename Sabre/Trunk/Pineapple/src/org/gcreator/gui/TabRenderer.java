@@ -30,7 +30,6 @@ import java.awt.event.MouseListener;
 import java.lang.ref.WeakReference;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -38,26 +37,26 @@ import javax.swing.JPanel;
  * on tabs
  * @author Luís Reis
  */
-public class TabRenderer extends JPanel{
+public class TabRenderer extends JPanel {
+
     private WeakReference<TabbedInterfaceProvider> tabs;
-    
+
     /**
      * Creates a new TabRenderer
      * @param tabs The TabbedInterfaceProvider
      */
-    public TabRenderer(TabbedInterfaceProvider tabs){
+    public TabRenderer(TabbedInterfaceProvider tabs) {
         this.tabs = new WeakReference<TabbedInterfaceProvider>(tabs);
         setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         setOpaque(false);
-        JLabel label = new JLabel(){
+        JLabel label = new JLabel() {
+
             @Override
-            public String getText(){
-                try{
+            public String getText() {
+                try {
                     TabbedInterfaceProvider pane = TabRenderer.this.tabs.get();
-                    return pane.getDocumentAt(pane.tabs.indexOfTabComponent
-                            (TabRenderer.this)).getTitle();
-                }
-                catch(Exception e){
+                    return pane.getDocumentAt(pane.tabs.indexOfTabComponent(TabRenderer.this)).getTitle();
+                } catch (Exception e) {
                     return null;
                 }
             }
@@ -68,20 +67,29 @@ public class TabRenderer extends JPanel{
         b.setContentAreaFilled(false);
         b.setFocusable(false);
         b.setRolloverEnabled(true);
-        b.addMouseListener(new MouseListener(){
-            public void mouseEntered(MouseEvent evt){
+        b.addMouseListener(new MouseListener() {
+
+            public void mouseEntered(MouseEvent evt) {
                 b.repaint();
             }
-            public void mouseExited(MouseEvent evt){
+
+            public void mouseExited(MouseEvent evt) {
                 b.repaint();
             }
-            public void mouseClicked(MouseEvent evt){}
-            public void mousePressed(MouseEvent evt){}
-            public void mouseReleased(MouseEvent evt){}
+
+            public void mouseClicked(MouseEvent evt) {
+            }
+
+            public void mousePressed(MouseEvent evt) {
+            }
+
+            public void mouseReleased(MouseEvent evt) {
+            }
         });
-        b.addActionListener(new ActionListener(){
+        b.addActionListener(new ActionListener() {
+
             @Override
-            public void actionPerformed(ActionEvent evt){
+            public void actionPerformed(ActionEvent evt) {
                 TabbedInterfaceProvider pane = TabRenderer.this.tabs.get();
                 DocumentPane doc = pane.getDocumentAt(pane.tabs.indexOfTabComponent(
                         TabRenderer.this));
