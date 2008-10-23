@@ -27,6 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Vector;
 import java.util.jar.Attributes;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
@@ -40,7 +41,9 @@ import org.gcreator.core.Core;
  * @author Luís Reis
  */
 public final class PluginImporter {
-
+    
+    private static Vector<File> modules = new Vector<File>();
+    
     /** Don't allow instantation
      */
     private PluginImporter() {
@@ -53,6 +56,18 @@ public final class PluginImporter {
     public static void loadPlugins() {
         importAppDataPlugins();
         importAppExePlugins();
+        URL[] urls = new URL[modules.size()];
+        int i = 0;
+        for(File file : modules){
+            try{
+                urls[i++] = file.toURI().toURL();
+            }
+            catch(Exception e){}
+        }
+        URLClassLoader clsloader = new URLClassLoader(urls);
+        for(File file : modules){
+            importPlugin(file, clsloader);
+        }
     }
 
     /**
@@ -73,7 +88,7 @@ public final class PluginImporter {
         System.out.println("Checking " + fs.length + " files.");
         for (File file : fs) {
             if (file.isFile() && file.getName().matches(".*\\.jar")) {
-                importPlugin(file);
+                modules.add(file);
             }
         }
     }
@@ -97,7 +112,7 @@ public final class PluginImporter {
         System.out.println("Checking " + fs.length + " files.");
         for (File file : fs) {
             if (file.isFile() && file.getName().matches(".*\\.jar")) {
-                importPlugin(file);
+                modules.add(file);
             }
         }
     }
@@ -107,14 +122,14 @@ public final class PluginImporter {
      * 
      * @param f The File to import the plug-in from.
      */
-    public static void importPlugin(File f) {
+    public static void importPlugin(File f, URLClassLoader loader) {
         try {
             System.out.println("Loading plugin: " + f.toString());
             JarInputStream jaris = new JarInputStream(new FileInputStream(f));
             Manifest m = jaris.getManifest();
             jaris.close();
             Attributes a = m.getMainAttributes();
-            load(f, a.getValue("Pineapple-EntryPoint"));
+            load(f, a.getValue("Pineapple-EntryPoint"), loader);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -131,13 +146,13 @@ public final class PluginImporter {
      * @throws java.lang.reflect.InvocationTargetException If an error occurs while initilizing the class.
      */
     @SuppressWarnings("unchecked")
-    public static void load(File f, String className) throws 
+    public static void load(File f, String className, URLClassLoader loader) throws 
             ClassNotFoundException, InstantiationException, InvocationTargetException {
         
         try {
             System.out.println("Loading " + f.toString());
-            URLClassLoader clsloader = new URLClassLoader(new URL[]{f.toURI().toURL()});
-            Class c = clsloader.loadClass(className);
+            
+            Class c = loader.loadClass(className);
             Object o = c.getConstructor().newInstance();
             Core.getStaticContext().addPlugin((PluginCore) o);
             c.getMethod("initialize").invoke(o);
@@ -148,9 +163,6 @@ public final class PluginImporter {
             /* Should not happen */
             Logger.getLogger(PluginImporter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchMethodException ex) {
-            /* Should not happen */
-            Logger.getLogger(PluginImporter.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
             /* Should not happen */
             Logger.getLogger(PluginImporter.class.getName()).log(Level.SEVERE, null, ex);
         }

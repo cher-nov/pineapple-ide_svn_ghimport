@@ -23,7 +23,7 @@ THE SOFTWARE.
 package org.gcreator.core;
 
 import org.gcreator.gui.MainFrame;
-import org.gcreator.managers.DefaultUncaughtExecptionHandler;
+import org.gcreator.managers.DefaultUncaughtExceptionHandler;
 import org.gcreator.managers.SettingsManager;
 import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.EventHandler;
@@ -58,7 +58,7 @@ public class Core {
     protected static void load(boolean safe) {
         Core.safe = safe;
         
-        Thread.setDefaultUncaughtExceptionHandler(new DefaultUncaughtExecptionHandler());
+        Thread.setDefaultUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler());
         
         if (!Core.safe) {
             SettingsManager.load();
