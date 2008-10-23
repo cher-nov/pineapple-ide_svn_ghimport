@@ -27,6 +27,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -125,9 +126,15 @@ public class PineappleGUI implements EventHandler {
             Object[] arguments = evt.getArguments();
             File f = (File) arguments[0];
             String format = arguments[1].toString(); //Good to avoid exceptions
-            if (format.equals("png") ||
-                    format.equals("jpg") || format.equals("jpeg") ||
-                    format.equals("gif") || format.equals("bmp")) {
+            boolean image = false;
+            for (String s : ImageIO.getReaderFileSuffixes()) {
+                if (format.equalsIgnoreCase(s)) {
+                    image = true;
+                    break;
+                }
+            }
+            
+            if (image) {
                 p = new ImagePreviewer(f);
             } else {
                 p = new TextEditor(f);

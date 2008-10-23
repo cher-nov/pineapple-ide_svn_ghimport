@@ -6,7 +6,11 @@
     <description>Performs some useful tasks</description>
     
     <target name="default">
+        <!-- Cleaning -->
+        <delete file="Core/build/Plugins/Pineapple.jar"/>
+        <delete file="Core/dist/Plugins/Pineapple.jar"/>
         
+       
         <mkdir dir="Core/build/"/>
         <mkdir dir="Core/build/Plugins"/>
         <mkdir dir="Core/dist/"/>
