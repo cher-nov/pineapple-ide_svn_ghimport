@@ -88,13 +88,13 @@ public class PineappleGUI implements EventHandler {
      * Created and initilizes a new Pineapple GUI.
      */
     public PineappleGUI() {
-        initilize();
+        initialize();
     }
     
     /**
      * Initilizes the Pineapple GUI.
      */
-    protected void initilize() {
+    protected void initialize() {
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_CREATED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_DISPOSED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.FILE_OPENED, EventPriority.LOW);

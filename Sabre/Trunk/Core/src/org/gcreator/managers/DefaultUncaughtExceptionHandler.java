@@ -32,10 +32,10 @@ import java.util.logging.Logger;
  * 
  * @author Serge Humphrey
  */
-public class DefaultUncaughtExecptionHandler implements Thread.UncaughtExceptionHandler {
+public class DefaultUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
     public void uncaughtException(Thread t, Throwable e) {
-        Logger.getLogger(DefaultUncaughtExecptionHandler.class.getName()).log(Level.SEVERE, "Exception in thread "+t.getName()+":", e);
+        Logger.getLogger(DefaultUncaughtExceptionHandler.class.getName()).log(Level.SEVERE, "Exception in thread "+t.getName()+":", e);
     }
 
 }

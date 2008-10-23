@@ -5,7 +5,7 @@ import pineapple.std;
 
 /*
  * No need to put "public" before class (like in Java)
- * And no need to put "public" after the ':'(like in C++)
+ * And no need to put "public" after the 'extends'(like in C++)
 */
 class X extends Y
 {
