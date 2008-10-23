@@ -47,4 +47,15 @@ public class SignalReceiver {
      * @param bcls The base class name. May be null and may contain dots('.')
      */
     public void sendClassDeclaration(String cls, String bcls){}
+    
+    /**
+     * A field(class variable)
+     * @param privacy The field privacy: public, private or protected
+     * @param isStatic Whether the field is static
+     * @param isConst Whether the field is constant
+     * @param type The field type
+     * @param name The field name
+     */
+    public void sendFieldSignal(String privacy, boolean isStatic, boolean isConst,
+            String type, String name){}
 }

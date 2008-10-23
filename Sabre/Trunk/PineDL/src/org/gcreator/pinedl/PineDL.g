@@ -122,9 +122,21 @@ classcontent
 	
 element	:	method|field|constructor;
 
-field	:	PRIVACY 'static'? 'const' WORD WORD;
+field	
+@init{
+String privacy = null;
+boolean isstatic = false;
+boolean isconst = false;
+String type = "";
+}	:
+	a=PRIVACY {privacy=a.getText();}
+	s='static'? {if(s!=null) isstatic = true;}
+	/*('const' {isconst = true;})?*/
+	d=type {type = d;}
+	n=WORD {signal.sendFieldSignal(privacy, isstatic, isconst, type, n.getText());}
+	STMTCUT;
 
-method	:	PRIVACY 'static'? WORD WORD LPAREN (argument (',' argument)*)? RPAREN
+method	:	PRIVACY 'static'? type WORD LPAREN (argument (',' argument)*)? RPAREN
 		BBLOCK
 			code
 		EBLOCK;
@@ -150,7 +162,7 @@ codel	:	trycatch |
 //OR
 //name = expression
 //If it was [type] name [= expression], then simply name would be valid.
-assign	:	((WORD WORD (EQ expression)?) | (WORD EQ expression)) STMTCUT;
+assign	:	((type WORD (EQ expression)?) | (WORD EQ expression)) STMTCUT;
 
 //situation is NOT used because "try x=doIt(); catch(Exception e) doOther(); is not allowed.
 //You MUST use the {}: try{x=doIt();}catch(Exception e){ doOther; } is allowed.
@@ -201,6 +213,10 @@ contextp:	WORD ('.' WORD (LARRAY expression RARRAY)* )+;
 
 context returns [String result = ""]
 	:	c=WORD {$result += c.getText();} ('.' t=WORD {$result += "." + t.getText();})*;
+
+//Only used to ensure some keywords
+type	returns [String s = ""]
+	:	(t='int'|'float'|'double'|'uint'|'char'|'string' {s=t.getText();})|(g=context {s = g;});
 
 THIS	:	'this';
 

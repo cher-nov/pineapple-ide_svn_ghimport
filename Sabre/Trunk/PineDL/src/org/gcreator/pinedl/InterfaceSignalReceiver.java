@@ -56,4 +56,12 @@ public class InterfaceSignalReceiver extends SignalReceiver{
     public void sendClassDeclaration(String cls, String bcls){
         System.out.println("cls="+cls+"; bcls="+bcls);
     }
+    
+    @Override
+    public void sendFieldSignal(String privacy, boolean isStatic, boolean isConst,
+            String type, String name){
+            
+        System.out.println("privacy="+privacy+"; isStatic="+isStatic+"; isConst="+
+                isConst + "; type="+type+"; name="+name);
+    }
 }
