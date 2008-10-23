@@ -1,6 +1,6 @@
 /*
 Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
-Copyright (C) 2008 BobSerge<serge_1994@hotmail.com>
+Copyright (C) 2008 Serge Humphrey <bob@bobtheblueberry.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,7 +19,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
- */
+*/
+
 package org.gcreator.gui;
 
 import java.awt.BorderLayout;
@@ -30,27 +31,25 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.gcreator.core.Core;
-import org.gcreator.core.Project;
 import org.gcreator.editors.ImagePreviewer;
 import org.gcreator.editors.TextEditor;
+import org.gcreator.pineapple.Project;
 import org.gcreator.plugins.DefaultEventTypes;
+import org.gcreator.plugins.EventHandler;
 import org.gcreator.plugins.EventManager;
 import org.gcreator.plugins.EventPriority;
 import org.gcreator.plugins.NotifyEvent;
-import org.gcreator.plugins.PluginCore;
 
 /**
- * The core for Pineapple.
- * Pineapple deals with most core GUI stuff.
+ * This deals with the main GUI stuff.
  * 
  * @author Luís Reis
  */
-public class PineapplePlugin extends PluginCore {
+public class PineappleGUI implements EventHandler {
 
     /**
      * Owns {@link #tree} and the tabbed pane
@@ -74,28 +73,35 @@ public class PineapplePlugin extends PluginCore {
     public static JMenuItem fileOpenProject;
     public static JMenuItem fileSave;
     public static JMenuItem fileExit;
+    
     /**
      * Provides a way to deal with multiple documents.
      */
     public static DocumentInterfaceProvider dip;
-
+    
     /**
      * The current project
      */
     public static Project project = null;
+
+    /**
+     * Created and initilizes a new Pineapple GUI.
+     */
+    public PineappleGUI() {
+        initilize();
+    }
     
     /**
-     * Initializes the plugin(Registers the event handlers)
+     * Initilizes the Pineapple GUI.
      */
-    @Override
-    public void initialize() {
+    protected void initilize() {
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_CREATED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_DISPOSED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.FILE_OPENED, EventPriority.LOW);
         EventManager.addEventHandler(this, DefaultEventTypes.FILE_CHANGED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.PROJECT_OPENED, EventPriority.MEDIUM);
     }
-
+    
     /**
      * Handles any provided events
      * @param evt The sent event
@@ -204,40 +210,25 @@ public class PineapplePlugin extends PluginCore {
             }
             dip.add(p.getFile().getName(), p);
             evt.handleEvent();
-        } else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_DISPOSED)){
-            for(DocumentPane doc : dip.getDocuments()){
-                if(doc!=null)
-                    if(!doc.dispose()){
+        } else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_DISPOSED)) {
+            for (DocumentPane doc : dip.getDocuments()) {
+                if (doc != null) {
+                    if (!doc.dispose()) {
                         evt.handleEvent();
                         return;
                     }
+                }
             }
-        } else if (evt.getEventType().equals(DefaultEventTypes.PROJECT_OPENED)){
+        } else if (evt.getEventType().equals(DefaultEventTypes.PROJECT_OPENED)) {
             project = new Project((File) evt.getArguments()[0]);
             projectNode.setUserObject(project);
-            try{
-            for(File f : project.getFiles()){
-                //TODO: Folders. May be convenient to discuss this in community.
-                projectNode.add(new DefaultMutableTreeNode(f));
-            }
-            }
-            catch(Exception e){
-                
-            }
-        }
-    }
+            try {
+                for (File f : project.getFiles()) {
+                    //TODO: Folders. May be convenient to discuss this in community.
+                    projectNode.add(new DefaultMutableTreeNode(f));
+                }
+            } catch (Exception e) {
 
-    /**
-     * Opens a file
-     */
-    public void openFile() {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(true);
-        chooser.setDialogTitle("Select files to open");
-        if (chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK") != JFileChooser.CANCEL_OPTION) {
-            File[] files = chooser.getSelectedFiles();
-            for (File f : files) {
-                openFile(f);
             }
         }
     }
@@ -278,25 +269,25 @@ public class PineapplePlugin extends PluginCore {
      * Opens a project
      */
     public void openProject() {
-        if(project!=null){
+        if (project != null) {
             closeProject();
         }
-        
+
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
         chooser.setDialogTitle("Select the project to open");
         int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
-        if(res!=JFileChooser.CANCEL_OPTION){
+        if (res != JFileChooser.CANCEL_OPTION) {
             EventManager.fireEvent(this, DefaultEventTypes.PROJECT_OPENED, chooser.getSelectedFile());
         }
-        
+
         tree.updateUI();
     }
-    
+
     /**
      * Closes the current project
      */
-    public void closeProject(){
+    public void closeProject() {
         projectNode.removeAllChildren();
         projectNode.setUserObject(null);
     }
@@ -308,6 +299,21 @@ public class PineapplePlugin extends PluginCore {
         DocumentPane p = dip.getSelectedDocument();
         if (p != null) {
             p.save();
+        }
+    }
+
+    /**
+     * Opens a file
+     */
+    public void openFile() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setDialogTitle("Select files to open");
+        if (chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK") != JFileChooser.CANCEL_OPTION) {
+            File[] files = chooser.getSelectedFiles();
+            for (File f : files) {
+                openFile(f);
+            }
         }
     }
 }

@@ -5,8 +5,8 @@
 <project name="PineappleModule" default="default" basedir="..">
     <description>Performs some useful tasks</description>
     
-    <target name="makemodule">
-    
+    <target name="default">
+        
         <mkdir dir="Core/build/"/>
         <mkdir dir="Core/build/Plugins"/>
         <mkdir dir="Core/dist/"/>

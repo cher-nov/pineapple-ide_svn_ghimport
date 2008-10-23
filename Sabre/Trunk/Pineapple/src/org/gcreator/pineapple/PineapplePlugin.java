@@ -20,43 +20,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
-package org.gcreator.gui;
+package org.gcreator.pineapple;
 
-import java.awt.Component;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import org.gcreator.pineapple.Project;
+import org.gcreator.gui.PineappleGUI;
+import org.gcreator.plugins.DefaultEventTypes;
+import org.gcreator.plugins.EventManager;
+import org.gcreator.plugins.EventPriority;
+import org.gcreator.plugins.PluginCore;
 
 /**
- * A Project tree cell renderer
+ * The Plugin class for Pineapple.
+ * 
  * @author Luís Reis
  */
-public class ProjectTreeRenderer extends DefaultTreeCellRenderer{
-    public ProjectTreeRenderer(){
-        setOpaque(false);
-    }
+public class PineapplePlugin extends PluginCore {
     
+    public static PineappleGUI gui;
+    
+    /**
+     * Initializes the plugin(Registers the event handlers)
+     */
     @Override
-    public Component getTreeCellRendererComponent(JTree tree, Object val,
-            boolean isSelected, boolean isExpanded, boolean isLeaf, int row,
-            boolean hasFocus){
+    public void initialize() {
         
-        super.getTreeCellRendererComponent(tree, val, isSelected, isExpanded, isLeaf, row, hasFocus);
+        gui = new PineappleGUI();
         
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) val;
-        Object value = node.getUserObject();
-        
-        if(value instanceof Project){
-            try{
-                setText(((Project) value).getSettings().get("name"));
-            }
-            catch(Exception e){
-                setText("invalid");
-            }
-        }
-        
-        return this;
-        
-    }
+        EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_CREATED, EventPriority.MEDIUM);
+        EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_DISPOSED, EventPriority.MEDIUM);
+        EventManager.addEventHandler(this, DefaultEventTypes.FILE_OPENED, EventPriority.LOW);
+        EventManager.addEventHandler(this, DefaultEventTypes.FILE_CHANGED, EventPriority.MEDIUM);
+        EventManager.addEventHandler(this, DefaultEventTypes.PROJECT_OPENED, EventPriority.MEDIUM);
+    }   
 }

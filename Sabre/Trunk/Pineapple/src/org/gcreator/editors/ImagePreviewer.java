@@ -36,47 +36,49 @@ import org.gcreator.gui.DocumentPane;
  * Previews an image
  * @author Luís Reis
  */
-public class ImagePreviewer extends DocumentPane{
+public class ImagePreviewer extends DocumentPane {
+
     private JScrollPane scroll;
     private JPanel panel;
     private BufferedImage img = null;
-    
+
     /**
      * Creates an ImagePreviewer from a File
      * @param file The image file
      */
-    public ImagePreviewer(File file){
+    public ImagePreviewer(File file) {
         super(file);
-        
+
         scroll = new JScrollPane();
-        panel = new JPanel(){
+        panel = new JPanel() {
+
             @Override
-            public void paint(Graphics g){
-                if(img!=null)
+            public void paint(Graphics g) {
+                if (img != null) {
                     g.drawImage(img, 0, 0, null);
+                }
             }
         };
-        try{
+        try {
             img = ImageIO.read(file);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
-        
+
         scroll.setVisible(true);
         panel.setVisible(true);
         panel.setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
         scroll.setViewportView(panel);
-        
+
         setLayout(new BorderLayout());
         add(scroll, BorderLayout.CENTER);
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean canSave(){
+    public boolean canSave() {
         return false;
     }
 }
