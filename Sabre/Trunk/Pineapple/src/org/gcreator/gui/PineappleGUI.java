@@ -109,83 +109,7 @@ public class PineappleGUI implements EventHandler {
     @Override
     public void handleEvent(NotifyEvent evt) {
         if (evt.getEventType().equals(DefaultEventTypes.WINDOW_CREATED)) {
-
-            MainFrame f = Core.getStaticContext().getMainFrame();
-
-            splitter = new JSplitPane();
-            splitter.setVisible(true);
-            f.setLayout(new BorderLayout());
-            f.add(splitter, BorderLayout.CENTER);
-
-            projectNode = new DefaultMutableTreeNode(null);
-            tree = new JTree(projectNode);
-            tree.setVisible(true);
-            tree.setCellRenderer(new ProjectTreeRenderer());
-            splitter.setLeftComponent(tree);
-
-            dip = new TabbedInterfaceProvider();
-            dip.setVisible(true);
-            splitter.setRightComponent(dip);
-
-            menubar = new JMenuBar();
-            menubar.setVisible(true);
-            f.add(menubar, BorderLayout.NORTH);
-
-            fileMenu = new JMenu("File");
-            fileMenu.setMnemonic('F');
-            fileMenu.setVisible(true);
-            menubar.add(fileMenu);
-
-            fileOpenProject = new JMenuItem("Open Project");
-            fileOpenProject.setMnemonic('j');
-            fileOpenProject.setVisible(true);
-            fileOpenProject.addActionListener(new ActionListener() {
-
-                public void actionPerformed(ActionEvent evt) {
-                    openProject();
-                }
-            });
-            fileMenu.add(fileOpenProject);
-
-            fileOpenFile = new JMenuItem("Open File");
-            fileOpenFile.setMnemonic('O');
-            fileOpenFile.setVisible(true);
-            fileOpenFile.addActionListener(new ActionListener() {
-
-                public void actionPerformed(ActionEvent evt) {
-                    openFile();
-                }
-            });
-            fileMenu.add(fileOpenFile);
-
-            fileSave = new JMenuItem("Save");
-            fileSave.setMnemonic('S');
-            fileSave.setVisible(true);
-            fileSave.setEnabled(false);
-            fileSave.addActionListener(new ActionListener() {
-
-                public void actionPerformed(ActionEvent evt) {
-                    saveFile();
-                }
-            });
-            fileMenu.add(fileSave);
-
-            fileExit = new JMenuItem("Exit");
-            fileExit.setMnemonic('x');
-            fileExit.setVisible(true);
-            fileExit.addActionListener(new ActionListener() {
-
-                public void actionPerformed(ActionEvent evt) {
-                    EventManager.fireEvent(this, DefaultEventTypes.WINDOW_DISPOSED);
-                }
-            });
-            fileMenu.add(fileExit);
-
-            editMenu = new JMenu("Edit");
-            editMenu.setMnemonic('E');
-            editMenu.setEnabled(false);
-            editMenu.setVisible(true);
-            menubar.add(editMenu);
+            initilizeWindow();
         } else if (evt.getEventType().equals(DefaultEventTypes.FILE_CHANGED)) {
             DocumentPane pane = dip.getSelectedDocument();
             editMenu.removeAll();
@@ -315,5 +239,86 @@ public class PineappleGUI implements EventHandler {
                 openFile(f);
             }
         }
+    }
+    
+    /**
+     * Initilize's the Pineapple Window.
+     */
+    protected void initilizeWindow() {
+        MainFrame f = Core.getStaticContext().getMainFrame();
+        splitter = new JSplitPane();
+        splitter.setVisible(true);
+        f.setLayout(new BorderLayout());
+        f.add(splitter, BorderLayout.CENTER);
+
+        projectNode = new DefaultMutableTreeNode(null);
+        tree = new JTree(projectNode);
+        tree.setVisible(true);
+        tree.setCellRenderer(new ProjectTreeRenderer());
+        splitter.setLeftComponent(tree);
+
+        dip = new TabbedInterfaceProvider();
+        dip.setVisible(true);
+        splitter.setRightComponent(dip);
+
+        menubar = new JMenuBar();
+        menubar.setVisible(true);
+        f.add(menubar, BorderLayout.NORTH);
+
+        fileMenu = new JMenu("File");
+        fileMenu.setMnemonic('F');
+        fileMenu.setVisible(true);
+        menubar.add(fileMenu);
+
+        fileOpenProject = new JMenuItem("Open Project");
+        fileOpenProject.setMnemonic('j');
+        fileOpenProject.setVisible(true);
+        fileOpenProject.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                openProject();
+            }
+        });
+        fileMenu.add(fileOpenProject);
+
+        fileOpenFile = new JMenuItem("Open File");
+        fileOpenFile.setMnemonic('O');
+        fileOpenFile.setVisible(true);
+        fileOpenFile.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                openFile();
+            }
+        });
+        fileMenu.add(fileOpenFile);
+
+        fileSave = new JMenuItem("Save");
+        fileSave.setMnemonic('S');
+        fileSave.setVisible(true);
+        fileSave.setEnabled(false);
+        fileSave.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                saveFile();
+            }
+        });
+        fileMenu.add(fileSave);
+
+        fileExit = new JMenuItem("Exit");
+        fileExit.setMnemonic('x');
+        fileExit.setVisible(true);
+        fileExit.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                EventManager.fireEvent(this, DefaultEventTypes.WINDOW_DISPOSED);
+            }
+        });
+        fileMenu.add(fileExit);
+
+        editMenu = new JMenu("Edit");
+        editMenu.setMnemonic('E');
+        editMenu.setEnabled(false);
+        editMenu.setVisible(true);
+        menubar.add(editMenu);
     }
 }
