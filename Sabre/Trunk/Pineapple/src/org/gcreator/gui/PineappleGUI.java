@@ -38,6 +38,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.gcreator.core.Core;
 import org.gcreator.editors.ImagePreviewer;
 import org.gcreator.editors.TextEditor;
+import org.gcreator.pineapple.FileInfo;
 import org.gcreator.pineapple.Project;
 import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.EventHandler;
@@ -105,159 +106,6 @@ public class PineappleGUI implements EventHandler {
     }
     
     /**
-     * Handles any provided events
-     * @param evt The sent event
-     */
-    @Override
-    public void handleEvent(NotifyEvent evt) {
-        if (evt.getEventType().equals(DefaultEventTypes.WINDOW_CREATED)) {
-            initializeWindow();
-        } else if (evt.getEventType().equals(DefaultEventTypes.FILE_CHANGED)) {
-            DocumentPane pane = dip.getSelectedDocument();
-            editMenu.removeAll();
-            if (pane != null) {
-                editMenu.setEnabled(pane.setupEditMenu(editMenu));
-                fileSave.setEnabled(pane.canSave());
-            } else {
-                editMenu.setEnabled(false);
-                fileSave.setEnabled(false);
-            }
-        } else if (evt.getEventType().equals(DefaultEventTypes.FILE_OPENED)) {
-            DocumentPane p;
-            Object[] arguments = evt.getArguments();
-            File f = (File) arguments[0];
-            String format = arguments[1].toString(); //Good to avoid exceptions
-            boolean image = false;
-            for (String s : ImageIO.getReaderFileSuffixes()) {
-                if (format.equalsIgnoreCase(s)) {
-                    image = true;
-                    break;
-                }
-            }
-            
-            if (image) {
-                p = new ImagePreviewer(f);
-            } else {
-                p = new TextEditor(f);
-            }
-            dip.add(p.getFile().getName(), p);
-            evt.handleEvent();
-        } else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_DISPOSED)) {
-            for (DocumentPane doc : dip.getDocuments()) {
-                if (doc != null) {
-                    if (!doc.dispose()) {
-                        evt.handleEvent();
-                        return;
-                    }
-                }
-            }
-        } else if (evt.getEventType().equals(DefaultEventTypes.PROJECT_OPENED)) {
-            project = new Project((File) evt.getArguments()[0]);
-            projectNode.setUserObject(project);
-            try {
-                for (File f : project.getFiles()) {
-                    //TODO: Folders. May be convenient to discuss this in community.
-                    projectNode.add(new DefaultMutableTreeNode(f));
-                }
-            } catch (Exception e) {
-
-            }
-        }
-    }
-
-    /**
-     * Opens a given file
-     * @param f The file to open
-     */
-    public void openFile(final File f) {
-        DocumentPane[] comps = dip.getDocuments();
-        boolean canOpen = true;
-        for (DocumentPane component : comps) {
-            if (component != null && component.getFile() == f) {
-                canOpen = false;
-                break;
-            }
-        }
-        if (canOpen) {
-            Thread t = new Thread() {
-
-                @Override
-                public void run() {
-                    String s = f.getName();
-                    String format = "???";
-                    try {
-                        format = s.substring(s.lastIndexOf('.') + 1);
-                    } catch (Exception e) {
-                    }
-                    EventManager.fireEvent(this, DefaultEventTypes.FILE_OPENED, f, format);
-                    dip.updateUI();
-                }
-            };
-            t.start();
-        }
-    }
-
-    /**
-     * Opens a project
-     */
-    public void openProject() {
-        if (project != null) {
-            closeProject();
-        }
-
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setDialogTitle("Select the project to open");
-        int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
-        if (res != JFileChooser.CANCEL_OPTION) {
-            EventManager.fireEvent(this, DefaultEventTypes.PROJECT_OPENED, chooser.getSelectedFile());
-        }
-
-        tree.updateUI();
-    }
-
-    /**
-     * Closes the current project
-     */
-    public void closeProject() {
-        projectNode.removeAllChildren();
-        projectNode.setUserObject(null);
-    }
-
-    /**
-     * Saves the currently open file
-     */
-    public void saveFile() {
-        DocumentPane p = dip.getSelectedDocument();
-        if (p != null) {
-            p.save();
-        }
-    }
-
-    /**
-     * Opens a file
-     */
-    public void openFile() {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(true);
-        chooser.setDialogTitle("Select files to open");
-        if (chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK") != JFileChooser.CANCEL_OPTION) {
-            File[] files = chooser.getSelectedFiles();
-            for (File f : files) {
-                openFile(f);
-            }
-        }
-    }
-    
-    /**
-     * Pops a New Project Dialog
-     */
-    public void popupNewProjectDialog(){
-        NewProjectDialog dialog = new NewProjectDialog(Core.getStaticContext().getMainFrame());
-        dialog.setVisible(true);
-    }
-    
-    /**
      * Initilize's the Pineapple Window.
      */
     protected void initializeWindow() {
@@ -268,7 +116,8 @@ public class PineappleGUI implements EventHandler {
         f.setLayout(new BorderLayout());
         f.add(splitter, BorderLayout.CENTER);
 
-        projectNode = new DefaultMutableTreeNode(null);
+        projectNode = new DefaultMutableTreeNode("Project");
+        
         tree = new JTree(projectNode);
         tree.setVisible(true);
         tree.setCellRenderer(new ProjectTreeRenderer());
@@ -277,7 +126,8 @@ public class PineappleGUI implements EventHandler {
         dip = new TabbedInterfaceProvider();
         dip.setVisible(true);
         splitter.setRightComponent(dip);
-
+        splitter.setDividerLocation(120);
+        
         menubar = new JMenuBar();
         menubar.setVisible(true);
         f.add(menubar, BorderLayout.NORTH);
@@ -347,5 +197,162 @@ public class PineappleGUI implements EventHandler {
         editMenu.setEnabled(false);
         editMenu.setVisible(true);
         menubar.add(editMenu);
+    }
+    
+    /**
+     * Handles any provided events
+     * @param evt The sent event
+     */
+    @Override
+    public void handleEvent(NotifyEvent evt) {
+        if (evt.getEventType().equals(DefaultEventTypes.WINDOW_CREATED)) {
+            initializeWindow();
+        } else if (evt.getEventType().equals(DefaultEventTypes.FILE_CHANGED)) {
+            DocumentPane pane = dip.getSelectedDocument();
+            editMenu.removeAll();
+            if (pane != null) {
+                editMenu.setEnabled(pane.setupEditMenu(editMenu));
+                fileSave.setEnabled(pane.canSave());
+            } else {
+                editMenu.setEnabled(false);
+                fileSave.setEnabled(false);
+            }
+        } else if (evt.getEventType().equals(DefaultEventTypes.FILE_OPENED) && evt.getArguments().length >= 2) {
+            DocumentPane p;
+            Object[] arguments = evt.getArguments();
+            File f = (File) arguments[0];
+            String format = arguments[1].toString(); //Good to avoid exceptions
+            boolean image = false;
+            for (String s : ImageIO.getReaderFileSuffixes()) {
+                if (format.equalsIgnoreCase(s)) {
+                    image = true;
+                    break;
+                }
+            }
+            
+            if (image) {
+                p = new ImagePreviewer(f);
+            } else {
+                p = new TextEditor(f);
+            }
+            dip.add(p.getFile().getName(), p);
+            evt.handleEvent();
+        } else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_DISPOSED)) {
+            for (DocumentPane doc : dip.getDocuments()) {
+                if (doc != null) {
+                    if (!doc.dispose()) {
+                        evt.handleEvent();
+                        return;
+                    }
+                }
+            }
+        } else if (evt.getEventType().equals(DefaultEventTypes.PROJECT_OPENED)) {
+            project = new Project((File) evt.getArguments()[0]);
+            projectNode.setUserObject(project);
+            try {
+                for (File f : project.getFiles()) {
+                    //TODO: Folders. May be convenient to discuss this in community.
+                    projectNode.add(new DefaultMutableTreeNode(f));
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    /**
+     * Opens a given file
+     * @param f The file to open
+     */
+    public void openFile(final File f) {
+        DocumentPane[] comps = dip.getDocuments();
+        boolean canOpen = true;
+        for (DocumentPane component : comps) {
+            if (component != null && component.getFile() == f) {
+                canOpen = false;
+                break;
+            }
+        }
+        if (canOpen) {
+            Thread t = new Thread() {
+
+                @Override
+                public void run() {
+                    String s = f.getName();
+                    String format = "<none>";
+                    try {
+                        int index = s.lastIndexOf('.') + 1;
+                        if (index > 0) { 
+                            format = s.substring(s.lastIndexOf('.') + 1);
+                        }
+                    } catch (Exception e) {
+                    }
+                    projectNode.add(new DefaultMutableTreeNode(new FileInfo(f, format)));
+                    tree.updateUI();
+                    EventManager.fireEvent(this, DefaultEventTypes.FILE_OPENED, f, format);
+                    dip.updateUI();
+                }
+            };
+            t.start();
+        }
+    }
+
+    /**
+     * Opens a project
+     */
+    public void openProject() {
+        if (project != null) {
+            closeProject();
+        }
+
+        JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setDialogTitle("Select the project to open");
+        int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
+        if (res != JFileChooser.CANCEL_OPTION) {
+            EventManager.fireEvent(this, DefaultEventTypes.PROJECT_OPENED, chooser.getSelectedFile());
+        }
+
+        tree.updateUI();
+    }
+
+    /**
+     * Closes the current project
+     */
+    public void closeProject() {
+        projectNode.removeAllChildren();
+        projectNode.setUserObject(null);
+    }
+
+    /**
+     * Saves the currently open file
+     */
+    public void saveFile() {
+        DocumentPane p = dip.getSelectedDocument();
+        if (p != null) {
+            p.save();
+        }
+    }
+
+    /**
+     * Opens a file
+     */
+    public void openFile() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setDialogTitle("Select files to open");
+        if (chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK") != JFileChooser.CANCEL_OPTION) {
+            File[] files = chooser.getSelectedFiles();
+            for (File f : files) {
+                openFile(f);
+            }
+        }
+    }
+    
+    /**
+     * Pops a New Project Dialog
+     */
+    public void popupNewProjectDialog() {
+        NewProjectDialog dialog = new NewProjectDialog(Core.getStaticContext().getMainFrame());
+        dialog.setVisible(true);
     }
 }

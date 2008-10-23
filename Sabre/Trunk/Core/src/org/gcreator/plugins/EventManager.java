@@ -87,35 +87,28 @@ public class EventManager {
     @SuppressWarnings("unchecked")
     public static void fireEvent(Object sender, String type, Object... arguments) {
         if (type != null && !type.equals("all")) { /* Event type 'all' can not be thrown. */
-            System.out.println("Fire event \"" + type + "\"");
             NotifyEvent evt = new NotifyEvent(sender, type, arguments);
             for (EventObject o : (Vector<EventObject>) highPriority.clone()) {
                 if (o.type.equals(type) || o.type.equals("all")) {
-                    System.out.println("Handling with " + o.handler);
                     o.handler.handleEvent(evt);
                 }
                 if (evt.isHandled()) {
-                    System.out.println("Event \"" + type + "\" handled by " + o.handler.getClass());
                     return;
                 }
             }
             for (EventObject o : (Vector<EventObject>) mediumPriority.clone()) {
                 if (o.type.equals(type) || o.type.equals("all")) {
-                    System.out.println("Handling with " + o.handler);
                     o.handler.handleEvent(evt);
                 }
                 if (evt.isHandled()) {
-                    System.out.println("Event \"" + type + "\" handled by " + o.handler.getClass());
                     return;
                 }
             }
             for (EventObject o : (Vector<EventObject>) lowPriority.clone()) {
                 if (o.type.equals(type) || o.type.equals("all")) {
-                    System.out.println("Handling with " + o.handler);
                     o.handler.handleEvent(evt);
                 }
                 if (evt.isHandled()) {
-                    System.out.println("Event \"" + type + "\" handled by " + o.handler.getClass());
                     return;
                 }
             }

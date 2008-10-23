@@ -23,6 +23,8 @@ THE SOFTWARE.
 package org.gcreator.gui;
 
 import java.awt.Component;
+import java.io.File;
+import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -30,33 +32,34 @@ import org.gcreator.pineapple.Project;
 
 /**
  * A Project tree cell renderer
+ * 
  * @author Luís Reis
+ * @see javax.swing.tree.DefaultTreeCellRenderer
  */
-public class ProjectTreeRenderer extends DefaultTreeCellRenderer{
-    public ProjectTreeRenderer(){
+public class ProjectTreeRenderer extends DefaultTreeCellRenderer {
+
+    public ProjectTreeRenderer() {
         setOpaque(false);
     }
-    
+
     @Override
     public Component getTreeCellRendererComponent(JTree tree, Object val,
             boolean isSelected, boolean isExpanded, boolean isLeaf, int row,
-            boolean hasFocus){
-        
-        super.getTreeCellRendererComponent(tree, val, isSelected, isExpanded, isLeaf, row, hasFocus);
-        
+            boolean hasFocus) {
+
+        JLabel l = (JLabel) super.getTreeCellRendererComponent(tree, val, isSelected, isExpanded, isLeaf, row, hasFocus);
+
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) val;
         Object value = node.getUserObject();
-        
-        if(value instanceof Project){
-            try{
-                setText(((Project) value).getSettings().get("name"));
-            }
-            catch(Exception e){
-                setText("invalid");
+
+        if (value instanceof Project) {
+            try {
+                l.setText(((Project) value).getSettings().get("name"));
+            } catch (Exception e) {
+                l.setText("invalid");
             }
         }
-        
-        return this;
-        
+
+        return l;
     }
 }
