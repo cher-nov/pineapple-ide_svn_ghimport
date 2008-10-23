@@ -28,7 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A deafault Uncaught Exception Handler
+ * A default Uncaught Exception Handler
  * 
  * @author Serge Humphrey
  */
