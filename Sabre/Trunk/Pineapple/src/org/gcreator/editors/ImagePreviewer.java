@@ -62,7 +62,7 @@ public class ImagePreviewer extends DocumentPane {
         try {
             img = ImageIO.read(file);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Exception: "+e);
         }
 
         scroll.setVisible(true);

@@ -22,15 +22,22 @@ THE SOFTWARE.
 */
 package org.gcreator.gui;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.lang.ref.WeakReference;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.plaf.basic.BasicButtonUI;
 
 /**
  * Provides a way for {@link TabbedInterfaceProvider} to have close buttons
@@ -63,7 +70,32 @@ public class TabRenderer extends JPanel {
         };
         label.setVisible(true);
         add(label);
-        final JButton b = new JButton("X");
+        final JButton b = new JButton() {
+            /* Old Aurora Code */
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g.create();
+                if (getModel().isPressed()) {
+                    g2.translate(1, 1);
+                }
+                if (getModel().isRollover()) {
+                    setBorder(BorderFactory.createEtchedBorder());
+                } else {
+                    setBorder(null);
+                }
+                g2.setStroke(new BasicStroke(2));
+                g2.setColor(Color.BLACK);
+                int delta = 6;
+                g2.drawLine(delta, delta, getWidth() - delta - 1, getHeight() - delta - 1);
+                g2.drawLine(getWidth() - delta - 1, delta, delta, getHeight() - delta - 1);
+
+                g2.dispose();
+            }
+        };
+        b.setPreferredSize(new Dimension(17, 17));
+        /* Make the button looks the same for all L&F's */
+        b.setUI(new BasicButtonUI());
         b.setContentAreaFilled(false);
         b.setFocusable(false);
         b.setRolloverEnabled(true);
@@ -96,6 +128,6 @@ public class TabRenderer extends JPanel {
                 doc.dispose();
             }
         });
-        add(b);
+        this.add(b);
     }
 }
