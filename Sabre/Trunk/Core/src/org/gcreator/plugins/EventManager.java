@@ -91,6 +91,7 @@ public class EventManager {
             NotifyEvent evt = new NotifyEvent(sender, type, arguments);
             for (EventObject o : (Vector<EventObject>) highPriority.clone()) {
                 if (o.type.equals(type) || o.type.equals("all")) {
+                    System.out.println("Handling with " + o.handler);
                     o.handler.handleEvent(evt);
                 }
                 if (evt.isHandled()) {
@@ -100,6 +101,7 @@ public class EventManager {
             }
             for (EventObject o : (Vector<EventObject>) mediumPriority.clone()) {
                 if (o.type.equals(type) || o.type.equals("all")) {
+                    System.out.println("Handling with " + o.handler);
                     o.handler.handleEvent(evt);
                 }
                 if (evt.isHandled()) {
@@ -109,6 +111,7 @@ public class EventManager {
             }
             for (EventObject o : (Vector<EventObject>) lowPriority.clone()) {
                 if (o.type.equals(type) || o.type.equals("all")) {
+                    System.out.println("Handling with " + o.handler);
                     o.handler.handleEvent(evt);
                 }
                 if (evt.isHandled()) {
