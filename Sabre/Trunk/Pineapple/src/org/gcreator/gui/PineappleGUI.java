@@ -70,6 +70,7 @@ public class PineappleGUI implements EventHandler {
     public static JMenuBar menubar;
     public static JMenu fileMenu;
     public static JMenu editMenu;
+    public static JMenuItem fileNewProject;
     public static JMenuItem fileOpenFile;
     public static JMenuItem fileOpenProject;
     public static JMenuItem fileSave;
@@ -110,7 +111,7 @@ public class PineappleGUI implements EventHandler {
     @Override
     public void handleEvent(NotifyEvent evt) {
         if (evt.getEventType().equals(DefaultEventTypes.WINDOW_CREATED)) {
-            initilizeWindow();
+            initializeWindow();
         } else if (evt.getEventType().equals(DefaultEventTypes.FILE_CHANGED)) {
             DocumentPane pane = dip.getSelectedDocument();
             editMenu.removeAll();
@@ -249,10 +250,19 @@ public class PineappleGUI implements EventHandler {
     }
     
     /**
+     * Pops a New Project Dialog
+     */
+    public void popupNewProjectDialog(){
+        NewProjectDialog dialog = new NewProjectDialog(Core.getStaticContext().getMainFrame());
+        dialog.setVisible(true);
+    }
+    
+    /**
      * Initilize's the Pineapple Window.
      */
-    protected void initilizeWindow() {
-        MainFrame f = Core.getStaticContext().getMainFrame();
+    protected void initializeWindow() {
+        MainFrame f = Core.getStaticContext().getMainFrame(); 
+        f.setTitle("Pineapple IDE");
         splitter = new JSplitPane();
         splitter.setVisible(true);
         f.setLayout(new BorderLayout());
@@ -277,6 +287,16 @@ public class PineappleGUI implements EventHandler {
         fileMenu.setVisible(true);
         menubar.add(fileMenu);
 
+        fileNewProject = new JMenuItem("New Project");
+        fileNewProject.setMnemonic('w');
+        fileNewProject.setVisible(true);
+        fileNewProject.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+                popupNewProjectDialog();
+            }
+        });
+        fileMenu.add(fileNewProject);
+        
         fileOpenProject = new JMenuItem("Open Project");
         fileOpenProject.setMnemonic('j');
         fileOpenProject.setVisible(true);
