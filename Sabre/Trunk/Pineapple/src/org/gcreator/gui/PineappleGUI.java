@@ -20,7 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-
 package org.gcreator.gui;
 
 import java.awt.BorderLayout;
@@ -29,15 +28,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -52,6 +55,7 @@ import org.gcreator.plugins.EventHandler;
 import org.gcreator.plugins.EventManager;
 import org.gcreator.plugins.EventPriority;
 import org.gcreator.plugins.NotifyEvent;
+import org.xml.sax.SAXException;
 
 /**
  * This deals with the main GUI stuff.
@@ -83,12 +87,10 @@ public class PineappleGUI implements EventHandler {
     public static JMenuItem fileOpenProject;
     public static JMenuItem fileSave;
     public static JMenuItem fileExit;
-    
     /**
      * Provides a way to deal with multiple documents.
      */
     public static DocumentInterfaceProvider dip;
-    
     /**
      * The current project
      */
@@ -100,7 +102,7 @@ public class PineappleGUI implements EventHandler {
     public PineappleGUI() {
         initialize();
     }
-    
+
     /**
      * Initilizes the Pineapple GUI.
      */
@@ -111,12 +113,12 @@ public class PineappleGUI implements EventHandler {
         EventManager.addEventHandler(this, DefaultEventTypes.FILE_CHANGED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.PROJECT_OPENED, EventPriority.MEDIUM);
     }
-    
+
     /**
      * Initilize's the Pineapple Window.
      */
     protected void initializeWindow() {
-        MainFrame f = Core.getStaticContext().getMainFrame(); 
+        MainFrame f = Core.getStaticContext().getMainFrame();
         f.setTitle("Pineapple IDE");
         splitter = new JSplitPane();
         splitter.setVisible(true);
@@ -124,7 +126,7 @@ public class PineappleGUI implements EventHandler {
         f.add(splitter, BorderLayout.CENTER);
 
         projectNode = new DefaultMutableTreeNode("Project");
-        
+
         tree = new JTree(projectNode);
         tree.setVisible(true);
         tree.setCellRenderer(new ProjectTreeRenderer());
@@ -135,23 +137,31 @@ public class PineappleGUI implements EventHandler {
                 if (e.getClickCount() >= 2) {
                     TreePath tp = tree.getClosestPathForLocation(e.getX(), e.getY());
                     tree.setSelectionPath(tp);
-                    //This method is useful only when the selection model allows a single selection.
+                    /* This method is useful only when the selection model allows a single selection. */
                     DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
                     if (node.getUserObject() != null && node.getUserObject() instanceof FileInfo) {
                         FileInfo info = (FileInfo) node.getUserObject();
+                        if (!info.getFile().exists()) {
+                            if (JOptionPane.showConfirmDialog(Core.getStaticContext().getMainFrame(), "File '" + info.getFile() + "' does not exist.<br/>" +
+                                    "Do you want to remove it from the project?") == JOptionPane.OK_OPTION) {
+                                
+                                
+                                return;
+                            }
+                        }
                         openFile(info.getFile());
                     }
                 }
             }
         });
-        
+
         splitter.setLeftComponent(tree);
 
         dip = new TabbedInterfaceProvider();
         dip.setVisible(true);
         splitter.setRightComponent(dip);
         splitter.setDividerLocation(120);
-        
+
         menubar = new JMenuBar();
         menubar.setVisible(true);
         f.add(menubar, BorderLayout.NORTH);
@@ -164,13 +174,14 @@ public class PineappleGUI implements EventHandler {
         fileNewProject = new JMenuItem("New Project");
         fileNewProject.setMnemonic('w');
         fileNewProject.setVisible(true);
-        fileNewProject.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
+        fileNewProject.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
                 popupNewProjectDialog();
             }
         });
         fileMenu.add(fileNewProject);
-        
+
         fileOpenProject = new JMenuItem("Open Project");
         fileOpenProject.setMnemonic('j');
         fileOpenProject.setVisible(true);
@@ -222,7 +233,7 @@ public class PineappleGUI implements EventHandler {
         editMenu.setVisible(true);
         menubar.add(editMenu);
     }
-    
+
     /**
      * Handles any provided events
      * @param evt The sent event
@@ -253,14 +264,14 @@ public class PineappleGUI implements EventHandler {
                     break;
                 }
             }
-            
+
             if (image) {
                 ImagePreviewer imp = new ImagePreviewer(f);
                 p = imp;
                 if (evt.getArguments().length > 2 && evt.getArguments()[2] instanceof FileInfo) {
                     BufferedImage img = imp.getImage();
-                    FileInfo info = (FileInfo)evt.getArguments()[2];
-                    Image img2 = img.getScaledInstance(((img.getWidth() > img.getHeight()) ? 16 : -1), 
+                    FileInfo info = (FileInfo) evt.getArguments()[2];
+                    Image img2 = img.getScaledInstance(((img.getWidth() > img.getHeight()) ? 16 : -1),
                             ((img.getWidth() > img.getHeight()) ? -1 : 16), Image.SCALE_FAST);
                     info.setIcon(new ImageIcon(img2));
                     tree.updateUI();
@@ -315,13 +326,28 @@ public class PineappleGUI implements EventHandler {
                     FileInfo info = new FileInfo(f, format);
                     try {
                         int index = s.lastIndexOf('.') + 1;
-                        if (index > 0) { 
+                        if (index > 0) {
                             format = s.substring(s.lastIndexOf('.') + 1);
                             info.setFormat(format);
                         }
                     } catch (Exception e) {
                     }
-                    projectNode.add(new DefaultMutableTreeNode(info));
+                    Enumeration children = projectNode.children();
+                    boolean add = true;
+                    while (children.hasMoreElements()) {
+                        Object o = children.nextElement();
+                        if (o instanceof DefaultMutableTreeNode) {
+                            DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
+                            if (node.getUserObject().equals(info)) {
+                                add = false;
+                                tree.setSelectionPath(new TreePath(node.getPath()));
+                                break;
+                            }
+                        }
+                    }
+                    if (add) {
+                        projectNode.add(new DefaultMutableTreeNode(info));
+                    }
                     tree.updateUI();
                     EventManager.fireEvent(this, DefaultEventTypes.FILE_OPENED, f, format, info);
                     dip.updateUI();
@@ -378,11 +404,13 @@ public class PineappleGUI implements EventHandler {
         if (chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK") != JFileChooser.CANCEL_OPTION) {
             File[] files = chooser.getSelectedFiles();
             for (File f : files) {
-                openFile(f);
+                if (f.exists()) {
+                    openFile(f);
+                }
             }
         }
     }
-    
+
     /**
      * Pops a New Project Dialog
      */

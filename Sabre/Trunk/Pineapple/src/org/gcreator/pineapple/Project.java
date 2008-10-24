@@ -49,6 +49,8 @@ public class Project {
 
     /**
      * Gets the manifest file of the project
+     * 
+     * @return The mamifest file.
      */
     public File getManifest() {
         return manifestFile;
