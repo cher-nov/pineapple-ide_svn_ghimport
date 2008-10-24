@@ -34,6 +34,7 @@ import org.gcreator.gui.DocumentPane;
 
 /**
  * Previews an image
+ * 
  * @author Luís Reis
  */
 public class ImagePreviewer extends DocumentPane {
@@ -62,7 +63,7 @@ public class ImagePreviewer extends DocumentPane {
         try {
             img = ImageIO.read(file);
         } catch (Exception e) {
-            System.out.println("Exception: "+e);
+            System.out.println("Exception: " + e);
         }
 
         scroll.setVisible(true);
@@ -74,6 +75,14 @@ public class ImagePreviewer extends DocumentPane {
         add(scroll, BorderLayout.CENTER);
     }
 
+    /**
+     * Gets the display image.
+     * 
+     * @return The {@link java.awt.image.BufferedImage} that stores the diaply image data.
+     */
+    public BufferedImage getImage() {
+        return img;
+    }
     /**
      * {@inheritDoc}
      */

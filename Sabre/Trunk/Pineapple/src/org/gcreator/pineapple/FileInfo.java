@@ -25,6 +25,7 @@ THE SOFTWARE.
 package org.gcreator.pineapple;
 
 import java.io.File;
+import javax.swing.Icon;
 
 /**
  * Stores a {@link java.io.File} object and a file format.
@@ -35,18 +36,85 @@ public final class FileInfo {
     
     private File file;
     private String format;
+    private Icon icon;
     
     /**
      * Creates a new {@link FileInfo FileInfo} object.
      * 
-     * @param file The {@link java.io.File} object
-     * @param format
+     * @param file The {@link java.io.File} object.
+     * @param format The format of the file.
      */
     public FileInfo(File file, String format) {
         this.file = file;
         this.format = format;
     }
+    
+    /**
+     * Creates a new {@link FileInfo FileInfo} object with an icon.
+     * 
+     * @param file file The {@link java.io.File} object.
+     * @param format format The format of the file.
+     * @param icon The {@link javax.swing.Icon} to be drawn in the {@link javax.swing.JTree}.
+     */
+    public FileInfo(File file, String format, Icon icon) {
+        this(file, format);
+        this.icon = icon;
+    }
 
+    /**
+     * Gets this file's format.
+     * 
+     * @return The file's format.
+     */
+    public String getFormat() {
+        return format;
+    }
+    
+    /**
+     * Gets the file.
+     * 
+     * @return The File.
+     */
+    public File getFile() {
+        return file;
+    }
+    
+    /**
+     * Gets the icon.
+     * 
+     * @return The icon.
+     */
+    public Icon getIcon() {
+        return icon;
+    }
+    
+    /**
+     * Sets the format.
+     * 
+     * @param format The new file format.
+     */
+    public void setFormat(String format) {
+        this.format = format;
+    }
+    
+    /**
+     * Sets the file.
+     * 
+     * @param file The new File.
+     */
+    public void setFile(File file) {
+        this.file = file;
+    }
+    
+    /**
+     * Sets the icon.
+     * 
+     * @param icon The new {@link javax.swing.Icon}.
+     */
+    public void setIcon(Icon icon) {
+        this.icon = icon;
+    }
+    
     /**
      * Returns the same as the file's {@link java.io.File#getName()} method 
      * or the {@link java.lang.String} literal 'null' if the file is <tt>null</tt>.
