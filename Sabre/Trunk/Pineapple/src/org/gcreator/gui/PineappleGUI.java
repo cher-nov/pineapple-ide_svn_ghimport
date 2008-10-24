@@ -24,10 +24,16 @@ THE SOFTWARE.
 package org.gcreator.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -35,6 +41,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 import org.gcreator.core.Core;
 import org.gcreator.editors.ImagePreviewer;
 import org.gcreator.editors.TextEditor;
@@ -121,6 +128,23 @@ public class PineappleGUI implements EventHandler {
         tree = new JTree(projectNode);
         tree.setVisible(true);
         tree.setCellRenderer(new ProjectTreeRenderer());
+        tree.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getClickCount() >= 2) {
+                    TreePath tp = tree.getClosestPathForLocation(e.getX(), e.getY());
+                    tree.setSelectionPath(tp);
+                    //This method is useful only when the selection model allows a single selection.
+                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+                    if (node.getUserObject() != null && node.getUserObject() instanceof FileInfo) {
+                        FileInfo info = (FileInfo) node.getUserObject();
+                        openFile(info.getFile());
+                    }
+                }
+            }
+        });
+        
         splitter.setLeftComponent(tree);
 
         dip = new TabbedInterfaceProvider();
@@ -231,7 +255,16 @@ public class PineappleGUI implements EventHandler {
             }
             
             if (image) {
-                p = new ImagePreviewer(f);
+                ImagePreviewer imp = new ImagePreviewer(f);
+                p = imp;
+                if (evt.getArguments().length > 2 && evt.getArguments()[2] instanceof FileInfo) {
+                    BufferedImage img = imp.getImage();
+                    FileInfo info = (FileInfo)evt.getArguments()[2];
+                    Image img2 = img.getScaledInstance(((img.getWidth() > img.getHeight()) ? 16 : -1), 
+                            ((img.getWidth() > img.getHeight()) ? -1 : 16), Image.SCALE_FAST);
+                    info.setIcon(new ImageIcon(img2));
+                    tree.updateUI();
+                }
             } else {
                 p = new TextEditor(f);
             }
@@ -279,16 +312,18 @@ public class PineappleGUI implements EventHandler {
                 public void run() {
                     String s = f.getName();
                     String format = "<none>";
+                    FileInfo info = new FileInfo(f, format);
                     try {
                         int index = s.lastIndexOf('.') + 1;
                         if (index > 0) { 
                             format = s.substring(s.lastIndexOf('.') + 1);
+                            info.setFormat(format);
                         }
                     } catch (Exception e) {
                     }
-                    projectNode.add(new DefaultMutableTreeNode(new FileInfo(f, format)));
+                    projectNode.add(new DefaultMutableTreeNode(info));
                     tree.updateUI();
-                    EventManager.fireEvent(this, DefaultEventTypes.FILE_OPENED, f, format);
+                    EventManager.fireEvent(this, DefaultEventTypes.FILE_OPENED, f, format, info);
                     dip.updateUI();
                 }
             };

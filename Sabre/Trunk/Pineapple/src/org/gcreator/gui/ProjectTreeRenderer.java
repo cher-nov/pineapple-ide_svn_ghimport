@@ -23,11 +23,11 @@ THE SOFTWARE.
 package org.gcreator.gui;
 
 import java.awt.Component;
-import java.io.File;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import org.gcreator.pineapple.FileInfo;
 import org.gcreator.pineapple.Project;
 
 /**
@@ -38,6 +38,8 @@ import org.gcreator.pineapple.Project;
  */
 public class ProjectTreeRenderer extends DefaultTreeCellRenderer {
 
+    private static final long serialVersionUID = 1;
+    
     public ProjectTreeRenderer() {
         setOpaque(false);
     }
@@ -57,6 +59,13 @@ public class ProjectTreeRenderer extends DefaultTreeCellRenderer {
                 l.setText(((Project) value).getSettings().get("name"));
             } catch (Exception e) {
                 l.setText("invalid");
+            }
+        }
+        
+        if (value instanceof FileInfo) {
+            FileInfo info = (FileInfo) value;
+            if (info.getIcon() != null) {
+                l.setIcon(info.getIcon());
             }
         }
 
