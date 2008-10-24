@@ -125,4 +125,31 @@ public final class FileInfo {
     public String toString() {
         return ((file != null) ? file.getName() : "null" );
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        
+        if (o instanceof FileInfo) {
+            FileInfo f = (FileInfo)o;
+            return (f.hashCode() == this.hashCode());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + (this.file != null ? this.file.hashCode() : 0);
+        hash = 89 * hash + (this.format != null ? this.format.hashCode() : 0);
+        return hash;
+    }
 }
