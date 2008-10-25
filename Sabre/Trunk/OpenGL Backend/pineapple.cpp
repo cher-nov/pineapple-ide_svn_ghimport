@@ -32,6 +32,7 @@ int main(int argc, char** argv)
     
     Window::setSize(640, 480, false);
     Window::setTitle("Hello World!");
+    Window::setResizable(true);
     
     Scene* s = new Scene(640, 480);
     Actor* a = new Actor();

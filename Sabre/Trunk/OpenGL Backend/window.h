@@ -34,10 +34,12 @@ class pineapple::std::Window
         static int getWidth();
         static int getHeight();
         static bool isFullscreen();
+        static bool isResizable();
         static void setSize(int width, int height);
         static void setSize(int width, int height, bool fullscreen);
         static void setFullscreen(bool fullscreen);
         static void setTitle(string title);
+        static void setResizable(bool resizable);
         static string getTitle();
         static void run();
         static void redraw();

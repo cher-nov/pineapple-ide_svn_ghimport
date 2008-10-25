@@ -27,6 +27,7 @@ THE SOFTWARE.
 int _window_width;
 int _window_height;
 bool _window_fullscreen;
+bool _window_resizable;
 SDL_Surface *_sdl_screen;
 string _window_title;
 
@@ -40,6 +41,10 @@ int pineapple::std::Window::getHeight() {
 
 bool pineapple::std::Window::isFullscreen() {
     return _window_fullscreen;
+}
+
+bool pineapple::std::Window::isResizable() {
+    return _window_resizable;
 }
 
 void pineapple::std::Window::setSize(int width, int height) {
@@ -69,35 +74,43 @@ string pineapple::std::Window::getTitle() {
     return _window_title;
 }
 
+void pineapple::std::Window::setResizable(bool resizable) {
+    _window_resizable = resizable;
+    updateVideoMode();
+}
+
 void pineapple::std::Window::updateVideoMode() {
     Uint32 flags = SDL_OPENGL;
     if (isFullscreen())
         flags |= SDL_FULLSCREEN;
-
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+    if (isResizable())
+        flags |= SDL_RESIZABLE;
 
     _sdl_screen = SDL_SetVideoMode(getWidth(), getHeight(), 16, flags);
     if (_sdl_screen == NULL) {
         printf("Unable set SDL Video Mode: %s\n", SDL_GetError());
         Application::kill(1);
     }
-
+    
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+    
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glShadeModel(GL_SMOOTH);
-    glDepthFunc(GL_LEQUAL);
-    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    //glShadeModel(GL_SMOOTH);
+    //glDepthFunc(GL_LEQUAL);
+    //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glViewport(0, 0, getWidth(), getHeight()); //Target
-    glClear(GL_COLOR_BUFFER_BIT);
+    //glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    
     glOrtho(0.0f, getWidth(), getHeight(), 0.0f, -1.0f, 1.0f); //Zoom
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -112,6 +125,8 @@ void pineapple::std::Window::run()
         {
             case SDL_QUIT:
                 Application::requestExit(); break;
+            case SDL_VIDEORESIZE:
+                setSize(event.resize.w, event.resize.h);
         }
     }
     
