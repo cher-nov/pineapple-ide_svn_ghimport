@@ -20,29 +20,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef _ACTOR_H
-#define	_ACTOR_H
-
 #include "pineapple.h"
 
-class pineapple::objects::Actor
+pineapple::objects::Scene::Scene()
 {
-    private:
-        int x, y;
-        Texture* t;
-        bool visible;
-    public:
-        Actor();
-        virtual void draw();
-        
-        virtual bool isVisible();
-        virtual int getX();
-        virtual int getY();
-        
-        virtual void setVisible(bool visible);
-        virtual void setX(int x);
-        virtual void setY(int y);
-};
+    
+}
 
-#endif	/* _ACTOR_H */
-
+void pineapple::objects::Scene::draw()
+{
+    
+}
