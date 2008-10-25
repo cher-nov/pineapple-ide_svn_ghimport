@@ -128,6 +128,7 @@ void pineapple::objects::View::GLSetup()
         width = Window::getWidth() + width; //Since width is negative
                                             //This '+' becomes a '-'
     }
+    
     if(height==0){
         height = Window::getHeight();
     } else if(width<0){

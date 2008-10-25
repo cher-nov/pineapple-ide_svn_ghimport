@@ -106,16 +106,23 @@ void pineapple::std::Window::updateVideoMode() {
 void pineapple::std::Window::run()
 {
     SDL_Event event;
-    while(Application::isRunning() && SDL_WaitEvent(&event))
+    while(SDL_PollEvent(&event))
     {
         switch(event.type)
         {
             case SDL_QUIT:
                 Application::requestExit(); break;
         }
+    }
+    
+    if(Application::isRunning()){
+        ::pineapple::objects::Scene* s = Application::getCurrentScene();
+        if(s!=NULL)
+            s->loop();
         redraw();
         SDL_GL_SwapBuffers();
         SDL_Delay(1000/Application::getPreferredSpeed());
+        run();
     }
 }
 

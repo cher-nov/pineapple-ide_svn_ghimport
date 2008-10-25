@@ -28,6 +28,8 @@ pineapple::objects::Actor::Actor()
     y = 0;
     t = NULL;
     visible = false;
+    hspeed = 0.0f;
+    vspeed = 0.0f;
 }
 
 void pineapple::objects::Actor::draw(View* view)
@@ -41,19 +43,35 @@ void pineapple::objects::Actor::draw(View* view)
     }
 }
 
+void pineapple::objects::Actor::loop()
+{
+    x += hspeed;
+    y += vspeed;
+}
+
 bool pineapple::objects::Actor::isVisible()
 {
     return visible;
 }
 
-int pineapple::objects::Actor::getX()
+float pineapple::objects::Actor::getX()
 {
     return x;
 }
 
-int pineapple::objects::Actor::getY()
+float pineapple::objects::Actor::getY()
 {
     return y;
+}
+
+float pineapple::objects::Actor::getHorizontalSpeed()
+{
+    return hspeed;
+}
+
+float pineapple::objects::Actor::getVerticalSpeed()
+{
+    return vspeed;
 }
 
 pineapple::objects::Texture* pineapple::objects::Actor::getTexture()
@@ -71,10 +89,18 @@ void pineapple::objects::Actor::setVisible(bool visible)
     this->visible = visible;
 }
 
-void pineapple::objects::Actor::setX(int x){
+void pineapple::objects::Actor::setX(float x){
     this->x = x;
 }
 
-void pineapple::objects::Actor::setY(int y){
+void pineapple::objects::Actor::setY(float y){
     this->y = y;
+}
+
+void pineapple::objects::Actor::setHorizontalSpeed(float speed){
+    hspeed = speed;
+}
+
+void pineapple::objects::Actor::setVerticalSpeed(float speed){
+    vspeed = speed;
 }

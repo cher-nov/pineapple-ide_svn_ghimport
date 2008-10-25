@@ -37,6 +37,7 @@ class pineapple::objects::Scene
         Scene(int width = 640, int height = 480);
         void draw();
         void drawView(View* v);
+        void loop();
         int getWidth();
         int getHeight();
         void setWidth(int width);

@@ -36,7 +36,7 @@ class pineapple::objects::Texture : Drawable
         ~Texture();
         int getWidth();
         int getHeight();
-        virtual void GLDraw(int x, int y);
+        virtual void GLDraw(float x, float y);
 };
 
 #endif	/* _TEXTURE_H */

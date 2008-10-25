@@ -37,29 +37,13 @@ int main(int argc, char** argv)
     Actor* a = new Actor();
     Texture* t = new Texture(string("luiscubal.png"));
     a->setVisible(true);
-    a->setX(0);
-    a->setY(0);
+    a->setX(0.0f);
+    a->setY(0.0f);
     a->setTexture(t);
     s->addActor(a);
     Application::setCurrentScene(s);
-    View* v1 = new View();
-    View* v2 = new View();
-    View* v3 = new View();
-    
-    v2->setViewportX(320);
-    v1->setViewportWidth(320);
-    v2->setViewportWidth(320);
-    v3->setViewportX(320);
-    v3->setViewportWidth(320);
-    
-    v1->setViewportHeight(240);
-    v2->setViewportHeight(240);
-    v3->setViewportY(240);
-    v3->setViewportHeight(240);
-    
-    s->addView(v1);
-    s->addView(v2);
-    s->addView(v3);
+    a->setHorizontalSpeed(1.0f);
+    a->setVerticalSpeed(1.0f);
     
     Window::run();
 }

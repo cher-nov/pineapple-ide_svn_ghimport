@@ -48,6 +48,15 @@ void pineapple::objects::Scene::draw()
     }
 }
 
+void pineapple::objects::Scene::loop()
+{
+    for(int i = 0; i < actors->size(); i++)
+    {
+        Actor* a = actors->at(i);
+        a->loop();
+    }
+}
+
 void pineapple::objects::Scene::drawView(View* v)
 {
     for(int i = 0; i < actors->size(); i++)

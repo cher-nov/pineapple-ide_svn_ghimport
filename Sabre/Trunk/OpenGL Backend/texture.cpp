@@ -71,8 +71,8 @@ pineapple::objects::Texture::Texture(string file)
     
     gluBuild2DMipmaps(GL_TEXTURE_2D, 4, p2w, p2h, GL_RGBA, GL_UNSIGNED_BYTE, image->pixels);
     
-    width = surface->w;
-    height = surface->h;
+    width = (float) surface->w;
+    height = (float) surface->h;
     
     SDL_FreeSurface(image);
     SDL_FreeSurface(surface);
@@ -93,7 +93,7 @@ int pineapple::objects::Texture::getHeight()
     return height;
 }
 
-void pineapple::objects::Texture::GLDraw(int x, int y)
+void pineapple::objects::Texture::GLDraw(float x, float y)
 {
     glBindTexture(GL_TEXTURE_2D, textureid);
     
