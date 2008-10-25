@@ -32,10 +32,13 @@ import org.gcreator.xml.SAXImporter;
 import org.xml.sax.SAXException;
 
 /**
- * The Project class contains information relatively to a Pineapple project.
+ * The FolderProject class contains information relatively to a Pineapple project.
  * @author Luís Reis
+ * 
+ * @deprecated Needs a lot of work. Just old Project class renamed.
  */
-public class Project {
+@Deprecated
+public class FolderProject {
 
     private File manifestFile;
 
@@ -43,7 +46,7 @@ public class Project {
      * Creates a new project from a manifest file.
      * @param manifestFile The project manifest file.
      */
-    public Project(File manifestFile) {
+    public FolderProject(File manifestFile) {
         this.manifestFile = manifestFile;
     }
 
@@ -181,13 +184,13 @@ public class Project {
      * @return The created project
      * @throws IOException If there was
      */
-    public static Project createNewProject(File location, String name)
+    public static FolderProject createNewProject(File location, String name)
             throws IOException {
         if (location.exists()) {
             location.delete();
         }
         location.createNewFile();
-        Project p = new Project(location);
+        FolderProject p = new FolderProject(location);
 
         Node root = new Node(null, "pineapple-project", null);
         root.setAttribute("version", "1.0");

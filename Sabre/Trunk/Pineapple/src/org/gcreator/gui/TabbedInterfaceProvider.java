@@ -88,6 +88,7 @@ public class TabbedInterfaceProvider extends DocumentInterfaceProvider {
     public void add(String title, DocumentPane pane) {
         tabs.add(title, pane);
         tabs.setTabComponentAt(tabs.indexOfComponent(pane), new TabRenderer(this));
+        tabs.setSelectedIndex(tabs.indexOfComponent(pane));
     }
 
     public String getTitleAt(int index) {

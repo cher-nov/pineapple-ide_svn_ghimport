@@ -30,10 +30,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -48,14 +45,14 @@ import javax.swing.tree.TreePath;
 import org.gcreator.core.Core;
 import org.gcreator.editors.ImagePreviewer;
 import org.gcreator.editors.TextEditor;
-import org.gcreator.pineapple.FileInfo;
-import org.gcreator.pineapple.Project;
+import org.gcreator.project.Project;
 import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.EventHandler;
 import org.gcreator.plugins.EventManager;
 import org.gcreator.plugins.EventPriority;
 import org.gcreator.plugins.NotifyEvent;
-import org.xml.sax.SAXException;
+import org.gcreator.project.BaseElement;
+import org.gcreator.project.FileElement;
 
 /**
  * This deals with the main GUI stuff.
@@ -139,17 +136,9 @@ public class PineappleGUI implements EventHandler {
                     tree.setSelectionPath(tp);
                     /* This method is useful only when the selection model allows a single selection. */
                     DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-                    if (node.getUserObject() != null && node.getUserObject() instanceof FileInfo) {
-                        FileInfo info = (FileInfo) node.getUserObject();
-                        if (!info.getFile().exists()) {
-                            if (JOptionPane.showConfirmDialog(Core.getStaticContext().getMainFrame(), "File '" + info.getFile() + "' does not exist.<br/>" +
-                                    "Do you want to remove it from the project?") == JOptionPane.OK_OPTION) {
-                                
-                                
-                                return;
-                            }
-                        }
-                        openFile(info.getFile());
+                    if (node.getUserObject() != null && node.getUserObject() instanceof BaseElement) {
+                        BaseElement el = (BaseElement) node.getUserObject();
+                        openFile(el.getFile());
                     }
                 }
             }
@@ -268,12 +257,12 @@ public class PineappleGUI implements EventHandler {
             if (image) {
                 ImagePreviewer imp = new ImagePreviewer(f);
                 p = imp;
-                if (evt.getArguments().length > 2 && evt.getArguments()[2] instanceof FileInfo) {
+                if (evt.getArguments().length > 2 && evt.getArguments()[2] instanceof FileElement) {
                     BufferedImage img = imp.getImage();
-                    FileInfo info = (FileInfo) evt.getArguments()[2];
+                    FileElement el = (FileElement) evt.getArguments()[2];
                     Image img2 = img.getScaledInstance(((img.getWidth() > img.getHeight()) ? 16 : -1),
                             ((img.getWidth() > img.getHeight()) ? -1 : 16), Image.SCALE_FAST);
-                    info.setIcon(new ImageIcon(img2));
+                    el.setIcon(new ImageIcon(img2));
                     tree.updateUI();
                 }
             } else {
@@ -291,15 +280,7 @@ public class PineappleGUI implements EventHandler {
                 }
             }
         } else if (evt.getEventType().equals(DefaultEventTypes.PROJECT_OPENED)) {
-            project = new Project((File) evt.getArguments()[0]);
-            projectNode.setUserObject(project);
-            try {
-                for (File f : project.getFiles()) {
-                    //TODO: Folders. May be convenient to discuss this in community.
-                    projectNode.add(new DefaultMutableTreeNode(f));
-                }
-            } catch (Exception e) {
-            }
+            //TODO: open project.
         }
     }
 
@@ -323,12 +304,12 @@ public class PineappleGUI implements EventHandler {
                 public void run() {
                     String s = f.getName();
                     String format = "<none>";
-                    FileInfo info = new FileInfo(f, format);
+                    FileElement el = new FileElement(f, format);
                     try {
                         int index = s.lastIndexOf('.') + 1;
                         if (index > 0) {
                             format = s.substring(s.lastIndexOf('.') + 1);
-                            info.setFormat(format);
+                            el.setFormat(format);
                         }
                     } catch (Exception e) {
                     }
@@ -338,7 +319,7 @@ public class PineappleGUI implements EventHandler {
                         Object o = children.nextElement();
                         if (o instanceof DefaultMutableTreeNode) {
                             DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
-                            if (node.getUserObject().equals(info)) {
+                            if (node.getUserObject().equals(el)) {
                                 add = false;
                                 tree.setSelectionPath(new TreePath(node.getPath()));
                                 break;
@@ -346,10 +327,10 @@ public class PineappleGUI implements EventHandler {
                         }
                     }
                     if (add) {
-                        projectNode.add(new DefaultMutableTreeNode(info));
+                        projectNode.add(new DefaultMutableTreeNode(el));
                     }
                     tree.updateUI();
-                    EventManager.fireEvent(this, DefaultEventTypes.FILE_OPENED, f, format, info);
+                    EventManager.fireEvent(this, DefaultEventTypes.FILE_OPENED, f, format, el);
                     dip.updateUI();
                 }
             };
@@ -412,7 +393,7 @@ public class PineappleGUI implements EventHandler {
     }
 
     /**
-     * Pops a New Project Dialog
+     * Pops a New FolderProject Dialog
      */
     public void popupNewProjectDialog() {
         NewProjectDialog dialog = new NewProjectDialog(Core.getStaticContext().getMainFrame());
