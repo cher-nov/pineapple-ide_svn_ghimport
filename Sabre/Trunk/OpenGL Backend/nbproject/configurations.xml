@@ -9,6 +9,7 @@
       <itemPath>color.h</itemPath>
       <itemPath>drawable.h</itemPath>
       <itemPath>drawingprimitives.h</itemPath>
+      <itemPath>math.h</itemPath>
       <itemPath>pineapple.h</itemPath>
       <itemPath>scene.h</itemPath>
       <itemPath>texture.h</itemPath>
@@ -26,6 +27,7 @@
       <itemPath>application.cpp</itemPath>
       <itemPath>color.cpp</itemPath>
       <itemPath>drawingprimitives.cpp</itemPath>
+      <itemPath>math.cpp</itemPath>
       <itemPath>pineapple.cpp</itemPath>
       <itemPath>scene.cpp</itemPath>
       <itemPath>texture.cpp</itemPath>
@@ -89,6 +91,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="drawingprimitives.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="math.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="math.h">
         <itemTool>3</itemTool>
       </item>
       <item path="pineapple.cpp">
@@ -180,6 +188,12 @@
         <itemTool>1</itemTool>
       </item>
       <item path="drawingprimitives.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="math.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="math.h">
         <itemTool>3</itemTool>
       </item>
       <item path="pineapple.cpp">

@@ -20,47 +20,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef _PINEAPPLE_H
-#define	_PINEAPPLE_H
+#ifndef _MATH_H
+#define	_MATH_H
 
-#include <string>
-#include <vector>
-#include "SDL_opengl.h"
+#include "pineapple.h"
 
-typedef std::string string;
-
-namespace pineapple
+class pineapple::std::Math
 {
-    namespace std
-    {
-        class Application;
-        class Window;
-        class Math;
-    }
-    namespace objects
-    {
-        class Drawable;
-        class Texture;
-        class DrawingPrimitives;
-        class Color;
-        
-        class Actor;
-        class View;
-        class Scene;
-    }
-}
+    private:
+        Math();
+};
 
-#include "application.h"
-#include "window.h"
-
-#include "drawable.h"
-#include "texture.h"
-#include "drawingprimitives.h"
-#include "color.h"
-
-#include "actor.h"
-#include "view.h"
-#include "scene.h"
-
-#endif	/* _PINEAPPLE_H */
+#endif	/* _MATH_H */
 
