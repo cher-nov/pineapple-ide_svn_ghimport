@@ -23,6 +23,7 @@ THE SOFTWARE.
 package org.gcreator.editors;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -52,6 +53,7 @@ public class TextEditor extends DocumentPane {
      */
     public TextEditor(File file) {
         super(file);
+        setBackground(Color.white);
         setLayout(new BorderLayout());
         scroll = new JScrollPane();
         editor = new JEditorPane();

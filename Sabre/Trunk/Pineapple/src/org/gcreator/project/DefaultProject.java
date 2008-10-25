@@ -24,27 +24,71 @@ THE SOFTWARE.
 
 package org.gcreator.project;
 
-import java.io.File;
-import org.gcreator.tree.BaseTreeNode;
+import java.util.Hashtable;
+import java.util.Vector;
 
 /**
- * A base class for {@link FileElement} and {@link FolderElement}.
- *  
+ * An implementation of {@link Project}.
+ * 
  * @author Serge Humphrey
  */
-public abstract class BaseElement {
+public class DefaultProject extends Project {
+
+    protected Vector<BaseElement> files;
+    protected Hashtable<String, String> settings;
+
+    public DefaultProject() {
+        this.files = new Vector<BaseElement>();
+        this.settings = new Hashtable<String, String>();
+    }
+    
     
     /**
-     * Gets the file.
-     * 
-     * @return The File.
+     * {@inheritDoc}
      */
-    public abstract File getFile();
+    @Override
+    public Vector<BaseElement> getFiles() {
+        return files;
+    }
     
     /**
-     * Gets 
-     
-     * @return A {@link org.gcreator.tree.BaseTreeNode} to be used for the tree.
+     * {@inheritDoc}
      */
-    public abstract BaseTreeNode getTreeNode();
+    @Override
+    public BaseElement getFileAt(int index) throws IndexOutOfBoundsException {
+        return files.get(index);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getFileCount() {
+        return files.size();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Hashtable<String, String> getSettings() {
+        return settings;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void add(BaseElement e) {
+        files.add(e);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean remove(BaseElement e) {
+        return files.remove(e);
+    }
+
 }

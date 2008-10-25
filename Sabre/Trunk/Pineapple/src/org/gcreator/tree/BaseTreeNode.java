@@ -22,29 +22,17 @@ THE SOFTWARE.
 */
 
 
-package org.gcreator.project;
+package org.gcreator.tree;
 
-import java.io.File;
-import org.gcreator.tree.BaseTreeNode;
+import javax.swing.tree.TreeNode;
+import org.gcreator.project.BaseElement;
 
 /**
- * A base class for {@link FileElement} and {@link FolderElement}.
- *  
+ * A Base tree node for other nodes to implement.
+ * 
  * @author Serge Humphrey
  */
-public abstract class BaseElement {
+public interface BaseTreeNode extends TreeNode {
     
-    /**
-     * Gets the file.
-     * 
-     * @return The File.
-     */
-    public abstract File getFile();
-    
-    /**
-     * Gets 
-     
-     * @return A {@link org.gcreator.tree.BaseTreeNode} to be used for the tree.
-     */
-    public abstract BaseTreeNode getTreeNode();
+    public BaseElement getElement();
 }

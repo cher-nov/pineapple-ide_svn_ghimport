@@ -42,6 +42,21 @@ public abstract class Project {
     public abstract Vector<BaseElement> getFiles();
 
     /**
+     * Adds a file to the project.
+     * 
+     * @param e The file to add.
+     */
+    public abstract void add(BaseElement e);
+    
+    /**
+     * Removes a file from the project.
+     * 
+     * @param e The file to remove.
+     * @return <tt>true</tt> if the element was in the list.
+     */
+    public abstract boolean remove(BaseElement e);
+    
+    /**
      * Returns the {@link BaseElement} at index <tt>index</tt>.
      * Same as getFiles().get(index).
      * 

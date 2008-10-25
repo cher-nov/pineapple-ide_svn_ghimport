@@ -24,6 +24,8 @@ package org.gcreator.project;
 
 import java.io.File;
 import javax.swing.Icon;
+import org.gcreator.tree.BaseTreeNode;
+import org.gcreator.tree.FileTreeNode;
 
 /**
  * Stores a File and some information about it.
@@ -35,7 +37,8 @@ public class FileElement extends BaseElement {
     private File file;
     private String format;
     private Icon icon;
-
+    private FileTreeNode treeNode;
+    
     /**
      * Creates a new {@link FileElement} object and sets the format automatically.
      * 
@@ -54,6 +57,7 @@ public class FileElement extends BaseElement {
     public FileElement(File file, String format) {
         this.file = file;
         this.format = format;
+        this.treeNode = new FileTreeNode(this);
     }
 
     /**
@@ -132,35 +136,6 @@ public class FileElement extends BaseElement {
     public String toString() {
         return ((file != null) ? file.getName() : "null");
     }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @param o The {@link java.lang.Object} to compare with.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-
-        if (o instanceof FileElement) {
-            FileElement f = (FileElement) o;
-            return (f.hashCode() == this.hashCode());
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + (this.file != null ? this.file.hashCode() : 0);
-        hash = 89 * hash + (this.format != null ? this.format.hashCode() : 0);
-        return hash;
-    }
     
     private static String getFormat(String file) {
         int i = file.lastIndexOf(".");
@@ -168,5 +143,13 @@ public class FileElement extends BaseElement {
             return null;
         }
         return file.substring(i+1);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BaseTreeNode getTreeNode() {
+        return treeNode;
     }
 }
