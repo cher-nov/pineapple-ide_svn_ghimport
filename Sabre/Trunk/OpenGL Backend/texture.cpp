@@ -26,25 +26,55 @@ THE SOFTWARE.
 #include "SDL/SDL_image.h"
 #include "GL/glu.h"
 
+int powerOfTwo(int input)
+{
+	int value = 1;
+	while (value < input) value <<= 1;
+	return value;
+}
+
+
 pineapple::objects::Texture::Texture(string file)
 {
     SDL_Surface *surface = IMG_Load(file.c_str());
+    if(surface==NULL){
+        printf("Could not load.\n");
+        ::pineapple::std::Application::kill(1);
+    }
     
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
     glGenTextures(1, &textureid);
     glBindTexture(GL_TEXTURE_2D, textureid);
     SDL_PixelFormat *format = surface->format;
     
-    if(format->Amask){
-        gluBuild2DMipmaps(GL_TEXTURE_2D, 4, surface->w, surface->h, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
-    }
-    else{
-        gluBuild2DMipmaps(GL_TEXTURE_2D, 3, surface->w, surface->h, GL_RGB, GL_UNSIGNED_BYTE, surface->pixels);
-    }
+    int p2w = powerOfTwo(surface->w);
+    int p2h = powerOfTwo(surface->h);
+    
+    Uint32 saved_flags;
+    Uint8  saved_alpha;
+    
+    saved_flags = surface->flags&(SDL_SRCALPHA|SDL_RLEACCELOK);
+    saved_alpha = surface->format->alpha;
+    if ((saved_flags & SDL_SRCALPHA) == SDL_SRCALPHA)
+        SDL_SetAlpha(surface, 0, 0);
+
+    
+    SDL_Surface* image = SDL_CreateRGBSurface(SDL_SWSURFACE, p2w, p2h, 32,
+        0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
+    
+    SDL_Rect area;
+    area.x = 0;
+    area.y = 0;
+    area.w = surface->w;
+    area.h = surface->h;
+    SDL_BlitSurface(surface, &area, image, &area);
+    
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 4, p2w, p2h, GL_RGBA, GL_UNSIGNED_BYTE, image->pixels);
     
     width = surface->w;
     height = surface->h;
     
+    SDL_FreeSurface(image);
     SDL_FreeSurface(surface);
 }
 

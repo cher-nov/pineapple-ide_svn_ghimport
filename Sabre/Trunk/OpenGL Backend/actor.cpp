@@ -30,11 +30,14 @@ pineapple::objects::Actor::Actor()
     visible = false;
 }
 
-void pineapple::objects::Actor::draw()
+void pineapple::objects::Actor::draw(View* view)
 {
     if(isVisible()&&t!=NULL)
     {
-        t->GLDraw(getX(), getY());
+        if(view==NULL)
+            t->GLDraw(getX(), getY());
+        else
+            t->GLDraw(getX()-view->getSourceX(), getY()-view->getSourceY());
     }
 }
 
@@ -51,6 +54,16 @@ int pineapple::objects::Actor::getX()
 int pineapple::objects::Actor::getY()
 {
     return y;
+}
+
+pineapple::objects::Texture* pineapple::objects::Actor::getTexture()
+{
+    return t;
+}
+
+void pineapple::objects::Actor::setTexture(Texture* t)
+{
+    this->t = t;
 }
 
 void pineapple::objects::Actor::setVisible(bool visible)

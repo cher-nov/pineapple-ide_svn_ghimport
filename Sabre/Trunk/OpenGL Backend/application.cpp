@@ -29,6 +29,7 @@ char*** _argv;
 bool _initialized = false;
 bool _running = true;
 int _preferred_fps = 60;
+::pineapple::objects::Scene* currentScene = NULL;
 
 void pineapple::std::Application::initialize(int* argc, char*** argv)
 {
@@ -43,6 +44,8 @@ void pineapple::std::Application::initialize(int* argc, char*** argv)
         Application::kill(1);
     }
     atexit(SDL_Quit);
+    
+    currentScene = NULL;
     
     _initialized = true;
 }
@@ -84,4 +87,14 @@ int pineapple::std::Application::getPreferredSpeed()
 void pineapple::std::Application::setPreferredSpeed(int fps)
 {
     _preferred_fps = fps;
+}
+
+::pineapple::objects::Scene* pineapple::std::Application::getCurrentScene()
+{
+    return currentScene;
+}
+
+void pineapple::std::Application::setCurrentScene(::pineapple::objects::Scene* scene)
+{
+    currentScene = scene;
 }

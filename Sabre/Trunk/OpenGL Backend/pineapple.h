@@ -24,6 +24,7 @@ THE SOFTWARE.
 #define	_PINEAPPLE_H
 
 #include <string>
+#include <vector>
 #include "SDL_opengl.h"
 
 typedef std::string string;

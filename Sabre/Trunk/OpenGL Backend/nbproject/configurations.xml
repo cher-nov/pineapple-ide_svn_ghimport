@@ -29,6 +29,7 @@
       <itemPath>pineapple.cpp</itemPath>
       <itemPath>scene.cpp</itemPath>
       <itemPath>texture.cpp</itemPath>
+      <itemPath>view.cpp</itemPath>
       <itemPath>window.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -107,6 +108,9 @@
       </item>
       <item path="texture.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="view.cpp">
+        <itemTool>1</itemTool>
       </item>
       <item path="view.h">
         <itemTool>3</itemTool>
@@ -195,6 +199,9 @@
       </item>
       <item path="texture.h">
         <itemTool>3</itemTool>
+      </item>
+      <item path="view.cpp">
+        <itemTool>1</itemTool>
       </item>
       <item path="view.h">
         <itemTool>3</itemTool>

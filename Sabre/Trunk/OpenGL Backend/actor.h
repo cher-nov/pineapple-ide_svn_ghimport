@@ -33,15 +33,17 @@ class pineapple::objects::Actor
         bool visible;
     public:
         Actor();
-        virtual void draw();
+        virtual void draw(View* view);
         
         virtual bool isVisible();
         virtual int getX();
         virtual int getY();
+        virtual Texture* getTexture();
         
         virtual void setVisible(bool visible);
         virtual void setX(int x);
         virtual void setY(int y);
+        virtual void setTexture(Texture* texture);
 };
 
 #endif	/* _ACTOR_H */
