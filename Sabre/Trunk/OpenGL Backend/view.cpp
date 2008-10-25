@@ -32,8 +32,8 @@ pineapple::objects::View::View()
     viewport_height = 0;
     source_x = 0;
     source_y = 0;
-    source_width = 0;
-    source_height = 0;
+    source_width = 640;
+    source_height = 480;
 }
 
 int pineapple::objects::View::getViewportX()
@@ -148,6 +148,9 @@ void pineapple::objects::View::GLSetup()
     else if(sh<0)
         sh = height + sh;
     
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
     glOrtho(0.0f, sw, sh, 0.0f, -1.0f, 1.0f); //Zoom
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
