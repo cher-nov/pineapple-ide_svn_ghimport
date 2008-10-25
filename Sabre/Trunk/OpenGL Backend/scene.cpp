@@ -22,12 +22,67 @@ THE SOFTWARE.
 
 #include "pineapple.h"
 
-pineapple::objects::Scene::Scene()
+pineapple::objects::Scene::Scene(int width, int height)
 {
-    
+    views = new ::std::vector<View*>();
+    this->width = width;
+    this->height = height;
+    actors = new ::std::vector<Actor*>();
 }
 
 void pineapple::objects::Scene::draw()
 {
-    
+    if(views->size()==0)
+    {
+        View* v = new View(); //Default view
+        v->GLSetup();
+        drawView(v);
+    }
+    else{
+        for(int i = 0; i < views->size(); i++)
+        {
+            View* v = views->at(i);
+            v->GLSetup();
+            drawView(v);
+        }
+    }
+}
+
+void pineapple::objects::Scene::drawView(View* v)
+{
+    for(int i = 0; i < actors->size(); i++)
+    {
+        Actor* a = actors->at(i);
+        a->draw(v);
+    }
+}
+
+int pineapple::objects::Scene::getWidth()
+{
+    return width;
+}
+
+int pineapple::objects::Scene::getHeight()
+{
+    return height;
+}
+
+void pineapple::objects::Scene::setWidth(int width)
+{
+    this->width = width;
+}
+
+void pineapple::objects::Scene::setHeight(int height)
+{
+    this->height = height;
+}
+
+void pineapple::objects::Scene::addView(View* v)
+{
+    views->push_back(v);
+}
+
+void pineapple::objects::Scene::addActor(Actor* a)
+{
+    actors->push_back(a);
 }

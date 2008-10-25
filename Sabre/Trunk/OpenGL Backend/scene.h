@@ -24,11 +24,25 @@ THE SOFTWARE.
 #ifndef _SCENE_H
 #define	_SCENE_H
 
+#include "pineapple.h"
+
 class pineapple::objects::Scene
 {
+    private:
+        ::std::vector<View*>* views;
+        ::std::vector<Actor*>* actors;
+        int width;
+        int height;
     public:
-        Scene();
+        Scene(int width = 640, int height = 480);
         void draw();
+        void drawView(View* v);
+        int getWidth();
+        int getHeight();
+        void setWidth(int width);
+        void setHeight(int height);
+        void addView(View* view);
+        void addActor(Actor* actor);
 };
 
 #endif	/* _SCENE_H */

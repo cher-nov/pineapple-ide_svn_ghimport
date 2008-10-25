@@ -26,7 +26,14 @@ using pineapple::std::Window;
 
 pineapple::objects::View::View()
 {
-    
+    viewport_x = 0;
+    viewport_y = 0;
+    viewport_width = 0;
+    viewport_height = 0;
+    source_x = 0;
+    source_y = 0;
+    source_width = 0;
+    source_height = 0;
 }
 
 int pineapple::objects::View::getViewportX()
@@ -49,6 +56,26 @@ int pineapple::objects::View::getViewportHeight()
     return viewport_height;
 }
 
+int pineapple::objects::View::getSourceX()
+{
+    return source_x;
+}
+
+int pineapple::objects::View::getSourceY()
+{
+    return source_y;
+}
+
+int pineapple::objects::View::getSourceWidth()
+{
+    return source_width;
+}
+
+int pineapple::objects::View::getSourceHeight()
+{
+    return source_height;
+}
+
 void pineapple::objects::View::setViewportX(int x)
 {
     viewport_x = x;
@@ -69,7 +96,27 @@ void pineapple::objects::View::setViewportHeight(int height)
     viewport_height = height;
 }
 
-void pineapple::objects::View::GLSetupViewport()
+void pineapple::objects::View::setSourceX(int x)
+{
+    source_x = x;
+}
+
+void pineapple::objects::View::setSourceY(int y)
+{
+    source_y = y;
+}
+
+void pineapple::objects::View::setSourceWidth(int width)
+{
+    source_width = width;
+}
+
+void pineapple::objects::View::setSourceHeight(int height)
+{
+    source_height = height;
+}
+
+void pineapple::objects::View::GLSetup()
 {
     int x = viewport_x;
     int y = viewport_y;
@@ -88,4 +135,18 @@ void pineapple::objects::View::GLSetupViewport()
                                             //This '+' becomes a '-'
     }
     glViewport(x, y, width, height);
+    
+    int sw = source_width;
+    int sh = source_height;
+    if(sw==0)
+        sw = width;
+    else if(sw<0)
+        sw = width + sw;
+    if(sh==0)
+        sh = height;
+    else if(sh<0)
+        sh = height + sh;
+    
+    glOrtho(0.0f, sw, sh, 0.0f, -1.0f, 1.0f); //Zoom
+    glLoadIdentity();
 }

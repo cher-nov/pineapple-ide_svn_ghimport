@@ -38,7 +38,8 @@ class pineapple::std::Application
         static void kill(int errorcode);
         static int getPreferredSpeed();
         static void setPreferredSpeed(int fps);
+        static ::pineapple::objects::Scene* getCurrentScene();
+        static void setCurrentScene(::pineapple::objects::Scene* scene);
 };
 
 #endif	/* _APPLICATION_H */
-
