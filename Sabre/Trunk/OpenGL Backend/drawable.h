@@ -28,7 +28,7 @@ THE SOFTWARE.
 class pineapple::objects::Drawable
 {
     public:
-        virtual void GLDraw(int x, int y) = 0;
+        virtual void GLDraw(float x, float y) = 0;
 };
 
 #endif	/* _DRAWABLE_H */

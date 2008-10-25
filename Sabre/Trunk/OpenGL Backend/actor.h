@@ -28,22 +28,30 @@ THE SOFTWARE.
 class pineapple::objects::Actor
 {
     private:
-        int x, y;
+        float x, y;
         Texture* t;
         bool visible;
+    protected:
+        float hspeed, vspeed;
     public:
         Actor();
+        
         virtual void draw(View* view);
+        virtual void loop();
         
         virtual bool isVisible();
-        virtual int getX();
-        virtual int getY();
+        virtual float getX();
+        virtual float getY();
         virtual Texture* getTexture();
+        virtual float getHorizontalSpeed();
+        virtual float getVerticalSpeed();
         
         virtual void setVisible(bool visible);
-        virtual void setX(int x);
-        virtual void setY(int y);
+        virtual void setX(float x);
+        virtual void setY(float y);
         virtual void setTexture(Texture* texture);
+        virtual void setHorizontalSpeed(float speed);
+        virtual void setVerticalSpeed(float speed);
 };
 
 #endif	/* _ACTOR_H */
