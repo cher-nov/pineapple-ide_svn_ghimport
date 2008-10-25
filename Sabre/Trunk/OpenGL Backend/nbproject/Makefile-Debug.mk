@@ -28,10 +28,13 @@ OBJECTFILES= \
 	${OBJECTDIR}/pineapple.o \
 	${OBJECTDIR}/actor.o \
 	${OBJECTDIR}/drawingprimitives.o \
+	${OBJECTDIR}/view.o \
 	${OBJECTDIR}/texture.o \
+	${OBJECTDIR}/scene.o \
 	${OBJECTDIR}/color.o \
-	${OBJECTDIR}/application.o \
-	${OBJECTDIR}/window.o
+	${OBJECTDIR}/math.o \
+	${OBJECTDIR}/window.o \
+	${OBJECTDIR}/application.o
 
 # C Compiler Flags
 CFLAGS=
@@ -65,21 +68,33 @@ ${OBJECTDIR}/drawingprimitives.o: drawingprimitives.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/drawingprimitives.o drawingprimitives.cpp
 
+${OBJECTDIR}/view.o: view.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/view.o view.cpp
+
 ${OBJECTDIR}/texture.o: texture.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/texture.o texture.cpp
+
+${OBJECTDIR}/scene.o: scene.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/scene.o scene.cpp
 
 ${OBJECTDIR}/color.o: color.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/color.o color.cpp
 
-${OBJECTDIR}/application.o: application.cpp 
+${OBJECTDIR}/math.o: math.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/application.o application.cpp
+	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/math.o math.cpp
 
 ${OBJECTDIR}/window.o: window.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/window.o window.cpp
+
+${OBJECTDIR}/application.o: application.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/application.o application.cpp
 
 # Subprojects
 .build-subprojects:
