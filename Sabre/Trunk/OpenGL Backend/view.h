@@ -20,29 +20,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef _ACTOR_H
-#define	_ACTOR_H
+#ifndef _VIEW_H
+#define	_VIEW_H
 
 #include "pineapple.h"
 
-class pineapple::objects::Actor
+class pineapple::objects::View
 {
     private:
-        int x, y;
-        Texture* t;
-        bool visible;
+        int viewport_x = 0;
+        int viewport_y = 0;
+        int viewport_width = 0; //If>0, then absolute value
+                                //If=0, then screen width
+                                //If<0, then screen width - viewport_width
+        int viewport_height = 0; //If>0, then absolute value
+                                //If=0, then screen height
+                                //If<0, then screen height - viewport_height
     public:
-        Actor();
-        virtual void draw();
+        View();
+        int getViewportX();
+        int getViewportY();
+        int getViewportWidth();
+        int getViewportHeight();
+        void setViewportX(int x);
+        void setViewportY(int y);
+        void setViewportWidth(int width);
+        void setViewportHeight(int height);
         
-        virtual bool isVisible();
-        virtual int getX();
-        virtual int getY();
-        
-        virtual void setVisible(bool visible);
-        virtual void setX(int x);
-        virtual void setY(int y);
+        void GLSetup();
 };
 
-#endif	/* _ACTOR_H */
+#endif	/* _VIEW_H */
 
