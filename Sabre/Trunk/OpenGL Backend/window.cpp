@@ -24,12 +24,12 @@ THE SOFTWARE.
 #include "SDL.h"
 #include "SDL_opengl.h"
 
-int _window_width;
-int _window_height;
-bool _window_fullscreen;
-bool _window_resizable;
-SDL_Surface *_sdl_screen;
-string _window_title;
+int pineapple::std::Window::_window_width = 0;
+int pineapple::std::Window::_window_height = 0;
+bool pineapple::std::Window::_window_resizable = false;
+bool pineapple::std::Window::_window_fullscreen = false;
+SDL_Surface *pineapple::std::Window::_sdl_screen = NULL;
+string pineapple::std::Window::_window_title = "";
 
 int pineapple::std::Window::getWidth() {
     return _window_width;

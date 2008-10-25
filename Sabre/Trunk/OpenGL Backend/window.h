@@ -24,12 +24,20 @@ THE SOFTWARE.
 #define	_WINDOW_H
 
 #include "pineapple.h"
+#include "SDL.h"
 
 class pineapple::std::Window
 {
     private:
         Window();
         static void updateVideoMode();
+        
+        static int _window_width;
+        static int _window_height;
+        static bool _window_resizable;
+        static bool _window_fullscreen;
+        static SDL_Surface *_sdl_screen;
+        static string _window_title;
     public:
         static int getWidth();
         static int getHeight();
