@@ -20,43 +20,50 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-
-
-package org.gcreator.pineapple;
+package org.gcreator.project;
 
 import java.io.File;
 import javax.swing.Icon;
 
 /**
- * Stores a {@link java.io.File} object and a file format.
+ * Stores a File and some information about it.
  * 
  * @author Serge Humphrey
  */
-public final class FileInfo {
-    
+public class FileElement extends BaseElement {
+
     private File file;
     private String format;
     private Icon icon;
+
+    /**
+     * Creates a new {@link FileElement} object and sets the format automatically.
+     * 
+     * @param file The {@link java.io.File} object.
+     */
+    public FileElement(File file) {
+        this(file, getFormat(file.getName()));
+    }
     
     /**
-     * Creates a new {@link FileInfo FileInfo} object.
+     * Creates a new {@link FileElement} object.
      * 
      * @param file The {@link java.io.File} object.
      * @param format The format of the file.
      */
-    public FileInfo(File file, String format) {
+    public FileElement(File file, String format) {
         this.file = file;
         this.format = format;
     }
-    
+
     /**
-     * Creates a new {@link FileInfo FileInfo} object with an icon.
+     * Creates a new {@link FileElement} object with an icon.
      * 
      * @param file file The {@link java.io.File} object.
      * @param format format The format of the file.
      * @param icon The {@link javax.swing.Icon} to be drawn in the {@link javax.swing.JTree}.
      */
-    public FileInfo(File file, String format, Icon icon) {
+    public FileElement(File file, String format, Icon icon) {
         this(file, format);
         this.icon = icon;
     }
@@ -64,12 +71,12 @@ public final class FileInfo {
     /**
      * Gets this file's format.
      * 
-     * @return The file's format.
+     * @return The file's format, or <tt>null</tt> if the file has no format.
      */
     public String getFormat() {
         return format;
     }
-    
+
     /**
      * Gets the file.
      * 
@@ -78,7 +85,7 @@ public final class FileInfo {
     public File getFile() {
         return file;
     }
-    
+
     /**
      * Gets the icon.
      * 
@@ -87,7 +94,7 @@ public final class FileInfo {
     public Icon getIcon() {
         return icon;
     }
-    
+
     /**
      * Sets the format.
      * 
@@ -96,7 +103,7 @@ public final class FileInfo {
     public void setFormat(String format) {
         this.format = format;
     }
-    
+
     /**
      * Sets the file.
      * 
@@ -105,7 +112,7 @@ public final class FileInfo {
     public void setFile(File file) {
         this.file = file;
     }
-    
+
     /**
      * Sets the icon.
      * 
@@ -114,7 +121,7 @@ public final class FileInfo {
     public void setIcon(Icon icon) {
         this.icon = icon;
     }
-    
+
     /**
      * Returns the same as the file's {@link java.io.File#getName()} method 
      * or the {@link java.lang.String} literal 'null' if the file is <tt>null</tt>.
@@ -123,11 +130,13 @@ public final class FileInfo {
      */
     @Override
     public String toString() {
-        return ((file != null) ? file.getName() : "null" );
+        return ((file != null) ? file.getName() : "null");
     }
-    
+
     /**
      * {@inheritDoc}
+     * 
+     * @param o The {@link java.lang.Object} to compare with.
      */
     @Override
     public boolean equals(Object o) {
@@ -137,9 +146,9 @@ public final class FileInfo {
         if (o == this) {
             return true;
         }
-        
-        if (o instanceof FileInfo) {
-            FileInfo f = (FileInfo)o;
+
+        if (o instanceof FileElement) {
+            FileElement f = (FileElement) o;
             return (f.hashCode() == this.hashCode());
         }
         return false;
@@ -151,5 +160,13 @@ public final class FileInfo {
         hash = 89 * hash + (this.file != null ? this.file.hashCode() : 0);
         hash = 89 * hash + (this.format != null ? this.format.hashCode() : 0);
         return hash;
+    }
+    
+    private static String getFormat(String file) {
+        int i = file.lastIndexOf(".");
+        if (i < 0) {
+            return null;
+        }
+        return file.substring(i+1);
     }
 }

@@ -27,11 +27,12 @@ import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import org.gcreator.pineapple.FileInfo;
-import org.gcreator.pineapple.Project;
+import org.gcreator.project.FileElement;
+import org.gcreator.project.FolderElement;
+import org.gcreator.project.Project;
 
 /**
- * A Project tree cell renderer
+ * A FolderProject tree cell renderer
  * 
  * @author Luís Reis
  * @see javax.swing.tree.DefaultTreeCellRenderer
@@ -60,13 +61,13 @@ public class ProjectTreeRenderer extends DefaultTreeCellRenderer {
             } catch (Exception e) {
                 l.setText("invalid");
             }
-        }
-        
-        if (value instanceof FileInfo) {
-            FileInfo info = (FileInfo) value;
+        } else if (value instanceof FileElement) {
+            FileElement info = (FileElement) value;
             if (info.getIcon() != null) {
                 l.setIcon(info.getIcon());
             }
+        } else if (value instanceof FolderElement) {
+            //TODO: Set icon to folder icon
         }
 
         return l;
