@@ -4,7 +4,14 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>actor.h</itemPath>
+      <itemPath>application.h</itemPath>
+      <itemPath>color.h</itemPath>
+      <itemPath>drawable.h</itemPath>
+      <itemPath>drawingprimitives.h</itemPath>
       <itemPath>pineapple.h</itemPath>
+      <itemPath>texture.h</itemPath>
+      <itemPath>window.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -13,7 +20,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>actor.cpp</itemPath>
       <itemPath>application.cpp</itemPath>
+      <itemPath>color.cpp</itemPath>
+      <itemPath>drawingprimitives.cpp</itemPath>
       <itemPath>pineapple.cpp</itemPath>
       <itemPath>texture.cpp</itemPath>
       <itemPath>window.cpp</itemPath>
@@ -46,11 +56,36 @@
             <linkerLibLibItem>SDL</linkerLibLibItem>
             <linkerLibLibItem>GL</linkerLibLibItem>
             <linkerLibLibItem>SDL_image</linkerLibLibItem>
+            <linkerLibLibItem>GLU</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="actor.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="actor.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="application.cpp">
         <itemTool>1</itemTool>
+      </item>
+      <item path="application.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="color.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="color.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="drawable.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="drawingprimitives.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="drawingprimitives.h">
+        <itemTool>3</itemTool>
       </item>
       <item path="pineapple.cpp">
         <itemTool>1</itemTool>
@@ -61,8 +96,14 @@
       <item path="texture.cpp">
         <itemTool>1</itemTool>
       </item>
+      <item path="texture.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="window.cpp">
         <itemTool>1</itemTool>
+      </item>
+      <item path="window.h">
+        <itemTool>3</itemTool>
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -94,11 +135,36 @@
             <linkerLibLibItem>SDL</linkerLibLibItem>
             <linkerLibLibItem>GL</linkerLibLibItem>
             <linkerLibLibItem>SDL_image</linkerLibLibItem>
+            <linkerLibLibItem>GLU</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="actor.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="actor.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="application.cpp">
         <itemTool>1</itemTool>
+      </item>
+      <item path="application.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="color.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="color.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="drawable.h">
+        <itemTool>3</itemTool>
+      </item>
+      <item path="drawingprimitives.cpp">
+        <itemTool>1</itemTool>
+      </item>
+      <item path="drawingprimitives.h">
+        <itemTool>3</itemTool>
       </item>
       <item path="pineapple.cpp">
         <itemTool>1</itemTool>
@@ -109,8 +175,14 @@
       <item path="texture.cpp">
         <itemTool>1</itemTool>
       </item>
+      <item path="texture.h">
+        <itemTool>3</itemTool>
+      </item>
       <item path="window.cpp">
         <itemTool>1</itemTool>
+      </item>
+      <item path="window.h">
+        <itemTool>3</itemTool>
       </item>
     </conf>
   </confs>
