@@ -25,8 +25,12 @@ package org.gcreator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -34,7 +38,6 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicListUI.ListSelectionHandler;
 import org.gcreator.plugins.EventHandler;
 import org.gcreator.plugins.EventManager;
 import org.gcreator.plugins.NotifyEvent;
@@ -46,6 +49,7 @@ import org.gcreator.plugins.NotifyEvent;
 public class NewProjectDialog extends JDialog implements EventHandler{
     public static String GENERATE_CATEGORIES = "newprojectdialog-generatecats";
     public static String GENERATE_PROJECTS = "newprojectdialog-generateprojs";
+    public static String BUTTON_OK = "newprojectdialog-ok";
     
     private JList projects;
     
@@ -53,6 +57,7 @@ public class NewProjectDialog extends JDialog implements EventHandler{
         super(owner);
         EventManager.addEventHandler(this, GENERATE_CATEGORIES);
         EventManager.addEventHandler(this, GENERATE_PROJECTS);
+        EventManager.addEventHandler(this, BUTTON_OK);
         this.setLayout(new BorderLayout());
         setSize(500, 300);
         setModalityType(ModalityType.APPLICATION_MODAL);
@@ -71,6 +76,27 @@ public class NewProjectDialog extends JDialog implements EventHandler{
         JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(100, 30));
         panel.setVisible(true);
+        FlowLayout l = new FlowLayout();
+        panel.setLayout(l);
+        l.setAlignment(FlowLayout.RIGHT);
+        JButton ok = new JButton("OK");
+        ok.setVisible(true);
+        ok.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent evt){
+                EventManager.fireEvent(this, BUTTON_OK, projects.getSelectedValue());
+            }
+        });
+        panel.add(ok);
+        JButton cancel = new JButton("Cancel");
+        cancel.setVisible(true);
+        cancel.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent evt){
+                dispose();
+            }
+        });
+        panel.add(cancel);
         this.add(panel, BorderLayout.SOUTH);
         DefaultListModel model = new DefaultListModel();
         EventManager.fireEvent(this, GENERATE_CATEGORIES, categories, model);
@@ -96,6 +122,15 @@ public class NewProjectDialog extends JDialog implements EventHandler{
             Object[] args = evt.getArguments();
             DefaultListModel model = (DefaultListModel) args[1];
             model.addElement("Empty Project");
+        }
+        else if(evt.getEventType().equals(BUTTON_OK)){
+            Object[] args = evt.getArguments();
+            if(args[0]==null)
+                return;
+            String s = args[0].toString();
+            if(s.equals("Empty Project")){
+                //Project p = new Project(null);
+            }
         }
     }
 }

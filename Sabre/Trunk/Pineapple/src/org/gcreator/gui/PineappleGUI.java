@@ -117,6 +117,8 @@ public class PineappleGUI implements EventHandler {
     protected void initializeWindow() {
         MainFrame f = Core.getStaticContext().getMainFrame();
         f.setTitle("Pineapple IDE");
+        f.setIconImage(new ImageIcon(getClass().getResource(
+                "/org/gcreator/pineapple/pineapple.png")).getImage());
         splitter = new JSplitPane();
         splitter.setVisible(true);
         f.setLayout(new BorderLayout());
