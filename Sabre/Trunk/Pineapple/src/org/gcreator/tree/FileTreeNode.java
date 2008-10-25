@@ -21,30 +21,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+package org.gcreator.tree;
 
-package org.gcreator.project;
-
-import java.io.File;
-import org.gcreator.tree.BaseTreeNode;
+import javax.swing.tree.DefaultMutableTreeNode;
+import org.gcreator.project.BaseElement;
+import org.gcreator.project.FileElement;
 
 /**
- * A base class for {@link FileElement} and {@link FolderElement}.
- *  
+ * A {@link javax.swing.tree.TreeNode} implementation 
+ * for a {@link org.gcreator.project.FileElement}.
+ * 
  * @author Serge Humphrey
  */
-public abstract class BaseElement {
+public class FileTreeNode extends DefaultMutableTreeNode implements BaseTreeNode {
+
+    private static final long serialVersionUID = 1;
+    private FileElement file;
     
-    /**
-     * Gets the file.
-     * 
-     * @return The File.
-     */
-    public abstract File getFile();
-    
-    /**
-     * Gets 
-     
-     * @return A {@link org.gcreator.tree.BaseTreeNode} to be used for the tree.
-     */
-    public abstract BaseTreeNode getTreeNode();
+    public FileTreeNode(FileElement e) {
+        this.setAllowsChildren(false);
+        this.setUserObject(e);
+        this.file = e;
+    }
+
+    public BaseElement getElement() {
+        return file;
+    }
 }

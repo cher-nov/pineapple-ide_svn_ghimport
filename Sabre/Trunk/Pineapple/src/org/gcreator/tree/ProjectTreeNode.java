@@ -22,20 +22,21 @@ THE SOFTWARE.
 */
 
 
-package org.gcreator.pineapple;
+package org.gcreator.tree;
 
-import org.gcreator.project.Project;
 import java.util.Enumeration;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
+import org.gcreator.project.Project;
 
 /**
  * The tree node for the project
  * 
  * @author Serge Humphrey
  */
-public class ProjectTreeNode implements TreeNode {
+public class ProjectTreeNode extends DefaultMutableTreeNode {
     
+    private static final long serialVersionUID = 1;
     private Project project;
     
     /**
@@ -44,6 +45,7 @@ public class ProjectTreeNode implements TreeNode {
      * @param project The project this node belongs to.
      */
     public ProjectTreeNode(Project project) {
+        super(project);
         this.project = project;
     }
 
@@ -53,8 +55,9 @@ public class ProjectTreeNode implements TreeNode {
      * @param childIndex The index the child is at.
      * @return The TreeNode at the given index.
      */
-    public TreeNode getChildAt(int childIndex) {
-        return new DefaultMutableTreeNode(project.getFileAt(childIndex));
+    @Override
+    public BaseTreeNode getChildAt(int childIndex) {
+        return project.getFileAt(childIndex).getTreeNode();
     }
 
     /**
@@ -62,6 +65,7 @@ public class ProjectTreeNode implements TreeNode {
      * 
      * @return The number of children.
      */
+    @Override
     public int getChildCount() {
         return project.getFileCount();
     }
@@ -71,6 +75,7 @@ public class ProjectTreeNode implements TreeNode {
      * 
      * @return <tt>null</tt>.
      */
+    @Override
     public TreeNode getParent() {
         return null;
     }
@@ -81,14 +86,16 @@ public class ProjectTreeNode implements TreeNode {
      * @param node The node.
      * @return The index of the given node, or -1 if it is not in the tree.
      */
+    @Override
     public int getIndex(TreeNode node) {
-        return project.getFiles().indexOf(node);
+        return project.getFiles().indexOf(((BaseTreeNode)node).getElement());
     }
 
     /**
      * Returns <tt>true</tt>.
      * @return <tt>true</tt>
      */
+    @Override
     public boolean getAllowsChildren() {
         return true;
     }
@@ -97,10 +104,15 @@ public class ProjectTreeNode implements TreeNode {
      * Returns <tt>false</tt>.
      * @return <tt>flase</tt>.
      */
+    @Override
     public boolean isLeaf() {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Enumeration children() {
         return new Enumeration() {
             private int index = 0;
@@ -109,9 +121,17 @@ public class ProjectTreeNode implements TreeNode {
             }
 
             public Object nextElement() {
-                return project.getFileAt(index++);
+                return project.getFileAt(index++).getTreeNode();
             }
         };
     }
-
+    
+    /**
+     * Gets the {@link Project} that this node belongs to.
+     * 
+     * @return  The {@link Project} that this node belongs to.
+     */
+    public Project getProject() {
+        return project;
+    }
 }

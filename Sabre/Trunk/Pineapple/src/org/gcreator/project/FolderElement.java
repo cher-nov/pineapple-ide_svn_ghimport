@@ -27,6 +27,8 @@ package org.gcreator.project;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Vector;
+import org.gcreator.tree.BaseTreeNode;
+import org.gcreator.tree.FolderTreeNode;
 
 /**
  * Represents a folder and holds files belonging to the folder.
@@ -37,6 +39,7 @@ public class FolderElement extends BaseElement {
     
     private Vector<BaseElement> children;
     private File folder;
+    private FolderTreeNode treeNode;
     
     /**
      * Creates a new {@link FolderElement} and scans for files and adds them to its children.
@@ -48,8 +51,11 @@ public class FolderElement extends BaseElement {
         if (!folder.isDirectory()) {
             throw new IllegalArgumentException("Illegal Folder: " + folder);
         }
+        
         this.folder = folder;
         children = new Vector<BaseElement>(folder.listFiles().length);
+        treeNode = new FolderTreeNode(this);
+        
         reload();
     }
     
@@ -127,5 +133,24 @@ public class FolderElement extends BaseElement {
      */
     public void addChild(File f) throws FileNotFoundException {
         addChild(Project.createElement(f));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BaseTreeNode getTreeNode() {
+        return treeNode;
+    }
+    
+    /**
+     * Returns the same as the folder's {@link java.io.File#getName()} method 
+     * or the {@link java.lang.String} literal 'null' if the file is <tt>null</tt>.
+     * 
+     * @return The file's name or 'null'.
+     */
+    @Override
+    public String toString() {
+        return ((folder != null) ? folder.getName() : "null");
     }
 }

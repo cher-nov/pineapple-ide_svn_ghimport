@@ -25,11 +25,11 @@ package org.gcreator.gui;
 import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import org.gcreator.tree.ProjectTreeNode;
 import org.gcreator.project.FileElement;
-import org.gcreator.project.FolderElement;
 import org.gcreator.project.Project;
+import org.gcreator.tree.FileTreeNode;
 
 /**
  * A FolderProject tree cell renderer
@@ -52,22 +52,27 @@ public class ProjectTreeRenderer extends DefaultTreeCellRenderer {
 
         JLabel l = (JLabel) super.getTreeCellRendererComponent(tree, val, isSelected, isExpanded, isLeaf, row, hasFocus);
 
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) val;
-        Object value = node.getUserObject();
-
-        if (value instanceof Project) {
+        if (val instanceof ProjectTreeNode) {
             try {
-                l.setText(((Project) value).getSettings().get("name"));
-            } catch (Exception e) {
-                l.setText("invalid");
+                ProjectTreeNode n = (ProjectTreeNode)val;
+                Project p = n.getProject();
+                String name = p.getSettings().get("name");
+                if (name != null) {
+                    l.setText(name);
+                } else {
+                    l.setText("Project");
+                }
+            } catch (Exception exc) {
+                l.setText("Project");
             }
-        } else if (value instanceof FileElement) {
-            FileElement info = (FileElement) value;
-            if (info.getIcon() != null) {
-                l.setIcon(info.getIcon());
+        }
+        
+        if (val instanceof FileTreeNode) {
+            FileTreeNode node = (FileTreeNode) val;
+            FileElement el = (FileElement) node.getElement();
+            if (el.getIcon() != null) {
+                l.setIcon(el.getIcon());
             }
-        } else if (value instanceof FolderElement) {
-            //TODO: Set icon to folder icon
         }
 
         return l;

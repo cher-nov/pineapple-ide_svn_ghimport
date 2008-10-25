@@ -37,14 +37,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import org.gcreator.core.Core;
 import org.gcreator.editors.ImagePreviewer;
 import org.gcreator.editors.TextEditor;
+import org.gcreator.tree.ProjectTreeNode;
 import org.gcreator.project.Project;
 import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.EventHandler;
@@ -52,7 +51,9 @@ import org.gcreator.plugins.EventManager;
 import org.gcreator.plugins.EventPriority;
 import org.gcreator.plugins.NotifyEvent;
 import org.gcreator.project.BaseElement;
+import org.gcreator.project.DefaultProject;
 import org.gcreator.project.FileElement;
+import org.gcreator.project.FolderElement;
 
 /**
  * This deals with the main GUI stuff.
@@ -72,7 +73,7 @@ public class PineappleGUI implements EventHandler {
     /**
      * The root node of {@link #tree}
      */
-    public static DefaultMutableTreeNode projectNode;
+    public static ProjectTreeNode projectNode;
     /**
      * The menubar of the application
      */
@@ -124,28 +125,29 @@ public class PineappleGUI implements EventHandler {
         f.setLayout(new BorderLayout());
         f.add(splitter, BorderLayout.CENTER);
 
-        projectNode = new DefaultMutableTreeNode("Project");
-
+        project = new DefaultProject();
+        projectNode = new ProjectTreeNode(project);
+        project.add(new FolderElement(new File("./")));
+        
         tree = new JTree(projectNode);
         tree.setVisible(true);
         tree.setCellRenderer(new ProjectTreeRenderer());
         tree.addMouseListener(new MouseAdapter() {
-
+            
             @Override
             public void mousePressed(MouseEvent e) {
-                if (e.getClickCount() >= 2) {
+                if (e.getClickCount() >= 2 && tree.getLastSelectedPathComponent() instanceof BaseElement) {
                     TreePath tp = tree.getClosestPathForLocation(e.getX(), e.getY());
                     tree.setSelectionPath(tp);
-                    /* This method is useful only when the selection model allows a single selection. */
-                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-                    if (node.getUserObject() != null && node.getUserObject() instanceof BaseElement) {
-                        BaseElement el = (BaseElement) node.getUserObject();
-                        openFile(el.getFile());
+                    BaseElement elem = project.getFileAt(tree.getClosestRowForLocation(e.getX(), e.getY()));
+                    if (elem != null && elem instanceof FileElement) {
+                        openFile(elem.getFile());
                     }
                 }
             }
         });
-
+        tree.setScrollsOnExpand(true);
+        tree.setShowsRootHandles(true);
         splitter.setLeftComponent(tree);
 
         dip = new TabbedInterfaceProvider();
@@ -232,8 +234,12 @@ public class PineappleGUI implements EventHandler {
     @Override
     public void handleEvent(NotifyEvent evt) {
         if (evt.getEventType().equals(DefaultEventTypes.WINDOW_CREATED)) {
+            
+            /* Initilize the main window */
             initializeWindow();
+            
         } else if (evt.getEventType().equals(DefaultEventTypes.FILE_CHANGED)) {
+            
             DocumentPane pane = dip.getSelectedDocument();
             editMenu.removeAll();
             if (pane != null) {
@@ -243,7 +249,9 @@ public class PineappleGUI implements EventHandler {
                 editMenu.setEnabled(false);
                 fileSave.setEnabled(false);
             }
+            
         } else if (evt.getEventType().equals(DefaultEventTypes.FILE_OPENED) && evt.getArguments().length >= 2) {
+            
             DocumentPane p;
             Object[] arguments = evt.getArguments();
             File f = (File) arguments[0];
@@ -265,14 +273,16 @@ public class PineappleGUI implements EventHandler {
                     Image img2 = img.getScaledInstance(((img.getWidth() > img.getHeight()) ? 16 : -1),
                             ((img.getWidth() > img.getHeight()) ? -1 : 16), Image.SCALE_FAST);
                     el.setIcon(new ImageIcon(img2));
-                    tree.updateUI();
                 }
             } else {
                 p = new TextEditor(f);
             }
             dip.add(p.getFile().getName(), p);
             evt.handleEvent();
+            tree.updateUI();
+            
         } else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_DISPOSED)) {
+            
             for (DocumentPane doc : dip.getDocuments()) {
                 if (doc != null) {
                     if (!doc.dispose()) {
@@ -281,6 +291,7 @@ public class PineappleGUI implements EventHandler {
                     }
                 }
             }
+            
         } else if (evt.getEventType().equals(DefaultEventTypes.PROJECT_OPENED)) {
             //TODO: open project.
         }
@@ -319,19 +330,18 @@ public class PineappleGUI implements EventHandler {
                     boolean add = true;
                     while (children.hasMoreElements()) {
                         Object o = children.nextElement();
-                        if (o instanceof DefaultMutableTreeNode) {
-                            DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
-                            if (node.getUserObject().equals(el)) {
+                        if (o instanceof FileElement) {
+                            FileElement elem = (FileElement) o;
+                            if (elem.getFile().equals(el)) {
                                 add = false;
-                                tree.setSelectionPath(new TreePath(node.getPath()));
+                                tree.setSelectionRow(project.getFiles().indexOf(elem));
                                 break;
                             }
                         }
                     }
                     if (add) {
-                        projectNode.add(new DefaultMutableTreeNode(el));
+                        project.add(el);
                     }
-                    tree.updateUI();
                     EventManager.fireEvent(this, DefaultEventTypes.FILE_OPENED, f, format, el);
                     dip.updateUI();
                 }
@@ -363,8 +373,8 @@ public class PineappleGUI implements EventHandler {
      * Closes the current project
      */
     public void closeProject() {
-        projectNode.removeAllChildren();
-        projectNode.setUserObject(null);
+        project.getFiles().clear();
+        tree.updateUI();
     }
 
     /**
