@@ -18,7 +18,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 
 #ifndef _PINEAPPLE_H
 #define	_PINEAPPLE_H
@@ -28,22 +28,22 @@ THE SOFTWARE.
 #include "SDL_opengl.h"
 
 typedef std::string string;
+typedef void* _FP_SIMPLIFIER(const void*, ...);
 
-namespace pineapple
-{
-    namespace std
-    {
+namespace pineapple {
+    namespace std {
         class Application;
         class Window;
         class Math;
+        class NativeLibrary;
+        class FunctionPointer;
     }
-    namespace objects
-    {
+    namespace objects {
         class Drawable;
         class Texture;
         class DrawingPrimitives;
         class Color;
-        
+
         class Actor;
         class View;
         class Scene;
@@ -52,6 +52,7 @@ namespace pineapple
 
 #include "application.h"
 #include "window.h"
+#include "math.h"
 
 #include "drawable.h"
 #include "texture.h"
@@ -61,6 +62,20 @@ namespace pineapple
 #include "actor.h"
 #include "view.h"
 #include "scene.h"
+
+#ifdef unix
+//Running Linux Or Unix
+
+#include "unix-interop.h"
+
+#else
+//Not yet implemented (Windows?)
+
+#include "dummy-interop.h"
+
+#endif
+
+#include "functionpointer.h"
 
 #endif	/* _PINEAPPLE_H */
 

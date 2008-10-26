@@ -20,46 +20,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+#ifndef _FUNCTIONPOINTER_H
+#define	_FUNCTIONPOINTER_H
+
 #include "pineapple.h"
 
-using namespace pineapple::std;
-using namespace pineapple::objects;
+class pineapple::std::FunctionPointer {
+    private:
+        _FP_SIMPLIFIER* handle;
+    public:
+        FunctionPointer(_FP_SIMPLIFIER* handle);
+        void* call(const void* a, ...);
+};
 
-typedef void WMFunction(char*, char*);
+#endif	/* _FUNCTIONPOINTER_H */
 
-int main(int argc, char** argv)
-{
-    Application::initialize(&argc, &argv);
-    
-    Window::setSize(640, 480, false);
-    Window::setTitle(string("Hello World!"));
-    Window::setResizable(true);
-    
-    NativeLibrary* nl = new NativeLibrary(string("libSDL.so"));
-    if(nl->isLoaded()){
-        FunctionPointer* p = nl->getFunction(string("SDL_WM_SetCaption"));
-        if(p!=NULL){
-            p->call("Used Native SDL call", "Used native SDL call");
-        }
-        else{
-            printf("Could not load function\n");
-        }
-    }
-    else{
-        printf("Could not load native library\n");
-    }
-    
-    Scene* s = new Scene(640, 480);
-    Actor* a = new Actor();
-    Texture* t = new Texture(string("luiscubal.png"));
-    a->setVisible(true);
-    a->setX(0.0f);
-    a->setY(0.0f);
-    a->setTexture(t);
-    s->addActor(a);
-    Application::setCurrentScene(s);
-    a->setHorizontalSpeed(1.0f);
-    a->setVerticalSpeed(1.0f);
-    
-    Window::run();
-}

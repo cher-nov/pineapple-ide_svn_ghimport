@@ -20,15 +20,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-#ifndef _MATH_H
-#define	_MATH_H
+#ifndef _PINEMATH_H
+#define	_PINEMATH_H
 
 #include "pineapple.h"
 
+//In sin, cos and tan, radians are used
 class pineapple::std::Math
 {
     private:
         Math();
+    public:
+        static const double PI;
+        static double sin(double x);
+        static double cos(double x);
+        static double tan(double x);
+        
+        static double sqrt(double x);
 };
 
 #endif	/* _MATH_H */
