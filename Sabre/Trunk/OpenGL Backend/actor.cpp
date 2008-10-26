@@ -28,6 +28,7 @@ pineapple::objects::Actor::Actor()
     y = 0;
     t = NULL;
     visible = false;
+    persistent = false;
     hspeed = 0.0f;
     vspeed = 0.0f;
 }
@@ -43,6 +44,14 @@ void pineapple::objects::Actor::draw(View* view)
     }
 }
 
+void pineapple::objects::Actor::create() {
+    
+}
+
+void pineapple::objects::Actor::destroy() {
+    
+}
+
 void pineapple::objects::Actor::loop()
 {
     x += hspeed;
@@ -52,6 +61,11 @@ void pineapple::objects::Actor::loop()
 bool pineapple::objects::Actor::isVisible()
 {
     return visible;
+}
+
+bool pineapple::objects::Actor::isPersistent()
+{
+    return persistent;
 }
 
 float pineapple::objects::Actor::getX()
@@ -103,4 +117,9 @@ void pineapple::objects::Actor::setHorizontalSpeed(float speed){
 
 void pineapple::objects::Actor::setVerticalSpeed(float speed){
     vspeed = speed;
+}
+
+void pineapple::objects::Actor::setPersistent(bool persistent)
+{
+    this->persistent = persistent;
 }

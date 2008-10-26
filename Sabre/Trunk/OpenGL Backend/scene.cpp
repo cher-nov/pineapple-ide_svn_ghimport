@@ -30,6 +30,36 @@ pineapple::objects::Scene::Scene(int width, int height)
     actors = new ::std::vector<Actor*>();
 }
 
+void pineapple::objects::Scene::create()
+{
+    for(int i = 0; i < actors->size(); i++)
+    {
+        actors->at(i)->create();
+    }
+}
+
+void pineapple::objects::Scene::destroy()
+{
+    for(int i = 0; i < actors->size(); i++)
+    {
+        if(!actors->at(i)->isPersistent())
+            actors->at(i)->destroy();
+    }
+}
+
+void pineapple::objects::Scene::retrievePersistentActors(pineapple::objects::Scene* other) {
+    if(other==NULL) return;
+    
+    for(int i = 0; i < other->actors->size(); i++) {
+        Actor* a = other->actors->at(i);
+        if(a->isPersistent()) {
+            actors->push_back(a);
+            ::std::vector<Actor*>::iterator it = other->actors->begin()+i;
+            other->actors->erase(it);
+        }
+    }
+}
+
 void pineapple::objects::Scene::draw()
 {
     if(views->size()==0)

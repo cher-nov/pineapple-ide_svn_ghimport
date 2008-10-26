@@ -103,5 +103,13 @@ void pineapple::std::Application::setPreferredSpeed(int fps)
 
 void pineapple::std::Application::setCurrentScene(::pineapple::objects::Scene* scene)
 {
+    if(currentScene==scene) return;
+    ::pineapple::objects::Scene* oldScene = currentScene;
+    if(currentScene!=NULL){
+        currentScene->destroy();
+    }
     currentScene = scene;
+    scene->create();
+    if(oldScene!=NULL)
+        scene->retrievePersistentActors(oldScene);
 }

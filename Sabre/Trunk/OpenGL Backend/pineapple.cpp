@@ -35,20 +35,6 @@ int main(int argc, char** argv)
     Window::setTitle(string("Hello World!"));
     Window::setResizable(true);
     
-    NativeLibrary* nl = new NativeLibrary(string("libSDL.so"));
-    if(nl->isLoaded()){
-        FunctionPointer* p = nl->getFunction(string("SDL_WM_SetCaption"));
-        if(p!=NULL){
-            p->call("Used Native SDL call", "Used native SDL call");
-        }
-        else{
-            printf("Could not load function\n");
-        }
-    }
-    else{
-        printf("Could not load native library\n");
-    }
-    
     Scene* s = new Scene(640, 480);
     Actor* a = new Actor();
     Texture* t = new Texture(string("luiscubal.png"));
