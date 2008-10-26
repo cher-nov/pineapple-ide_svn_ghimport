@@ -28,14 +28,16 @@ THE SOFTWARE.
 class pineapple::objects::Actor
 {
     private:
-        float x, y;
         Texture* t;
-        bool visible;
     protected:
+        float x, y;
+        bool visible, persistent;
         float hspeed, vspeed;
     public:
         Actor();
         
+        virtual void create();
+        virtual void destroy();
         virtual void draw(View* view);
         virtual void loop();
         
@@ -45,6 +47,7 @@ class pineapple::objects::Actor
         virtual Texture* getTexture();
         virtual float getHorizontalSpeed();
         virtual float getVerticalSpeed();
+        virtual bool isPersistent();
         
         virtual void setVisible(bool visible);
         virtual void setX(float x);
@@ -52,6 +55,7 @@ class pineapple::objects::Actor
         virtual void setTexture(Texture* texture);
         virtual void setHorizontalSpeed(float speed);
         virtual void setVerticalSpeed(float speed);
+        virtual void setPersistent(bool persistent);
 };
 
 #endif	/* _ACTOR_H */

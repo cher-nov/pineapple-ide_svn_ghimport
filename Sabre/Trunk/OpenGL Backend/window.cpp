@@ -145,4 +145,7 @@ void pineapple::std::Window::redraw()
     {
         s->draw();
     }
+    else{
+        printf("WARNING: Scene is null\n");
+    }
 }
