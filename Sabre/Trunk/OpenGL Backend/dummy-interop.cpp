@@ -18,48 +18,25 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 
 #include "pineapple.h"
 
-using namespace pineapple::std;
-using namespace pineapple::objects;
+#ifndef unix //Only compile if NOT using an UNIX environment
 
-typedef void WMFunction(char*, char*);
 
-int main(int argc, char** argv)
-{
-    Application::initialize(&argc, &argv);
-    
-    Window::setSize(640, 480, false);
-    Window::setTitle(string("Hello World!"));
-    Window::setResizable(true);
-    
-    NativeLibrary* nl = new NativeLibrary(string("libSDL.so"));
-    if(nl->isLoaded()){
-        FunctionPointer* p = nl->getFunction(string("SDL_WM_SetCaption"));
-        if(p!=NULL){
-            p->call("Used Native SDL call", "Used native SDL call");
-        }
-        else{
-            printf("Could not load function\n");
-        }
-    }
-    else{
-        printf("Could not load native library\n");
-    }
-    
-    Scene* s = new Scene(640, 480);
-    Actor* a = new Actor();
-    Texture* t = new Texture(string("luiscubal.png"));
-    a->setVisible(true);
-    a->setX(0.0f);
-    a->setY(0.0f);
-    a->setTexture(t);
-    s->addActor(a);
-    Application::setCurrentScene(s);
-    a->setHorizontalSpeed(1.0f);
-    a->setVerticalSpeed(1.0f);
-    
-    Window::run();
+pineapple::std::NativeLibrary::NativeLibrary(string libname) {
 }
+
+bool pineapple::std::NativeLibrary::isLoaded() {
+    return false;
+}
+
+pineapple::std::FunctionPointer* pineapple::std::NativeLibrary::getFunction(string fname) {
+    return NULL;
+}
+
+void pineapple::std::NativeLibrary::dispose() {
+}
+
+#endif

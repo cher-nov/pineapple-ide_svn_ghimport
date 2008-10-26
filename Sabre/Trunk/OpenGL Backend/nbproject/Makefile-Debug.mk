@@ -25,15 +25,18 @@ OBJECTDIR=build/Debug/GNU-Linux-x86
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/pineapple.o \
 	${OBJECTDIR}/actor.o \
-	${OBJECTDIR}/drawingprimitives.o \
+	${OBJECTDIR}/dummy-interop.o \
 	${OBJECTDIR}/view.o \
 	${OBJECTDIR}/texture.o \
+	${OBJECTDIR}/unix-interop.o \
+	${OBJECTDIR}/window.o \
+	${OBJECTDIR}/functionpointer.o \
+	${OBJECTDIR}/pineapple.o \
+	${OBJECTDIR}/drawingprimitives.o \
 	${OBJECTDIR}/scene.o \
 	${OBJECTDIR}/color.o \
 	${OBJECTDIR}/math.o \
-	${OBJECTDIR}/window.o \
 	${OBJECTDIR}/application.o
 
 # C Compiler Flags
@@ -47,7 +50,7 @@ CXXFLAGS=
 FFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lSDL -lGL -lSDL_image -lGLU
+LDLIBSOPTIONS=-lSDL -lGL -lSDL_image -lGLU -lm
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS} dist/Debug/GNU-Linux-x86/opengl_backend
@@ -56,17 +59,13 @@ dist/Debug/GNU-Linux-x86/opengl_backend: ${OBJECTFILES}
 	${MKDIR} -p dist/Debug/GNU-Linux-x86
 	${LINK.cc} -o dist/Debug/GNU-Linux-x86/opengl_backend ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/pineapple.o: pineapple.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/pineapple.o pineapple.cpp
-
 ${OBJECTDIR}/actor.o: actor.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/actor.o actor.cpp
 
-${OBJECTDIR}/drawingprimitives.o: drawingprimitives.cpp 
+${OBJECTDIR}/dummy-interop.o: dummy-interop.cpp 
 	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/drawingprimitives.o drawingprimitives.cpp
+	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/dummy-interop.o dummy-interop.cpp
 
 ${OBJECTDIR}/view.o: view.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -75,6 +74,26 @@ ${OBJECTDIR}/view.o: view.cpp
 ${OBJECTDIR}/texture.o: texture.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/texture.o texture.cpp
+
+${OBJECTDIR}/unix-interop.o: unix-interop.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/unix-interop.o unix-interop.cpp
+
+${OBJECTDIR}/window.o: window.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/window.o window.cpp
+
+${OBJECTDIR}/functionpointer.o: functionpointer.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/functionpointer.o functionpointer.cpp
+
+${OBJECTDIR}/pineapple.o: pineapple.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/pineapple.o pineapple.cpp
+
+${OBJECTDIR}/drawingprimitives.o: drawingprimitives.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/drawingprimitives.o drawingprimitives.cpp
 
 ${OBJECTDIR}/scene.o: scene.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -87,10 +106,6 @@ ${OBJECTDIR}/color.o: color.cpp
 ${OBJECTDIR}/math.o: math.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/math.o math.cpp
-
-${OBJECTDIR}/window.o: window.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	$(COMPILE.cc) -g -D_DEBUG_ -I/usr/include/SDL -o ${OBJECTDIR}/window.o window.cpp
 
 ${OBJECTDIR}/application.o: application.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -18,27 +18,26 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
+
+#ifndef _UNIX_INTEROP_H
+#define	_UNIX_INTEROP_H
 
 #include "pineapple.h"
 
-#include <math.h>
+#ifndef unix
+#error "Attempting to use UNIX Interop in a non-UNIX environment"
+#endif
 
-const double pineapple::std::Math::PI = M_PI;
+class pineapple::std::NativeLibrary {
+    private:
+        void* handle;
+    public:
+        NativeLibrary(string libname);
+        bool isLoaded();
+        FunctionPointer* getFunction(string fname);
+        void dispose();
+};
 
-double pineapple::std::Math::sin(double x) {
-    return ::sin(x);
-}
-
-double pineapple::std::Math::cos(double x) {
-    return ::cos(x);
-}
-
-double pineapple::std::Math::tan(double x) {
-    return ::tan(x);
-}
-
-double pineapple::std::Math::sqrt(double x) {
-    return ::sqrt(x);
-}
+#endif	/* _UNIX_INTEROP_H */
 

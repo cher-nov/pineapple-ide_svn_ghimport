@@ -22,44 +22,10 @@ THE SOFTWARE.
 
 #include "pineapple.h"
 
-using namespace pineapple::std;
-using namespace pineapple::objects;
+pineapple::std::FunctionPointer::FunctionPointer(_FP_SIMPLIFIER* handle) {
+    this->handle = handle;
+}
 
-typedef void WMFunction(char*, char*);
-
-int main(int argc, char** argv)
-{
-    Application::initialize(&argc, &argv);
-    
-    Window::setSize(640, 480, false);
-    Window::setTitle(string("Hello World!"));
-    Window::setResizable(true);
-    
-    NativeLibrary* nl = new NativeLibrary(string("libSDL.so"));
-    if(nl->isLoaded()){
-        FunctionPointer* p = nl->getFunction(string("SDL_WM_SetCaption"));
-        if(p!=NULL){
-            p->call("Used Native SDL call", "Used native SDL call");
-        }
-        else{
-            printf("Could not load function\n");
-        }
-    }
-    else{
-        printf("Could not load native library\n");
-    }
-    
-    Scene* s = new Scene(640, 480);
-    Actor* a = new Actor();
-    Texture* t = new Texture(string("luiscubal.png"));
-    a->setVisible(true);
-    a->setX(0.0f);
-    a->setY(0.0f);
-    a->setTexture(t);
-    s->addActor(a);
-    Application::setCurrentScene(s);
-    a->setHorizontalSpeed(1.0f);
-    a->setVerticalSpeed(1.0f);
-    
-    Window::run();
+void* pineapple::std::FunctionPointer::call(const void* arg, ...) {
+    return handle(arg);
 }
