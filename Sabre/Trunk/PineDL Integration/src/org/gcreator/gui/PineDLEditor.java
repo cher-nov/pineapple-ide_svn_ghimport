@@ -31,25 +31,25 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rtextarea.RTextScrollPane;
+import org.jedit.syntax.JEditTextArea;
+import org.jedit.syntax.PineDLTokenMarker;
 
 /**
  *
  * @author Luís Reis
  */
 public class PineDLEditor extends DocumentPane{
-    private RTextScrollPane scroll;
-    private RSyntaxTextArea editor;
+    private JEditTextArea editor;
     
     public PineDLEditor(File file){
         super(file);
         System.out.println("Using this");
         this.setLayout(new BorderLayout());
-        editor = new RSyntaxTextArea();
+        editor = new JEditTextArea();
+        editor.setTokenMarker(new PineDLTokenMarker());
+        editor.setCaretBlinkEnabled(true);
         if(file.exists()){
             try{
                 FileInputStream fs = new FileInputStream(file);
@@ -72,10 +72,7 @@ public class PineDLEditor extends DocumentPane{
                 setModified(true);
             }
         });
-        editor.restoreDefaultSyntaxHighlightingColorScheme();
-        editor.setSyntaxEditingStyle(RSyntaxTextArea.JAVA_SYNTAX_STYLE);
-        scroll = new RTextScrollPane(getWidth(), getHeight(), editor, true);
-        this.add(scroll, BorderLayout.CENTER);
+        this.add(editor, BorderLayout.CENTER);
         //scroll.setViewportView(editor);
     }
     
