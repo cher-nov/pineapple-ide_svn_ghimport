@@ -1,4 +1,4 @@
-// $ANTLR 3.1 /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g 2008-10-23 12:29:09
+// $ANTLR 3.1 /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g 2008-10-26 13:54:10
 
 /*
 Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
@@ -933,10 +933,10 @@ public class PineDLLexer extends Lexer {
         try {
             int _type = T__60;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:69:7: ( 'white' )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:69:9: 'white'
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:69:7: ( 'while' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:69:9: 'while'
             {
-            match("white"); 
+            match("while"); 
 
 
             }
@@ -2508,7 +2508,7 @@ public class PineDLLexer extends Lexer {
         "\1\141\1\164\1\141\1\164\1\163\1\141\1\160\1\165\2\151\1\157\1\154"+
         "\1\165\1\156\1\154\1\uffff\1\60\1\153\1\154\1\164\1\166\1\157\1"+
         "\uffff\1\60\1\163\1\143\1\162\2\145\1\164\1\151\1\145\1\60\1\145"+
-        "\1\163\1\164\1\141\1\163\1\142\1\164\1\154\1\60\1\141\1\151\1\145"+
+        "\1\163\1\154\1\141\1\163\1\142\1\164\1\154\1\60\1\141\1\151\1\145"+
         "\1\141\1\162\1\uffff\1\163\1\150\1\60\1\156\1\146\1\60\1\151\1\156"+
         "\1\162\1\uffff\2\60\1\145\1\164\1\145\1\154\2\60\2\uffff\1\147\2"+
         "\143\2\164\2\60\1\uffff\1\144\1\60\1\uffff\1\143\1\147\1\60\2\uffff"+
@@ -2522,7 +2522,7 @@ public class PineDLLexer extends Lexer {
         "\172\1\164\1\141\1\164\1\141\1\164\1\163\1\162\1\160\1\171\2\151"+
         "\1\157\1\154\1\165\1\156\1\154\1\uffff\1\71\1\153\1\154\1\164\1"+
         "\166\1\157\1\uffff\1\172\1\163\1\143\1\162\1\145\1\151\1\164\1\151"+
-        "\1\145\1\172\1\145\1\163\1\164\1\141\1\163\1\142\1\164\1\154\1\146"+
+        "\1\145\1\172\1\145\1\163\1\154\1\141\1\163\1\142\1\164\1\154\1\146"+
         "\1\141\1\151\1\145\1\141\1\162\1\uffff\1\163\1\150\1\172\1\156\1"+
         "\146\1\172\1\151\1\156\1\162\1\uffff\2\172\1\145\1\164\1\145\1\154"+
         "\2\172\2\uffff\1\147\2\143\2\164\2\172\1\uffff\1\144\1\172\1\uffff"+

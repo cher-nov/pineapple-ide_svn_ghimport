@@ -177,7 +177,7 @@ elsif	:	'elsif' LPAREN expression RPAREN situation;
 elsecase:	'else' situation;
 
 whilecase
-	:	'white' LPAREN expression RPAREN situation;
+	:	'while' LPAREN expression RPAREN situation;
 
 situation
 	:	codel | (BBLOCK code EBLOCK);

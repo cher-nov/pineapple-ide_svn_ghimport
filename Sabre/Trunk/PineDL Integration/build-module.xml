@@ -14,8 +14,6 @@
     
         <copy file="PineDL Integration/dist/PineDL_Integration.jar" todir="Core/build/Plugins"/>
         <copy file="PineDL Integration/dist/PineDL_Integration.jar" todir="Core/dist/Plugins"/>
-        <copy file="PineDL Integration/rsyntaxtextarea.jar" todir="Core/build/Plugins"/>
-        <copy file="PineDL Integration/rsyntaxtextarea.jar" todir="Core/dist/Plugins"/>
     
     </target>
 </project>

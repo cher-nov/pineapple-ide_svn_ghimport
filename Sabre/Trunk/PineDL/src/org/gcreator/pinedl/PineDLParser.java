@@ -1,4 +1,4 @@
-// $ANTLR 3.1 /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g 2008-10-23 12:29:08
+// $ANTLR 3.1 /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g 2008-10-26 13:54:09
 
 /*
 Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.HashMap;
 public class PineDLParser extends Parser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "PLUS", "MINUS", "MULT", "DIV", "MOD", "LPAREN", "RPAREN", "LARRAY", "RARRAY", "BBLOCK", "EBLOCK", "BTWAND", "BTWOR", "BTWXOR", "LOGAND", "LOGOR", "STMTCUT", "DBLDOT", "BTWNOT", "LOGNOT", "INC", "DEC", "EQ", "CEQ", "NEQ", "BG", "BGE", "LT", "LTE", "WORD", "PRIVACY", "THIS", "SUPER", "NULL", "BOOLEAN", "STRING", "CHAR", "FLOAT", "DOUBLE", "INTEGER", "ALPHA", "DIGIT", "SLCOMMENT", "MLCOMMENT", "WHITESPACE", "'package'", "'import'", "'class'", "'extends'", "'static'", "','", "'try'", "'catch'", "'if'", "'elsif'", "'else'", "'white'", "'.'", "'int'", "'float'", "'double'", "'uint'", "'char'", "'string'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "PLUS", "MINUS", "MULT", "DIV", "MOD", "LPAREN", "RPAREN", "LARRAY", "RARRAY", "BBLOCK", "EBLOCK", "BTWAND", "BTWOR", "BTWXOR", "LOGAND", "LOGOR", "STMTCUT", "DBLDOT", "BTWNOT", "LOGNOT", "INC", "DEC", "EQ", "CEQ", "NEQ", "BG", "BGE", "LT", "LTE", "WORD", "PRIVACY", "THIS", "SUPER", "NULL", "BOOLEAN", "STRING", "CHAR", "FLOAT", "DOUBLE", "INTEGER", "ALPHA", "DIGIT", "SLCOMMENT", "MLCOMMENT", "WHITESPACE", "'package'", "'import'", "'class'", "'extends'", "'static'", "','", "'try'", "'catch'", "'if'", "'elsif'", "'else'", "'while'", "'.'", "'int'", "'float'", "'double'", "'uint'", "'char'", "'string'"
     };
     public static final int DEC=25;
     public static final int T__66=66;
@@ -1254,11 +1254,11 @@ public class PineDLParser extends Parser {
 
 
     // $ANTLR start "whilecase"
-    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:179:1: whilecase : 'white' LPAREN expression RPAREN situation ;
+    // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:179:1: whilecase : 'while' LPAREN expression RPAREN situation ;
     public final void whilecase() throws RecognitionException {
         try {
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:180:2: ( 'white' LPAREN expression RPAREN situation )
-            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:180:4: 'white' LPAREN expression RPAREN situation
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:180:2: ( 'while' LPAREN expression RPAREN situation )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:180:4: 'while' LPAREN expression RPAREN situation
             {
             match(input,60,FOLLOW_60_in_whilecase738); if (state.failed) return ;
             match(input,LPAREN,FOLLOW_LPAREN_in_whilecase740); if (state.failed) return ;
