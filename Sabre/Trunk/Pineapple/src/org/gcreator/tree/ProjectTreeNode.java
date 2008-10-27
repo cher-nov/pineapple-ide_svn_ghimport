@@ -134,4 +134,13 @@ public class ProjectTreeNode implements TreeNode {
     public Project getProject() {
         return project;
     }
+    
+    /**
+     * Sets the {@link project} that this node belongs to.
+     * 
+     * @see #getProject()
+     */
+    public void setProject(Project project){
+        this.project = project;
+    }
 }

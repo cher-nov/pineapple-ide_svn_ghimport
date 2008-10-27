@@ -34,6 +34,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.event.ListSelectionEvent;
@@ -41,6 +42,8 @@ import javax.swing.event.ListSelectionListener;
 import org.gcreator.plugins.EventHandler;
 import org.gcreator.plugins.EventManager;
 import org.gcreator.plugins.NotifyEvent;
+import org.gcreator.project.DefaultProject;
+import org.gcreator.project.Project;
 
 /**
  * A Dialog to create new projects
@@ -84,7 +87,18 @@ public class NewProjectDialog extends JDialog implements EventHandler{
         ok.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent evt){
-                EventManager.fireEvent(this, BUTTON_OK, projects.getSelectedValue());
+                if(PineappleGUI.project!=null){
+                    int i = JOptionPane.showConfirmDialog(NewProjectDialog.this,
+                        "Do you wish to close the current project?", 
+                        "Close current project?", JOptionPane.YES_NO_OPTION);
+                    if(i==JOptionPane.YES_OPTION){
+                        PineappleGUI.project = null;
+                        EventManager.fireEvent(this, BUTTON_OK, projects.getSelectedValue());
+                    }
+                }
+                else{
+                    EventManager.fireEvent(this, BUTTON_OK, projects.getSelectedValue());
+                }
             }
         });
         panel.add(ok);
@@ -129,7 +143,12 @@ public class NewProjectDialog extends JDialog implements EventHandler{
                 return;
             String s = args[0].toString();
             if(s.equals("Empty Project")){
-                //Project p = new Project(null);
+                //Will have to change later
+                Project p = new DefaultProject();
+                PineappleGUI.project = p;
+                PineappleGUI.projectNode.setProject(p);
+                PineappleGUI.tree.updateUI();
+                dispose();
             }
         }
     }
