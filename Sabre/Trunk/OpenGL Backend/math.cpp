@@ -42,3 +42,11 @@ double pineapple::std::Math::sqrt(double x) {
     return ::sqrt(x);
 }
 
+double pineapple::std::Math::deg2rad(double deg) {
+    return (deg*PI)/180;
+}
+
+double pineapple::std::Math::rad2deg(double rad) {
+    return (rad*180)/PI;
+}
+

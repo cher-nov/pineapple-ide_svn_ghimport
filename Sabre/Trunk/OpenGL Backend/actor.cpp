@@ -31,6 +31,8 @@ pineapple::objects::Actor::Actor()
     persistent = false;
     hspeed = 0.0f;
     vspeed = 0.0f;
+    gravity = 0.0f;
+    gravity_direction = 270.0f;
 }
 
 void pineapple::objects::Actor::draw(View* view)
@@ -56,6 +58,9 @@ void pineapple::objects::Actor::loop()
 {
     x += hspeed;
     y += vspeed;
+    float dirRadians = ::pineapple::std::Math::deg2rad(gravity_direction);
+    hspeed += ::pineapple::std::Math::cos(dirRadians) * gravity;
+    vspeed -= ::pineapple::std::Math::sin(dirRadians) * gravity;
 }
 
 bool pineapple::objects::Actor::isVisible()
@@ -86,6 +91,16 @@ float pineapple::objects::Actor::getHorizontalSpeed()
 float pineapple::objects::Actor::getVerticalSpeed()
 {
     return vspeed;
+}
+
+float pineapple::objects::Actor::getGravity()
+{
+    return gravity;
+}
+
+float pineapple::objects::Actor::getGravityDirection()
+{
+    return gravity_direction;
 }
 
 pineapple::objects::Texture* pineapple::objects::Actor::getTexture()
@@ -122,4 +137,12 @@ void pineapple::objects::Actor::setVerticalSpeed(float speed){
 void pineapple::objects::Actor::setPersistent(bool persistent)
 {
     this->persistent = persistent;
+}
+
+void pineapple::objects::Actor::setGravity(float gravity){
+    this->gravity = gravity;
+}
+
+void pineapple::objects::Actor::setGravityDirection(float gravity_direction){
+    this->gravity_direction = gravity_direction;
 }
