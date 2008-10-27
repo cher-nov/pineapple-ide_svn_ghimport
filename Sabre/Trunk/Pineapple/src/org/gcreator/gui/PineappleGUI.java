@@ -82,11 +82,13 @@ public class PineappleGUI implements EventHandler {
     public static JMenuBar menubar;
     public static JMenu fileMenu;
     public static JMenu editMenu;
+    public static JMenu toolsMenu;
     public static JMenuItem fileNewProject;
     public static JMenuItem fileOpenFile;
     public static JMenuItem fileOpenProject;
     public static JMenuItem fileSave;
     public static JMenuItem fileExit;
+    public static JMenuItem toolsPlugins;
     /**
      * Provides a way to deal with multiple documents.
      */
@@ -232,8 +234,33 @@ public class PineappleGUI implements EventHandler {
         editMenu.setEnabled(false);
         editMenu.setVisible(true);
         menubar.add(editMenu);
+        
+        toolsMenu = new JMenu("Tools");
+        toolsMenu.setMnemonic('T');
+        toolsMenu.setEnabled(true);
+        toolsMenu.setVisible(true);
+        menubar.add(toolsMenu);
+        
+        toolsPlugins = new JMenuItem("Plugins");
+        toolsPlugins.setMnemonic('g');
+        toolsPlugins.setEnabled(true);
+        toolsPlugins.setVisible(true);
+        toolsPlugins.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+                openPluginDialog();
+            }
+        });
+        toolsMenu.add(toolsPlugins);
     }
 
+    /**
+     * Opens the plugin dialog
+     */
+    public void openPluginDialog(){
+        PluginDialog d = new PluginDialog(Core.getStaticContext().getMainFrame());
+        d.setVisible(true);
+    }
+    
     /**
      * Handles any provided events
      * @param evt The sent event
