@@ -34,5 +34,12 @@ import org.gcreator.project.BaseElement;
  */
 public interface BaseTreeNode extends TreeNode {
     
+    /**
+     * Gets the {@link org.gcreator.project.BaseElement} 
+     * that this node belongs to.
+     * 
+     * @return The {@link org.gcreator.project.BaseElement} 
+     * that this node belongs to.
+     */
     public BaseElement getElement();
 }

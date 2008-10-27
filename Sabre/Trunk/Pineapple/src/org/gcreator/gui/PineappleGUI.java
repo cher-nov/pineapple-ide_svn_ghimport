@@ -30,7 +30,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Enumeration;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -39,6 +43,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import org.gcreator.core.Core;
 import org.gcreator.editors.ImagePreviewer;
@@ -132,14 +137,8 @@ public class PineappleGUI implements EventHandler {
         manager = new MyDoggyToolWindowManager();
         f.getContentPane().add(manager);
 
-        //splitter = new JSplitPane();
-        //splitter.setVisible(true);
-        //f.setLayout(new BorderLayout());
-        //f.add(splitter, BorderLayout.CENTER);
-
         project = new DefaultProject();
         projectNode = new ProjectTreeNode(project);
-        project.add(new FolderElement(new File("./")));
 
         tree = new JTree(projectNode);
         tree.setVisible(true);
@@ -149,7 +148,6 @@ public class PineappleGUI implements EventHandler {
             @Override
             public void mousePressed(MouseEvent e) {
                 Object o = tree.getPathForRow(tree.getClosestRowForLocation(e.getX(), e.getY())).getLastPathComponent();
-                System.out.println("you clicked: " + o + " " + o.getClass());
                 if (e.getClickCount() >= 2) {
                     if (o instanceof BaseTreeNode) {
                         TreePath tp = tree.getClosestPathForLocation(e.getX(), e.getY());
@@ -167,13 +165,10 @@ public class PineappleGUI implements EventHandler {
         tree.setShowsRootHandles(true);
         manager.registerToolWindow("Project", "Project", null, tree,
                 ToolWindowAnchor.LEFT);
-        //splitter.setLeftComponent(tree);
 
         dip = new TabbedInterfaceProvider();
         dip.setVisible(true);
         manager.setMainContent(dip);
-        //splitter.setRightComponent(dip);
-        //splitter.setDividerLocation(120);
 
         menubar = new JMenuBar();
         menubar.setVisible(true);
@@ -376,22 +371,6 @@ public class PineappleGUI implements EventHandler {
                         }
                     } catch (Exception e) {
                     }
-                    Enumeration children = projectNode.children();
-                    boolean add = true;
-                    while (children.hasMoreElements()) {
-                        Object o = children.nextElement();
-                        if (o instanceof FileElement) {
-                            FileElement elem = (FileElement) o;
-                            if (elem.getFile().equals(el)) {
-                                add = false;
-                                tree.setSelectionRow(project.getFiles().indexOf(elem));
-                                break;
-                            }
-                        }
-                    }
-                    if (add) {
-                        project.add(el);
-                    }
                     EventManager.fireEvent(this, DefaultEventTypes.FILE_OPENED, f, format, el);
                     dip.updateUI();
                 }
@@ -448,12 +427,46 @@ public class PineappleGUI implements EventHandler {
             File[] files = chooser.getSelectedFiles();
             for (File f : files) {
                 if (f.exists()) {
-                    openFile(f);
+                    BaseTreeNode node = null;
+                    for (BaseElement e : project.getFiles()) {
+                        if ((node = hasFile(f, e)) != null) {
+                            break;
+                        }
+                    }
+                    
+                    if (node == null) {
+                        try {
+                            BaseElement e = Project.createElement(f);
+                            node = e.getTreeNode();
+                            project.add(e);
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(PineappleGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    
+                    if (!f.isDirectory()) {
+                        openFile(f);
+                    }
                 }
             }
         }
     }
 
+    private static BaseTreeNode hasFile(File f, BaseElement e) {
+        if (e instanceof FileElement) {
+            if (f.equals(e.getFile())) {
+                return e.getTreeNode();
+            }
+        } else if (e instanceof FolderElement) {
+            for (BaseElement b : ((FolderElement)e).getChildren()) {
+                BaseTreeNode o = hasFile(f, b);
+                if (o != null) {
+                    return o;
+                }
+            }
+        }
+        return null;
+    }
     /**
      * Pops a New FolderProject Dialog
      */

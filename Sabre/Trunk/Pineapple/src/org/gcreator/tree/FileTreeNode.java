@@ -24,6 +24,7 @@ THE SOFTWARE.
 package org.gcreator.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import org.gcreator.project.BaseElement;
 import org.gcreator.project.FileElement;
 
@@ -38,12 +39,22 @@ public class FileTreeNode extends DefaultMutableTreeNode implements BaseTreeNode
     private static final long serialVersionUID = 1;
     private FileElement file;
     
+    /**
+     * Creates a new file tree node.
+     * 
+     * @param e The {@link FileElement} that this node belongs to.
+     */
     public FileTreeNode(FileElement e) {
         this.setAllowsChildren(false);
         this.setUserObject(e);
         this.file = e;
     }
 
+    /**
+     * Gets the {@link FileElement} that this node belongs to.
+     * 
+     * @return The {@link FileElement} that this node belongs to.
+     */
     public BaseElement getElement() {
         return file;
     }
