@@ -20,9 +20,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
+
 package org.gcreator.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,8 +31,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Enumeration;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -41,9 +39,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JSplitPane;
+import javax.swing.JOptionPane;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import org.gcreator.core.Core;
 import org.gcreator.editors.ImagePreviewer;
@@ -89,6 +86,7 @@ public class PineappleGUI implements EventHandler {
     public static JMenuItem fileNewProject;
     public static JMenuItem fileOpenFile;
     public static JMenuItem fileOpenProject;
+    public static JMenuItem fileAddFileFolder;
     public static JMenuItem fileSave;
     public static JMenuItem fileExit;
     public static JMenuItem toolsPlugins;
@@ -202,10 +200,21 @@ public class PineappleGUI implements EventHandler {
         fileOpenFile.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
-                openFile();
+                openFile(false, false);
             }
         });
         fileMenu.add(fileOpenFile);
+        
+        fileAddFileFolder = new JMenuItem("Add File/Folder to Project");
+        fileAddFileFolder.setMnemonic('A');
+        fileAddFileFolder.setVisible(true);
+        fileAddFileFolder.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                openFile(true, true);
+            }
+        });
+        fileMenu.add(fileAddFileFolder);
 
         fileSave = new JMenuItem("Save");
         fileSave.setMnemonic('S');
@@ -333,7 +342,7 @@ public class PineappleGUI implements EventHandler {
             }
 
         } else if (evt.getEventType().equals(DefaultEventTypes.PROJECT_OPENED)) {
-            //TODO: open project.
+        //TODO: open project.
         }
     }
 
@@ -413,22 +422,30 @@ public class PineappleGUI implements EventHandler {
 
     /**
      * Opens a file
+     * 
+     * @param addFile Wheather to add the file to the project.
+     * @param allowFolder Wheather you want to allow the user to choose folders.
      */
-    public void openFile() {
+    public void openFile(boolean addFile, boolean allowFolder) {
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(true);
         chooser.setDialogTitle("Select files to open");
+        chooser.setFileSelectionMode(((allowFolder) ? JFileChooser.FILES_AND_DIRECTORIES : JFileChooser.FILES_ONLY));
         if (chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK") != JFileChooser.CANCEL_OPTION) {
             File[] files = chooser.getSelectedFiles();
             for (File f : files) {
-                if (f.exists()) {
+                if (!f.exists()) {
+                    JOptionPane.showMessageDialog(Core.getStaticContext().getMainFrame(),
+                            "File " + f + "Does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                if (addFile) {
                     BaseTreeNode node = null;
                     for (BaseElement e : project.getFiles()) {
                         if ((node = hasFile(f, e)) != null) {
                             break;
                         }
                     }
-                    
+
                     if (node == null) {
                         try {
                             BaseElement e = Project.createElement(f);
@@ -438,10 +455,10 @@ public class PineappleGUI implements EventHandler {
                             Logger.getLogger(PineappleGUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                    
-                    if (!f.isDirectory()) {
-                        openFile(f);
-                    }
+                    tree.updateUI();
+                }
+                if (!f.isDirectory()) {
+                    openFile(f);
                 }
             }
         }
@@ -453,7 +470,7 @@ public class PineappleGUI implements EventHandler {
                 return e.getTreeNode();
             }
         } else if (e instanceof FolderElement) {
-            for (BaseElement b : ((FolderElement)e).getChildren()) {
+            for (BaseElement b : ((FolderElement) e).getChildren()) {
                 BaseTreeNode o = hasFile(f, b);
                 if (o != null) {
                     return o;
@@ -462,6 +479,7 @@ public class PineappleGUI implements EventHandler {
         }
         return null;
     }
+
     /**
      * Pops a New FolderProject Dialog
      */
