@@ -37,6 +37,9 @@ class pineapple::std::Math
         static double tan(double x);
         
         static double sqrt(double x);
+        
+        static double deg2rad(double degrees);
+        static double rad2deg(double radians);
 };
 
 #endif	/* _MATH_H */

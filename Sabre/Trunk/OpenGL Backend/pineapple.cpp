@@ -44,8 +44,8 @@ int main(int argc, char** argv)
     a->setTexture(t);
     s->addActor(a);
     Application::setCurrentScene(s);
-    a->setHorizontalSpeed(1.0f);
-    a->setVerticalSpeed(1.0f);
+    a->setGravityDirection(315.0f);
+    a->setGravity(0.05f);
     
     Window::run();
 }

@@ -33,6 +33,7 @@ class pineapple::objects::Actor
         float x, y;
         bool visible, persistent;
         float hspeed, vspeed;
+        float gravity, gravity_direction;
     public:
         Actor();
         
@@ -48,6 +49,8 @@ class pineapple::objects::Actor
         virtual float getHorizontalSpeed();
         virtual float getVerticalSpeed();
         virtual bool isPersistent();
+        virtual float getGravity();
+        virtual float getGravityDirection();
         
         virtual void setVisible(bool visible);
         virtual void setX(float x);
@@ -56,6 +59,8 @@ class pineapple::objects::Actor
         virtual void setHorizontalSpeed(float speed);
         virtual void setVerticalSpeed(float speed);
         virtual void setPersistent(bool persistent);
+        virtual void setGravity(float gravity);
+        virtual void setGravityDirection(float gravity_direction);
 };
 
 #endif	/* _ACTOR_H */
