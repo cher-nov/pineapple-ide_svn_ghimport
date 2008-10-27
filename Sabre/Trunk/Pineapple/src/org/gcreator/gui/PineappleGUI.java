@@ -19,7 +19,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 package org.gcreator.gui;
 
 import java.awt.BorderLayout;
@@ -56,6 +56,9 @@ import org.gcreator.project.FileElement;
 import org.gcreator.project.FolderElement;
 import org.gcreator.tree.BaseTreeNode;
 import org.gcreator.tree.FileTreeNode;
+import org.noos.xing.mydoggy.ToolWindow;
+import org.noos.xing.mydoggy.ToolWindowAnchor;
+import org.noos.xing.mydoggy.plaf.MyDoggyToolWindowManager;
 
 /**
  * This deals with the main GUI stuff.
@@ -115,6 +118,7 @@ public class PineappleGUI implements EventHandler {
         EventManager.addEventHandler(this, DefaultEventTypes.FILE_CHANGED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.PROJECT_OPENED, EventPriority.MEDIUM);
     }
+    private MyDoggyToolWindowManager manager;
 
     /**
      * Initilize's the Pineapple Window.
@@ -124,15 +128,19 @@ public class PineappleGUI implements EventHandler {
         f.setTitle("Pineapple IDE");
         f.setIconImage(new ImageIcon(getClass().getResource(
                 "/org/gcreator/pineapple/pineapple.png")).getImage());
-        splitter = new JSplitPane();
-        splitter.setVisible(true);
-        f.setLayout(new BorderLayout());
-        f.add(splitter, BorderLayout.CENTER);
+
+        manager = new MyDoggyToolWindowManager();
+        f.getContentPane().add(manager);
+
+        //splitter = new JSplitPane();
+        //splitter.setVisible(true);
+        //f.setLayout(new BorderLayout());
+        //f.add(splitter, BorderLayout.CENTER);
 
         project = new DefaultProject();
         projectNode = new ProjectTreeNode(project);
         project.add(new FolderElement(new File("./")));
-        
+
         tree = new JTree(projectNode);
         tree.setVisible(true);
         tree.setCellRenderer(new ProjectTreeRenderer());
@@ -141,13 +149,13 @@ public class PineappleGUI implements EventHandler {
             @Override
             public void mousePressed(MouseEvent e) {
                 Object o = tree.getPathForRow(tree.getClosestRowForLocation(e.getX(), e.getY())).getLastPathComponent();
-                System.out.println("you clicked: "+o + " "+ o.getClass());
+                System.out.println("you clicked: " + o + " " + o.getClass());
                 if (e.getClickCount() >= 2) {
                     if (o instanceof BaseTreeNode) {
                         TreePath tp = tree.getClosestPathForLocation(e.getX(), e.getY());
                         tree.setSelectionPath(tp);
                         BaseTreeNode node = (BaseTreeNode) o;
-                    
+
                         if (node != null && node instanceof FileTreeNode) {
                             openFile(node.getElement().getFile());
                         }
@@ -157,16 +165,19 @@ public class PineappleGUI implements EventHandler {
         });
         tree.setScrollsOnExpand(true);
         tree.setShowsRootHandles(true);
-        splitter.setLeftComponent(tree);
+        manager.registerToolWindow("Project", "Project", null, tree,
+                ToolWindowAnchor.LEFT);
+        //splitter.setLeftComponent(tree);
 
         dip = new TabbedInterfaceProvider();
         dip.setVisible(true);
-        splitter.setRightComponent(dip);
-        splitter.setDividerLocation(120);
+        manager.setMainContent(dip);
+        //splitter.setRightComponent(dip);
+        //splitter.setDividerLocation(120);
 
         menubar = new JMenuBar();
         menubar.setVisible(true);
-        f.add(menubar, BorderLayout.NORTH);
+        f.setJMenuBar(menubar);
 
         fileMenu = new JMenu("File");
         fileMenu.setMnemonic('F');
@@ -234,33 +245,38 @@ public class PineappleGUI implements EventHandler {
         editMenu.setEnabled(false);
         editMenu.setVisible(true);
         menubar.add(editMenu);
-        
+
         toolsMenu = new JMenu("Tools");
         toolsMenu.setMnemonic('T');
         toolsMenu.setEnabled(true);
         toolsMenu.setVisible(true);
         menubar.add(toolsMenu);
-        
+
         toolsPlugins = new JMenuItem("Plugins");
         toolsPlugins.setMnemonic('g');
         toolsPlugins.setEnabled(true);
         toolsPlugins.setVisible(true);
-        toolsPlugins.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
+        toolsPlugins.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
                 openPluginDialog();
             }
         });
         toolsMenu.add(toolsPlugins);
+
+        for (ToolWindow window : manager.getToolWindows()) {
+            window.setAvailable(true);
+        }
     }
 
     /**
      * Opens the plugin dialog
      */
-    public void openPluginDialog(){
+    public void openPluginDialog() {
         PluginDialog d = new PluginDialog(Core.getStaticContext().getMainFrame());
         d.setVisible(true);
     }
-    
+
     /**
      * Handles any provided events
      * @param evt The sent event
@@ -268,12 +284,12 @@ public class PineappleGUI implements EventHandler {
     @Override
     public void handleEvent(NotifyEvent evt) {
         if (evt.getEventType().equals(DefaultEventTypes.WINDOW_CREATED)) {
-            
+
             /* Initilize the main window */
             initializeWindow();
-            
+
         } else if (evt.getEventType().equals(DefaultEventTypes.FILE_CHANGED)) {
-            
+
             DocumentPane pane = dip.getSelectedDocument();
             editMenu.removeAll();
             if (pane != null) {
@@ -283,9 +299,9 @@ public class PineappleGUI implements EventHandler {
                 editMenu.setEnabled(false);
                 fileSave.setEnabled(false);
             }
-            
+
         } else if (evt.getEventType().equals(DefaultEventTypes.FILE_OPENED) && evt.getArguments().length >= 2) {
-            
+
             DocumentPane p;
             Object[] arguments = evt.getArguments();
             File f = (File) arguments[0];
@@ -314,9 +330,9 @@ public class PineappleGUI implements EventHandler {
             dip.add(p.getFile().getName(), p);
             evt.handleEvent();
             tree.updateUI();
-            
+
         } else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_DISPOSED)) {
-            
+
             for (DocumentPane doc : dip.getDocuments()) {
                 if (doc != null) {
                     if (!doc.dispose()) {
@@ -325,7 +341,7 @@ public class PineappleGUI implements EventHandler {
                     }
                 }
             }
-            
+
         } else if (evt.getEventType().equals(DefaultEventTypes.PROJECT_OPENED)) {
             //TODO: open project.
         }
