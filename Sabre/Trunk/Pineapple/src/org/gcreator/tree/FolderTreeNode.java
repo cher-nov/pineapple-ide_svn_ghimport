@@ -95,7 +95,7 @@ public class FolderTreeNode extends DefaultMutableTreeNode implements BaseTreeNo
      */
     @Override
     public TreeNode getChildAt(int childIndex) {
-        return new DefaultMutableTreeNode(folder.getChildAt(childIndex));
+        return folder.getChildAt(childIndex).getTreeNode();
     }
 
     /**
