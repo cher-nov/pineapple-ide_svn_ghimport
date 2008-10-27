@@ -71,11 +71,6 @@ import org.noos.xing.mydoggy.plaf.MyDoggyToolWindowManager;
  * @author Luís Reis
  */
 public class PineappleGUI implements EventHandler {
-
-    /**
-     * Owns {@link #tree} and the tabbed pane
-     */
-    public static JSplitPane splitter;
     /**
      * The project tree
      */
