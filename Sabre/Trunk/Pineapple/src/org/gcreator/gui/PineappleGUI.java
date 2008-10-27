@@ -54,6 +54,8 @@ import org.gcreator.project.BaseElement;
 import org.gcreator.project.DefaultProject;
 import org.gcreator.project.FileElement;
 import org.gcreator.project.FolderElement;
+import org.gcreator.tree.BaseTreeNode;
+import org.gcreator.tree.FileTreeNode;
 
 /**
  * This deals with the main GUI stuff.
@@ -133,15 +135,20 @@ public class PineappleGUI implements EventHandler {
         tree.setVisible(true);
         tree.setCellRenderer(new ProjectTreeRenderer());
         tree.addMouseListener(new MouseAdapter() {
-            
+
             @Override
             public void mousePressed(MouseEvent e) {
-                if (e.getClickCount() >= 2 && tree.getLastSelectedPathComponent() instanceof BaseElement) {
-                    TreePath tp = tree.getClosestPathForLocation(e.getX(), e.getY());
-                    tree.setSelectionPath(tp);
-                    BaseElement elem = project.getFileAt(tree.getClosestRowForLocation(e.getX(), e.getY()));
-                    if (elem != null && elem instanceof FileElement) {
-                        openFile(elem.getFile());
+                Object o = tree.getPathForRow(tree.getClosestRowForLocation(e.getX(), e.getY())).getLastPathComponent();
+                System.out.println("you clicked: "+o + " "+ o.getClass());
+                if (e.getClickCount() >= 2) {
+                    if (o instanceof BaseTreeNode) {
+                        TreePath tp = tree.getClosestPathForLocation(e.getX(), e.getY());
+                        tree.setSelectionPath(tp);
+                        BaseTreeNode node = (BaseTreeNode) o;
+                    
+                        if (node != null && node instanceof FileTreeNode) {
+                            openFile(node.getElement().getFile());
+                        }
                     }
                 }
             }

@@ -27,6 +27,8 @@ package org.gcreator.project;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.gcreator.tree.BaseTreeNode;
 import org.gcreator.tree.FolderTreeNode;
 
@@ -62,13 +64,11 @@ public class FolderElement extends BaseElement {
     public void reload() {
         children.clear();
         for (File f : folder.listFiles()) {
-            BaseElement e;
-            if (f.isDirectory()) {
-                e = new FolderElement(f);
-            } else {
-                e = new FileElement(f);
+            try {
+                children.add(Project.createElement(f));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FolderElement.class.getName()).log(Level.SEVERE, null, ex);
             }
-            children.add(e);
         }
     }
     

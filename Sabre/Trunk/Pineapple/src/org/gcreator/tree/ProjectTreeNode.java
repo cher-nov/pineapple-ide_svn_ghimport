@@ -25,7 +25,6 @@ THE SOFTWARE.
 package org.gcreator.tree;
 
 import java.util.Enumeration;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import org.gcreator.project.Project;
 
@@ -34,7 +33,7 @@ import org.gcreator.project.Project;
  * 
  * @author Serge Humphrey
  */
-public class ProjectTreeNode extends DefaultMutableTreeNode {
+public class ProjectTreeNode implements TreeNode {
     
     private static final long serialVersionUID = 1;
     private Project project;
@@ -45,7 +44,7 @@ public class ProjectTreeNode extends DefaultMutableTreeNode {
      * @param project The project this node belongs to.
      */
     public ProjectTreeNode(Project project) {
-        super(project);
+        super();
         this.project = project;
     }
 
@@ -111,6 +110,7 @@ public class ProjectTreeNode extends DefaultMutableTreeNode {
 
     /**
      * {@inheritDoc}
+     * @return An Enumeration for the node's children.
      */
     @Override
     public Enumeration children() {
