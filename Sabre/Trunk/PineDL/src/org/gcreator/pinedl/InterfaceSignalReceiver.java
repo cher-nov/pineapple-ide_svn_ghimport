@@ -25,6 +25,7 @@ package org.gcreator.pinedl;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Vector;
 
 /**
  * This signal receiver outputs a PDI interface.
@@ -32,6 +33,8 @@ import java.io.OutputStream;
  */
 public class InterfaceSignalReceiver extends SignalReceiver{
     private OutputStream stream;
+    private String pkg = "";
+    private Vector<String> imports = new Vector<String>();
     
     public InterfaceSignalReceiver(OutputStream stream) throws IOException{
         stream.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".getBytes());
@@ -44,24 +47,73 @@ public class InterfaceSignalReceiver extends SignalReceiver{
     
     @Override
     public void sendPackageSignal(String pkg){
-        System.out.println("pkg="+pkg.toString());
+        this.pkg = pkg;
     }
     
     @Override
     public void sendImportSignal(String cls){
-        System.out.println("import="+cls.toString());
+        imports.add(cls);
     }
     
     @Override
     public void sendClassDeclaration(String cls, String bcls){
-        System.out.println("cls="+cls+"; bcls="+bcls);
+        try{
+            stream.write(("<pdi version=\"1.0\" name=\""+cls+"\" extends=\""
+                + (bcls==null?"":bcls) + "\">\n").getBytes());
+            stream.write(("<package>"+pkg+"</package>\n").getBytes());
+            for(String imp : imports){
+                stream.write(("<import>"+imp+"</import>\n").getBytes());
+            }
+        }
+        catch(Exception e){
+            
+        }
     }
     
     @Override
     public void sendFieldSignal(String privacy, boolean isStatic, boolean isConst,
             String type, String name){
             
-        System.out.println("privacy="+privacy+"; isStatic="+isStatic+"; isConst="+
-                isConst + "; type="+type+"; name="+name);
+        try{
+            stream.write(("<field privacy=\""
+                    + privacy + "\" static=\""
+                    + isStatic + "\" const=\""
+                    + isConst + "\" type=\""
+                    + type + "\" name=\"name\"/>\n").getBytes());
+        }
+        catch(Exception e){
+            
+        }
+    }
+    
+    @Override
+    public void sendMethodSignal(String privacy, boolean isStatic, String type,
+            String name, Vector<Argument> args){
+        
+            try{
+                stream.write(("<method privacy=\""+privacy+
+                        "\" static=\""+isStatic+"\" return=\""+type+"\" name=\""
+                        + name +"\">\n").getBytes());
+                
+                for(Argument arg : args){
+                    stream.write(("<argument type=\""+arg.type+"\" name=\""
+                            + arg.name + "\"/>\n").getBytes());
+                }
+                
+                stream.write("</method>\n".getBytes());
+            }
+            catch(Exception e){
+                
+            }
+    }
+    
+    @Override
+    public void endClass(){
+        try{
+            stream.write(("</pdi>\n").getBytes());
+        }
+        catch(Exception e){
+            
+        }
     }
 }

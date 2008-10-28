@@ -60,6 +60,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 package org.gcreator.pinedl;
+
+import java.util.Vector;
 }
 
 @lexer::header{
@@ -115,7 +117,8 @@ clsstmt @init{String cls = ""; String baseclass = null;}
 		{signal.sendClassDeclaration(cls, baseclass);}
 		BBLOCK
 			classcontent
-		EBLOCK;
+		EBLOCK
+		{signal.endClass();};
 		
 classcontent
 	:	element*;
@@ -136,7 +139,19 @@ String type = "";
 	n=WORD {signal.sendFieldSignal(privacy, isstatic, isconst, type, n.getText());}
 	STMTCUT;
 
-method	:	PRIVACY 'static'? type WORD LPAREN (argument (',' argument)*)? RPAREN
+method
+@init{
+String privacy = null;
+boolean isstatic = false;
+String type = "";
+String name = "";
+Vector<Argument> args = new Vector<Argument>();
+}	:	p=PRIVACY {privacy=p.getText();}
+		(s='static' {isstatic = true;})?
+		t=type {type=t;}
+		n=WORD {name=n.getText();}
+		LPAREN (a=argument {args.add(a);} (',' b=argument {args.add(b);})*)? RPAREN
+		{signal.sendMethodSignal(privacy, isstatic, type, name, args); }
 		BBLOCK
 			code
 		EBLOCK;
@@ -147,7 +162,8 @@ constructor
 			code
 		EBLOCK;
 		
-argument:	WORD WORD;
+argument returns [Argument a = new Argument()]
+	:	c=type {a.type = c;} d=WORD {a.name = d.getText();};
 
 code	:	codel*;
 
@@ -156,7 +172,15 @@ codel	:	trycatch |
 		ifcase |
 		whilecase |
 		(type2value STMTCUT) |
+		returncase |
+		throwcase |
 		STMTCUT /*empty statement*/;
+
+returncase
+	:	'return' expression STMTCUT;
+	
+throwcase
+	:	'throw' expression STMTCUT;
 
 //type name [= expression]
 //OR
@@ -216,7 +240,7 @@ context returns [String result = ""]
 
 //Only used to ensure some keywords
 type	returns [String s = ""]
-	:	(t='int'|'float'|'double'|'uint'|'char'|'string' {s=t.getText();})|(g=context {s = g;});
+	:	(t=('int'|'float'|'double'|'uint'|'char'|'string') {s=t.getText();})|(g=context {s = g;});
 
 THIS	:	'this';
 
@@ -251,4 +275,3 @@ MLCOMMENT
 	:	'/*' ( options {greedy=false;} : . )* '*/' { $channel = HIDDEN; };
 
 WHITESPACE : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ { $channel = HIDDEN; };
-

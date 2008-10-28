@@ -7,7 +7,7 @@
     
     <target name="default">
         <!-- Cleaning -->
-        <delete file="Core/build/Plugins/PinDL.jar"/>
+        <delete file="Core/build/Plugins/PineDL.jar"/>
         <delete file="Core/dist/Plugins/PineDL.jar"/>
         
         <mkdir dir="Core/build/"/>
