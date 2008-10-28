@@ -21,4 +21,8 @@ class X extends Y
         int life = (-40) + 1 * 2;
         Console.getOutputStream().PrintLine("The meaning of line is " + life);
     }
+
+    public int sum(int x, string y){
+        return x+y;
+    }
 }

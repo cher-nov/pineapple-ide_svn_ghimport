@@ -23,6 +23,8 @@ THE SOFTWARE.
 
 package org.gcreator.pinedl;
 
+import java.util.Vector;
+
 /**
  * A SignalReceiver gets information from the PineDL compiler
  * @author Luís Reis
@@ -58,4 +60,20 @@ public class SignalReceiver {
      */
     public void sendFieldSignal(String privacy, boolean isStatic, boolean isConst,
             String type, String name){}
+    
+    /**
+     * A method(class function)
+     * @param privacy The method privacy: public, private or protected
+     * @param isStatic Whether the method is static
+     * @param type The return type
+     * @param name The method name
+     * @param args The arguments
+     */
+    public void sendMethodSignal(String privacy, boolean isStatic, String type,
+            String name, Vector<Argument> args){}
+    
+    /**
+     * Closes the parsing started by 
+     */
+    public void endClass(){}
 }
