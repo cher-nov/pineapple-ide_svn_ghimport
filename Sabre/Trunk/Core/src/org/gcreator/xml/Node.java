@@ -178,7 +178,7 @@ public final class Node {
     }
 
     /**
-     * Gets the value of an attribute
+     * Gets the value of an attribute, or null if it doesn't exist
      * @param val The name of the attribute
      * @see #getAttributeName(int)
      * @see #getAttributeValueAsInteger(String)
@@ -207,6 +207,26 @@ public final class Node {
             return Integer.parseInt(attributes.get(val));
         } catch (Exception e) {
             return -1;
+        }
+    }
+    
+    /**
+     * Calls {@link #getAttributeValue(String)} and converts the result
+     * to dobule
+     * @param val The name of the attribute
+     * @return The value of the attribute as an double, or NaN if that's not
+     * possible
+     * 
+     * @see #getAttributeValue(String)
+     */
+    public double getAttributeValueAsDouble(String val) {
+        if (attributes == null) {
+            return Double.NaN;
+        }
+        try {
+            return Double.parseDouble(attributes.get(val));
+        } catch (Exception e) {
+            return Double.NaN;
         }
     }
 
