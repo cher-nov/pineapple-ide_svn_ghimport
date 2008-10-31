@@ -47,6 +47,7 @@ class pineapple::objects::Scene
         void setHeight(int height);
         void addView(View* view);
         void addActor(Actor* actor);
+        void onKeyDown(string key);
 };
 
 #endif	/* _SCENE_H */

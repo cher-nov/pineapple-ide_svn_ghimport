@@ -25,6 +25,7 @@ THE SOFTWARE.
 
 #include <string>
 #include <vector>
+#include "SDL.h"
 #include "SDL_opengl.h"
 
 typedef std::string string;
