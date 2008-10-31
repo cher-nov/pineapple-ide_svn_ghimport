@@ -121,6 +121,9 @@ void pineapple::std::Window::run()
                 Application::requestExit(); break;
             case SDL_VIDEORESIZE:
                 setSize(event.resize.w, event.resize.h);
+            case SDL_KEYDOWN:
+                simulateKeyDownEvent(
+                        string(SDL_GetKeyName(event.key.keysym.syms)));
         }
     }
     
@@ -147,5 +150,14 @@ void pineapple::std::Window::redraw()
     }
     else{
         printf("WARNING: Scene is null\n");
+    }
+}
+
+void pineapple::std::Window::simulateKeyDownEvent(string key)
+{
+    ::pineapple::objects::Scene* s = Application::getCurrentScene();
+    if(s!=NULL)
+    {
+        s->onKeyDown(key);
     }
 }

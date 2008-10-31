@@ -125,3 +125,8 @@ void pineapple::objects::Scene::addActor(Actor* a)
 {
     actors->push_back(a);
 }
+
+void pineapple::objects::Scene::onKeyDown(string key)
+{
+    
+}

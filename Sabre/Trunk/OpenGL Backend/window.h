@@ -24,7 +24,6 @@ THE SOFTWARE.
 #define	_WINDOW_H
 
 #include "pineapple.h"
-#include "SDL.h"
 
 class pineapple::std::Window
 {
@@ -51,6 +50,7 @@ class pineapple::std::Window
         static string getTitle();
         static void run();
         static void redraw();
+        static void simulateKeyDownEvent(string key);
 };
 
 #endif	/* _WINDOW_H */
