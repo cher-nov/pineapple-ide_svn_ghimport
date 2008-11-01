@@ -25,6 +25,7 @@ package org.gcreator.pinedl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Vector;
 import org.gcreator.xml.Node;
 import org.gcreator.xml.SAXImporter;
 import org.xml.sax.SAXException;
@@ -37,6 +38,8 @@ public class PDI {
     public String pkg = "";
     public String clsname = "";
     public String bclass = "";
+    public Vector<String> imports = new Vector<String>();
+    public Vector<Field> fields = new Vector<Field>();
     
     public PDI(){
         
@@ -61,6 +64,9 @@ public class PDI {
                     throw new SAXException(
                             "Invalid format: Duplicated package statements.");
                 pkg = node.getContent();
+            }
+            else if(node.getName().equals("import")){
+                imports.add(node.getContent());
             }
         }
     }
