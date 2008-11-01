@@ -146,3 +146,11 @@ void pineapple::objects::Actor::setGravity(float gravity){
 void pineapple::objects::Actor::setGravityDirection(float gravity_direction){
     this->gravity_direction = gravity_direction;
 }
+
+void pineapple::objects::Actor::onKeyDown(string key){
+
+}
+
+void pineapple::objects::Actor::onKeyUp(string key){
+
+}
