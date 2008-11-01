@@ -72,6 +72,7 @@ import org.noos.xing.mydoggy.plaf.MyDoggyToolWindowManager;
  * @author Luís Reis
  */
 public class PineappleGUI implements EventHandler {
+    
     /**
      * The project tree
      */
@@ -84,9 +85,21 @@ public class PineappleGUI implements EventHandler {
      * The menubar of the application
      */
     public static JMenuBar menubar;
+    /**
+     * The file menu
+     */
     public static JMenu fileMenu;
+    /**
+     * The project menu
+     */
     public static JMenu projectMenu;
+    /**
+     * The edit menu
+     */
     public static JMenu editMenu;
+    /**
+     * The tools menu
+     */
     public static JMenu toolsMenu;
     public static JMenuItem fileNewProject;
     public static JMenuItem fileOpenFile;
