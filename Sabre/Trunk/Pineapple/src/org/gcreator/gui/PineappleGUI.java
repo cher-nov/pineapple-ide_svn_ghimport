@@ -40,8 +40,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 import org.gcreator.core.Core;
 import org.gcreator.editors.ImagePreviewer;
 import org.gcreator.editors.TextEditor;
@@ -81,15 +85,19 @@ public class PineappleGUI implements EventHandler {
      */
     public static JMenuBar menubar;
     public static JMenu fileMenu;
+    public static JMenu projectMenu;
     public static JMenu editMenu;
     public static JMenu toolsMenu;
     public static JMenuItem fileNewProject;
     public static JMenuItem fileOpenFile;
     public static JMenuItem fileOpenProject;
-    public static JMenuItem fileAddFileFolder;
     public static JMenuItem fileSave;
     public static JMenuItem fileExit;
     public static JMenuItem toolsPlugins;
+    public static JMenuItem projectRemove;
+    public static JMenuItem projectOpen;
+    public static JMenuItem projectAdd;
+    
     /**
      * Provides a way to deal with multiple documents.
      */
@@ -134,6 +142,7 @@ public class PineappleGUI implements EventHandler {
         projectNode = new ProjectTreeNode(project);
 
         tree = new JTree(projectNode);
+        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         tree.setVisible(true);
         tree.setCellRenderer(new ProjectTreeRenderer());
         tree.addMouseListener(new MouseAdapter() {
@@ -141,22 +150,41 @@ public class PineappleGUI implements EventHandler {
             @Override
             public void mousePressed(MouseEvent e) {
                 Object o = tree.getPathForRow(tree.getClosestRowForLocation(e.getX(), e.getY())).getLastPathComponent();
-                if (e.getClickCount() >= 2) {
-                    if (o instanceof BaseTreeNode) {
-                        TreePath tp = tree.getClosestPathForLocation(e.getX(), e.getY());
-                        tree.setSelectionPath(tp);
-                        BaseTreeNode node = (BaseTreeNode) o;
+                if (o == null || !(o instanceof BaseTreeNode)) {
+                    return;
+                }
+                BaseTreeNode node = (BaseTreeNode) o;
 
-                        if (node != null && node instanceof FileTreeNode) {
-                            openFile(node.getElement().getFile());
-                        }
+                if (e.getClickCount() >= 2) {
+                   
+                    TreePath tp = tree.getClosestPathForLocation(e.getX(), e.getY());
+                    tree.setSelectionPath(tp);
+
+                    if (node != null && node instanceof FileTreeNode) {
+                        openFile(node.getElement().getFile());
                     }
                 }
             }
         });
+        tree.addTreeSelectionListener(new TreeSelectionListener() {
+
+            public void valueChanged(TreeSelectionEvent e) {
+                Object o = e.getPath().getLastPathComponent();
+                if (o == null || !(o instanceof BaseTreeNode)) {
+                    projectRemove.setEnabled(false);
+                    projectOpen.setEnabled(false);
+                    return;
+                }
+                BaseTreeNode node = (BaseTreeNode) o;
+                
+                projectRemove.setEnabled(project.getFiles().indexOf(node.getElement()) != -1);
+                projectOpen.setEnabled(node instanceof FileTreeNode);
+                e.getNewLeadSelectionPath();
+            }
+        });
         tree.setScrollsOnExpand(true);
         tree.setShowsRootHandles(true);
-        manager.registerToolWindow("Project", "Project", null, tree,
+        manager.registerToolWindow("Project", "Project", null, new JScrollPane(tree),
                 ToolWindowAnchor.LEFT);
 
         dip = new TabbedInterfaceProvider();
@@ -204,17 +232,6 @@ public class PineappleGUI implements EventHandler {
             }
         });
         fileMenu.add(fileOpenFile);
-        
-        fileAddFileFolder = new JMenuItem("Add File/Folder to Project");
-        fileAddFileFolder.setMnemonic('A');
-        fileAddFileFolder.setVisible(true);
-        fileAddFileFolder.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent evt) {
-                openFile(true, true);
-            }
-        });
-        fileMenu.add(fileAddFileFolder);
 
         fileSave = new JMenuItem("Save");
         fileSave.setMnemonic('S');
@@ -239,6 +256,49 @@ public class PineappleGUI implements EventHandler {
         });
         fileMenu.add(fileExit);
 
+        projectMenu = new JMenu("Project");
+        
+        projectOpen = new JMenuItem("Open Selected...");
+        projectOpen.setMnemonic('O');
+        projectOpen.setVisible(true);
+        projectOpen.setEnabled(false);
+        projectOpen.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    BaseTreeNode node = (BaseTreeNode) tree.getSelectionPath().getLastPathComponent();
+                    openFile(node.getElement().getFile());
+                } catch (Exception e) {}
+            }
+        });
+        projectMenu.add(projectOpen);
+        
+        projectAdd = new JMenuItem("Add File/Folder...");
+        projectAdd.setMnemonic('A');
+        projectAdd.setVisible(true);
+        projectAdd.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                openFile(true, true);
+            }
+        });
+        projectMenu.add(projectAdd);
+        
+        projectRemove = new JMenuItem("Remove Selected");
+        projectRemove.setMnemonic('R');
+        projectRemove.setVisible(true);
+        projectRemove.setEnabled(false);
+        projectRemove.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                project.remove(((BaseTreeNode)tree.getSelectionPath().getLastPathComponent()).getElement());
+                tree.updateUI();
+            }
+        });
+        projectMenu.add(projectRemove);
+        
+        menubar.add(projectMenu);
+        
         editMenu = new JMenu("Edit");
         editMenu.setMnemonic('E');
         editMenu.setEnabled(false);
@@ -342,7 +402,7 @@ public class PineappleGUI implements EventHandler {
             }
 
         } else if (evt.getEventType().equals(DefaultEventTypes.PROJECT_OPENED)) {
-        //TODO: open project.
+            //TODO: open project.
         }
     }
 

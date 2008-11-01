@@ -131,7 +131,7 @@ public final class PluginImporter {
             Attributes a = m.getMainAttributes();
             load(f, a.getValue("Pineapple-EntryPoint"), loader);
         } catch (Exception e) {
-            System.out.println(e);
+            Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
         }
     }
 
@@ -149,6 +149,9 @@ public final class PluginImporter {
     public static void load(File f, String className, URLClassLoader loader) throws 
             ClassNotFoundException, InstantiationException, InvocationTargetException {
         
+        if (className == null) {
+            return;
+        }
         try {
             System.out.println("Loading " + f.toString());
             
