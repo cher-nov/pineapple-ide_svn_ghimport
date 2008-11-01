@@ -128,5 +128,18 @@ void pineapple::objects::Scene::addActor(Actor* a)
 
 void pineapple::objects::Scene::onKeyDown(string key)
 {
-    
+    for(int i = 0; i < actors->size(); i++)
+    {
+        Actor* a = actors->at(i);
+        a->onKeyDown(key);
+    }
+}
+
+void pineapple::objects::Scene::onKeyUp(string key)
+{
+    for(int i = 0; i < actors->size(); i++)
+    {
+        Actor* a = actors->at(i);
+        a->onKeyUp(key);
+    }
 }

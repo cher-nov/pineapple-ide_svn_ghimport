@@ -123,7 +123,10 @@ void pineapple::std::Window::run()
                 setSize(event.resize.w, event.resize.h);
             case SDL_KEYDOWN:
                 simulateKeyDownEvent(
-                        string(SDL_GetKeyName(event.key.keysym.syms)));
+                        string(SDL_GetKeyName(event.key.keysym.sym))); break;
+            case SDL_KEYUP:
+                simulateKeyUpEvent(
+                        string(SDL_GetKeyName(event.key.keysym.sym))); break;
         }
     }
     
@@ -159,5 +162,14 @@ void pineapple::std::Window::simulateKeyDownEvent(string key)
     if(s!=NULL)
     {
         s->onKeyDown(key);
+    }
+}
+
+void pineapple::std::Window::simulateKeyUpEvent(string key)
+{
+    ::pineapple::objects::Scene* s = Application::getCurrentScene();
+    if(s!=NULL)
+    {
+        s->onKeyUp(key);
     }
 }

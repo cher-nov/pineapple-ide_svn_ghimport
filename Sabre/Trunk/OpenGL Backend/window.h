@@ -51,6 +51,7 @@ class pineapple::std::Window
         static void run();
         static void redraw();
         static void simulateKeyDownEvent(string key);
+        static void simulateKeyUpEvent(string key);
 };
 
 #endif	/* _WINDOW_H */

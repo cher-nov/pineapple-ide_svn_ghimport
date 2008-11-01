@@ -61,6 +61,9 @@ class pineapple::objects::Actor
         virtual void setPersistent(bool persistent);
         virtual void setGravity(float gravity);
         virtual void setGravityDirection(float gravity_direction);
+        
+        virtual void onKeyDown(string key);
+        virtual void onKeyUp(string key);
 };
 
 #endif	/* _ACTOR_H */
