@@ -106,4 +106,12 @@ public abstract class Project {
         }
         return e;
     }
+    
+    /**
+     * Reloads/Update the project.
+     * By default, this method does nothing, but may be useful in some cases.
+     */
+    public void update(){
+        
+    }
 }
