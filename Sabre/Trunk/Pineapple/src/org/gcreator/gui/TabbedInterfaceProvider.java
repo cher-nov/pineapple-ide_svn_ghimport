@@ -53,7 +53,7 @@ public class TabbedInterfaceProvider extends DocumentInterfaceProvider {
 
             public void stateChanged(ChangeEvent evt) {
                 EventManager.fireEvent(TabbedInterfaceProvider.this,
-                        DefaultEventTypes.FILE_CHANGED);
+                        PineappleGUI.FILE_CHANGED);
             }
         });
     }

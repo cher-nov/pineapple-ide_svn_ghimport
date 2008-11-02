@@ -40,24 +40,7 @@ public final class DefaultEventTypes {
      * An undefined event type.
      */
     public static final String UNDEFINED = "undefined";
-    
-    /**
-     * When a file is opened.
-     * This event should have the opened File as the first argument.
-     * File can be null.
-     * The second argument should be the File format, even if the File is null.
-     */
-    public static final String FILE_OPENED = "file-opened";
-    
-    /**
-     * When a file changes.
-     */
-    public static final String FILE_CHANGED = "file-changed";
-    
-    /**
-     * When a project is opened
-     */
-    public static final String PROJECT_OPENED = "project-opened";
+   
     
     /**
      * When the application is initilized.
