@@ -118,6 +118,8 @@ public class PineappleGUI implements EventHandler {
     public static JMenuItem projectRemove;
     public static JMenuItem projectOpen;
     public static JMenuItem projectAdd;
+    public static JMenuItem projectDelete;
+    
     /**
      * Provides a way to deal with multiple documents.
      */
@@ -208,7 +210,7 @@ public class PineappleGUI implements EventHandler {
 
         project = new DefaultProject();
 
-        //<editor-fold defaultstate="collapsed" desc="tree initialization">
+        //<editor-fold defaultstate="collapsed" desc="Tree Initialization">
         projectNode = new ProjectTreeNode(project);
         tree = new JTree(projectNode);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -252,6 +254,14 @@ public class PineappleGUI implements EventHandler {
                         });
                     }
                     
+                    if (o instanceof BaseTreeNode) {
+                        menu.add("Delete").addActionListener(new ActionListener() {
+
+                            public void actionPerformed(ActionEvent evt) {
+                                deleteFile(((BaseTreeNode)o).getElement());
+                            }
+                        });
+                    }
                     if (menu.getComponentCount() > 0) {
                         menu.show(tree, e.getX(), e.getY());
                     }
@@ -272,12 +282,7 @@ public class PineappleGUI implements EventHandler {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     openFile(el.getFile());
                 } else if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-                    if (JOptionPane.showConfirmDialog(tree,
-                            "<html>Are you sure you want to delete this file from your file system?<br/>This will be permanent.</html>") == JOptionPane.YES_OPTION) {
-                        t.getElement().getFile().delete();
-                        project.remove(el);
-                        EventManager.fireEvent(this, FILE_DELETED, el);
-                    }
+                    deleteFile(el);
                 }
             }
         });
@@ -288,12 +293,14 @@ public class PineappleGUI implements EventHandler {
                 if (o == null || !(o instanceof BaseTreeNode)) {
                     projectRemove.setEnabled(false);
                     projectOpen.setEnabled(false);
+                    projectDelete.setEnabled(false);
                     return;
                 }
                 BaseTreeNode node = (BaseTreeNode) o;
 
                 projectRemove.setEnabled(project.getFiles().indexOf(node.getElement()) != -1);
                 projectOpen.setEnabled(node instanceof FileTreeNode);
+                projectDelete.setEnabled(true);
             }
         });
         tree.setScrollsOnExpand(true);
@@ -417,6 +424,20 @@ public class PineappleGUI implements EventHandler {
         });
         projectMenu.add(projectRemove);
 
+        projectDelete = new JMenuItem("Delete Selected");
+        projectDelete.setMnemonic('D');
+        projectDelete.setVisible(true);
+        projectDelete.setEnabled(false);
+        projectDelete.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                BaseElement el = ((BaseTreeNode) tree.getSelectionPath().getLastPathComponent()).getElement();
+                deleteFile(el);
+            }
+        });
+        projectMenu.add(projectDelete);
+        
+        
         menubar.add(projectMenu);
         //</editor-fold>
 
@@ -717,4 +738,13 @@ public class PineappleGUI implements EventHandler {
         dialog.setVisible(true);
     }
     //</editor-fold>
+    
+    private void deleteFile(BaseElement e) {
+        if (JOptionPane.showConfirmDialog(tree,
+                "<html>Are you sure you want to delete this file from your file system?<br/>This will be permanent.</html>") == JOptionPane.YES_OPTION) {
+            e.getFile().delete();
+            project.remove(e);
+            EventManager.fireEvent(this, FILE_DELETED, e);
+        }
+    }
 }

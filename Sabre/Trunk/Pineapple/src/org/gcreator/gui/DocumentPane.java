@@ -22,7 +22,6 @@ THE SOFTWARE.
  */
 package org.gcreator.gui;
 
-import org.gcreator.pineapple.PineapplePlugin;
 import java.io.File;
 import java.net.URI;
 import javax.swing.JFileChooser;
