@@ -35,6 +35,11 @@ import org.gcreator.tree.BaseTreeNode;
 public abstract class BaseElement {
     
     /**
+     * This file's parent.
+     */
+    protected BaseElement parent;
+    
+    /**
      * Gets the file.
      * 
      * @return The File.
@@ -42,9 +47,30 @@ public abstract class BaseElement {
     public abstract File getFile();
     
     /**
-     * Gets 
-     
+     * Gets the {@link org.gcreator.tree.BaseTreeNode} to be used for the tree.
+     * 
      * @return A {@link org.gcreator.tree.BaseTreeNode} to be used for the tree.
      */
     public abstract BaseTreeNode getTreeNode();
+    
+    /**
+     * This returns the parent or null if it has not been set.
+     * 
+     * @return This file's parent. This may be null and is not very reliable.
+     * @see setParent(BaseElement e)
+     */
+    public BaseElement getParent() {
+        return parent;
+    }
+    
+    /**
+     * Sets the parent of this file.
+     * 
+     * @param e The new parent for this file.
+     * 
+     * @see getParent()
+     */
+    public void setParent(BaseElement e) {
+        this.parent = e;
+    }
 }

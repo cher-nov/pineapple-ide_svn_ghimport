@@ -65,7 +65,9 @@ public class FolderElement extends BaseElement {
         children.clear();
         for (File f : folder.listFiles()) {
             try {
-                children.add(Project.createElement(f));
+                BaseElement e = Project.createElement(f);
+                e.setParent(this);
+                children.add(e);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(FolderElement.class.getName()).log(Level.SEVERE, null, ex);
             }
