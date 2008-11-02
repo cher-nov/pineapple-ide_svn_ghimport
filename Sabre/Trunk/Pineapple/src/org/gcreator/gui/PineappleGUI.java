@@ -358,14 +358,20 @@ public class PineappleGUI implements EventHandler {
     @Override
     public void handleEvent(NotifyEvent evt) {
         if(evt.getEventType().equals(DefaultEventTypes.APPLICATION_INITIALIZED)) {
+            boolean lf = false;
             try{
-                for(UIManager.LookAndFeelInfo i :  UIManager.getInstalledLookAndFeels())
-                    System.out.println("L&F: " + i.getClassName());
                 UIManager.setLookAndFeel(
                         "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+                lf = true;
             }
             catch(Exception e){
                 System.out.println("Failed to install l&f: " + e.getMessage());
+            }
+            if(!lf){
+                try{
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                }
+                catch(Exception e){}
             }
         }
         else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_CREATED)) {
