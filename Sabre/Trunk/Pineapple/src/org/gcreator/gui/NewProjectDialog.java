@@ -49,14 +49,14 @@ import org.gcreator.project.Project;
  * A Dialog to create new projects
  * @author Luís Reis
  */
-public class NewProjectDialog extends JDialog implements EventHandler{
+public class NewProjectDialog extends JDialog implements EventHandler {
+
     public static String GENERATE_CATEGORIES = "newprojectdialog-generatecats";
     public static String GENERATE_PROJECTS = "newprojectdialog-generateprojs";
     public static String BUTTON_OK = "newprojectdialog-ok";
-    
     private JList projects;
-    
-    public NewProjectDialog(Frame owner){
+
+    public NewProjectDialog(Frame owner) {
         super(owner);
         EventManager.addEventHandler(this, GENERATE_CATEGORIES);
         EventManager.addEventHandler(this, GENERATE_PROJECTS);
@@ -84,19 +84,19 @@ public class NewProjectDialog extends JDialog implements EventHandler{
         l.setAlignment(FlowLayout.RIGHT);
         JButton ok = new JButton("OK");
         ok.setVisible(true);
-        ok.addActionListener(new ActionListener(){
+        ok.addActionListener(new ActionListener() {
+
             @Override
-            public void actionPerformed(ActionEvent evt){
-                if(PineappleGUI.project!=null){
+            public void actionPerformed(ActionEvent evt) {
+                if (PineappleGUI.project != null) {
                     int i = JOptionPane.showConfirmDialog(NewProjectDialog.this,
-                        "Do you wish to close the current project?", 
-                        "Close current project?", JOptionPane.YES_NO_OPTION);
-                    if(i==JOptionPane.YES_OPTION){
+                            "Do you wish to close the current project?",
+                            "Close current project?", JOptionPane.YES_NO_OPTION);
+                    if (i == JOptionPane.YES_OPTION) {
                         PineappleGUI.project = null;
                         EventManager.fireEvent(this, BUTTON_OK, projects.getSelectedValue());
                     }
-                }
-                else{
+                } else {
                     EventManager.fireEvent(this, BUTTON_OK, projects.getSelectedValue());
                 }
             }
@@ -104,9 +104,10 @@ public class NewProjectDialog extends JDialog implements EventHandler{
         panel.add(ok);
         JButton cancel = new JButton("Cancel");
         cancel.setVisible(true);
-        cancel.addActionListener(new ActionListener(){
+        cancel.addActionListener(new ActionListener() {
+
             @Override
-            public void actionPerformed(ActionEvent evt){
+            public void actionPerformed(ActionEvent evt) {
                 dispose();
             }
         });
@@ -124,25 +125,24 @@ public class NewProjectDialog extends JDialog implements EventHandler{
             }
         });
     }
-    
+
     @Override
-    public void handleEvent(NotifyEvent evt){
-        if(evt.getEventType().equals(GENERATE_CATEGORIES)){
+    public void handleEvent(NotifyEvent evt) {
+        if (evt.getEventType().equals(GENERATE_CATEGORIES)) {
             Object[] args = evt.getArguments();
             DefaultListModel model = (DefaultListModel) args[1];
             model.addElement("Default Projects");
-        }
-        else if(evt.getEventType().equals(GENERATE_PROJECTS)){
+        } else if (evt.getEventType().equals(GENERATE_PROJECTS)) {
             Object[] args = evt.getArguments();
             DefaultListModel model = (DefaultListModel) args[1];
             model.addElement("Empty Project");
-        }
-        else if(evt.getEventType().equals(BUTTON_OK)){
+        } else if (evt.getEventType().equals(BUTTON_OK)) {
             Object[] args = evt.getArguments();
-            if(args[0]==null)
+            if (args[0] == null) {
                 return;
+            }
             String s = args[0].toString();
-            if(s.equals("Empty Project")){
+            if (s.equals("Empty Project")) {
                 //Will have to change later
                 Project p = new DefaultProject();
                 PineappleGUI.project = p;
