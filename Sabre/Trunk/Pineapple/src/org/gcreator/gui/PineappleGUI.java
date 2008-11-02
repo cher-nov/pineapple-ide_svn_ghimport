@@ -23,6 +23,7 @@ THE SOFTWARE.
 
 package org.gcreator.gui;
 
+//<editor-fold defaultstate="collapsed" desc="Import Statements">
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -70,6 +71,7 @@ import org.gcreator.tree.FileTreeNode;
 import org.noos.xing.mydoggy.ToolWindow;
 import org.noos.xing.mydoggy.ToolWindowAnchor;
 import org.noos.xing.mydoggy.plaf.MyDoggyToolWindowManager;
+//</editor-fold>
 
 /**
  * This deals with the main GUI stuff.
@@ -77,7 +79,8 @@ import org.noos.xing.mydoggy.plaf.MyDoggyToolWindowManager;
  * @author Luís Reis
  */
 public class PineappleGUI implements EventHandler {
-
+    
+    //<editor-fold defaultstate="collapsed" desc="Variables">
     /**
      * The project tree
      */
@@ -120,10 +123,17 @@ public class PineappleGUI implements EventHandler {
      */
     public static DocumentInterfaceProvider dip;
     /**
+     * Allows docking
+     */
+    public static MyDoggyToolWindowManager manager;
+    
+    /**
      * The current project
      */
     public static Project project = null;
-    private MyDoggyToolWindowManager manager;
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Events">
     /**
      * Event when a file is deleted from the filesystem.
      */
@@ -132,7 +142,27 @@ public class PineappleGUI implements EventHandler {
      * Event when a file is removed from the project.
      */
     public static final String FILE_REMOVED = "file-removed";
+    
+     /**
+     * When a file is opened.
+     * This event should have the opened File as the first argument.
+     * File can be null.
+     * The second argument should be the File format, even if the File is null.
+     */
+    public static final String FILE_OPENED = "file-opened";
+    
+    /**
+     * When a file changes.
+     */
+    public static final String FILE_CHANGED = "file-changed";
+    
+    /**
+     * When a project is opened
+     */
+    public static final String PROJECT_OPENED = "project-opened";
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="PineappleGUI()">
     /**
      * Created and initilizes a new Pineapple GUI.
      */
@@ -143,7 +173,9 @@ public class PineappleGUI implements EventHandler {
         }
         initialize();
     }
-
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="initialize()">
     /**
      * Initilizes the Pineapple GUI.
      */
@@ -152,13 +184,15 @@ public class PineappleGUI implements EventHandler {
         EventManager.addEventHandler(this, DefaultEventTypes.APPLICATION_INITIALIZED, EventPriority.HIGH);
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_CREATED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_DISPOSED, EventPriority.MEDIUM);
-        EventManager.addEventHandler(this, DefaultEventTypes.FILE_OPENED, EventPriority.LOW);
+        EventManager.addEventHandler(this, FILE_OPENED, EventPriority.LOW);
         
         /* Custom Events */
         EventManager.addEventHandler(this, FILE_DELETED, EventPriority.LOW);
         EventManager.addEventHandler(this, FILE_REMOVED, EventPriority.LOW);
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="initializeWindow()">
     /**
      * Initilize's the Pineapple Window.
      */
@@ -173,8 +207,9 @@ public class PineappleGUI implements EventHandler {
         f.getContentPane().add(manager);
 
         project = new DefaultProject();
-        projectNode = new ProjectTreeNode(project);
 
+        //<editor-fold defaultstate="collapsed" desc="tree initialization">
+        projectNode = new ProjectTreeNode(project);
         tree = new JTree(projectNode);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         tree.setVisible(true);
@@ -265,6 +300,7 @@ public class PineappleGUI implements EventHandler {
         tree.setShowsRootHandles(true);
         manager.registerToolWindow("Project", "Project", null, new JScrollPane(tree),
                 ToolWindowAnchor.LEFT);
+        //</editor-fold>
 
         dip = new TabbedInterfaceProvider();
         dip.setVisible(true);
@@ -274,6 +310,7 @@ public class PineappleGUI implements EventHandler {
         menubar.setVisible(true);
         f.setJMenuBar(menubar);
 
+        //<editor-fold defaultstate="collapsed" desc="File menu">
         fileMenu = new JMenu("File");
         fileMenu.setMnemonic('F');
         fileMenu.setVisible(true);
@@ -334,7 +371,9 @@ public class PineappleGUI implements EventHandler {
             }
         });
         fileMenu.add(fileExit);
+        //</editor-fold>
 
+        //<editor-fold defaultstate="collapsed" desc="Project menu">
         projectMenu = new JMenu("Project");
 
         projectOpen = new JMenuItem("Open Selected...");
@@ -379,19 +418,22 @@ public class PineappleGUI implements EventHandler {
         projectMenu.add(projectRemove);
 
         menubar.add(projectMenu);
+        //</editor-fold>
 
+        //<editor-fold defaultstate="collapsed" desc="Edit menu">
         editMenu = new JMenu("Edit");
         editMenu.setMnemonic('E');
         editMenu.setEnabled(false);
         editMenu.setVisible(true);
         menubar.add(editMenu);
+        //</editor-fold>
 
+        //<editor-fold defaultstate="collapsed" desc="Tools menu">
         toolsMenu = new JMenu("Tools");
         toolsMenu.setMnemonic('T');
         toolsMenu.setEnabled(true);
         toolsMenu.setVisible(true);
-        menubar.add(toolsMenu);
-
+        
         toolsPlugins = new JMenuItem("Plugins");
         toolsPlugins.setMnemonic('g');
         toolsPlugins.setEnabled(true);
@@ -403,12 +445,17 @@ public class PineappleGUI implements EventHandler {
             }
         });
         toolsMenu.add(toolsPlugins);
+        
+        menubar.add(toolsMenu);
+        //</editor-fold>
 
         for (ToolWindow window : manager.getToolWindows()) {
             window.setAvailable(true);
         }
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="openPluginDialog()">
     /**
      * Opens the plugin dialog
      */
@@ -416,7 +463,9 @@ public class PineappleGUI implements EventHandler {
         PluginDialog d = new PluginDialog(Core.getStaticContext().getMainFrame());
         d.setVisible(true);
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="handleEvent(NotifyEvent)">
     /**
      * Handles any provided events
      * @param evt The sent event
@@ -443,7 +492,7 @@ public class PineappleGUI implements EventHandler {
             /* Initilize the main window */
             initializeWindow();
 
-        } else if (evt.getEventType().equals(DefaultEventTypes.FILE_CHANGED)) {
+        } else if (evt.getEventType().equals(FILE_CHANGED)) {
 
             DocumentPane pane = dip.getSelectedDocument();
             editMenu.removeAll();
@@ -455,7 +504,7 @@ public class PineappleGUI implements EventHandler {
                 fileSave.setEnabled(false);
             }
 
-        } else if (evt.getEventType().equals(DefaultEventTypes.FILE_OPENED) && evt.getArguments().length >= 2) {
+        } else if (evt.getEventType().equals(FILE_OPENED) && evt.getArguments().length >= 2) {
 
             DocumentPane p;
             Object[] arguments = evt.getArguments();
@@ -497,7 +546,7 @@ public class PineappleGUI implements EventHandler {
                 }
             }
 
-        } else if (evt.getEventType().equals(DefaultEventTypes.PROJECT_OPENED)) {            //TODO: open project.
+        } else if (evt.getEventType().equals(PROJECT_OPENED)) {            //TODO: open project.
         } else if (evt.getEventType().equals(FILE_DELETED)) {
             if (evt.getArguments().length > 0 && evt.getArguments()[0] instanceof BaseElement) {
                 BaseElement e = (BaseElement) evt.getArguments()[0];
@@ -511,7 +560,9 @@ public class PineappleGUI implements EventHandler {
             tree.updateUI();
         }
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="openFile(final File)">
     /**
      * Opens a given file
      * @param f The file to open
@@ -541,14 +592,16 @@ public class PineappleGUI implements EventHandler {
                         }
                     } catch (Exception e) {
                     }
-                    EventManager.fireEvent(this, DefaultEventTypes.FILE_OPENED, f, format, el);
+                    EventManager.fireEvent(this, FILE_OPENED, f, format, el);
                     dip.updateUI();
                 }
             };
             t.start();
         }
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="openProject()">
     /**
      * Opens a project
      */
@@ -562,12 +615,14 @@ public class PineappleGUI implements EventHandler {
         chooser.setDialogTitle("Select the project to open");
         int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
         if (res != JFileChooser.CANCEL_OPTION) {
-            EventManager.fireEvent(this, DefaultEventTypes.PROJECT_OPENED, chooser.getSelectedFile());
+            EventManager.fireEvent(this, PROJECT_OPENED, chooser.getSelectedFile());
         }
 
         tree.updateUI();
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="closeProject()">
     /**
      * Closes the current project
      */
@@ -575,7 +630,9 @@ public class PineappleGUI implements EventHandler {
         project.getFiles().clear();
         tree.updateUI();
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="saveFile()">
     /**
      * Saves the currently open file
      */
@@ -585,7 +642,9 @@ public class PineappleGUI implements EventHandler {
             p.save();
         }
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="openFile(boolean, boolean)">
     /**
      * Opens a file
      * 
@@ -629,7 +688,9 @@ public class PineappleGUI implements EventHandler {
             }
         }
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="hasFile(File, BaseElement)">
     private static BaseTreeNode hasFile(File f, BaseElement e) {
         if (e instanceof FileElement) {
             if (f.equals(e.getFile())) {
@@ -645,7 +706,9 @@ public class PineappleGUI implements EventHandler {
         }
         return null;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="popupNewProjectDialog()">
     /**
      * Pops a New FolderProject Dialog
      */
@@ -653,4 +716,5 @@ public class PineappleGUI implements EventHandler {
         NewProjectDialog dialog = new NewProjectDialog(Core.getStaticContext().getMainFrame());
         dialog.setVisible(true);
     }
+    //</editor-fold>
 }
