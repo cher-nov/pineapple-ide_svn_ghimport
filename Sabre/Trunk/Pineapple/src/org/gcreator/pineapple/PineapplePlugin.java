@@ -23,9 +23,6 @@ THE SOFTWARE.
 package org.gcreator.pineapple;
 
 import org.gcreator.gui.PineappleGUI;
-import org.gcreator.plugins.DefaultEventTypes;
-import org.gcreator.plugins.EventManager;
-import org.gcreator.plugins.EventPriority;
 import org.gcreator.plugins.PluginCore;
 
 /**
@@ -45,10 +42,5 @@ public class PineapplePlugin extends PluginCore {
         
         gui = new PineappleGUI();
         
-        EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_CREATED, EventPriority.MEDIUM);
-        EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_DISPOSED, EventPriority.MEDIUM);
-        EventManager.addEventHandler(this, DefaultEventTypes.FILE_OPENED, EventPriority.LOW);
-        EventManager.addEventHandler(this, DefaultEventTypes.FILE_CHANGED, EventPriority.MEDIUM);
-        EventManager.addEventHandler(this, DefaultEventTypes.PROJECT_OPENED, EventPriority.MEDIUM);
     }   
 }
