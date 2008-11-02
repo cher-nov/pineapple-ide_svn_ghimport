@@ -42,6 +42,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.UIManager;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
@@ -131,6 +132,7 @@ public class PineappleGUI implements EventHandler {
      * Initilizes the Pineapple GUI.
      */
     protected void initialize() {
+        EventManager.addEventHandler(this, DefaultEventTypes.APPLICATION_INITIALIZED, EventPriority.HIGH);
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_CREATED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_DISPOSED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.FILE_OPENED, EventPriority.LOW);
@@ -355,7 +357,18 @@ public class PineappleGUI implements EventHandler {
      */
     @Override
     public void handleEvent(NotifyEvent evt) {
-        if (evt.getEventType().equals(DefaultEventTypes.WINDOW_CREATED)) {
+        if(evt.getEventType().equals(DefaultEventTypes.APPLICATION_INITIALIZED)) {
+            try{
+                for(UIManager.LookAndFeelInfo i :  UIManager.getInstalledLookAndFeels())
+                    System.out.println("L&F: " + i.getClassName());
+                UIManager.setLookAndFeel(
+                        "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+            }
+            catch(Exception e){
+                System.out.println("Failed to install l&f: " + e.getMessage());
+            }
+        }
+        else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_CREATED)) {
 
             /* Initilize the main window */
             initializeWindow();
