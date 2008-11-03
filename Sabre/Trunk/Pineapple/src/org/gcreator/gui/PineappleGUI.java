@@ -169,10 +169,6 @@ public class PineappleGUI implements EventHandler {
      * Created and initilizes a new Pineapple GUI.
      */
     public PineappleGUI() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-        }
         initialize();
     }
     //</editor-fold>
@@ -187,6 +183,7 @@ public class PineappleGUI implements EventHandler {
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_CREATED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_DISPOSED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, FILE_OPENED, EventPriority.LOW);
+        EventManager.addEventHandler(this, FILE_CHANGED, EventPriority.LOW);
         
         /* Custom Events */
         EventManager.addEventHandler(this, FILE_DELETED, EventPriority.LOW);
@@ -739,6 +736,11 @@ public class PineappleGUI implements EventHandler {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="deleteFile(BaseElement)">
+    /**
+     * Deletes a file from the file system
+     * @param e The BaseElement to be deleted
+     */
     private void deleteFile(BaseElement e) {
         if (JOptionPane.showConfirmDialog(tree,
                 "<html>Are you sure you want to delete this file from your file system?<br/>This will be permanent.</html>") == JOptionPane.YES_OPTION) {
@@ -747,4 +749,5 @@ public class PineappleGUI implements EventHandler {
             EventManager.fireEvent(this, FILE_DELETED, e);
         }
     }
+    //</editor-fold>
 }

@@ -107,6 +107,7 @@ public class TextEditor extends DocumentPane {
      */
     @Override
     public boolean setupEditMenu(JMenu editMenu) {
+        System.out.println("setupEditMenu");
         JMenuItem cut = new JMenuItem("Cut");
         cut.setMnemonic('t');
         cut.setVisible(true);
