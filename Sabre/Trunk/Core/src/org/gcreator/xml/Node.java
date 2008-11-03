@@ -212,6 +212,26 @@ public final class Node {
     
     /**
      * Calls {@link #getAttributeValue(String)} and converts the result
+     * to a boolean. The attribute value as a string is case-insensitive, so
+     * "true", "True", "TRUE", "truE", etc. all return boolean true.
+     * @param val The name of the attribute
+     * @return The value of the attribute as a boolean(false if invalid)
+     * 
+     * @see #getAttributeValue(String)
+     */
+    public boolean getAttributeValueAsBoolean(String val) {
+        if (attributes == null) {
+            return false;
+        }
+        try {
+            return attributes.get(val).toLowerCase().equals("true");
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    /**
+     * Calls {@link #getAttributeValue(String)} and converts the result
      * to dobule
      * @param val The name of the attribute
      * @return The value of the attribute as an double, or NaN if that's not
