@@ -40,6 +40,7 @@ public class PDI {
     public String bclass = "";
     public Vector<String> imports = new Vector<String>();
     public Vector<Method> methods = new Vector<Method>();
+    public Vector<Field> fields = new Vector<Field>();
     
     public PDI(){
         
@@ -89,6 +90,20 @@ public class PDI {
                     m.arguments.add(a);
                 }
                 methods.add(m);
+            }
+            else if(node.getName().equals("field")){
+                Field v = new Field();
+                v.privacy = node.getAttributeValue("privacy");
+                if(v.privacy==null)
+                    throw new SAXException("No field privacy specified");
+                v.isStatic = node.getAttributeValueAsBoolean("static");
+                v.type = node.getAttributeValue("type");
+                if(v.type==null)
+                    throw new SAXException("No field type specified");
+                v.name = node.getAttributeValue("name");
+                if(v.name==null)
+                    throw new SAXException("No field name given");
+                fields.add(v);
             }
         }
     }
