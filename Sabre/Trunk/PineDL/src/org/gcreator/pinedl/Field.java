@@ -26,32 +26,27 @@ package org.gcreator.pinedl;
 import java.util.Vector;
 
 /**
- * Represents a PineDL method(function).
+ * Represents a PineDL field(variable).
  * @author Luís Reis
  */
-public class Method {
+public class Field {
     /**
-     * Whether the method is private, protected or public
+     * Whether the field is private, protected or public
      */
     public String privacy = "public";
     
     /**
-     * The method name
+     * The field name
      */
     public String name = "";
     
     /**
-     * The return type of the method, or "void" for none
+     * The type of the field
      */
-    public String returnType = "void";
+    public String type = "";
     
     /**
-     * Whether the method is static
+     * Whether the field is static
      */
     public boolean isStatic = false;
-    
-    /**
-     * The function arguments
-     */
-    public Vector<Argument> arguments = new Vector<Argument>();
 }
