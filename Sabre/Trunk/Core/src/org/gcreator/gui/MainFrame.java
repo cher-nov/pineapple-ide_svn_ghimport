@@ -50,7 +50,7 @@ public class MainFrame extends JFrame implements EventHandler {
     }
 
     /**
-     * {@inheritDoc}
+     * Calls the WINDOW_DISPOSED event.
      */
     @Override
     public void dispose() {
@@ -63,6 +63,7 @@ public class MainFrame extends JFrame implements EventHandler {
      * 
      * @param event The {@link NotifyEvent} That is to be handled.
      */
+    @Override
     public void handleEvent(NotifyEvent event) {
         if (event.getEventType().equals(DefaultEventTypes.WINDOW_DISPOSED)) {
             System.out.println("Performing final disposal");

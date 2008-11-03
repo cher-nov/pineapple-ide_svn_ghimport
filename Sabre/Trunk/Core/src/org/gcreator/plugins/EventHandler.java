@@ -24,7 +24,7 @@ package org.gcreator.plugins;
 
 /**
  * An Event handeler is just like an AWT Event Listener,
- * but for Sabre, not Swing.
+ * but for Pineapple, not Swing.
  * 
  * @author Luís Reis
  * @see EventManager
