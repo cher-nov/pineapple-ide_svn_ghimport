@@ -39,7 +39,7 @@ public class PDI {
     public String clsname = "";
     public String bclass = "";
     public Vector<String> imports = new Vector<String>();
-    public Vector<Field> fields = new Vector<Field>();
+    public Vector<Method> methods = new Vector<Method>();
     
     public PDI(){
         
@@ -67,6 +67,28 @@ public class PDI {
             }
             else if(node.getName().equals("import")){
                 imports.add(node.getContent());
+            }
+            else if(node.getName().equals("method")){
+                Method m = new Method();
+                m.privacy = node.getAttributeValue("privacy");
+                if(m.privacy==null)
+                    throw new SAXException("No method privacy specified");
+                m.isStatic = node.getAttributeValueAsBoolean("static");
+                m.returnType = node.getAttributeValue("return");
+                if(m.returnType==null)
+                    throw new SAXException("No return type specified");
+                m.name = node.getAttributeValue("name");
+                if(m.name==null)
+                    throw new SAXException("No method name given");
+                for(Node arg : node.getChildren()){
+                    if(!arg.getName().equals("argument"))
+                        throw new SAXException("Invalid child node of method");
+                    Argument a = new Argument(
+                            arg.getAttributeValue("type"),
+                            arg.getAttributeValue("name"));
+                    m.arguments.add(a);
+                }
+                methods.add(m);
             }
         }
     }
