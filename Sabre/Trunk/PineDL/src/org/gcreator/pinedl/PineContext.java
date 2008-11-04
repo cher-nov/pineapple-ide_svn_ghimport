@@ -26,29 +26,13 @@ package org.gcreator.pinedl;
 import java.util.Vector;
 
 /**
- * Represents a PineDL field(variable).
+ *
  * @author Luís Reis
  */
-public class Field {
-    /**
-     * Whether the field is private, protected or public
-     */
-    public String privacy = "public";
+public class PineContext {
+    private Vector<PDI> pdiFiles = new Vector<PDI>();
     
-    /**
-     * The field name
-     */
-    public String name = "";
-    
-    /**
-     * The type of the field
-     * A void field should be valid as a C++ workaround for data types
-     * such as SDL_Surface*, being translated to void*.
-     */
-    public String type = "void";
-    
-    /**
-     * Whether the field is static
-     */
-    public boolean isStatic = false;
+    public void addPDIFile(PDI pdi){
+        pdiFiles.add(pdi);
+    }
 }

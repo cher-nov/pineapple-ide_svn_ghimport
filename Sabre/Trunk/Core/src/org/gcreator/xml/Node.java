@@ -93,6 +93,7 @@ public final class Node {
      * 
      * @see #addChild(Node)
      */
+    @SuppressWarnings("unchecked")
     public Vector<Node> getChildren() {
         return (Vector<Node>) children.clone();
     }

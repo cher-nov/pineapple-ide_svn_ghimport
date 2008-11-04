@@ -58,6 +58,7 @@ MINUS=5
 MULT=6
 ALPHA=44
 NEQ=28
+T__70=70
 CEQ=27
 DIV=7
 BBLOCK=13
@@ -100,6 +101,7 @@ LOGNOT=23
 'class'=51
 '='=26
 'throw'=56
+'bool'=70
 ')'=10
 '%'=8
 'uint'=67

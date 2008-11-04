@@ -240,7 +240,7 @@ context returns [String result = ""]
 
 //Only used to ensure some keywords
 type	returns [String s = ""]
-	:	(t=('int'|'float'|'double'|'uint'|'char'|'string') {s=t.getText();})|(g=context {s = g;});
+	:	(t=('int'|'float'|'double'|'uint'|'char'|'string'|'bool') {s=t.getText();})|(g=context {s = g;});
 
 THIS	:	'this';
 

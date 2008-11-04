@@ -116,6 +116,7 @@ public final class StaticContext {
     /**
      * Gets the loaded plugins
      */
+    @SuppressWarnings("unchecked")
     public Vector<PluginCore> getPlugins(){
         return (Vector<PluginCore>) plugins.clone();
     }
