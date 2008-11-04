@@ -21,34 +21,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
 
-
 package org.gcreator.gui;
 
-import java.awt.Frame;
-import javax.swing.JDialog;
+import java.awt.Component;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
-import org.gcreator.core.Core;
+import org.gcreator.plugins.PluginCore;
 
 /**
- * Allows the user to uninstall plugins
- * In the future, plugin installation and updating would also
- * be nice
+ * Renders a plugin
  * @author Luís Reis
  */
-public final class PluginDialog extends JDialog {
-
-    private static final long serialVersionUID = 1L;
-
-    private JList plugList;
+public class PluginCellRenderer extends DefaultListCellRenderer{
     
-    public PluginDialog(Frame f) {
-        super(f);
-        this.setTitle("Plugins");
-        this.setModalityType(ModalityType.APPLICATION_MODAL);
-        this.setSize(300, 200);
-
-        plugList = new JList(Core.getStaticContext().getPlugins());
-        plugList.setCellRenderer(new PluginCellRenderer());
-        this.add(plugList);
+    @Override
+    public Component getListCellRendererComponent(JList list, Object value, int index,
+            boolean isSelected, boolean cellHasFocus){
+        
+        Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        
+        if(value instanceof PluginCore){
+            this.setText(((PluginCore) value).getName());
+        }
+        
+        return c;
+        
     }
 }
