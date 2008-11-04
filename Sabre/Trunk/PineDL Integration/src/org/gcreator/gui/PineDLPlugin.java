@@ -24,7 +24,6 @@ THE SOFTWARE.
 package org.gcreator.gui;
 
 import java.io.File;
-import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.EventManager;
 import org.gcreator.plugins.EventPriority;
 import org.gcreator.plugins.NotifyEvent;
@@ -37,12 +36,12 @@ import org.gcreator.plugins.PluginCore;
 public class PineDLPlugin extends PluginCore{
     @Override
     public void initialize(){
-        EventManager.addEventHandler(this, DefaultEventTypes.FILE_OPENED, EventPriority.MEDIUM);
+        EventManager.addEventHandler(this, PineappleGUI.FILE_OPENED, EventPriority.MEDIUM);
     }
     
     @Override
     public void handleEvent(NotifyEvent evt){
-        if(evt.getEventType().equals(DefaultEventTypes.FILE_OPENED)){
+        if(evt.getEventType().equals(PineappleGUI.FILE_OPENED)){
             System.out.println("Got here");
             DocumentPane p;
             Object[] arguments = evt.getArguments();
