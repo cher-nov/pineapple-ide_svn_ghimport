@@ -21,10 +21,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
 
+
 package org.gcreator.gui;
 
 import java.awt.Frame;
 import javax.swing.JDialog;
+import javax.swing.JList;
 
 /**
  * Allows the user to uninstall plugins
@@ -32,11 +34,19 @@ import javax.swing.JDialog;
  * be nice
  * @author Luís Reis
  */
-public class PluginDialog extends JDialog{
-    public PluginDialog(Frame f){
+public final class PluginDialog extends JDialog {
+
+    private static final long serialVersionUID = 1L;
+
+    private JList plugList;
+    
+    public PluginDialog(Frame f) {
         super(f);
-        setTitle("Plugins");
-        setModalityType(ModalityType.APPLICATION_MODAL);
-        setSize(300, 200);
+        this.setTitle("Plugins");
+        this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setSize(300, 200);
+
+        plugList = new JList(new String[]{"Frank", "Hank", "Joe", "Bob"});
+        this.add(plugList);
     }
 }

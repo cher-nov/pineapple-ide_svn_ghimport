@@ -77,6 +77,7 @@ import org.noos.xing.mydoggy.plaf.MyDoggyToolWindowManager;
  * This deals with the main GUI stuff.
  * 
  * @author Luís Reis
+ * @author Serge Humphrey
  */
 public class PineappleGUI implements EventHandler {
     
@@ -162,6 +163,11 @@ public class PineappleGUI implements EventHandler {
      * When a project is opened
      */
     public static final String PROJECT_OPENED = "project-opened";
+    
+    /**
+     * When a popup menu is created on the tree
+     */
+    public static final String TREE_MENU_INVOKED = "tree-menu-invoked";
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="PineappleGUI()">
@@ -182,12 +188,13 @@ public class PineappleGUI implements EventHandler {
         EventManager.addEventHandler(this, DefaultEventTypes.APPLICATION_INITIALIZED, EventPriority.HIGH);
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_CREATED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_DISPOSED, EventPriority.MEDIUM);
+       /* Custom Events */
+        
         EventManager.addEventHandler(this, FILE_OPENED, EventPriority.LOW);
         EventManager.addEventHandler(this, FILE_CHANGED, EventPriority.LOW);
-        
-        /* Custom Events */
         EventManager.addEventHandler(this, FILE_DELETED, EventPriority.LOW);
         EventManager.addEventHandler(this, FILE_REMOVED, EventPriority.LOW);
+        EventManager.addEventHandler(this, TREE_MENU_INVOKED, EventPriority.HIGH);
     }
     //</editor-fold>
 
@@ -231,37 +238,8 @@ public class PineappleGUI implements EventHandler {
                     }
                 } else if (e.getClickCount() == 1 && e.getButton() == MouseEvent.BUTTON3) {
                     JPopupMenu menu = new JPopupMenu("Tree");
-                    if (o instanceof FileTreeNode) {
-                        menu.add("Open...").addActionListener(new ActionListener() {
-
-                            public void actionPerformed(ActionEvent e) {
-                                openFile(((FileTreeNode) o).getElement().getFile());
-                            }
-                        });
-                    }
-                    
-                    if (o instanceof BaseTreeNode && project.getFiles().indexOf(((BaseTreeNode)o).getElement()) != -1) {
-                        final BaseTreeNode t = (BaseTreeNode) o;
-                        menu.add("Remove").addActionListener(new ActionListener() {
-
-                            public void actionPerformed(ActionEvent e) {
-                                project.remove(t.getElement());
-                                EventManager.fireEvent(this, FILE_REMOVED, t.getElement());
-                            }
-                        });
-                    }
-                    
-                    if (o instanceof BaseTreeNode) {
-                        menu.add("Delete").addActionListener(new ActionListener() {
-
-                            public void actionPerformed(ActionEvent evt) {
-                                deleteFile(((BaseTreeNode)o).getElement());
-                            }
-                        });
-                    }
-                    if (menu.getComponentCount() > 0) {
-                        menu.show(tree, e.getX(), e.getY());
-                    }
+                    EventManager.fireEvent(this, TREE_MENU_INVOKED, menu, o);
+                    menu.show(tree, e.getX(), e.getY());
                 }
             }
         });
@@ -574,8 +552,42 @@ public class PineappleGUI implements EventHandler {
                 tree.updateUI();
             }
         } else if (evt.getEventType().equals(FILE_REMOVED)) {
-
             tree.updateUI();
+        } else if (evt.getEventType().equals(TREE_MENU_INVOKED)) {
+            if (evt.getArguments().length < 2 || !(evt.getArguments()[0] instanceof JPopupMenu)) {
+                return;
+            }
+            JPopupMenu menu = (JPopupMenu) evt.getArguments()[0];
+            final Object o = evt.getArguments()[1];
+            
+            if (o instanceof FileTreeNode) {
+                menu.add("Open...").addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent e) {
+                        openFile(((FileTreeNode) o).getElement().getFile());
+                    }
+                });
+            }
+
+            if (o instanceof BaseTreeNode && project.getFiles().indexOf(((BaseTreeNode) o).getElement()) != -1) {
+                final BaseTreeNode t = (BaseTreeNode) o;
+                menu.add("Remove").addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent e) {
+                        project.remove(t.getElement());
+                        EventManager.fireEvent(this, FILE_REMOVED, t.getElement());
+                    }
+                });
+            }
+
+            if (o instanceof BaseTreeNode) {
+                menu.add("Delete").addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent evt) {
+                        deleteFile(((BaseTreeNode) o).getElement());
+                    }
+                });
+            }
         }
     }
     //</editor-fold>
