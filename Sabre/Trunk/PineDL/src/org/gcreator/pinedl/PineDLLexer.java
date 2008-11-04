@@ -1,4 +1,4 @@
-// $ANTLR 3.1 /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g 2008-10-26 16:48:29
+// $ANTLR 3.1 /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g 2008-11-04 15:53:32
 
 /*
 Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
@@ -92,6 +92,7 @@ public class PineDLLexer extends Lexer {
     public static final int MINUS=5;
     public static final int ALPHA=44;
     public static final int NEQ=28;
+    public static final int T__70=70;
     public static final int CEQ=27;
     public static final int DIV=7;
     public static final int BBLOCK=13;
@@ -1139,6 +1140,27 @@ public class PineDLLexer extends Lexer {
     }
     // $ANTLR end "T__69"
 
+    // $ANTLR start "T__70"
+    public final void mT__70() throws RecognitionException {
+        try {
+            int _type = T__70;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:79:7: ( 'bool' )
+            // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:79:9: 'bool'
+            {
+            match("bool"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__70"
+
     // $ANTLR start "THIS"
     public final void mTHIS() throws RecognitionException {
         try {
@@ -2088,8 +2110,8 @@ public class PineDLLexer extends Lexer {
     // $ANTLR end "WHITESPACE"
 
     public void mTokens() throws RecognitionException {
-        // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:8: ( PLUS | MINUS | MULT | DIV | MOD | LPAREN | RPAREN | LARRAY | RARRAY | BBLOCK | EBLOCK | BTWAND | BTWOR | BTWXOR | LOGAND | LOGOR | STMTCUT | DBLDOT | BTWNOT | LOGNOT | INC | DEC | EQ | CEQ | NEQ | BG | BGE | LT | LTE | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | THIS | SUPER | PRIVACY | NULL | BOOLEAN | WORD | STRING | CHAR | FLOAT | DOUBLE | INTEGER | SLCOMMENT | MLCOMMENT | WHITESPACE )
-        int alt17=64;
+        // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:8: ( PLUS | MINUS | MULT | DIV | MOD | LPAREN | RPAREN | LARRAY | RARRAY | BBLOCK | EBLOCK | BTWAND | BTWOR | BTWXOR | LOGAND | LOGOR | STMTCUT | DBLDOT | BTWNOT | LOGNOT | INC | DEC | EQ | CEQ | NEQ | BG | BGE | LT | LTE | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | THIS | SUPER | PRIVACY | NULL | BOOLEAN | WORD | STRING | CHAR | FLOAT | DOUBLE | INTEGER | SLCOMMENT | MLCOMMENT | WHITESPACE )
+        int alt17=65;
         alt17 = dfa17.predict(input);
         switch (alt17) {
             case 1 :
@@ -2443,98 +2465,105 @@ public class PineDLLexer extends Lexer {
                 }
                 break;
             case 51 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:297: THIS
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:297: T__70
+                {
+                mT__70(); 
+
+                }
+                break;
+            case 52 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:303: THIS
                 {
                 mTHIS(); 
 
                 }
                 break;
-            case 52 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:302: SUPER
+            case 53 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:308: SUPER
                 {
                 mSUPER(); 
 
                 }
                 break;
-            case 53 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:308: PRIVACY
+            case 54 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:314: PRIVACY
                 {
                 mPRIVACY(); 
 
                 }
                 break;
-            case 54 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:316: NULL
+            case 55 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:322: NULL
                 {
                 mNULL(); 
 
                 }
                 break;
-            case 55 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:321: BOOLEAN
+            case 56 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:327: BOOLEAN
                 {
                 mBOOLEAN(); 
 
                 }
                 break;
-            case 56 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:329: WORD
+            case 57 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:335: WORD
                 {
                 mWORD(); 
 
                 }
                 break;
-            case 57 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:334: STRING
+            case 58 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:340: STRING
                 {
                 mSTRING(); 
 
                 }
                 break;
-            case 58 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:341: CHAR
+            case 59 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:347: CHAR
                 {
                 mCHAR(); 
 
                 }
                 break;
-            case 59 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:346: FLOAT
+            case 60 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:352: FLOAT
                 {
                 mFLOAT(); 
 
                 }
                 break;
-            case 60 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:352: DOUBLE
+            case 61 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:358: DOUBLE
                 {
                 mDOUBLE(); 
 
                 }
                 break;
-            case 61 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:359: INTEGER
+            case 62 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:365: INTEGER
                 {
                 mINTEGER(); 
 
                 }
                 break;
-            case 62 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:367: SLCOMMENT
+            case 63 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:373: SLCOMMENT
                 {
                 mSLCOMMENT(); 
 
                 }
                 break;
-            case 63 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:377: MLCOMMENT
+            case 64 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:383: MLCOMMENT
                 {
                 mMLCOMMENT(); 
 
                 }
                 break;
-            case 64 :
-                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:387: WHITESPACE
+            case 65 :
+                // /home/luis/NetBeansProjects/Sabre/Trunk/PineDL/src/org/gcreator/pinedl/PineDL.g:1:393: WHITESPACE
                 {
                 mWHITESPACE(); 
 
@@ -2548,110 +2577,106 @@ public class PineDLLexer extends Lexer {
 
     protected DFA17 dfa17 = new DFA17(this);
     static final String DFA17_eotS =
-        "\1\uffff\1\52\1\54\1\uffff\1\57\7\uffff\1\61\1\63\4\uffff\1\65\1"+
-        "\67\1\71\1\73\5\44\1\uffff\3\44\1\uffff\4\44\3\uffff\1\122\24\uffff"+
-        "\4\44\1\131\21\44\2\uffff\5\44\1\uffff\1\164\13\44\1\u0081\7\44"+
-        "\1\u0089\5\44\1\uffff\2\44\1\u0092\2\44\1\u0095\5\44\1\u009b\1\uffff"+
-        "\1\u009c\4\44\1\u00a1\1\u00a2\2\uffff\5\44\1\u00a8\1\u00a9\1\uffff"+
-        "\1\44\1\u00ab\1\uffff\2\44\1\u00ae\1\44\1\u00b0\2\uffff\1\u00b1"+
-        "\1\u00b2\1\u009c\1\44\2\uffff\1\44\1\u00b5\2\44\1\u00b8\2\uffff"+
-        "\1\44\1\uffff\1\u00ba\1\u00bb\1\uffff\1\u00bc\3\uffff\1\u00bd\1"+
-        "\u00be\1\uffff\1\44\1\u00b5\1\uffff\1\u00c0\5\uffff\1\44\1\uffff"+
-        "\1\u00b5";
+        "\1\uffff\1\53\1\55\1\uffff\1\60\7\uffff\1\62\1\64\4\uffff\1\66\1"+
+        "\70\1\72\1\74\5\45\1\uffff\3\45\1\uffff\5\45\3\uffff\1\124\24\uffff"+
+        "\4\45\1\133\22\45\2\uffff\5\45\1\uffff\1\167\13\45\1\u0084\10\45"+
+        "\1\u008d\5\45\1\uffff\2\45\1\u0096\2\45\1\u0099\5\45\1\u009f\1\uffff"+
+        "\1\u00a0\4\45\1\u00a5\1\u00a6\1\u00a7\2\uffff\5\45\1\u00ad\1\u00ae"+
+        "\1\uffff\1\45\1\u00b0\1\uffff\2\45\1\u00b3\1\45\1\u00b5\2\uffff"+
+        "\1\u00b6\1\u00b7\1\u00a0\1\45\3\uffff\1\45\1\u00ba\2\45\1\u00bd"+
+        "\2\uffff\1\45\1\uffff\1\u00bf\1\u00c0\1\uffff\1\u00c1\3\uffff\1"+
+        "\u00c2\1\u00c3\1\uffff\1\45\1\u00ba\1\uffff\1\u00c5\5\uffff\1\45"+
+        "\1\uffff\1\u00ba";
     static final String DFA17_eofS =
-        "\u00c2\uffff";
+        "\u00c7\uffff";
     static final String DFA17_minS =
         "\1\11\1\53\1\55\1\uffff\1\52\7\uffff\1\46\1\174\4\uffff\4\75\1\141"+
         "\1\146\1\141\1\154\1\164\1\uffff\1\145\2\150\1\uffff\1\141\1\157"+
-        "\1\151\1\165\3\uffff\1\56\24\uffff\1\143\1\142\1\151\1\160\1\60"+
-        "\1\164\1\141\1\164\1\141\1\164\1\163\1\141\1\160\1\164\1\151\1\165"+
-        "\1\151\1\157\1\154\1\165\1\156\1\154\1\uffff\1\60\1\153\1\154\1"+
-        "\164\1\166\1\157\1\uffff\1\60\1\163\1\143\1\162\2\145\1\164\1\151"+
-        "\1\145\1\165\1\157\1\163\1\60\1\145\1\154\1\141\1\163\1\142\1\164"+
-        "\1\154\1\60\1\141\1\151\1\145\1\141\1\162\1\uffff\1\163\1\150\1"+
-        "\60\1\156\1\146\1\60\1\151\1\156\2\162\1\167\1\60\1\uffff\1\60\1"+
-        "\145\1\164\1\145\1\154\2\60\2\uffff\1\147\2\143\2\164\2\60\1\uffff"+
-        "\1\144\1\60\1\uffff\1\143\1\147\1\60\1\156\1\60\2\uffff\3\60\1\145"+
-        "\2\uffff\1\145\1\60\1\164\1\145\1\60\2\uffff\1\163\1\uffff\2\60"+
-        "\1\uffff\1\60\3\uffff\2\60\1\uffff\1\145\1\60\1\uffff\1\60\5\uffff"+
-        "\1\144\1\uffff\1\60";
+        "\1\151\1\157\1\165\3\uffff\1\56\24\uffff\1\143\1\142\1\151\1\160"+
+        "\1\60\1\164\1\141\1\164\1\141\1\164\1\163\1\141\1\160\1\164\1\151"+
+        "\1\165\1\151\1\157\1\154\1\165\1\156\1\157\1\154\1\uffff\1\60\1"+
+        "\153\1\154\1\164\1\166\1\157\1\uffff\1\60\1\163\1\143\1\162\2\145"+
+        "\1\164\1\151\1\145\1\165\1\157\1\163\1\60\1\145\1\154\1\141\1\163"+
+        "\1\142\1\164\2\154\1\60\1\141\1\151\1\145\1\141\1\162\1\uffff\1"+
+        "\163\1\150\1\60\1\156\1\146\1\60\1\151\1\156\2\162\1\167\1\60\1"+
+        "\uffff\1\60\1\145\1\164\1\145\1\154\3\60\2\uffff\1\147\2\143\2\164"+
+        "\2\60\1\uffff\1\144\1\60\1\uffff\1\143\1\147\1\60\1\156\1\60\2\uffff"+
+        "\3\60\1\145\3\uffff\1\145\1\60\1\164\1\145\1\60\2\uffff\1\163\1"+
+        "\uffff\2\60\1\uffff\1\60\3\uffff\2\60\1\uffff\1\145\1\60\1\uffff"+
+        "\1\60\5\uffff\1\144\1\uffff\1\60";
     static final String DFA17_maxS =
         "\1\176\1\53\1\71\1\uffff\1\57\7\uffff\1\46\1\174\4\uffff\4\75\1"+
         "\165\1\156\1\154\1\170\1\165\1\uffff\1\145\1\162\1\150\1\uffff\1"+
-        "\154\1\157\1\151\1\165\3\uffff\1\71\24\uffff\1\143\1\142\1\157\1"+
-        "\160\1\172\1\164\1\141\1\164\1\141\1\164\1\163\1\162\1\160\1\164"+
-        "\1\162\1\171\1\151\1\157\1\154\1\165\1\156\1\154\1\uffff\1\71\1"+
-        "\153\1\154\1\164\1\166\1\157\1\uffff\1\172\1\163\1\143\1\162\1\145"+
-        "\1\151\1\164\1\151\1\145\1\165\1\157\1\163\1\172\1\145\1\154\1\141"+
-        "\1\163\1\142\1\164\1\154\1\146\1\141\1\151\1\145\1\141\1\162\1\uffff"+
-        "\1\163\1\150\1\172\1\156\1\146\1\172\1\151\1\156\2\162\1\167\1\172"+
-        "\1\uffff\1\172\1\145\1\164\1\145\1\154\2\172\2\uffff\1\147\2\143"+
-        "\2\164\2\172\1\uffff\1\144\1\172\1\uffff\1\143\1\147\1\172\1\156"+
-        "\1\172\2\uffff\3\172\1\145\2\uffff\1\145\1\172\1\164\1\145\1\172"+
-        "\2\uffff\1\163\1\uffff\2\172\1\uffff\1\172\3\uffff\2\172\1\uffff"+
-        "\1\145\1\172\1\uffff\1\172\5\uffff\1\144\1\uffff\1\172";
+        "\154\1\157\1\151\1\157\1\165\3\uffff\1\71\24\uffff\1\143\1\142\1"+
+        "\157\1\160\1\172\1\164\1\141\1\164\1\141\1\164\1\163\1\162\1\160"+
+        "\1\164\1\162\1\171\1\151\1\157\1\154\1\165\1\156\1\157\1\154\1\uffff"+
+        "\1\71\1\153\1\154\1\164\1\166\1\157\1\uffff\1\172\1\163\1\143\1"+
+        "\162\1\145\1\151\1\164\1\151\1\145\1\165\1\157\1\163\1\172\1\145"+
+        "\1\154\1\141\1\163\1\142\1\164\2\154\1\146\1\141\1\151\1\145\1\141"+
+        "\1\162\1\uffff\1\163\1\150\1\172\1\156\1\146\1\172\1\151\1\156\2"+
+        "\162\1\167\1\172\1\uffff\1\172\1\145\1\164\1\145\1\154\3\172\2\uffff"+
+        "\1\147\2\143\2\164\2\172\1\uffff\1\144\1\172\1\uffff\1\143\1\147"+
+        "\1\172\1\156\1\172\2\uffff\3\172\1\145\3\uffff\1\145\1\172\1\164"+
+        "\1\145\1\172\2\uffff\1\163\1\uffff\2\172\1\uffff\1\172\3\uffff\2"+
+        "\172\1\uffff\1\145\1\172\1\uffff\1\172\5\uffff\1\144\1\uffff\1\172";
     static final String DFA17_acceptS =
         "\3\uffff\1\3\1\uffff\1\5\1\6\1\7\1\10\1\11\1\12\1\13\2\uffff\1\16"+
-        "\1\21\1\22\1\23\11\uffff\1\43\3\uffff\1\54\4\uffff\1\70\1\71\1\72"+
-        "\1\uffff\1\100\1\25\1\1\1\26\1\2\1\76\1\77\1\4\1\17\1\14\1\20\1"+
-        "\15\1\31\1\24\1\30\1\27\1\33\1\32\1\35\1\34\26\uffff\1\75\6\uffff"+
-        "\1\50\32\uffff\1\55\14\uffff\1\46\7\uffff\1\74\1\73\7\uffff\1\61"+
-        "\2\uffff\1\52\5\uffff\1\63\1\67\4\uffff\1\60\1\66\5\uffff\1\40\1"+
-        "\47\1\uffff\1\51\2\uffff\1\64\1\uffff\1\45\1\53\1\56\2\uffff\1\65"+
-        "\2\uffff\1\37\1\uffff\1\42\1\62\1\44\1\57\1\36\1\uffff\1\41\1\uffff";
+        "\1\21\1\22\1\23\11\uffff\1\43\3\uffff\1\54\5\uffff\1\71\1\72\1\73"+
+        "\1\uffff\1\101\1\25\1\1\1\26\1\2\1\77\1\100\1\4\1\17\1\14\1\20\1"+
+        "\15\1\31\1\24\1\30\1\27\1\33\1\32\1\35\1\34\27\uffff\1\76\6\uffff"+
+        "\1\50\33\uffff\1\55\14\uffff\1\46\10\uffff\1\75\1\74\7\uffff\1\61"+
+        "\2\uffff\1\52\5\uffff\1\64\1\70\4\uffff\1\60\1\63\1\67\5\uffff\1"+
+        "\40\1\47\1\uffff\1\51\2\uffff\1\65\1\uffff\1\45\1\53\1\56\2\uffff"+
+        "\1\66\2\uffff\1\37\1\uffff\1\42\1\62\1\44\1\57\1\36\1\uffff\1\41"+
+        "\1\uffff";
     static final String DFA17_specialS =
-        "\u00c2\uffff}>";
+        "\u00c7\uffff}>";
     static final String[] DFA17_transitionS = {
-            "\2\50\1\uffff\2\50\22\uffff\1\50\1\22\1\45\2\uffff\1\5\1\14"+
-            "\1\46\1\6\1\7\1\3\1\1\1\33\1\2\1\37\1\4\12\47\1\20\1\17\1\25"+
-            "\1\23\1\24\2\uffff\32\44\1\10\1\uffff\1\11\1\16\1\44\1\uffff"+
-            "\2\44\1\30\1\41\1\31\1\40\2\44\1\27\4\44\1\43\1\44\1\26\1\44"+
-            "\1\34\1\32\1\35\1\42\1\44\1\36\3\44\1\12\1\15\1\13\1\21",
-            "\1\51",
-            "\1\53\2\uffff\12\47",
+            "\2\51\1\uffff\2\51\22\uffff\1\51\1\22\1\46\2\uffff\1\5\1\14"+
+            "\1\47\1\6\1\7\1\3\1\1\1\33\1\2\1\37\1\4\12\50\1\20\1\17\1\25"+
+            "\1\23\1\24\2\uffff\32\45\1\10\1\uffff\1\11\1\16\1\45\1\uffff"+
+            "\1\45\1\43\1\30\1\41\1\31\1\40\2\45\1\27\4\45\1\44\1\45\1\26"+
+            "\1\45\1\34\1\32\1\35\1\42\1\45\1\36\3\45\1\12\1\15\1\13\1\21",
+            "\1\52",
+            "\1\54\2\uffff\12\50",
             "",
-            "\1\56\4\uffff\1\55",
-            "",
-            "",
+            "\1\57\4\uffff\1\56",
             "",
             "",
             "",
             "",
             "",
-            "\1\60",
-            "\1\62",
+            "",
+            "",
+            "\1\61",
+            "\1\63",
             "",
             "",
             "",
             "",
-            "\1\64",
-            "\1\66",
-            "\1\70",
-            "\1\72",
-            "\1\74\20\uffff\1\76\2\uffff\1\75",
-            "\1\100\6\uffff\1\77\1\101",
-            "\1\103\6\uffff\1\104\3\uffff\1\102",
-            "\1\106\13\uffff\1\105",
-            "\1\107\1\110",
+            "\1\65",
+            "\1\67",
+            "\1\71",
+            "\1\73",
+            "\1\75\20\uffff\1\77\2\uffff\1\76",
+            "\1\101\6\uffff\1\100\1\102",
+            "\1\104\6\uffff\1\105\3\uffff\1\103",
+            "\1\107\13\uffff\1\106",
+            "\1\110\1\111",
             "",
-            "\1\111",
-            "\1\112\11\uffff\1\113",
-            "\1\114",
+            "\1\112",
+            "\1\113\11\uffff\1\114",
+            "\1\115",
             "",
-            "\1\116\12\uffff\1\115",
-            "\1\117",
+            "\1\117\12\uffff\1\116",
             "\1\120",
             "\1\121",
+            "\1\122",
+            "\1\123",
             "",
             "",
             "",
-            "\1\123\1\uffff\12\47",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
+            "\1\125\1\uffff\12\50",
             "",
             "",
             "",
@@ -2666,140 +2691,150 @@ public class PineDLLexer extends Lexer {
             "",
             "",
             "",
-            "\1\124",
-            "\1\125",
-            "\1\127\5\uffff\1\126",
-            "\1\130",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\126",
+            "\1\127",
+            "\1\131\5\uffff\1\130",
             "\1\132",
-            "\1\133",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "\1\134",
             "\1\135",
             "\1\136",
             "\1\137",
-            "\1\140\20\uffff\1\141",
-            "\1\142",
-            "\1\143",
-            "\1\145\10\uffff\1\144",
-            "\1\147\3\uffff\1\146",
-            "\1\150",
-            "\1\151",
+            "\1\140",
+            "\1\141",
+            "\1\142\20\uffff\1\143",
+            "\1\144",
+            "\1\145",
+            "\1\147\10\uffff\1\146",
+            "\1\151\3\uffff\1\150",
             "\1\152",
             "\1\153",
             "\1\154",
             "\1\155",
-            "",
-            "\12\156",
+            "\1\156",
             "\1\157",
             "\1\160",
-            "\1\161",
+            "",
+            "\12\161",
             "\1\162",
             "\1\163",
-            "",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "\1\164",
             "\1\165",
             "\1\166",
-            "\1\167",
+            "",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "\1\170",
-            "\1\172\3\uffff\1\171",
+            "\1\171",
+            "\1\172",
             "\1\173",
-            "\1\174",
-            "\1\175",
+            "\1\175\3\uffff\1\174",
             "\1\176",
             "\1\177",
             "\1\u0080",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "\1\u0081",
             "\1\u0082",
             "\1\u0083",
-            "\1\u0084",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "\1\u0085",
             "\1\u0086",
             "\1\u0087",
             "\1\u0088",
-            "\12\156\54\uffff\1\u008a",
+            "\1\u0089",
+            "\1\u008a",
             "\1\u008b",
             "\1\u008c",
-            "\1\u008d",
-            "\1\u008e",
+            "\12\161\54\uffff\1\u008e",
             "\1\u008f",
-            "",
             "\1\u0090",
             "\1\u0091",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "\1\u0092",
             "\1\u0093",
+            "",
             "\1\u0094",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "\1\u0096",
+            "\1\u0095",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "\1\u0097",
             "\1\u0098",
-            "\1\u0099",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "\1\u009a",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "\1\u009b",
+            "\1\u009c",
             "\1\u009d",
             "\1\u009e",
-            "\1\u009f",
-            "\1\u00a0",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "",
-            "",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "\1\u00a1",
+            "\1\u00a2",
             "\1\u00a3",
             "\1\u00a4",
-            "\1\u00a5",
-            "\1\u00a6",
-            "\1\u00a7",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "",
+            "",
+            "\1\u00a8",
+            "\1\u00a9",
             "\1\u00aa",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "",
+            "\1\u00ab",
             "\1\u00ac",
-            "\1\u00ad",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "",
             "\1\u00af",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "",
-            "",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "\1\u00b3",
-            "",
-            "",
+            "\1\u00b1",
+            "\1\u00b2",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "\1\u00b4",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "\1\u00b6",
-            "\1\u00b7",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "",
+            "",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "\1\u00b8",
+            "",
             "",
             "",
             "\1\u00b9",
-            "",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "\1\u00bb",
+            "\1\u00bc",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "",
             "",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "\1\u00be",
             "",
-            "\1\u00bf",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "",
             "",
             "",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "",
+            "\1\u00c4",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
             "",
             "",
-            "\1\u00c1",
             "",
-            "\12\44\7\uffff\32\44\4\uffff\1\44\1\uffff\32\44"
+            "",
+            "",
+            "\1\u00c6",
+            "",
+            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45"
     };
 
     static final short[] DFA17_eot = DFA.unpackEncodedString(DFA17_eotS);
@@ -2832,7 +2867,7 @@ public class PineDLLexer extends Lexer {
             this.transition = DFA17_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( PLUS | MINUS | MULT | DIV | MOD | LPAREN | RPAREN | LARRAY | RARRAY | BBLOCK | EBLOCK | BTWAND | BTWOR | BTWXOR | LOGAND | LOGOR | STMTCUT | DBLDOT | BTWNOT | LOGNOT | INC | DEC | EQ | CEQ | NEQ | BG | BGE | LT | LTE | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | THIS | SUPER | PRIVACY | NULL | BOOLEAN | WORD | STRING | CHAR | FLOAT | DOUBLE | INTEGER | SLCOMMENT | MLCOMMENT | WHITESPACE );";
+            return "1:1: Tokens : ( PLUS | MINUS | MULT | DIV | MOD | LPAREN | RPAREN | LARRAY | RARRAY | BBLOCK | EBLOCK | BTWAND | BTWOR | BTWXOR | LOGAND | LOGOR | STMTCUT | DBLDOT | BTWNOT | LOGNOT | INC | DEC | EQ | CEQ | NEQ | BG | BGE | LT | LTE | T__49 | T__50 | T__51 | T__52 | T__53 | T__54 | T__55 | T__56 | T__57 | T__58 | T__59 | T__60 | T__61 | T__62 | T__63 | T__64 | T__65 | T__66 | T__67 | T__68 | T__69 | T__70 | THIS | SUPER | PRIVACY | NULL | BOOLEAN | WORD | STRING | CHAR | FLOAT | DOUBLE | INTEGER | SLCOMMENT | MLCOMMENT | WHITESPACE );";
         }
     }
  
