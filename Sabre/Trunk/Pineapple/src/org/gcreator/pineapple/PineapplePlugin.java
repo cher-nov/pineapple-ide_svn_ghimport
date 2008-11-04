@@ -35,6 +35,24 @@ public class PineapplePlugin extends PluginCore {
     public static PineappleGUI gui;
     
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName(){
+        return "Pineapple Default Plug-In";
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDescription(){
+        return "Provides essential Pineapple interface behaviors "+
+                "including menus, docking and file handling.";
+    }
+    
+    /**
+     * 
      * Initializes the plugin(Registers the event handlers)
      */
     @Override
