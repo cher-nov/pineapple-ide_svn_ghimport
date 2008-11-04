@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- You may freely edit this file. -->
+
+<project name="PineappleModule" default="default" basedir="..">
+    <description>Performs some useful tasks</description>
+    
+    <target name="default">
+        <!-- Cleaning -->
+        <delete file="Core/build/Plugins/Pineapple.jar"/>
+        <delete file="Core/dist/Plugins/Pineapple.jar"/>
+        <delete file="Core/build/Plugins/TableLayout-20050920.jar"/>
+        <delete file="Core/dist/Plugins/TableLayout-20050920.jar"/>
+        <delete file="Core/build/Plugins/mydoggy-api-1.4.2.jar"/>
+        <delete file="Core/dist/Plugins/mydoggy-api-1.4.2.jar"/>
+        <delete file="Core/build/Plugins/mydoggy-plaf-1.4.2.jar"/>
+        <delete file="Core/dist/Plugins/mydoggy-plaf-1.4.2.jar"/>
+        <delete file="Core/build/Plugins/mydoggy-res-1.4.2.jar"/>
+        <delete file="Core/dist/Plugins/mydoggy-res-1.4.2.jar"/>
+       
+        <mkdir dir="Core/build/"/>
+        <mkdir dir="Core/build/Plugins"/>
+        <mkdir dir="Core/dist/"/>
+        <mkdir dir="Core/dist/Plugins"/>
+    
+        <copy file="Pineapple/dist/Pineapple.jar" todir="Core/build/Plugins"/>
+        <copy file="Pineapple/dist/Pineapple.jar" todir="Core/dist/Plugins"/>
+        <copy file="Pineapple/TableLayout-20050920.jar" todir="Core/build/Plugins"/>
+        <copy file="Pineapple/TableLayout-20050920.jar" todir="Core/dist/Plugins"/>
+        <copy file="Pineapple/mydoggy-api-1.4.2.jar" todir="Core/build/Plugins"/>
+        <copy file="Pineapple/mydoggy-api-1.4.2.jar" todir="Core/dist/Plugins"/>
+        <copy file="Pineapple/mydoggy-plaf-1.4.2.jar" todir="Core/build/Plugins"/>
+        <copy file="Pineapple/mydoggy-plaf-1.4.2.jar" todir="Core/dist/Plugins"/>
+        <copy file="Pineapple/mydoggy-res-1.4.2.jar" todir="Core/build/Plugins"/>
+        <copy file="Pineapple/mydoggy-res-1.4.2.jar" todir="Core/dist/Plugins"/>
+    
+    </target>
+</project>
