@@ -61,6 +61,7 @@ public class NewProjectDialog extends JDialog implements EventHandler {
         EventManager.addEventHandler(this, GENERATE_CATEGORIES);
         EventManager.addEventHandler(this, GENERATE_PROJECTS);
         EventManager.addEventHandler(this, BUTTON_OK);
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setLayout(new BorderLayout());
         setSize(500, 300);
         setModalityType(ModalityType.APPLICATION_MODAL);
@@ -129,6 +130,7 @@ public class NewProjectDialog extends JDialog implements EventHandler {
     @Override
     public void handleEvent(NotifyEvent evt) {
         if (evt.getEventType().equals(GENERATE_CATEGORIES)) {
+            System.out.println("Generate categories");
             Object[] args = evt.getArguments();
             DefaultListModel model = (DefaultListModel) args[1];
             model.addElement("Default Projects");
@@ -151,5 +153,15 @@ public class NewProjectDialog extends JDialog implements EventHandler {
                 dispose();
             }
         }
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void dispose(){
+        System.out.println("dispose()");
+        EventManager.removeEventHandler(this);
+        super.dispose();
     }
 }

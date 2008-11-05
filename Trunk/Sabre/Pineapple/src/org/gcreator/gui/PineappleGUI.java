@@ -468,6 +468,7 @@ public class PineappleGUI implements EventHandler {
      */
     @Override
     public void handleEvent(NotifyEvent evt) {
+        //<editor-fold defaultstate="collapsed" desc="APPLICATION_INITIALIZED">
         if (evt.getEventType().equals(DefaultEventTypes.APPLICATION_INITIALIZED)) {
             boolean lf = false;
             try {
@@ -483,11 +484,14 @@ public class PineappleGUI implements EventHandler {
                 } catch (Exception e) {
                 }
             }
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="WINDOW_CREATED">
         } else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_CREATED)) {
 
             /* Initilize the main window */
             initializeWindow();
-
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="FILE_CHANGED">
         } else if (evt.getEventType().equals(FILE_CHANGED)) {
 
             DocumentPane pane = dip.getSelectedDocument();
@@ -499,7 +503,7 @@ public class PineappleGUI implements EventHandler {
                 editMenu.setEnabled(false);
                 fileSave.setEnabled(false);
             }
-
+        //</editor-fold>
         } else if (evt.getEventType().equals(FILE_OPENED) && evt.getArguments().length >= 2) {
 
             DocumentPane p;
