@@ -78,6 +78,18 @@ public class EventManager {
     }
 
     /**
+     * Removes a handler, regardless of the event(s) it points to
+     */
+    public static void removeEventHandler(EventHandler handler){
+        EventObject o = new EventObject();
+        o.handler = handler;
+        o.deleter = true;
+        while(highPriority.remove(o)) continue;
+        while(mediumPriority.remove(o)) continue;
+        while(lowPriority.remove(o)) continue;
+    }
+    
+    /**
      * Fires a new event and notifies all listeners.
      * 
      * @param sender The event sender. Typically, just use the keyword 'this'
@@ -120,5 +132,27 @@ public class EventManager {
 
         EventHandler handler;
         String type;
+        /**
+         * Deleter means don't worry about the type, this is only used
+         * for removeEventHandler purposes.
+         */
+        boolean deleter = false;
+        
+        @Override
+        public boolean equals(Object o){
+            if(o==null) return false;
+            if(o.getClass()!=getClass()) return false;
+            if(((EventObject) o).handler==this.handler
+                    && (((EventObject) o).deleter||deleter||((EventObject) o).type.equals(type)))
+                return true;
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 3;
+            hash = 83 * hash + (this.handler != null ? this.handler.hashCode() : 0);
+            return hash;
+        }
     }
 }

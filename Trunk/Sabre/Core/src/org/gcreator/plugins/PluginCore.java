@@ -75,6 +75,7 @@ public class PluginCore implements EventHandler {
      * 
      * @param event The event that was received
      */
+    @Override
     public void handleEvent(NotifyEvent event) {
     }
 }
