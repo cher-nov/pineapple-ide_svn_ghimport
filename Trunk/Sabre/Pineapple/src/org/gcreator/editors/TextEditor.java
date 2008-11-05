@@ -33,6 +33,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.gcreator.gui.DocumentPane;
@@ -45,7 +46,7 @@ import org.gcreator.gui.DocumentPane;
 public class TextEditor extends DocumentPane {
 
     private JScrollPane scroll;
-    private JEditorPane editor;
+    private JTextArea editor;
 
     /**
      * Creates a text editor from a File
@@ -56,10 +57,11 @@ public class TextEditor extends DocumentPane {
         setBackground(Color.white);
         setLayout(new BorderLayout());
         scroll = new JScrollPane();
-        editor = new JEditorPane();
+        editor = new JTextArea();
         editor.setVisible(true);
         scroll.setVisible(true);
         scroll.setViewportView(editor);
+        editor.setTabSize(5);
         add(scroll, BorderLayout.CENTER);
         if (file.exists()) {
             try {
