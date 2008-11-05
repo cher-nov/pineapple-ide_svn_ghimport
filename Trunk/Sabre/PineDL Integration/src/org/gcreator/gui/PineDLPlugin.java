@@ -35,6 +35,17 @@ import org.gcreator.plugins.PluginCore;
  */
 public class PineDLPlugin extends PluginCore{
     @Override
+    public String getName(){
+        return "PineDL Integration";
+    }
+    
+    @Override
+    public String getDescription(){
+        return "PineDL Integration adds several PineDL edition tools to "
+                + "Pineapple, including syntax highlighting";
+    }
+    
+    @Override
     public void initialize(){
         EventManager.addEventHandler(this, PineappleGUI.FILE_OPENED, EventPriority.MEDIUM);
     }
