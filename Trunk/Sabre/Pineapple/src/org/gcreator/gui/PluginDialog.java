@@ -26,8 +26,16 @@ package org.gcreator.gui;
 
 import java.awt.Frame;
 import javax.swing.JDialog;
+import javax.swing.JEditorPane;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.gcreator.core.Core;
+import org.gcreator.plugins.EventManager;
+import org.gcreator.plugins.PluginCore;
 
 /**
  * Allows the user to uninstall plugins
@@ -38,17 +46,48 @@ import org.gcreator.core.Core;
 public final class PluginDialog extends JDialog {
 
     private static final long serialVersionUID = 1L;
+    
+    public static String PLUGINDIALOG_OPEN = "plugindialog-open";
 
-    private JList plugList;
+    public JSplitPane splitPane;
+    public JList plugList;
+    public JScrollPane scrollPane;
+    public JEditorPane editorPane;
     
     public PluginDialog(Frame f) {
         super(f);
         this.setTitle("Plugins");
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setSize(300, 200);
-
+        
         plugList = new JList(Core.getStaticContext().getPlugins());
         plugList.setCellRenderer(new PluginCellRenderer());
-        this.add(plugList);
+        
+        plugList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Object o = plugList.getSelectedValue();
+                if(o==null){
+                    editorPane.setText("-No plugin selected-");
+                }
+                else if(o instanceof PluginCore){
+                    editorPane.setText(((PluginCore) o).getDescription());
+                }
+            }
+        });
+        
+        editorPane = new JEditorPane();
+        editorPane.setContentType("text/html");
+        editorPane.setEditable(false);
+        editorPane.setVisible(true);
+        
+        scrollPane = new JScrollPane(editorPane);
+        scrollPane.setVisible(true);
+        
+        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, plugList, scrollPane);
+        splitPane.setVisible(true);
+        this.add(splitPane);
+        
+        EventManager.fireEvent(this, PLUGINDIALOG_OPEN, this);
     }
 }
