@@ -32,7 +32,39 @@ import java.util.Vector;
 public class PineContext {
     private Vector<PDI> pdiFiles = new Vector<PDI>();
     
+    /**
+     * Adds a PDI to the context
+     * @param pdi The PDI to add
+     */
     public void addPDIFile(PDI pdi){
         pdiFiles.add(pdi);
+    }
+    
+    /**
+     * Generates the full class name of something
+     * @param pdi The PDI that needs the class
+     * @param name The class short name
+     * @return The full class name, including package('.' used for separation)
+     */
+    public String generateFullClassName(PDI pdi, String name){
+        String pkg = pdi.pkg;
+        
+        //If the name refers to the PDI itself
+        if(pdi.clsname.equals(name))
+            return (pkg.equals("")? (pkg + ".") : "") + name;
+        
+        PDI currentMatch = null;
+        for(PDI pdiFile : pdiFiles){
+            if(pdiFile.pkg.equals(pdi.pkg)&&pdiFile.clsname.equals(name)){
+                currentMatch = pdiFile;
+                break; //Perfect match
+            }
+            if(pdi.imports.contains(pdiFile.pkg)&&pdiFile.clsname.equals(name)){
+                currentMatch = pdiFile;
+                //Non-perfect match
+            }
+        }
+        
+        return (currentMatch==null?name:pdi.getFullClassName());
     }
 }
