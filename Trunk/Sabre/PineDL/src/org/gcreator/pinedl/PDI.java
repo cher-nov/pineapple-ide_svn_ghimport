@@ -107,4 +107,11 @@ public class PDI {
             }
         }
     }
+    
+    /**
+     * Generates the full class name
+     */
+    public String getFullClassName(){
+        return pkg.equals("")? bclass : pkg + "." + bclass;
+    }
 }
