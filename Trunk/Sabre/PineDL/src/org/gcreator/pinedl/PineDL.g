@@ -157,7 +157,14 @@ Vector<Argument> args = new Vector<Argument>();
 		EBLOCK;
 
 constructor
-	:	PRIVACY THIS LPAREN (argument (',' argument)*)? RPAREN (DBLDOT (THIS|SUPER) LPAREN (WORD (',' WORD)*)? RPAREN )?
+@init{
+String privacy = null;
+Vector<Argument> args = new Vector<Argument>();
+}
+	:	p=PRIVACY {privacy=p.getText();}
+		THIS LPAREN (a=argument {args.add(a);}(',' b=argument {args.add(b);})*)? RPAREN
+		(DBLDOT (THIS|SUPER) LPAREN (WORD (',' WORD)*)? RPAREN )?
+		{signal.sendConstructorSignal(privacy, args);}
 		BBLOCK
 			code
 		EBLOCK;

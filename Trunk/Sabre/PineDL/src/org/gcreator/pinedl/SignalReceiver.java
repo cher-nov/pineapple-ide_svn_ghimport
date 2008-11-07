@@ -51,6 +51,13 @@ public class SignalReceiver {
     public void sendClassDeclaration(String cls, String bcls){}
     
     /**
+     * Deals with a constructor
+     * @param privacy The constructor privacy: public, private or protected
+     * @param args The arguments of the constructor
+     */
+    public void sendConstructorSignal(String privacy, Vector<Argument> args){}
+    
+    /**
      * A field(class variable)
      * @param privacy The field privacy: public, private or protected
      * @param isStatic Whether the field is static
