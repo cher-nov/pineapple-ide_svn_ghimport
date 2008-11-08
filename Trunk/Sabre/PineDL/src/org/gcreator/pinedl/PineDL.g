@@ -184,7 +184,7 @@ codel	:	trycatch |
 		STMTCUT /*empty statement*/;
 
 returncase
-	:	'return' expression STMTCUT;
+	:	'return' (expression)? STMTCUT;
 	
 throwcase
 	:	'throw' expression STMTCUT;
@@ -200,10 +200,9 @@ assign	:	((type WORD (EQ expression)?) | (WORD EQ expression)) STMTCUT;
 trycatch:	'try' BBLOCK code EBLOCK 'catch' LPAREN argument RPAREN BBLOCK code EBLOCK;
 
 ifcase	:	'if' LPAREN expression RPAREN situation
-		elsif*
 		elsecase?;
 
-elsif	:	'elsif' LPAREN expression RPAREN situation;
+//elsif	:	'elsif' LPAREN expression RPAREN situation;
 
 elsecase:	'else' situation;
 
