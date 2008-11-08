@@ -24,7 +24,6 @@ THE SOFTWARE.
 */
 package org.gcreator.pinedl;
 
-
 import org.antlr.runtime.*;
 import java.util.Stack;
 import java.util.List;
