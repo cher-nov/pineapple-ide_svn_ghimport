@@ -1,24 +1,22 @@
 /*
-Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
-Copyright (C) 2008 BobSerge<serge_1994@hotmail.com>
+    Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
+    Copyright (C) 2008 Serge Humphrey<bob@bobtheblueberry.com>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+    This file is part of PineDL Integration.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+    PineDL Integration is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+    PineDL Integration is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with PineDL Integration.  If not, see <http://www.gnu.org/licenses/>.
+
  */
 
 package org.gcreator.gui;
@@ -31,38 +29,37 @@ import org.gcreator.plugins.PluginCore;
 
 /**
  * The PineDL integration core
+ * 
  * @author Luís Reis
  */
-public class PineDLPlugin extends PluginCore{
+public class PineDLPlugin extends PluginCore {
+
     @Override
-    public String getName(){
+    public String getName() {
         return "PineDL Integration";
     }
-    
+
     @Override
-    public String getDescription(){
-        return "PineDL Integration adds several PineDL edition tools to "
-                + "Pineapple, including syntax highlighting";
+    public String getDescription() {
+        return "PineDL Integration adds several PineDL edition tools to " + "Pineapple, including syntax highlighting";
     }
-    
+
     @Override
-    public void initialize(){
+    public void initialize() {
         EventManager.addEventHandler(this, PineappleGUI.FILE_OPENED, EventPriority.MEDIUM);
     }
-    
+
     @Override
-    public void handleEvent(NotifyEvent evt){
-        if(evt.getEventType().equals(PineappleGUI.FILE_OPENED)){
-            System.out.println("Got here");
+    public void handleEvent(NotifyEvent evt) {
+        if (evt.getEventType().equals(PineappleGUI.FILE_OPENED)) {
             DocumentPane p;
             Object[] arguments = evt.getArguments();
             File f = (File) arguments[0];
             String format = arguments[1].toString(); //Good to avoid exceptions
-            if (!format.equals("pdl"))
+            if (!format.equals("pdl")) {
                 return;
-            System.out.println("Got here");
+            }
             p = new PineDLEditor(f);
-            System.out.println("And here too");
             PineappleGUI.dip.add(p.getFile().getName(), p);
             evt.handleEvent();
         }

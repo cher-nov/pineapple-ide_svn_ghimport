@@ -1,25 +1,24 @@
 /*
-Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
-Copyright (C) 2008 BobSerge<serge_1994@hotmail.com>
+    Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
+    Copyright (C) 2008 Serge Humphrey<bob@bobtheblueberry.com>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+    This file is part of PineDL Integration.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+    PineDL Integration is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+    PineDL Integration is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with PineDL Integration.  If not, see <http://www.gnu.org/licenses/>.
+
  */
+
 
 package org.gcreator.gui;
 
@@ -33,74 +32,81 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import org.jedit.syntax.JEditTextArea;
-import org.jedit.syntax.PineDLTokenMarker;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 /**
  *
  * @author Luís Reis
  */
-public class PineDLEditor extends DocumentPane{
-    private JEditTextArea editor;
-    
-    public PineDLEditor(File file){
+public class PineDLEditor extends DocumentPane {
+
+    private static final long serialVersionUID = 1L;
+    private RTextScrollPane scroll;
+    private RSyntaxTextArea editor;
+
+    public PineDLEditor(File file) {
         super(file);
-        System.out.println("Using this");
         this.setLayout(new BorderLayout());
-        editor = new JEditTextArea();
-        editor.setTokenMarker(new PineDLTokenMarker());
-        editor.setCaretBlinkEnabled(true);
-        if(file.exists()){
-            try{
+        editor = new RSyntaxTextArea();
+        
+        if (file.exists()) {
+            try {
                 FileInputStream fs = new FileInputStream(file);
                 String text = "";
-                while(fs.available()>0){
+                while (fs.available() > 0) {
                     text += (char) fs.read();
                 }
                 editor.setText(text);
+            } catch (Exception e) {
             }
-            catch(Exception e){}
         }
-        editor.getDocument().addDocumentListener(new DocumentListener(){
-            public void insertUpdate(DocumentEvent evt){
+        editor.getDocument().addDocumentListener(new DocumentListener() {
+
+            public void insertUpdate(DocumentEvent evt) {
                 setModified(true);
             }
-            public void removeUpdate(DocumentEvent evt){
+
+            public void removeUpdate(DocumentEvent evt) {
                 setModified(true);
             }
-            public void changedUpdate(DocumentEvent evt){
+
+            public void changedUpdate(DocumentEvent evt) {
                 setModified(true);
             }
         });
-        this.add(editor, BorderLayout.CENTER);
-        //scroll.setViewportView(editor);
+        editor.restoreDefaultSyntaxHighlightingColorScheme();
+        editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
+        scroll = new RTextScrollPane(getWidth(), getHeight(), editor, true);
+        this.add(scroll, BorderLayout.CENTER);
     }
-    
-        /**
+
+    /**
      * Saves the file
+     * @return 
      */
     @Override
-    public boolean saveBackend(){
-        try{
+    public boolean saveBackend() {
+        try {
             FileOutputStream fs = new FileOutputStream(getFile());
             fs.write(editor.getText().getBytes());
             return true;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean setupEditMenu(JMenu editMenu){
+    public boolean setupEditMenu(JMenu editMenu) {
         JMenuItem cut = new JMenuItem("Cut");
         cut.setMnemonic('t');
         cut.setVisible(true);
-        cut.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
+        cut.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
                 editor.cut();
             }
         });
@@ -108,8 +114,9 @@ public class PineDLEditor extends DocumentPane{
         JMenuItem copy = new JMenuItem("Copy");
         copy.setMnemonic('y');
         copy.setVisible(true);
-        copy.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
+        copy.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
                 editor.copy();
             }
         });
@@ -117,8 +124,9 @@ public class PineDLEditor extends DocumentPane{
         JMenuItem paste = new JMenuItem("Paste");
         paste.setMnemonic('P');
         paste.setVisible(true);
-        paste.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
+        paste.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
                 editor.paste();
             }
         });
@@ -126,13 +134,14 @@ public class PineDLEditor extends DocumentPane{
         JMenuItem selall = new JMenuItem("Select All");
         selall.setMnemonic('A');
         selall.setVisible(true);
-        selall.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent evt){
+        selall.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
                 editor.selectAll();
             }
         });
         editMenu.add(selall);
-        
+
         return true;
     }
 }
