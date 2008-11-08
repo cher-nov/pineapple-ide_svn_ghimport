@@ -41,6 +41,7 @@ public class PDI {
     public Vector<String> imports = new Vector<String>();
     public Vector<Method> methods = new Vector<Method>();
     public Vector<Field> fields = new Vector<Field>();
+    public Vector<Constructor> constructors = new Vector<Constructor>();
     
     public PDI(){
         
@@ -90,6 +91,21 @@ public class PDI {
                     m.arguments.add(a);
                 }
                 methods.add(m);
+            }
+            else if(node.getName().equals("constructor")){
+                Constructor c = new Constructor();
+                c.privacy = node.getAttributeValue("privacy");
+                if(c.privacy==null)
+                    throw new SAXException("No method privacy specified");
+                for(Node arg : node.getChildren()){
+                    if(!arg.getName().equals("argument"))
+                        throw new SAXException("Invalid child node of method");
+                    Argument a = new Argument(
+                            arg.getAttributeValue("type"),
+                            arg.getAttributeValue("name"));
+                    c.arguments.add(a);
+                }
+                constructors.add(c);
             }
             else if(node.getName().equals("field")){
                 Field v = new Field();
