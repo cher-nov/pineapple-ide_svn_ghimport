@@ -5,19 +5,11 @@
 <project name="PineappleModule" default="default" basedir="..">
     <description>Performs some useful tasks</description>
     
+    <taskdef resource="org/apache/commons/vfs/tasks/tasks.properties"/>
+    
     <target name="default">
-    
-        <!-- Cleaning -->
-        <delete file="Core/build/Plugins/PineDL_Integration.jar" />
-        <delete file="Core/dist/Plugins/PineDL_Integration.jar" />
-        
-        <mkdir dir="Core/build/"/>
-        <mkdir dir="Core/build/Plugins"/>
-        <mkdir dir="Core/dist/"/>
-        <mkdir dir="Core/dist/Plugins"/>
-    
-        <copy file="PineDL Integration/dist/PineDL_Integration.jar" todir="Core/build/Plugins"/>
-        <copy file="PineDL Integration/dist/PineDL_Integration.jar" todir="Core/dist/Plugins"/>
+        <v-copy src="PineDL Integration/dist/PineDL_Integration.jar" destdir="Core/build/Plugins"/>
+        <v-copy src="PineDL Integration/dist/PineDL_Integration.jar" destdir="Core/dist/Plugins"/>
     
     </target>
 </project>

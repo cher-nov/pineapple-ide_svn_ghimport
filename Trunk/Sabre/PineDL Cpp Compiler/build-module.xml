@@ -4,19 +4,11 @@
 <!-- (If you delete it and reopen the project it will be recreated.) -->
 <project name="PineappleModule" default="default" basedir="..">
     <description>Performs some useful tasks</description>
+   
+    <taskdef resource="org/apache/commons/vfs/tasks/tasks.properties"/>
     
     <target name="default">
-        <!-- Cleaning -->
-        <delete file="Core/build/Plugins/PineDL_Cpp_Compiler.jar"/>
-        <delete file="Core/dist/Plugins/PineDL_Cpp_Compiler.jar"/>
-        
-        <mkdir dir="Core/build/"/>
-        <mkdir dir="Core/build/Plugins"/>
-        <mkdir dir="Core/dist/"/>
-        <mkdir dir="Core/dist/Plugins"/>
-    
-        <copy file="PineDL/dist/PineDL_Cpp_Compiler.jar" todir="Core/build/Plugins"/>
-        <copy file="PineDL/dist/PineDL_Cpp_Compiler.jar" todir="Core/dist/Plugins"/>
-    
+        <v-copy src="PineDL Cpp Compiler/dist/PineDL_Cpp_Compiler.jar" destdir="Core/build/Plugins"/>
+        <v-copy src="PineDL Cpp Compiler/dist/PineDL_Cpp_Compiler.jar" destdir="Core/dist/Plugins"/>
     </target>
 </project>
