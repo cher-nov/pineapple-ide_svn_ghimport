@@ -5,26 +5,32 @@ using namespace SDLEngine;
 
 class TestActor : public Actor
 {
+public:
+    TestActor(int x, int y, Texture* t)
+    {
+        this->x = x;
+        this->y = y;
+        this->angle = 0;
+        this->t = t;
+    }
     void create() {}
     void destroy() {}
     void update() {}
-    void draw() {}
+    void draw()
+    {
+        t->draw(x, y);
+    }
 };
 
 class TestScene : public Scene
 {
-    Actor* a;
 public:
     void create()
     {
-        a = new TestActor;
+        actors.push_back(new TestActor(50, 50, new Texture("test.png")));
     }
-    void destroy()
-    {
-        delete a;
-    }
+    void destroy() {}
     void update() {}
-    void draw() {}
 };
 
 int main(int argc, char** argv)
