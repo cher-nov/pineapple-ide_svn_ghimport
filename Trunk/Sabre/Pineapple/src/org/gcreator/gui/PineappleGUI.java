@@ -32,8 +32,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -448,6 +452,19 @@ public class PineappleGUI implements EventHandler {
         for (ToolWindow window : manager.getToolWindows()) {
             window.setAvailable(true);
         }
+        
+        /* Try to load the MyDoggy settings */
+        try {
+            File dataFolder = Core.getStaticContext().getApplicationDataFolder();
+            File w = new File(dataFolder.getPath() + File.separator + "workspace.xml");
+            if (w.exists()) {
+                BufferedInputStream in = new BufferedInputStream(new FileInputStream(w));
+                manager.getPersistenceDelegate().apply(in);
+                in.close();
+            }
+        } catch (Exception e) {
+            System.err.println("Error while loading workspace: " + e);
+        }
     }
     //</editor-fold>
 
@@ -537,6 +554,19 @@ public class PineappleGUI implements EventHandler {
 
         } else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_DISPOSED)) {
 
+            /* Save the MyDoggy settings */
+            try {
+                File dataFolder = Core.getStaticContext().getApplicationDataFolder();
+                File f = new File(dataFolder.getPath() + File.separator + "workspace.xml");
+                if (!f.exists()) {
+                    f.createNewFile();
+                }
+                BufferedOutputStream o = new BufferedOutputStream(new FileOutputStream(f));
+                manager.getPersistenceDelegate().save(o);
+                o.close();
+            } catch (Exception e) {
+            }
+            
             for (DocumentPane doc : dip.getDocuments()) {
                 if (doc != null) {
                     if (!doc.dispose()) {
