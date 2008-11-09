@@ -12,14 +12,11 @@ public:
         this->y = y;
         this->angle = 0;
         this->t = t;
+        gravity = 1;
+        gravity_direction = 270;
     }
     void create() {}
     void destroy() {}
-    void update() {}
-    void draw()
-    {
-        t->draw(x, y);
-    }
 };
 
 class TestScene : public Scene
@@ -30,7 +27,6 @@ public:
         actors.push_back(new TestActor(50, 50, new Texture("test.png")));
     }
     void destroy() {}
-    void update() {}
 };
 
 int main(int argc, char** argv)

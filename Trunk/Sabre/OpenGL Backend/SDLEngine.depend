@@ -61,11 +61,11 @@
 1226189946 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/window.h
 	"sdlengine.h"
 
-1226198137 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/scene.h
+1226200375 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/scene.h
 	"sdlengine.h"
 	<vector>
 
-1226197723 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/actor.h
+1226200308 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/actor.h
 	"sdlengine.h"
 
 1226196339 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/texture.h
@@ -77,18 +77,19 @@
 	"SDL/SDL.h"
 	"SDL/SDL_opengl.h"
 
-1226198117 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/main.cpp
+1226200382 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/main.cpp
 	"sdlengine.h"
 	<iostream>
 
-1226196363 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/texture.cpp
+1226198942 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/texture.cpp
 	"texture.h"
 	"SDL/SDL.h"
 	"SDL/SDL_image.h"
 
-1226197713 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/actor.cpp
+1226200295 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/actor.cpp
 	"actor.h"
+	<math.h>
 
-1226198810 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/scene.cpp
+1226200420 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/scene.cpp
 	"scene.h"
 
