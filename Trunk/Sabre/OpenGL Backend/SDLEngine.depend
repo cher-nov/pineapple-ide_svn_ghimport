@@ -1,0 +1,45 @@
+# depslib dependency file v1.0
+1226192822 source:/home/russell/Projects/SDLEngine/application.cpp
+	"application.h"
+	"SDL/SDL.h"
+	"SDL/SDL_opengl.h"
+
+1226192692 /home/russell/Projects/SDLEngine/application.h
+	"sdlengine.h"
+
+1226193827 /home/russell/Projects/SDLEngine/sdlengine.h
+	"application.h"
+	"window.h"
+	"scene.h"
+	"actor.h"
+	"texture.h"
+
+1226194027 source:/home/russell/Projects/SDLEngine/main.cpp
+	"sdlengine.h"
+	<iostream>
+
+1226189946 /home/russell/Projects/SDLEngine/window.h
+	"sdlengine.h"
+
+1226192883 source:/home/russell/Projects/SDLEngine/window.cpp
+	"window.h"
+	"SDL/SDL.h"
+	"SDL/SDL_opengl.h"
+
+1226193712 /home/russell/Projects/SDLEngine/scene.h
+	"sdlengine.h"
+	<vector>
+
+1226190602 source:/home/russell/Projects/SDLEngine/scene.cpp
+	"scene.h"
+
+1226193734 /home/russell/Projects/SDLEngine/actor.h
+	"sdlengine.h"
+
+1226193961 /home/russell/Projects/SDLEngine/texture.h
+	"sdlengine.h"
+	"SDL/SDL_opengl.h"
+
+1226193784 source:/home/russell/Projects/SDLEngine/texture.cpp
+	"texture.h"
+
