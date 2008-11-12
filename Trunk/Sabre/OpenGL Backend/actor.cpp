@@ -4,11 +4,6 @@
 
 using namespace SDLEngine;
 
-void Actor::draw()
-{
-    t->draw(x, y, angle);
-}
-
 void Actor::update()
 {
     if (gravity != 0)
@@ -18,4 +13,10 @@ void Actor::update()
     }
     x += hspeed;
     y += vspeed;
+}
+
+
+void Actor::draw()
+{
+    t->draw(x, y, angle);
 }

@@ -8,11 +8,13 @@ class SDLEngine::Scene
 {
 protected:
     std::vector<Actor*> actors;
+    std::vector<View*> views;
+
     int width;
     int height;
+
+    virtual void drawActors();
 public:
-    virtual void create() = 0;
-    virtual void destroy() = 0;
     virtual void update();
     virtual void draw();
 };

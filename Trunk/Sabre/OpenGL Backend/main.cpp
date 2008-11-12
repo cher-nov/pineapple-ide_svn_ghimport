@@ -15,18 +15,23 @@ public:
         gravity = 1;
         gravity_direction = 270;
     }
-    void create() {}
-    void destroy() {}
 };
 
 class TestScene : public Scene
 {
 public:
-    void create()
+    TestScene()
     {
         actors.push_back(new TestActor(50, 50, new Texture("test.png")));
     }
-    void destroy() {}
+
+    ~TestScene()
+    {
+        for (int i = 0; i < actors.size(); i++)
+        {
+            delete actors[i];
+        }
+    }
 };
 
 int main(int argc, char** argv)

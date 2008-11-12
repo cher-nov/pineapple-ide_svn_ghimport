@@ -6,6 +6,7 @@ namespace SDLEngine
     class Application;
     class Window;
     class Scene;
+    class View;
     class Actor;
     class Texture;
 }
@@ -13,6 +14,7 @@ namespace SDLEngine
 #include "application.h"
 #include "window.h"
 #include "scene.h"
+#include "view.h"
 #include "actor.h"
 #include "texture.h"
 

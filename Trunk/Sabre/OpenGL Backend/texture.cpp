@@ -4,7 +4,7 @@
 
 using namespace SDLEngine;
 
-Texture::Texture(char* file, int originx, int originy)
+Texture::Texture(const char* file, int originx, int originy)
 {
     //load the image
     SDL_Surface* surface = IMG_Load(file);
@@ -40,16 +40,6 @@ Texture::Texture(char* file, int originx, int originy)
 Texture::~Texture()
 {
     glDeleteTextures(1, &textureid);
-}
-
-int Texture::getWidth()
-{
-    return width;
-}
-
-int Texture::getHeight()
-{
-    return height;
 }
 
 void Texture::draw(float x, float y, float angle)
