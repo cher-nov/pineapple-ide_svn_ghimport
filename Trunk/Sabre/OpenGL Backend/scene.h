@@ -17,6 +17,9 @@ protected:
 public:
     virtual void update();
     virtual void draw();
+
+    void addActor(Actor* actor);
+    void addView(View* view);
 };
 
 #endif

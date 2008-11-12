@@ -4,27 +4,56 @@
 
 using namespace SDLEngine;
 
-View::View()
+View::View(int swidth, int sheight, int pwidth, int pheight,
+           int sx, int sy, int px, int py)
 {
-    px = 0;
-    py = 0;
-    pwidth = Window::getWidth();
-    pheight = Window::getHeight();
+    this->px = px;
+    this->py = py;
+    this->pwidth = pwidth;
+    this->pheight = pheight;
 
-    sx = 0;
-    sy = 0;
-    swidth = Window::getWidth();
-    sheight = Window::getHeight();
+    this->sx = sx;
+    this->sy = sy;
+    this->swidth = swidth;
+    this->sheight = sheight;
 }
 
 void View::set()
 {
-    glViewport(px, py, pwidth, pheight);
+    //viewport
+    int width = pwidth;
+    int height = pheight;
+
+    if (width == 0)
+        width = Window::getWidth();
+    else if (width < 0)
+        width = Window::getWidth() + width;
+
+    if (height == 0)
+        height = Window::getHeight();
+    else if (height < 0)
+        height = Window::getHeight() + height;
+
+    glViewport(px, py, width, height);
+
+    //view size
+    int sw = swidth;
+    int sh = sheight;
+
+    if (sw == 0)
+        sw = width;
+    else if (sw < 0)
+        sw = width + sw;
+
+    if (sh == 0)
+        sh = height;
+    else if (sh < 0)
+        sh = height + sh;
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    glOrtho(sx, sx + swidth, sy + sheight, sy, -1.0f, 1.0f);
+    glOrtho(sx, sx + sw, sy + sh, sy, -1.0f, 1.0f);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

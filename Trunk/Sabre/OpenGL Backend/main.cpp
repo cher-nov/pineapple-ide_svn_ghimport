@@ -12,7 +12,7 @@ public:
         this->y = y;
         this->angle = 0;
         this->t = t;
-        gravity = 1;
+        gravity = 0;
         gravity_direction = 270;
     }
 };
@@ -22,14 +22,19 @@ class TestScene : public Scene
 public:
     TestScene()
     {
-        actors.push_back(new TestActor(50, 50, new Texture("test.png")));
+        addActor(new TestActor(50, 50, new Texture("test.png")));
+        addView(new View());
     }
 
     ~TestScene()
     {
-        for (int i = 0; i < actors.size(); i++)
+        for (unsigned int i = 0; i < actors.size(); i++)
         {
             delete actors[i];
+        }
+        for (unsigned int i = 0; i < views.size(); i++)
+        {
+            delete views[i];
         }
     }
 };
@@ -39,9 +44,9 @@ int main(int argc, char** argv)
     try {
 
         Application::init();
-        Window::init(640, 480, "Test");
+        Window::init(640, 480, "Test", 32, false, true);
 
-        Scene* s = new TestScene;
+        Scene* s = new TestScene();
         Application::setScene(s);
 
         Window::run();
