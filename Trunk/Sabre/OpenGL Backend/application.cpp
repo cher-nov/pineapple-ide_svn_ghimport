@@ -34,10 +34,9 @@ int Application::getSpeed()
 void Application::setScene(Scene* scene)
 {
     if (currentScene != NULL)
-        currentScene->destroy();
+        delete currentScene;
 
     currentScene = scene;
-    scene->create();
 }
 
 Scene* Application::getScene()

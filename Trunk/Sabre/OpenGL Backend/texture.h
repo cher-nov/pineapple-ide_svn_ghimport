@@ -13,10 +13,10 @@ private:
     int originy;
     GLuint textureid;
 public:
-    Texture(char* file, int originx = 0, int originy = 0);
+    Texture(const char* file, int originx = 0, int originy = 0);
     ~Texture();
-    int getWidth();
-    int getHeight();
+    int getWidth() { return width; }
+    int getHeight() { return height; }
     void draw(float x, float y, float angle = 0);
 };
 

@@ -11,8 +11,6 @@ protected:
     float hspeed, vspeed;
     float gravity, gravity_direction;
 public:
-    virtual void create() = 0;
-    virtual void destroy() = 0;
     virtual void update();
     virtual void draw();
 };
