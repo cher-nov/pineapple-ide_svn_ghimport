@@ -23,8 +23,7 @@ void Window::init(int width, int height, const char* caption, int bpp, bool full
     Window::fullscreen = fullscreen;
     Window::resizable = resizable;
 
-    if (update() == NULL)
-	    throw "Could not create window";
+    update();
 
 	SDL_WM_SetCaption(caption, NULL);
 
@@ -51,35 +50,45 @@ void Window::setSize(int width, int height)
     update();
 }
 
-inline void* Window::update()
+inline void Window::update()
 {
     Uint8 flags = SDL_OPENGL;
     if (Window::fullscreen)
         flags |= SDL_FULLSCREEN;
     if (Window::resizable)
         flags |= SDL_RESIZABLE;
-    return SDL_SetVideoMode(width, height, bpp, flags);
+
+    SDL_SetVideoMode(width, height, bpp, flags);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    glOrtho(0.0f, getWidth(), getHeight(), 0.0f, -1.0f, 1.0f);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
 void Window::run()
 {
     SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-        switch (event.type)
-        {
-            case SDL_QUIT:
-                Application::exit();
-                break;
-            case SDL_VIDEORESIZE:
-                setSize(event.resize.w, event.resize.h);
-                break;
-        }
-    }
+    Scene *s;
 
-    if (Application::isRunning())
-    {
-        Scene* s = Application::getScene();
+    do {
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+                case SDL_QUIT:
+                    Application::exit();
+                    break;
+                case SDL_VIDEORESIZE:
+                    setSize(event.resize.w, event.resize.h);
+                    break;
+            }
+        }
+
+        s = Application::getScene();
         if (s != NULL)
         {
             s->update();
@@ -88,6 +97,5 @@ void Window::run()
 
         SDL_GL_SwapBuffers();
         SDL_Delay(1000 / Application::getSpeed());
-        run();
-    }
+    } while (Application::isRunning());
 }

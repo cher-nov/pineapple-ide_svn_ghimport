@@ -1,37 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="actor.cpp" open="1" top="1" tabpos="5">
-		<Cursor position="158" topLine="0" />
+	<File name="actor.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="322" topLine="0" />
 	</File>
 	<File name="actor.h" open="0" top="0" tabpos="2">
-		<Cursor position="292" topLine="0" />
+		<Cursor position="203" topLine="0" />
 	</File>
 	<File name="application.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="643" topLine="0" />
+		<Cursor position="591" topLine="6" />
 	</File>
 	<File name="application.h" open="0" top="0" tabpos="0">
 		<Cursor position="371" topLine="0" />
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="520" topLine="2" />
+	<File name="main.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="465" topLine="11" />
 	</File>
 	<File name="scene.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="213" topLine="0" />
+		<Cursor position="186" topLine="0" />
 	</File>
-	<File name="scene.h" open="1" top="0" tabpos="2">
-		<Cursor position="270" topLine="0" />
+	<File name="scene.h" open="0" top="0" tabpos="2">
+		<Cursor position="330" topLine="0" />
 	</File>
 	<File name="sdlengine.h" open="0" top="0" tabpos="0">
-		<Cursor position="223" topLine="0" />
+		<Cursor position="257" topLine="0" />
 	</File>
-	<File name="texture.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="943" topLine="0" />
+	<File name="texture.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="641" topLine="34" />
 	</File>
 	<File name="texture.h" open="0" top="0" tabpos="3">
-		<Cursor position="383" topLine="0" />
+		<Cursor position="238" topLine="0" />
 	</File>
-	<File name="window.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1502" topLine="9" />
+	<File name="view.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="1094" topLine="21" />
+	</File>
+	<File name="view.h" open="0" top="0" tabpos="0">
+		<Cursor position="299" topLine="0" />
+	</File>
+	<File name="window.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="1055" topLine="62" />
+	</File>
+	<File name="window.h" open="0" top="0" tabpos="0">
+		<Cursor position="264" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
