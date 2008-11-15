@@ -16,5 +16,6 @@ int Timer::get_ticks()
 {
     if (started)
         return SDL_GetTicks() - startTicks;
+    return -1;
 }
 

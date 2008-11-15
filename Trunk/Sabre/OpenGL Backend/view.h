@@ -15,7 +15,7 @@ class SDLEngine::View
     int sheight;
 public:
     View(int swidth = 640,
-         int swidth = 480,
+         int sheight = 480,
          int pwidth = 0,
          int pheight = 0,
          int sx = 0,
