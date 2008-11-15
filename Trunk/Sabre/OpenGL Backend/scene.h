@@ -16,6 +16,7 @@ protected:
     virtual void drawActors();
 public:
     Scene();
+    virtual ~Scene();
 
     virtual void update();
     virtual void draw();

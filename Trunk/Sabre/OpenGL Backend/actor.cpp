@@ -1,20 +1,37 @@
 #include "actor.h"
-#include <math.h>
-#define PI 3.14159265
 
 using namespace SDLEngine;
 
+//
+//Set actor defaults
+//
 Actor::Actor()
 {
     x = 0;
     y = 0;
-    angle = 0;
+
+    hspeed = 0;
+    vspeed = 0;
+
+    speed = 0;
+    direction = 0;
+    friction = 0;
+
     gravity = 0;
     gravity_direction = 270;
+
+    angle = 0;
 }
 
-void Actor::update()
+//
+//Actor motion
+//Updates location based on local vars
+//
+void Actor::move()
 {
+    //friction
+    speed = sign(speed) * max(abs(speed) - friction, 0.0f);
+
     //direction/speed
     if (speed != 0)
     {
@@ -34,18 +51,10 @@ void Actor::update()
     y += vspeed;
 }
 
-
+//
+//Draws the actor
+//
 void Actor::draw()
 {
     t->draw(x, y, angle);
-}
-
-void Actor::onKeyDown(SDLKey key)
-{
-
-}
-
-void Actor::onKeyUp(SDLKey key)
-{
-
 }

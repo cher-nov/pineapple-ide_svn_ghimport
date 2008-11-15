@@ -10,6 +10,9 @@ bool Window::fullscreen = false;
 bool Window::resizable = false;
 char* Window::caption;
 
+//
+//save window size and reset the window
+//
 void Window::setSize(int width, int height, bool fullscreen)
 {
     Window::width = width;
@@ -18,12 +21,18 @@ void Window::setSize(int width, int height, bool fullscreen)
     update();
 }
 
+//
+//set fullscreen flag and reset the window
+//
 void Window::setFullscreen(bool fullscreen)
 {
     Window::fullscreen = fullscreen;
     update();
 }
 
+//
+//set the caption and update the window
+//
 void Window::setCaption(const char* title)
 {
     caption = new char[strlen(title)];
@@ -31,24 +40,33 @@ void Window::setCaption(const char* title)
     SDL_WM_SetCaption(caption, NULL);
 }
 
+//
+//set the resizable flag and reset the window
+//
 void Window::setResizable(bool resizable)
 {
     Window::resizable = resizable;
     update();
 }
 
+//
+//update the window with the current flags
+//
 inline void Window::update()
 {
-    Uint8 flags = SDL_OPENGL;
+    Uint32 flags = SDL_OPENGL;
     if (fullscreen)
         flags |= SDL_FULLSCREEN;
     if (resizable)
         flags |= SDL_RESIZABLE;
 
-    SDL_SetVideoMode(width, height, 32, flags | SDL_FULLSCREEN);
+    SDL_SetVideoMode(width, height, 32, flags);
     glEnable(GL_TEXTURE_2D);
 }
 
+//
+//main program loop
+//
 void Window::run()
 {
     Timer t;
@@ -67,16 +85,16 @@ void Window::run()
                 case SDL_QUIT:
                     Application::exit();
                     break;
-                case SDL_VIDEORESIZE:
-                    setSize(event.resize.w, event.resize.h);
-                    break;
-                case SDL_KEYDOWN:
-                    if (event.key.keysym.sym == SDLK_ESCAPE)
-                        Application::exit();
 
+                case SDL_VIDEORESIZE:
+                    setSize(event.resize.w, event.resize.h, fullscreen);
+                    break;
+
+                case SDL_KEYDOWN:
                     if (s != NULL)
                         s->onKeyDown(event.key.keysym.sym);
                     break;
+
                 case SDL_KEYUP:
                     if (s != NULL)
                         s->onKeyUp(event.key.keysym.sym);
@@ -92,6 +110,7 @@ void Window::run()
 
         SDL_GL_SwapBuffers();
 
+        //wait for the frame to finish
         if (t.get_ticks() < 1000 / Application::getSpeed())
             SDL_Delay(1000 / Application::getSpeed() - t.get_ticks());
     }
