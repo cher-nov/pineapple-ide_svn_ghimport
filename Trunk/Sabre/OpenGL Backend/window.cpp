@@ -77,6 +77,7 @@ void Window::run()
         t.start();
         s = Application::getScene();
 
+        //handle events
         while (SDL_PollEvent(&event))
         {
             switch (event.type)
@@ -101,12 +102,17 @@ void Window::run()
             }
         }
 
+        //update input
+        Keyboard::update();
+
+        //update scene
         if (s != NULL)
         {
             s->update();
             s->draw();
         }
 
+        //show the new frame
         SDL_GL_SwapBuffers();
 
         //wait for the frame to finish

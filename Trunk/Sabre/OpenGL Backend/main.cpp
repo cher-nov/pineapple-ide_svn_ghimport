@@ -17,19 +17,17 @@ public:
 
     void update()
     {
-        Uint8* keys = SDL_GetKeyState(NULL);
-
-        if (keys[SDLK_UP])
+        if (Keyboard::isKeyDown(KeyUp))
             speed += 2;
-        if (keys[SDLK_DOWN])
+        if (Keyboard::isKeyDown(KeyDown))
             speed -= 2;
 
         speed = sign(speed) * min(abs(speed), 8.0f);
 
-        if (keys[SDLK_LEFT])
-            direction += 2;
-        if (keys[SDLK_RIGHT])
-            direction -= 2;
+        if (Keyboard::isKeyDown(KeyLeft))
+            direction += 4;
+        if (Keyboard::isKeyDown(KeyRight))
+            direction -= 4;
 
         angle = direction;
     }
