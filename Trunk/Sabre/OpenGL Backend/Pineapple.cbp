@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="SDLEngine" />
+		<Option title="Pineapple" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/SDLEngine" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/Pineapple" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/SDLEngine" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/Pineapple" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -41,6 +41,9 @@
 		<Unit filename="actor.h" />
 		<Unit filename="application.cpp" />
 		<Unit filename="application.h" />
+		<Unit filename="keyboard.cpp" />
+		<Unit filename="keyboard.h" />
+		<Unit filename="keycodes.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="pamath.h" />
 		<Unit filename="pineapple.h" />
