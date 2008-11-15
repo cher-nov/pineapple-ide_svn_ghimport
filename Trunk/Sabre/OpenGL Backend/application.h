@@ -8,8 +8,6 @@ class SDLEngine::Application
     static int speed;
     static bool running;
     static Scene* currentScene;
-
-    static bool initGL();
 public:
 	static void init();
 	static void exit() { running = false; }

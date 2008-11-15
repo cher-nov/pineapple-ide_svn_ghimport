@@ -3,30 +3,35 @@
 
 using namespace SDLEngine;
 
-class TestActor : public Actor
+class Ship : public Actor
 {
 public:
-    TestActor(int x, int y, Texture* t)
+    Ship(int x, int y, Texture* t)
     {
         this->x = x;
         this->y = y;
         this->t = t;
+
+        this->friction = 1;
     }
 
-    void onKeyDown(SDLKey key)
+    void update()
     {
-        if (key == SDLK_UP)
-        {
-            speed = 4;
-        }
-    }
+        Uint8* keys = SDL_GetKeyState(NULL);
 
-    void onKeyUp(SDLKey key)
-    {
-        if (key == SDLK_UP)
-        {
-            speed = 0;
-        }
+        if (keys[SDLK_UP])
+            speed += 2;
+        if (keys[SDLK_DOWN])
+            speed -= 2;
+
+        speed = sign(speed) * min(abs(speed), 8.0f);
+
+        if (keys[SDLK_LEFT])
+            direction += 2;
+        if (keys[SDLK_RIGHT])
+            direction -= 2;
+
+        angle = direction;
     }
 };
 
@@ -35,19 +40,7 @@ class TestScene : public Scene
 public:
     TestScene()
     {
-        addActor(new TestActor(50, 50, new Texture("test.png")));
-    }
-
-    ~TestScene()
-    {
-        for (unsigned int i = 0; i < actors.size(); i++)
-        {
-            delete actors[i];
-        }
-        for (unsigned int i = 0; i < views.size(); i++)
-        {
-            delete views[i];
-        }
+        addActor(new Ship(50, 50, new Texture("test.png", 16, 16)));
     }
 };
 
@@ -56,7 +49,6 @@ int main(int argc, char** argv)
     Application::init();
     Window::setSize(640, 480);
     Window::setCaption("Hello");
-    Window::setFullscreen(true);
 
     Scene* s = new TestScene();
     Application::setScene(s);

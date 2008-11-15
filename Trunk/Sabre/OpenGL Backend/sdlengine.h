@@ -5,6 +5,8 @@
 #include "SDL/SDL_opengl.h"
 #include "SDL/SDL_image.h"
 
+#include "sdlenginemath.h"
+
 namespace SDLEngine
 {
     class Application;

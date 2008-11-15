@@ -47,7 +47,7 @@ void Texture::draw(float x, float y, float angle)
 
     //translate/rotate, then draw a quad with the texture
     glTranslatef(x, y, 0);
-    glRotatef(angle, 0, 0, 1);
+    glRotatef(-angle, 0, 0, 1);
     glBegin(GL_QUADS);
         glTexCoord2i(0, 0);
         glVertex3f(-this->originx, -this->originy, 0);
