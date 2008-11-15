@@ -42,10 +42,10 @@
 		<Unit filename="application.cpp" />
 		<Unit filename="application.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="pamath.h" />
+		<Unit filename="pineapple.h" />
 		<Unit filename="scene.cpp" />
 		<Unit filename="scene.h" />
-		<Unit filename="sdlengine.h" />
-		<Unit filename="sdlenginemath.h" />
 		<Unit filename="texture.cpp" />
 		<Unit filename="texture.h" />
 		<Unit filename="timer.cpp" />

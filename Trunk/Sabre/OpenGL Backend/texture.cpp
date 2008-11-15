@@ -1,6 +1,6 @@
 #include "texture.h"
 
-using namespace SDLEngine;
+using namespace Pineapple;
 
 Texture::Texture(const char* file, int originx, int originy)
 {

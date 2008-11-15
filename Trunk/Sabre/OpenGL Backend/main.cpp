@@ -1,7 +1,7 @@
-#include "sdlengine.h"
+#include "pineapple.h"
 #include <iostream>
 
-using namespace SDLEngine;
+using namespace Pineapple;
 
 class Ship : public Actor
 {

@@ -1,9 +1,9 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "sdlengine.h"
+#include "pineapple.h"
 
-class SDLEngine::Texture
+class Pineapple::Texture
 {
 private:
     int width;

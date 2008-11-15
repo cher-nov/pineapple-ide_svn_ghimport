@@ -1,7 +1,7 @@
 #include "view.h"
 #include <iostream>
 
-using namespace SDLEngine;
+using namespace Pineapple;
 
 View::View(int swidth, int sheight, int pwidth, int pheight,
            int sx, int sy, int px, int py)

@@ -1,9 +1,9 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include "sdlengine.h"
+#include "pineapple.h"
 
-class SDLEngine::View
+class Pineapple::View
 {
     int px;
     int py;

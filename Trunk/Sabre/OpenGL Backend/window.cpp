@@ -1,8 +1,7 @@
 #include "window.h"
-#include "timer.h"
 #include <iostream>
 
-using namespace SDLEngine;
+using namespace Pineapple;
 
 int Window::width;
 int Window::height;

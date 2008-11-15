@@ -1,20 +1,22 @@
-#ifndef SDLENGINE_H
-#define SDLENGINE_H
+#ifndef PINEAPPLE_H
+#define PINEAPPLE_H
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_opengl.h"
 #include "SDL/SDL_image.h"
 
-#include "sdlenginemath.h"
+#include "pamath.h"
 
-namespace SDLEngine
+namespace Pineapple
 {
     class Application;
     class Window;
     class Scene;
     class View;
     class Actor;
+
     class Texture;
+    class Timer;
 }
 
 #include "application.h"
@@ -23,5 +25,6 @@ namespace SDLEngine
 #include "view.h"
 #include "actor.h"
 #include "texture.h"
+#include "timer.h"
 
 #endif

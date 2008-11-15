@@ -1,7 +1,7 @@
 #include <math.h>
 #define PI 3.14159265
 
-namespace SDLEngine
+namespace Pineapple
 {
     template <class T>
     inline int sign(T a)
@@ -25,15 +25,5 @@ namespace SDLEngine
     inline T abs(T a)
     {
         return (a > 0) ? a : -a;
-    }
-    
-    template <class T>
-    inline T floor(T x){
-        return ::floor((double) x);
-    }
-    
-    template <class T>
-    inline T ceil(T x){
-        return ::ceil((double) x);
     }
 }

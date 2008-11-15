@@ -1,9 +1,9 @@
 #ifndef ACTOR_H
 #define ACTOR_H
 
-#include "sdlengine.h"
+#include "pineapple.h"
 
-class SDLEngine::Actor
+class Pineapple::Actor
 {
 protected:
     Texture* t;

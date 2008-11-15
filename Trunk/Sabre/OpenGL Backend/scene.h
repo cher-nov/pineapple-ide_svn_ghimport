@@ -1,10 +1,10 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "sdlengine.h"
+#include "pineapple.h"
 #include <vector>
 
-class SDLEngine::Scene
+class Pineapple::Scene
 {
 protected:
     std::vector<Actor*> actors;

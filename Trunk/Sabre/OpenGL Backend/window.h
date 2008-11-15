@@ -1,9 +1,9 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "sdlengine.h"
+#include "pineapple.h"
 
-class SDLEngine::Window
+class Pineapple::Window
 {
     static int width;
     static int height;
