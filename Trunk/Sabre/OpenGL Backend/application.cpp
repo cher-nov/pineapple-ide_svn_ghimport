@@ -1,6 +1,6 @@
 #include "application.h"
 
-using namespace SDLEngine;
+using namespace Pineapple;
 
 int Application::speed = 60;
 bool Application::running = true;

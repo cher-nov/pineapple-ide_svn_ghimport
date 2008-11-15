@@ -1,5 +1,7 @@
 #include "timer.h"
 
+using namespace Pineapple;
+
 Timer::Timer()
 {
     startTicks = 0;
@@ -16,6 +18,6 @@ int Timer::get_ticks()
 {
     if (started)
         return SDL_GetTicks() - startTicks;
-    return -1;
+    return 0;
 }
 

@@ -1,6 +1,6 @@
 #include "actor.h"
 
-using namespace SDLEngine;
+using namespace Pineapple;
 
 //
 //Set actor defaults

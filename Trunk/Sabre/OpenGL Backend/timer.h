@@ -1,9 +1,9 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include "sdlengine.h"
+#include "pineapple.h"
 
-class Timer
+class Pineapple::Timer
 {
 private:
     int startTicks;

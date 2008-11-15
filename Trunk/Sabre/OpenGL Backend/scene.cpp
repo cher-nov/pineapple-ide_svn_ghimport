@@ -1,6 +1,6 @@
 #include "scene.h"
 
-using namespace SDLEngine;
+using namespace Pineapple;
 
 //
 //Scene base constructor

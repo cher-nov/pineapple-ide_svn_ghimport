@@ -1,9 +1,9 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include "sdlengine.h"
+#include "pineapple.h"
 
-class SDLEngine::Application
+class Pineapple::Application
 {
     static int speed;
     static bool running;
