@@ -26,4 +26,14 @@ namespace SDLEngine
     {
         return (a > 0) ? a : -a;
     }
+    
+    template <class T>
+    inline T floor(T x){
+        return ::floor((double) x);
+    }
+    
+    template <class T>
+    inline T ceil(T x){
+        return ::ceil((double) x);
+    }
 }
