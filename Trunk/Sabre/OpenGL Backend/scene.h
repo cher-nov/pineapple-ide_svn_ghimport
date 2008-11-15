@@ -15,11 +15,16 @@ protected:
 
     virtual void drawActors();
 public:
+    Scene();
+
     virtual void update();
     virtual void draw();
 
-    void addActor(Actor* actor);
-    void addView(View* view);
+    virtual void addActor(Actor* actor);
+    virtual void addView(View* view);
+
+    virtual void onKeyDown(SDLKey key);
+    virtual void onKeyUp(SDLKey key);
 };
 
 #endif

@@ -1,6 +1,4 @@
 #include "application.h"
-#include "SDL/SDL.h"
-#include "SDL/SDL_opengl.h"
 
 using namespace SDLEngine;
 
@@ -11,24 +9,12 @@ Scene* Application::currentScene = NULL;
 void Application::init()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-		throw "Could not initialize video";
+		throw "Could not initialize SDL";
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     running = true;
-}
-
-void Application::exit()
-{
-    running = false;
-}
-
-bool Application::isRunning()
-{
-    return running;
-}
-
-int Application::getSpeed()
-{
-    return speed;
 }
 
 void Application::setScene(Scene* scene)
@@ -37,9 +23,4 @@ void Application::setScene(Scene* scene)
         delete currentScene;
 
     currentScene = scene;
-}
-
-Scene* Application::getScene()
-{
-    return currentScene;
 }

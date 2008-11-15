@@ -12,12 +12,12 @@ class SDLEngine::Application
     static bool initGL();
 public:
 	static void init();
-	static void exit();
-	static bool isRunning();
-	static int getSpeed();
+	static void exit() { running = false; }
+	static bool isRunning() { return running; }
+	static int getSpeed() { return speed; }
 
 	static void setScene(Scene* scene);
-	static Scene* getScene();
+	static Scene* getScene() { return currentScene; }
 };
 
 #endif

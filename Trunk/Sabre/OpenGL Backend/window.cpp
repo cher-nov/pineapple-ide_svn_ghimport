@@ -1,80 +1,65 @@
 #include "window.h"
-#include "SDL/SDL.h"
-#include "SDL/SDL_opengl.h"
+#include "timer.h"
+#include <iostream>
 
 using namespace SDLEngine;
 
-int Window::width = 640;
-int Window::height = 640;
-char* Window::caption = "";
-int Window::bpp = 32;
+int Window::width;
+int Window::height;
 bool Window::fullscreen = false;
 bool Window::resizable = false;
+char* Window::caption;
 
-void Window::init(int width, int height, const char* caption, int bpp, bool fullscreen, bool resizable)
+void Window::setSize(int width, int height, bool fullscreen)
 {
     Window::width = width;
     Window::height = height;
-    Window::bpp = bpp;
-
-    Window::caption = new char[strlen(caption)];
-    strcpy(Window::caption, caption);
-
     Window::fullscreen = fullscreen;
-    Window::resizable = resizable;
-
     update();
-
-	SDL_WM_SetCaption(caption, NULL);
-
-    glEnable(GL_TEXTURE_2D);
-    glClearColor(0, 0, 0, 0);
-    glColor4f(1, 1, 1, 1);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    glOrtho(0, 640, 480, 0, -1, 1);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    if (glGetError() != GL_NO_ERROR)
-        throw "Could not initialize OpenGL";
 }
 
-void Window::setSize(int width, int height)
+void Window::setFullscreen(bool fullscreen)
 {
-    Window::width = width;
-    Window::height = height;
+    Window::fullscreen = fullscreen;
+    update();
+}
+
+void Window::setCaption(const char* title)
+{
+    caption = new char[strlen(title)];
+    strcpy(caption, title);
+    SDL_WM_SetCaption(caption, NULL);
+}
+
+void Window::setResizable(bool resizable)
+{
+    Window::resizable = resizable;
     update();
 }
 
 inline void Window::update()
 {
     Uint8 flags = SDL_OPENGL;
-    if (Window::fullscreen)
+    if (fullscreen)
         flags |= SDL_FULLSCREEN;
-    if (Window::resizable)
+    if (resizable)
         flags |= SDL_RESIZABLE;
 
-    SDL_SetVideoMode(width, height, bpp, flags);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    glOrtho(0.0f, getWidth(), getHeight(), 0.0f, -1.0f, 1.0f);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    SDL_SetVideoMode(width, height, 32, flags | SDL_FULLSCREEN);
+    glEnable(GL_TEXTURE_2D);
 }
 
 void Window::run()
 {
+    Timer t;
     SDL_Event event;
     Scene *s;
 
-    do {
+    while (Application::isRunning())
+    {
+        t.start();
+        s = Application::getScene();
+
         while (SDL_PollEvent(&event))
         {
             switch (event.type)
@@ -85,10 +70,20 @@ void Window::run()
                 case SDL_VIDEORESIZE:
                     setSize(event.resize.w, event.resize.h);
                     break;
+                case SDL_KEYDOWN:
+                    if (event.key.keysym.sym == SDLK_ESCAPE)
+                        Application::exit();
+
+                    if (s != NULL)
+                        s->onKeyDown(event.key.keysym.sym);
+                    break;
+                case SDL_KEYUP:
+                    if (s != NULL)
+                        s->onKeyUp(event.key.keysym.sym);
+                    break;
             }
         }
 
-        s = Application::getScene();
         if (s != NULL)
         {
             s->update();
@@ -96,6 +91,8 @@ void Window::run()
         }
 
         SDL_GL_SwapBuffers();
-        SDL_Delay(1000 / Application::getSpeed());
-    } while (Application::isRunning());
+
+        if (t.get_ticks() < 1000 / Application::getSpeed())
+            SDL_Delay(1000 / Application::getSpeed() - t.get_ticks());
+    }
 }

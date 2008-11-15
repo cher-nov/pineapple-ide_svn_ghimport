@@ -43,15 +43,16 @@
 1226193784 source:/home/russell/Projects/SDLEngine/texture.cpp
 	"texture.h"
 
-1226454748 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/application.cpp
+1226710442 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/application.cpp
 	"application.h"
-	"SDL/SDL.h"
-	"SDL/SDL_opengl.h"
 
-1226192692 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/application.h
+1226702600 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/application.h
 	"sdlengine.h"
 
-1226450810 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/sdlengine.h
+1226704717 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/sdlengine.h
+	"SDL/SDL.h"
+	"SDL/SDL_opengl.h"
+	"SDL/SDL_image.h"
 	"application.h"
 	"window.h"
 	"scene.h"
@@ -59,46 +60,48 @@
 	"actor.h"
 	"texture.h"
 
-1226458858 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/window.h
+1226709108 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/window.h
 	"sdlengine.h"
 
-1226458648 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/scene.h
+1226709942 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/scene.h
 	"sdlengine.h"
 	<vector>
 
-1226453885 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/actor.h
+1226705015 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/actor.h
 	"sdlengine.h"
 
-1226454774 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/texture.h
+1226704360 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/texture.h
 	"sdlengine.h"
-	"SDL/SDL_opengl.h"
 
-1226459058 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/window.cpp
+1226713037 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/window.cpp
 	"window.h"
-	"SDL/SDL.h"
-	"SDL/SDL_opengl.h"
+	"timer.h"
+	<iostream>
 
-1226459533 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/main.cpp
+1226713053 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/main.cpp
 	"sdlengine.h"
 	<iostream>
 
-1226454784 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/texture.cpp
+1226710021 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/texture.cpp
 	"texture.h"
-	"SDL/SDL.h"
-	"SDL/SDL_image.h"
 
-1226451586 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/actor.cpp
+1226705064 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/actor.cpp
 	"actor.h"
 	<math.h>
 
-1226459135 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/scene.cpp
+1226709931 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/scene.cpp
 	"scene.h"
 
-1226457047 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/view.h
+1226706268 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/view.h
 	"sdlengine.h"
 
-1226458485 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/view.cpp
+1226706903 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/view.cpp
 	"view.h"
-	"SDL/SDL.h"
-	"SDL/SDL_opengl.h"
+	<iostream>
+
+1226704719 /home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/timer.h
+	"sdlengine.h"
+
+1226704390 source:/home/russell/Projects/Pineapple/Trunk/Sabre/OpenGL Backend/timer.cpp
+	"timer.h"
 

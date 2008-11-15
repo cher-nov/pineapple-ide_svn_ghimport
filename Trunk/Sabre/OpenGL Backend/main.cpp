@@ -10,10 +10,23 @@ public:
     {
         this->x = x;
         this->y = y;
-        this->angle = 0;
         this->t = t;
-        gravity = 0;
-        gravity_direction = 270;
+    }
+
+    void onKeyDown(SDLKey key)
+    {
+        if (key == SDLK_UP)
+        {
+            speed = 4;
+        }
+    }
+
+    void onKeyUp(SDLKey key)
+    {
+        if (key == SDLK_UP)
+        {
+            speed = 0;
+        }
     }
 };
 
@@ -23,7 +36,6 @@ public:
     TestScene()
     {
         addActor(new TestActor(50, 50, new Texture("test.png")));
-        addView(new View());
     }
 
     ~TestScene()
@@ -41,19 +53,15 @@ public:
 
 int main(int argc, char** argv)
 {
-    try {
+    Application::init();
+    Window::setSize(640, 480);
+    Window::setCaption("Hello");
+    Window::setFullscreen(true);
 
-        Application::init();
-        Window::init(640, 480, "Test", 32, false, true);
+    Scene* s = new TestScene();
+    Application::setScene(s);
 
-        Scene* s = new TestScene();
-        Application::setScene(s);
-
-        Window::run();
-
-    } catch (char *error) {
-        std::cerr << "Error: " << error;
-    }
+    Window::run();
 
     return 0;
 }

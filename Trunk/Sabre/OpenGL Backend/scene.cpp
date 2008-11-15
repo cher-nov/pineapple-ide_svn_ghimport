@@ -2,6 +2,11 @@
 
 using namespace SDLEngine;
 
+Scene::Scene()
+{
+    glClearColor(1, 1, 1, 1);
+}
+
 void Scene::update()
 {
     for (unsigned int i = 0; i < actors.size(); i++)
@@ -16,6 +21,8 @@ void Scene::draw()
 
     if (views.size() == 0)
     {
+        View* v = new View();
+        v->set();
         drawActors();
     }
     else
@@ -45,4 +52,20 @@ void Scene::addActor(Actor* actor)
 void Scene::addView(View* view)
 {
     views.push_back(view);
+}
+
+void Scene::onKeyDown(SDLKey key)
+{
+    for (unsigned int i; i < actors.size(); i++)
+    {
+        actors[i]->onKeyDown(key);
+    }
+}
+
+void Scene::onKeyUp(SDLKey key)
+{
+    for (unsigned int i; i < actors.size(); i++)
+    {
+        actors[i]->onKeyUp(key);
+    }
 }

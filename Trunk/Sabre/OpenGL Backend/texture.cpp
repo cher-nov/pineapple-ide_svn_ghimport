@@ -1,6 +1,4 @@
 #include "texture.h"
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
 
 using namespace SDLEngine;
 
@@ -47,10 +45,6 @@ void Texture::draw(float x, float y, float angle)
     //use this texture
     glBindTexture(GL_TEXTURE_2D, this->textureid);
 
-    //alpha blending
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
     //translate/rotate, then draw a quad with the texture
     glTranslatef(x, y, 0);
     glRotatef(angle, 0, 0, 1);
@@ -68,6 +62,4 @@ void Texture::draw(float x, float y, float angle)
         glVertex3f(this->width - this->originx, -this->originy, 0);
     glEnd();
     glLoadIdentity();
-
-    glDisable(GL_BLEND);
 }
