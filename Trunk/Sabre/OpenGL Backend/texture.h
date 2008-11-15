@@ -2,7 +2,6 @@
 #define TEXTURE_H
 
 #include "sdlengine.h"
-#include "SDL/SDL_opengl.h"
 
 class SDLEngine::Texture
 {

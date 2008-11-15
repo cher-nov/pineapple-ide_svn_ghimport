@@ -1,6 +1,10 @@
 #ifndef SDLENGINE_H
 #define SDLENGINE_H
 
+#include "SDL/SDL.h"
+#include "SDL/SDL_opengl.h"
+#include "SDL/SDL_image.h"
+
 namespace SDLEngine
 {
     class Application;
