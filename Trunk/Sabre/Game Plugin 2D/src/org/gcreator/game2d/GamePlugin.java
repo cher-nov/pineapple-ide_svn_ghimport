@@ -23,13 +23,19 @@ THE SOFTWARE.
 
 package org.gcreator.game2d;
 
-import org.gcreator.plugins.PluginCore;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import org.gcreator.gui.NewProjectDialog;
+import org.gcreator.gui.PineappleGUI;
+import org.gcreator.managers.EventManager;
+import org.gcreator.plugins.Event;
+import org.gcreator.plugins.Plugin;
 
 /**
  * The Game 2D plugin
  * @author Luís Reis
  */
-public class Plugin extends PluginCore{
+public class GamePlugin extends Plugin{
     @Override
     public String getName(){
         return "Game Plugin 2D";
@@ -40,12 +46,21 @@ public class Plugin extends PluginCore{
         return "Adds 2D game support to Pineapple";
     }
     
+    @Override
+    public void handleEvent(Event e){
+        if(e.getEventType().equals(NewProjectDialog.GENERATE_PROJECTS)){
+            JList projects = (JList) e.getArguments()[0];
+            DefaultListModel model = (DefaultListModel) e.getArguments()[1];
+            model.addElement("2D Game Project");
+        }
+    }
+    
     /**
      * 
      * Initializes the plugin(Registers the event handlers)
      */
     @Override
     public void initialize() {
-        
+        EventManager.addEventHandler(this, NewProjectDialog.GENERATE_PROJECTS);
     }
 }
