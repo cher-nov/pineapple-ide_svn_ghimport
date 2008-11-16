@@ -77,7 +77,15 @@ public class Core {
                 frame.setVisible(true);
             }
         }, DefaultEventTypes.APPLICATION_INITIALIZED, EventPriority.LOW);
+        
+        EventManager.addEventHandler(new EventHandler() {
 
+            @Override
+            public void handleEvent(Event evt) {
+                SettingsManager.unload();
+            }
+        }, DefaultEventTypes.WINDOW_DISPOSED, EventPriority.HIGH);
+        
         EventManager.fireEvent(null, DefaultEventTypes.APPLICATION_INITIALIZED);
     }
 
