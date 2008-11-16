@@ -120,9 +120,8 @@ public final class PluginTableModel extends AbstractTableModel {
         if(!askedBefore){
             o = JOptionPane.showConfirmDialog(Core.getStaticContext().getMainFrame(), 
                 "<html>Are you sure you want to disable plugin "+p.getName()+"?<br/>" +
-                "<br/>Disabling a plugin such as the " + PineapplePlugin.PLUGIN_NAME +
-                "<br/>will prevent the main graphical user interface from loading and" +
-                "<br/>Pineapple will just show a blank screen when it starts." +
+                "Disabling some plugins may result in losing important " +
+                "features." +
                 "<br/><br/>" +
                 "To revert these changes, you must manually delete the settings" +
                 "<br/>file under {USER HOME}/.sabre/settings.xml.</html>");
