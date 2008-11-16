@@ -19,7 +19,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 package org.gcreator.editors;
 
 import java.awt.BorderLayout;
@@ -37,7 +37,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoManager;
 import org.gcreator.gui.DocumentPane;
+import org.gcreator.gui.PineappleGUI;
 import org.gcreator.project.io.BasicFile;
 
 /**
@@ -46,13 +50,13 @@ import org.gcreator.project.io.BasicFile;
  * @author Luís Reis
  */
 public class TextEditor extends DocumentPane {
-    
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     private JScrollPane scroll;
     private JTextArea editor;
     private BasicFile file;
-    
+    protected UndoManager undo = new UndoManager();
+
     /**
      * Creates a text editor from a File
      * @param e The element to read the data from.
@@ -102,7 +106,23 @@ public class TextEditor extends DocumentPane {
                 setModified(true);
             }
         });
-        
+        editor.getDocument().addUndoableEditListener(undo);
+        editor.getDocument().addUndoableEditListener(new UndoableEditListener() {
+
+            public void undoableEditHappened(UndoableEditEvent e) {
+                DocumentPane pane = PineappleGUI.dip.getSelectedDocument();
+                PineappleGUI.editMenu.removeAll();
+                if (pane != null) {
+                    PineappleGUI.editMenu.setEnabled(
+                            pane.setupEditMenu(PineappleGUI.editMenu));
+                    PineappleGUI.fileSave.setEnabled(pane.canSave());
+                } else {
+                    PineappleGUI.editMenu.setEnabled(false);
+                    PineappleGUI.fileSave.setEnabled(false);
+                }
+            }
+        });
+
         this.file = e;
     }
 
@@ -126,7 +146,32 @@ public class TextEditor extends DocumentPane {
      */
     @Override
     public boolean setupEditMenu(JMenu editMenu) {
-        System.out.println("setupEditMenu");
+        JMenuItem undoItem = new JMenuItem("Undo");
+        undoItem.setMnemonic('u');
+        undoItem.setVisible(true);
+        undoItem.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                undo.undo();
+            }
+        });
+        undoItem.setEnabled(undo.canUndo());
+        editMenu.add(undoItem);
+
+        JMenuItem redoItem = new JMenuItem("Redo");
+        redoItem.setMnemonic('r');
+        redoItem.setVisible(true);
+        redoItem.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                undo.redo();
+            }
+        });
+        redoItem.setEnabled(undo.canRedo());
+        editMenu.add(redoItem);
+
+        editMenu.addSeparator();
+
         JMenuItem cut = new JMenuItem("Cut");
         cut.setMnemonic('t');
         cut.setVisible(true);
