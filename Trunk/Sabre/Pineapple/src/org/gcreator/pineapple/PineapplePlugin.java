@@ -73,11 +73,16 @@ public class PineapplePlugin extends Plugin {
     public static final String REGISTER_PROJECT_TYPES = "register-managers";
     
     /**
+     * Gives static access to the plugin's name.
+     */
+    public static final String PLUGIN_NAME = "Pineapple Default Plug-In";
+    
+    /**
      * {@inheritDoc}
      */
     @Override
     public String getName() {
-        return "Pineapple Default Plug-In";
+        return PLUGIN_NAME;
     }
 
     /**
@@ -136,5 +141,12 @@ public class PineapplePlugin extends Plugin {
         } else if (event.getEventType().equals(REGISTER_PROJECT_TYPES)) {
             PineapplePlugin.addProjectType(new DefaultProjectType());
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getAuthor() {
+        return "Serge Humphrey, Luís Reis";
     }
 }

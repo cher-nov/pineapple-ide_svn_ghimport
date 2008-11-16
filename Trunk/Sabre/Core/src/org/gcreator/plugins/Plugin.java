@@ -22,22 +22,26 @@ THE SOFTWARE.
 */
 package org.gcreator.plugins;
 
+import java.io.File;
+import org.gcreator.managers.SettingsManager;
+
 /**
  * This is the base class that all plugins must extend.
  * 
  * @author Luís Reis
  */
-public class Plugin implements EventHandler {
+public abstract class Plugin implements EventHandler {
 
+    protected boolean enabled = true;
+    protected File jar;
+    
     /**
      * Gets the plugin name.
      * Defaults to "untitled"
      * 
      * @return The plugin's name
      */
-    public String getName() {
-        return "untitled";
-    }
+    public abstract String getName();
 
     /**
      * Gets the plugin author(s)
@@ -45,18 +49,14 @@ public class Plugin implements EventHandler {
      * 
      * @return The author of the plug-in.
      */
-    public String getAuthor() {
-        return "anonymous";
-    }
+    public abstract String getAuthor();
 
     /**
      * Gets the plugin description.
      * 
      * @return This plugin's description.
      */
-    public String getDescription() {
-        return "";
-    }
+    public abstract String getDescription();
 
     /**
      * The initialize() event.
@@ -77,5 +77,39 @@ public class Plugin implements EventHandler {
      */
     @Override
     public void handleEvent(Event event) {
+    }
+    
+    /**
+     * @return Wheather this plugin is enabled or not.
+     */
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+    
+    /**
+     * Sets wheather the plugin should be loaded or not.
+     * The jar file must be set for this to work.
+     * 
+     * @param b Wheather the plugin is enabled or not.
+     */
+    public void setEnabled(boolean b) {
+        this.enabled = b;
+        SettingsManager.set("plugins.enabled." + getJar().getPath(), Boolean.toString(b));
+    }
+    
+    /**
+     * Sets the jar file that this plugin belongs to.
+     * 
+     * @param f The {@link java.io.File} that this plugin 
+     * was loaded from.
+     */
+    public void setJar(File f) {
+        this.jar = f;
+    }
+    /**
+     * @return The jar file that this plugin was loaded from.
+     */
+    public File getJar() {
+        return this.jar;
     }
 }

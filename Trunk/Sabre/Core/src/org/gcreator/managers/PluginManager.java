@@ -42,9 +42,9 @@ import org.gcreator.plugins.Plugin;
  * @author Luís Reis
  */
 public final class PluginManager {
-    
+
     private static Vector<File> modules = new Vector<File>();
-    
+
     /** Don't allow instantation
      */
     private PluginManager() {
@@ -59,15 +59,17 @@ public final class PluginManager {
         importAppExePlugins();
         URL[] urls = new URL[modules.size()];
         int i = 0;
-        for(File file : modules){
-            try{
+        for (File file : modules) {
+            try {
                 urls[i++] = file.toURI().toURL();
+            } catch (Exception e) {
             }
-            catch(Exception e){}
         }
         URLClassLoader clsloader = new URLClassLoader(urls);
-        for(File file : modules){
-            importPlugin(file, clsloader);
+        for (File file : modules) {
+            String key = "plugins.enabled." + file.getPath();
+            boolean enabled = !(SettingsManager.exists(key) && SettingsManager.get(key).equals(Boolean.FALSE.toString()));
+            importPlugin(file, clsloader, enabled);
         }
     }
 
@@ -122,15 +124,17 @@ public final class PluginManager {
      * Imports a plug-in from a {@link File}.
      * 
      * @param f The File to import the plug-in from.
+     * @param loader The {@link URLClassLoader} to load the class.
+     * @param enabled Wheather the plugin is enabled.
      */
-    public static void importPlugin(File f, URLClassLoader loader) {
+    public static void importPlugin(File f, URLClassLoader loader, boolean enabled) {
         try {
             System.out.println("Loading plugin: " + f.toString());
             JarInputStream jaris = new JarInputStream(new FileInputStream(f));
             Manifest m = jaris.getManifest();
             jaris.close();
             Attributes a = m.getMainAttributes();
-            load(f, a.getValue("Pineapple-EntryPoint"), loader);
+            load(f, a.getValue("Pineapple-EntryPoint"), loader, enabled);
         } catch (Exception e) {
             Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
         }
@@ -142,25 +146,36 @@ public final class PluginManager {
      * @param f The Jar {@link java.io.File}.
      * @param className The {@link java.lang.Class} to load and initilize from the JAR.
      * 
+     * @param loader loader The {@link URLClassLoader} to load the class.
+     * @param enabled Wheather the plugin should be enabled or not.
+     * 
      * @throws java.lang.ClassNotFoundException  If the given class was not found in the JAR.
      * @throws java.lang.InstantiationException If the class failed to initilize
      * @throws java.lang.reflect.InvocationTargetException If an error occurs while initilizing the class.
      */
     @SuppressWarnings("unchecked")
-    public static void load(File f, String className, URLClassLoader loader) throws 
+    public static void load(File f, String className, URLClassLoader loader, boolean enabled) throws
             ClassNotFoundException, InstantiationException, InvocationTargetException {
-        
+
         if (className == null) {
             return;
         }
         try {
             System.out.println("Loading " + f.toString());
-            
+
             Class c = loader.loadClass(className);
             Object o = c.getConstructor().newInstance();
-            Core.getStaticContext().addPlugin((Plugin)o);
-            Method d = c.getMethod("initialize");
-            d.invoke(o);
+            if (!(o instanceof Plugin)) {
+                return;
+            }
+            Plugin p = (Plugin) o;
+            p.setJar(f);
+            p.setEnabled(enabled);
+            Core.getStaticContext().addPlugin(p);
+            if (enabled) {
+                Method d = c.getMethod("initialize");
+                d.invoke(o);
+            }
         } catch (IllegalAccessException ex) {
             /* Should not happen */
             Logger.getLogger(PluginManager.class.getName()).log(Level.SEVERE, null, ex);
