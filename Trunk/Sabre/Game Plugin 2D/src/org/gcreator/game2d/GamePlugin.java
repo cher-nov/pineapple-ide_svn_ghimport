@@ -24,12 +24,15 @@ THE SOFTWARE.
 package org.gcreator.game2d;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
 import javax.swing.JList;
 import org.gcreator.gui.NewProjectDialog;
 import org.gcreator.gui.PineappleGUI;
 import org.gcreator.managers.EventManager;
 import org.gcreator.plugins.Event;
 import org.gcreator.plugins.Plugin;
+import org.gcreator.project.DefaultProject;
+import org.gcreator.project.Project;
 
 /**
  * The Game 2D plugin
@@ -53,6 +56,21 @@ public class GamePlugin extends Plugin{
             DefaultListModel model = (DefaultListModel) e.getArguments()[1];
             model.addElement("2D Game Project");
         }
+        if (e.getEventType().equals(NewProjectDialog.BUTTON_OK)) {
+            Object[] args = e.getArguments();
+            if (args[0] == null) {
+                return;
+            }
+            String s = args[0].toString();
+            if (s.equals("2D Game Project")) {
+                //Will have to change later
+                Project p = new GameProject();
+                PineappleGUI.project = p;
+                PineappleGUI.projectNode.setProject(p);
+                PineappleGUI.tree.updateUI();
+                ((JDialog) e.getSender()).dispose();
+            }
+        }
     }
     
     /**
@@ -62,5 +80,6 @@ public class GamePlugin extends Plugin{
     @Override
     public void initialize() {
         EventManager.addEventHandler(this, NewProjectDialog.GENERATE_PROJECTS);
+        EventManager.addEventHandler(this, NewProjectDialog.BUTTON_OK);
     }
 }
