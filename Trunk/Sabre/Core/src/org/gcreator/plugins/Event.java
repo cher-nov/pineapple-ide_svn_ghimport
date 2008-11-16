@@ -27,7 +27,7 @@ package org.gcreator.plugins;
  * 
  * @author Luís Reis
  */
-public class NotifyEvent {
+public class Event {
 
     private String type;
     private boolean handled = false;
@@ -35,7 +35,7 @@ public class NotifyEvent {
     private Object sender = null;
 
     /**
-     * Creates a new instance of NotifyEvent
+     * Creates a new instance of Event
      * @param sender The class that send the event: usually the keyword 'this'
      * is used
      * @param type The type of event
@@ -44,7 +44,7 @@ public class NotifyEvent {
      * @see EventHandler
      * @see EventManager
      */
-    public NotifyEvent(Object sender, String type, Object... arguments) {
+    public Event(Object sender, String type, Object... arguments) {
         this.arguments = arguments;
         this.type = type;
         this.sender = sender;

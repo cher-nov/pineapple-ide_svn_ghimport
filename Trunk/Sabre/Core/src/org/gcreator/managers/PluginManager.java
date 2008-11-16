@@ -33,7 +33,7 @@ import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.gcreator.core.Core;
-import org.gcreator.plugins.PluginCore;
+import org.gcreator.plugins.Plugin;
 
 /**
  * This class handles the importing of plugins, usually at startup.
@@ -157,7 +157,7 @@ public final class PluginManager {
             
             Class c = loader.loadClass(className);
             Object o = c.getConstructor().newInstance();
-            Core.addPlugin((PluginCore)o);
+            Core.addPlugin((Plugin)o);
             c.getMethod("initialize").invoke(o);
         } catch (IllegalAccessException ex) {
             /* Should not happen */

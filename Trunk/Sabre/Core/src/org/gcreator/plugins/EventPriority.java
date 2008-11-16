@@ -24,21 +24,11 @@ package org.gcreator.plugins;
 
 /**
  * Specifies a priority for events.
+ * EventHandlers are handled in high, medium, low order
  * @author Luís Reis
  */
 public enum EventPriority {
-    /**
-     * High priority. EventHandlers registered with this priority are handled
-     * first
-     */
     HIGH,
-    /**
-     * Default priority.
-     */
     MEDIUM,
-     /**
-     * Low priority. EventHandlers registered with this priority are the last
-     * to be handled
-     */
     LOW
 }

@@ -24,7 +24,7 @@ package org.gcreator.managers;
 
 import org.gcreator.plugins.EventHandler;
 import org.gcreator.plugins.EventPriority;
-import org.gcreator.plugins.NotifyEvent;
+import org.gcreator.plugins.Event;
 import java.util.Vector;
 
 /**
@@ -102,7 +102,7 @@ public class EventManager {
     @SuppressWarnings("unchecked")
     public static void fireEvent(Object sender, String type, Object... arguments) {
         if (type != null && !type.equals("all")) { /* Event type 'all' can not be thrown. */
-            NotifyEvent evt = new NotifyEvent(sender, type, arguments);
+            Event evt = new Event(sender, type, arguments);
             for (EventObject o : (Vector<EventObject>) highPriority.clone()) {
                 if (o.type.equals(type) || o.type.equals("all")) {
                     o.handler.handleEvent(evt);

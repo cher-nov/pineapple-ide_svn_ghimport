@@ -27,7 +27,7 @@ package org.gcreator.plugins;
  * 
  * @author Luís Reis
  */
-public class PluginCore implements EventHandler {
+public class Plugin implements EventHandler {
 
     /**
      * Gets the plugin name.
@@ -76,6 +76,6 @@ public class PluginCore implements EventHandler {
      * @param event The event that was received
      */
     @Override
-    public void handleEvent(NotifyEvent event) {
+    public void handleEvent(Event event) {
     }
 }

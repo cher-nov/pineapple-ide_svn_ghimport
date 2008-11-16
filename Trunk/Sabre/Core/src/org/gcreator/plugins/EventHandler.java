@@ -28,13 +28,13 @@ package org.gcreator.plugins;
  * 
  * @author Luís Reis
  * @see EventManager
- * @see NotifyEvent
+ * @see Event
  */
 public interface EventHandler {
     /**
      * Called when an event occurs and should be handeled.
      * 
-     * @param event The {@link NotifyEvent} that resembles the event.
+     * @param event The {@link Event} that resembles the event.
      */
-    void handleEvent(NotifyEvent event);
+    void handleEvent(Event event);
 }

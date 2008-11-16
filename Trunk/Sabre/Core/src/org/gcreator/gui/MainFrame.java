@@ -27,7 +27,7 @@ import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.EventHandler;
 import org.gcreator.managers.EventManager;
 import org.gcreator.plugins.EventPriority;
-import org.gcreator.plugins.NotifyEvent;
+import org.gcreator.plugins.Event;
 
 /**
  * G-Creator's main window.
@@ -61,10 +61,10 @@ public class MainFrame extends JFrame implements EventHandler {
      * Handles an event. This may, for example, dispose the window,
      * if the event type is "window-dispose".
      * 
-     * @param event The {@link NotifyEvent} That is to be handled.
+     * @param event The {@link Event} That is to be handled.
      */
     @Override
-    public void handleEvent(NotifyEvent event) {
+    public void handleEvent(Event event) {
         if (event.getEventType().equals(DefaultEventTypes.WINDOW_DISPOSED)) {
             System.out.println("Performing final disposal");
             super.dispose();
