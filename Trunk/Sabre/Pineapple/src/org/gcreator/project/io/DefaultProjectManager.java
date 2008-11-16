@@ -24,7 +24,6 @@ THE SOFTWARE.
 
 package org.gcreator.project.io;
 
-import com.sun.org.apache.xerces.internal.dom.ElementImpl;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -306,23 +305,23 @@ public class DefaultProjectManager implements ProjectManager {
             }
             for (int i = 0; i < files.getChildNodes().getLength(); i++) {
 
-                if (!(files instanceof ElementImpl)) {
+                if (!(files instanceof Element)) {
                     System.err.println("Warning: " + files + " is not of class NodeImpl. Cannot load.");
                     return;
                 }
-                ElementImpl n = (ElementImpl) files;
+                Element n = (Element) files;
                 if (!n.hasAttribute("path")) {
                     System.err.println("Warning: " + n + " has not path attribute. Cannot load.");
                     return;
                 }
-                ProjectElement e = null;
+                
                 File file = new File(n.getAttribute("path"));
                 if (!file.exists()) {
                     System.err.println("Error: file " + file + " does not exist.");
                     return;
                 }
                 try {
-                    project.add(e = project.createElement(new FileFile(file)));
+                    project.add(project.createElement(new FileFile(file)));
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
                 }

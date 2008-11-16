@@ -22,13 +22,11 @@
 
 package org.gcreator.pinedli;
 
-import org.gcreator.gui.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +37,7 @@ import javax.swing.event.DocumentListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.gcreator.editors.TextEditor;
+import org.gcreator.gui.DocumentPane;
 import org.gcreator.project.io.BasicFile;
 
 /**
@@ -57,6 +56,9 @@ public class PineDLEditor extends DocumentPane {
         this.setLayout(new BorderLayout());
         this.editor = new RSyntaxTextArea();
         this.file = file;
+        
+        editor.restoreDefaultSyntaxHighlightingColorScheme();
+        editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
         
         if (file.exists()) {
             BufferedInputStream in = null;
@@ -92,7 +94,7 @@ public class PineDLEditor extends DocumentPane {
                 setModified(true);
             }
         });
-        editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
+        
         scroll = new RTextScrollPane(getWidth(), getHeight(), editor, true);
         this.add(scroll, BorderLayout.CENTER);
     }
