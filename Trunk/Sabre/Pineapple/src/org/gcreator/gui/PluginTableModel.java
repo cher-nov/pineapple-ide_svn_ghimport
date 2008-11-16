@@ -95,6 +95,11 @@ public final class PluginTableModel extends AbstractTableModel {
     }
 
     /**
+     * Prevents the warning dialog from being permanently shown
+     */
+    private static boolean askedBefore = false;
+    
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -103,11 +108,17 @@ public final class PluginTableModel extends AbstractTableModel {
             return false;
         }
         
+        if(getValueAt(
+                rowIndex, 0).equals("Pineapple Default Plug-In"))
+            return false;
+        
         Plugin p = Core.getStaticContext().getPlugins().get(rowIndex);
         if (!p.isEnabled()) {
             return true;
         }
-        int o = JOptionPane.showConfirmDialog(Core.getStaticContext().getMainFrame(), 
+        int o = JOptionPane.OK_OPTION;
+        if(!askedBefore){
+            o = JOptionPane.showConfirmDialog(Core.getStaticContext().getMainFrame(), 
                 "<html>Are you sure you want to disable plugin "+p.getName()+"?<br/>" +
                 "<br/>Disabling a plugin such as the " + PineapplePlugin.PLUGIN_NAME +
                 "<br/>will prevent the main graphical user interface from loading and" +
@@ -115,6 +126,9 @@ public final class PluginTableModel extends AbstractTableModel {
                 "<br/><br/>" +
                 "To revert these changes, you must manually delete the settings" +
                 "<br/>file under {USER HOME}/.sabre/settings.xml.</html>");
+            if(o==JOptionPane.OK_OPTION)
+                askedBefore = true;
+        }
         
         return (o == JOptionPane.OK_OPTION);
     }
