@@ -152,6 +152,7 @@ public class PineappleGUI implements EventHandler {
      */
     public static Project project = null;
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Events">
     /**
      * Event when a file is deleted from the filesystem.
@@ -194,6 +195,7 @@ public class PineappleGUI implements EventHandler {
         initialize();
     }
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="initialize()">
     /**
      * Initilizes the Pineapple GUI.
@@ -793,6 +795,7 @@ public class PineappleGUI implements EventHandler {
         tree.updateUI();
     }
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="closeProject()">
     /**
      * Closes the current project
@@ -916,6 +919,7 @@ public class PineappleGUI implements EventHandler {
         dialog.setVisible(true);
     }
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="deleteFile(ProjectElement)">
     /**
      * Deletes a file from the file system
@@ -930,6 +934,7 @@ public class PineappleGUI implements EventHandler {
         }
     }
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="getFormatSupporter(BasicFile f)">
     private FormatSupporter getFormatSupporter(BasicFile f) {
         String format;
@@ -1055,6 +1060,7 @@ public class PineappleGUI implements EventHandler {
         return supporters.get(list.getSelectedIndex());
     }
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="getProjectType(File f)">
     private ProjectType getProjectType(File f) {
         String format;
@@ -1179,6 +1185,7 @@ public class PineappleGUI implements EventHandler {
         return types.get(list.getSelectedIndex());
     }
     //</editor-fold>
+    
     private String[] getSupportedFileFormats() {
         final Vector<String> formats = new Vector<String>(2);
 
