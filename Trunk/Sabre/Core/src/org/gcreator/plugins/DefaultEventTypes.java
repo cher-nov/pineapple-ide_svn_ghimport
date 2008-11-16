@@ -31,34 +31,14 @@ package org.gcreator.plugins;
  */
 public final class DefaultEventTypes {
     
-    /** Don't allow instantation
-     */
-    private DefaultEventTypes() {
-    }
-    
     /**
-     * An undefined event type.
+     * Don't allow instantation
      */
+    private DefaultEventTypes() {}
+    
     public static final String UNDEFINED = "undefined";
-   
-    
-    /**
-     * When the application is initilized.
-     */
     public static final String APPLICATION_INITIALIZED = "application-initilized";
-    
-    /**
-     * When the window is created.
-     */
     public static final String WINDOW_CREATED = "window-created";
-    
-    /**
-     * When the window is disposed
-     */
     public static final String WINDOW_DISPOSED = "window-disposed";
-    
-    /**
-     * All events.
-     */
     public static final String ALL = "all";
 }

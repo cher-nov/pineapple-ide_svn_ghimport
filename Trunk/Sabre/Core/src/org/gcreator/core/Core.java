@@ -30,8 +30,8 @@ import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.EventHandler;
 import org.gcreator.managers.EventManager;
 import org.gcreator.plugins.EventPriority;
-import org.gcreator.plugins.NotifyEvent;
-import org.gcreator.plugins.PluginCore;
+import org.gcreator.plugins.Event;
+import org.gcreator.plugins.Plugin;
 import java.io.File;
 import java.net.URL;
 import java.util.Vector;
@@ -53,7 +53,7 @@ public class Core
     private static File appDataFolder = null;
     private static File appExeFolder = null;
     private static MainFrame mainFrame = null;
-    private static Vector<PluginCore> plugins = null;
+    private static Vector<Plugin> plugins = null;
     
     /**
      * Don't allow instantation
@@ -105,13 +105,13 @@ public class Core
         return appExeFolder;
     }
     
-    public static void addPlugin(PluginCore plugin){
+    public static void addPlugin(Plugin plugin){
         plugins.add(plugin);
     }
     
     @SuppressWarnings("unchecked")
-    public Vector<PluginCore> getPlugins(){
-        return (Vector<PluginCore>)plugins.clone();
+    public Vector<Plugin> getPlugins(){
+        return (Vector<Plugin>)plugins.clone();
     }
     
     /**
@@ -146,7 +146,7 @@ public class Core
         Thread.setDefaultUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler());
         
         //Load settings and plugins
-        plugins = new Vector<PluginCore>();
+        plugins = new Vector<Plugin>();
         if (!Core.safe)
         {
             SettingsManager.load();
@@ -156,7 +156,7 @@ public class Core
         //Init main window
         EventManager.addEventHandler(new EventHandler() {
             @Override
-            public void handleEvent(NotifyEvent evt)
+            public void handleEvent(Event evt)
             {
                 mainFrame = new MainFrame();
                 mainFrame.initialize();
