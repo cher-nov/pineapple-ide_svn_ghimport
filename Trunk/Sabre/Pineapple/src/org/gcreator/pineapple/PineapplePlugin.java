@@ -94,17 +94,15 @@ public class PineapplePlugin extends Plugin {
      */
     @Override
     public void initialize() {
-        
+        try{
         EventManager.addEventHandler(this, REGISTER_FORMATS, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, REGISTER_PROJECT_TYPES, EventPriority.MEDIUM);
         
         gui = new PineappleGUI();
-        
-        formats = new Vector<FormatSupporter>(4);
-        EventManager.fireEvent(this, REGISTER_FORMATS);
-        
-        projectTypes = new Vector<ProjectType>(2);
-        EventManager.fireEvent(this, REGISTER_PROJECT_TYPES);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
     /**

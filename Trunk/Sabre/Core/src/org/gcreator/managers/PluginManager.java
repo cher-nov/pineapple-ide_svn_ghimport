@@ -24,6 +24,7 @@ package org.gcreator.managers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Vector;
@@ -158,7 +159,8 @@ public final class PluginManager {
             Class c = loader.loadClass(className);
             Object o = c.getConstructor().newInstance();
             Core.getStaticContext().addPlugin((Plugin)o);
-            c.getMethod("initialize").invoke(o);
+            Method d = c.getMethod("initialize");
+            d.invoke(o);
         } catch (IllegalAccessException ex) {
             /* Should not happen */
             Logger.getLogger(PluginManager.class.getName()).log(Level.SEVERE, null, ex);

@@ -20,7 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
-
 package org.gcreator.gui;
 
 //<editor-fold defaultstate="collapsed" desc="Import Statements">
@@ -36,6 +35,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -90,7 +90,6 @@ import org.noos.xing.mydoggy.ToolWindow;
 import org.noos.xing.mydoggy.ToolWindowAnchor;
 import org.noos.xing.mydoggy.plaf.MyDoggyToolWindowManager;
 //</editor-fold>
-
 /**
  * This deals with the main GUI stuff.
  * 
@@ -98,7 +97,6 @@ import org.noos.xing.mydoggy.plaf.MyDoggyToolWindowManager;
  * @author Serge Humphrey
  */
 public class PineappleGUI implements EventHandler {
-    
     //<editor-fold defaultstate="collapsed" desc="Variables">
     /**
      * The project tree
@@ -141,7 +139,6 @@ public class PineappleGUI implements EventHandler {
     public static JMenuItem projectDelete;
     public static JMenuItem projecImport;
     public static JMenuItem projectExport;
-    
     /**
      * Provides a way to deal with multiple documents.
      */
@@ -150,13 +147,11 @@ public class PineappleGUI implements EventHandler {
      * Allows docking
      */
     public static MyDoggyToolWindowManager manager;
-    
     /**
      * The current project
      */
     public static Project project = null;
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="Events">
     /**
      * Event when a file is deleted from the filesystem.
@@ -166,30 +161,25 @@ public class PineappleGUI implements EventHandler {
      * Event when a file is removed from the project.
      */
     public static final String FILE_REMOVED = "file-removed";
-    
-     /**
+    /**
      * When a file is opened.
      * This event should have the opened File as the first argument.
      * File can be null.
      * The second argument should be the File format, even if the File is null.
      */
     public static final String FILE_OPENED = "file-opened";
-    
     /**
      * When a file changes.
      */
     public static final String FILE_CHANGED = "file-changed";
-    
     /**
      * When a project is opened
      */
     public static final String PROJECT_OPENED = "project-opened";
-    
     /**
      * When a project is saved
      */
     public static final String PROJECT_SAVED = "project-saved";
- 
     /**
      * When a popup menu is created on the tree
      */
@@ -204,7 +194,6 @@ public class PineappleGUI implements EventHandler {
         initialize();
     }
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="initialize()">
     /**
      * Initilizes the Pineapple GUI.
@@ -215,7 +204,7 @@ public class PineappleGUI implements EventHandler {
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_CREATED, EventPriority.MEDIUM);
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_DISPOSED, EventPriority.MEDIUM);
         /* Custom Events */
-        
+
         EventManager.addEventHandler(this, FILE_OPENED, EventPriority.LOW);
         EventManager.addEventHandler(this, FILE_CHANGED, EventPriority.LOW);
         EventManager.addEventHandler(this, FILE_DELETED, EventPriority.LOW);
@@ -223,7 +212,7 @@ public class PineappleGUI implements EventHandler {
         EventManager.addEventHandler(this, TREE_MENU_INVOKED, EventPriority.HIGH);
         EventManager.addEventHandler(this, PROJECT_OPENED, EventPriority.HIGH);
         EventManager.addEventHandler(this, PROJECT_SAVED, EventPriority.HIGH);
-        
+
     }
     //</editor-fold>
 
@@ -348,7 +337,7 @@ public class PineappleGUI implements EventHandler {
             }
         });
         fileMenu.add(fileOpenProject);
-        
+
         fileSaveProject = new JMenuItem("Save Project");
         fileSaveProject.setMnemonic('v');
         fileSaveProject.setVisible(true);
@@ -451,8 +440,8 @@ public class PineappleGUI implements EventHandler {
             }
         });
         projectMenu.add(projectDelete);
-        
-        
+
+
         menubar.add(projectMenu);
         //</editor-fold>
 
@@ -469,7 +458,7 @@ public class PineappleGUI implements EventHandler {
         toolsMenu.setMnemonic('T');
         toolsMenu.setEnabled(true);
         toolsMenu.setVisible(true);
-        
+
         toolsPlugins = new JMenuItem("Plugins");
         toolsPlugins.setMnemonic('g');
         toolsPlugins.setEnabled(true);
@@ -481,14 +470,14 @@ public class PineappleGUI implements EventHandler {
             }
         });
         toolsMenu.add(toolsPlugins);
-        
+
         menubar.add(toolsMenu);
         //</editor-fold>
 
         for (ToolWindow window : manager.getToolWindows()) {
             window.setAvailable(true);
         }
-        
+
         /* Try to load the MyDoggy settings */
         try {
             File dataFolder = Core.getStaticContext().getApplicationDataFolder();
@@ -537,6 +526,11 @@ public class PineappleGUI implements EventHandler {
                 } catch (Exception e) {
                 }
             }
+            PineapplePlugin.formats = new Vector<FormatSupporter>(4);
+            EventManager.fireEvent(this, PineapplePlugin.REGISTER_FORMATS);
+
+            PineapplePlugin.projectTypes = new Vector<ProjectType>(2);
+            EventManager.fireEvent(this, PineapplePlugin.REGISTER_PROJECT_TYPES);
         //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="WINDOW_CREATED">
         } else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_CREATED)) {
@@ -585,7 +579,7 @@ public class PineappleGUI implements EventHandler {
                 o.close();
             } catch (Exception e) {
             }
-            
+
             for (DocumentPane doc : dip.getDocuments()) {
                 if (doc != null) {
                     if (!doc.dispose()) {
@@ -596,7 +590,7 @@ public class PineappleGUI implements EventHandler {
             }
 
         } else if (evt.getEventType().equals(PROJECT_OPENED)) {
-            
+
             if (evt.getArguments().length == 0) {
                 return;
             }
@@ -621,7 +615,7 @@ public class PineappleGUI implements EventHandler {
             }
             JPopupMenu menu = (JPopupMenu) evt.getArguments()[0];
             final Object o = evt.getArguments()[1];
-            
+
             if (o instanceof FileTreeNode) {
                 menu.add("Open...").addActionListener(new ActionListener() {
 
@@ -712,12 +706,12 @@ public class PineappleGUI implements EventHandler {
         chooser.setMultiSelectionEnabled(false);
         chooser.setDialogTitle("Select the project to open");
         final String[] formats = getSupportedProjectFormats();
-        StringBuilder b = new StringBuilder(formats.length*4);
+        StringBuilder b = new StringBuilder(formats.length * 4);
         for (String s : formats) {
             b.append(s + " ");
         }
         final String desc = b.toString();
-        
+
         chooser.addChoosableFileFilter(new FileFilter() {
 
             @Override
@@ -726,7 +720,7 @@ public class PineappleGUI implements EventHandler {
                     return true;
                 }
                 for (String s : formats) {
-                    if (f.getName().matches(".+\\."+s)) {
+                    if (f.getName().matches(".+\\." + s)) {
                         return true;
                     }
                 }
@@ -760,12 +754,12 @@ public class PineappleGUI implements EventHandler {
         chooser.setMultiSelectionEnabled(false);
         chooser.setDialogTitle("Save Project");
         final String[] formats = project.getProjectType().getProjectFileTypes();
-        StringBuilder b = new StringBuilder(formats.length*4);
+        StringBuilder b = new StringBuilder(formats.length * 4);
         for (String s : formats) {
             b.append(s + " ");
         }
         final String desc = b.toString();
-        
+
         chooser.addChoosableFileFilter(new FileFilter() {
 
             @Override
@@ -774,7 +768,7 @@ public class PineappleGUI implements EventHandler {
                     return true;
                 }
                 for (String s : formats) {
-                    if (f.getName().matches(".+\\."+s)) {
+                    if (f.getName().matches(".+\\." + s)) {
                         return true;
                     }
                 }
@@ -786,12 +780,12 @@ public class PineappleGUI implements EventHandler {
                 return desc;
             }
         });
-        
+
         int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
         if (res != JFileChooser.CANCEL_OPTION) {
             File f = chooser.getSelectedFile();
             if (!f.getName().contains(".")) {
-                f = new File(f.getPath()+formats[0]);
+                f = new File(f.getPath() + formats[0]);
             }
             EventManager.fireEvent(this, PROJECT_SAVED, f);
         }
@@ -799,7 +793,6 @@ public class PineappleGUI implements EventHandler {
         tree.updateUI();
     }
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="closeProject()">
     /**
      * Closes the current project
@@ -834,12 +827,12 @@ public class PineappleGUI implements EventHandler {
         chooser.setMultiSelectionEnabled(true);
         chooser.setDialogTitle("Select files to open");
         final String[] formats = getSupportedFileFormats();
-        StringBuilder b = new StringBuilder(formats.length*4);
+        StringBuilder b = new StringBuilder(formats.length * 4);
         for (String s : formats) {
             b.append(s + " ");
         }
         final String desc = b.toString();
-        
+
         chooser.addChoosableFileFilter(new FileFilter() {
 
             @Override
@@ -848,7 +841,7 @@ public class PineappleGUI implements EventHandler {
                     return true;
                 }
                 for (String s : formats) {
-                    if (f.getName().matches(".+\\."+s)) {
+                    if (f.getName().matches(".+\\." + s)) {
                         return true;
                     }
                 }
@@ -923,7 +916,6 @@ public class PineappleGUI implements EventHandler {
         dialog.setVisible(true);
     }
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="deleteFile(ProjectElement)">
     /**
      * Deletes a file from the file system
@@ -938,7 +930,6 @@ public class PineappleGUI implements EventHandler {
         }
     }
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="getFormatSupporter(BasicFile f)">
     private FormatSupporter getFormatSupporter(BasicFile f) {
         String format;
@@ -948,18 +939,18 @@ public class PineappleGUI implements EventHandler {
         } else {
             format = f.getName().substring(i + 1);
         }
-        
+
         String key = "files.formats.formatsupporter.remember." + format;
         if (format != null && SettingsManager.exists(key)) {
             try {
                 String cname = SettingsManager.get(key);
                 Class<?> c = Class.forName(cname);
                 Object o = c.newInstance();
-                return (FormatSupporter)o;
+                return (FormatSupporter) o;
             } catch (Exception exc) {
             }
         }
-        
+
         final Vector<FormatSupporter> supporters = new Vector<FormatSupporter>(2);
 
         for (FormatSupporter fs : PineapplePlugin.formats) {
@@ -973,7 +964,7 @@ public class PineappleGUI implements EventHandler {
                 }
             }
         }
-        
+
         if (supporters.size() == 0) {
             JOptionPane.showMessageDialog(manager, "<html>Error:<br/>File format not supported.</html>");
             return null;
@@ -996,7 +987,7 @@ public class PineappleGUI implements EventHandler {
                 return supporters.get(index).getName();
             }
         });
-        
+
         final JTextPane text = new JTextPane();
         text.setEditable(false);
 
@@ -1004,8 +995,8 @@ public class PineappleGUI implements EventHandler {
                 JSplitPane.VERTICAL_SPLIT, new JScrollPane(list),
                 new JScrollPane(text));
         d.add(pane);
-        
-        
+
+
         JCheckBox cbox = new JCheckBox("Remember this choice");
         if (format == null) {
             cbox.setEnabled(false);
@@ -1016,8 +1007,8 @@ public class PineappleGUI implements EventHandler {
         box.add(cbox);
         box.add(Box.createHorizontalGlue());
         south.add(box);
-        
-        final JButton ok, cancel;
+
+        final  JButton ok,  cancel ;
         ok = new JButton("OK");
         ok.setEnabled(false);
         ok.addActionListener(new ActionListener() {
@@ -1026,7 +1017,7 @@ public class PineappleGUI implements EventHandler {
                 d.dispose();
             }
         });
-        
+
         list.addListSelectionListener(new ListSelectionListener() {
 
             public void valueChanged(ListSelectionEvent e) {
@@ -1051,20 +1042,19 @@ public class PineappleGUI implements EventHandler {
         bottom.add(cancel);
         bottom.add(Box.createHorizontalStrut(32));
         south.add(bottom);
-        
+
         d.add(south, "South");
         d.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         d.setSize(360, 280);
         d.setVisible(true);
-        
+
         if (cbox.isSelected() && format != null) {
             SettingsManager.set(key, supporters.get(list.getSelectedIndex()).getClass().getName());
         }
-        
+
         return supporters.get(list.getSelectedIndex());
     }
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="getProjectType(File f)">
     private ProjectType getProjectType(File f) {
         String format;
@@ -1074,18 +1064,18 @@ public class PineappleGUI implements EventHandler {
         } else {
             format = f.getName().substring(i + 1);
         }
-        
+
         String key = "files.projects.projecttypes.remember." + format;
         if (format != null && SettingsManager.exists(key)) {
             try {
                 String cname = SettingsManager.get(key);
                 Class<?> c = Class.forName(cname);
                 Object o = c.newInstance();
-                return (ProjectType)o;
+                return (ProjectType) o;
             } catch (Exception exc) {
             }
         }
-        
+
         final Vector<ProjectType> types = new Vector<ProjectType>(2);
 
         for (ProjectType pt : PineapplePlugin.projectTypes) {
@@ -1121,7 +1111,7 @@ public class PineappleGUI implements EventHandler {
                 return types.get(index).getName();
             }
         });
-        
+
         final JTextPane text = new JTextPane();
         text.setEditable(false);
 
@@ -1129,8 +1119,8 @@ public class PineappleGUI implements EventHandler {
                 JSplitPane.VERTICAL_SPLIT, new JScrollPane(list),
                 new JScrollPane(text));
         d.add(pane);
-        
-        
+
+
         JCheckBox cbox = new JCheckBox("Remember this choice");
         if (format == null) {
             cbox.setEnabled(false);
@@ -1141,8 +1131,8 @@ public class PineappleGUI implements EventHandler {
         box.add(cbox);
         box.add(Box.createHorizontalGlue());
         south.add(box);
-        
-        final JButton ok, cancel;
+
+        final  JButton ok,  cancel ;
         ok = new JButton("OK");
         ok.setEnabled(false);
         ok.addActionListener(new ActionListener() {
@@ -1151,7 +1141,7 @@ public class PineappleGUI implements EventHandler {
                 d.dispose();
             }
         });
-        
+
         list.addListSelectionListener(new ListSelectionListener() {
 
             public void valueChanged(ListSelectionEvent e) {
@@ -1176,20 +1166,19 @@ public class PineappleGUI implements EventHandler {
         bottom.add(cancel);
         bottom.add(Box.createHorizontalStrut(32));
         south.add(bottom);
-        
+
         d.add(south, "South");
         d.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         d.setSize(360, 280);
         d.setVisible(true);
-        
+
         if (cbox.isSelected() && format != null) {
             SettingsManager.set(key, types.get(list.getSelectedIndex()).getClass().getName());
         }
-        
+
         return types.get(list.getSelectedIndex());
     }
     //</editor-fold>
-    
     private String[] getSupportedFileFormats() {
         final Vector<String> formats = new Vector<String>(2);
 
@@ -1204,7 +1193,7 @@ public class PineappleGUI implements EventHandler {
         }
         return formats.toArray(new String[formats.size()]);
     }
-    
+
     private String[] getSupportedProjectFormats() {
         final Vector<String> formats = new Vector<String>(2);
 

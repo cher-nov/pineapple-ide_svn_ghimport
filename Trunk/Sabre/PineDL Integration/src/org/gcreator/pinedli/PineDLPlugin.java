@@ -22,8 +22,11 @@
 package org.gcreator.pinedli;
 
 import org.gcreator.gui.*;
+import org.gcreator.managers.EventManager;
 import org.gcreator.pineapple.PineapplePlugin;
-import org.gcreator.plugins.PluginCore;
+import org.gcreator.plugins.DefaultEventTypes;
+import org.gcreator.plugins.Event;
+import org.gcreator.plugins.Plugin;
 import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.io.FormatSupporter;
 
@@ -32,7 +35,7 @@ import org.gcreator.project.io.FormatSupporter;
  * 
  * @author Luís Reis
  */
-public class PineDLPlugin extends PluginCore implements FormatSupporter {
+public class PineDLPlugin extends Plugin implements FormatSupporter {
 
     private final String[] FORMATS = {
         "pdl",
@@ -51,8 +54,15 @@ public class PineDLPlugin extends PluginCore implements FormatSupporter {
     }
 
     @Override
+    public void handleEvent(Event e){
+        if(e.getEventType().equals(DefaultEventTypes.APPLICATION_INITIALIZED)){
+            PineapplePlugin.addFormatSupporter(this);
+        }
+    }
+    
+    @Override
     public void initialize() {
-       PineapplePlugin.addFormatSupporter(this);
+       EventManager.addEventHandler(this, DefaultEventTypes.APPLICATION_INITIALIZED);
     }
     
     public String[] getFormats() {
