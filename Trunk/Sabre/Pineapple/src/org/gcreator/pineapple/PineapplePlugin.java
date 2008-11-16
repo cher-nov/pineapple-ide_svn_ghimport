@@ -24,10 +24,10 @@ package org.gcreator.pineapple;
 
 import java.util.Vector;
 import org.gcreator.gui.PineappleGUI;
-import org.gcreator.plugins.EventManager;
+import org.gcreator.managers.EventManager;
 import org.gcreator.plugins.EventPriority;
-import org.gcreator.plugins.NotifyEvent;
-import org.gcreator.plugins.PluginCore;
+import org.gcreator.plugins.Event;
+import org.gcreator.plugins.Plugin;
 import org.gcreator.project.DefaultProjectType;
 import org.gcreator.project.ProjectType;
 import org.gcreator.project.io.FormatSupporter;
@@ -39,7 +39,7 @@ import org.gcreator.project.io.PlainTextSupporter;
  * 
  * @author Luís Reis
  */
-public class PineapplePlugin extends PluginCore {
+public class PineapplePlugin extends Plugin {
 
     /**
      * The {@link PineappleGUI} object.
@@ -131,7 +131,7 @@ public class PineapplePlugin extends PluginCore {
      * {@inheritDoc}
      */
     @Override
-    public void handleEvent(NotifyEvent event) {
+    public void handleEvent(Event event) {
         if (event.getEventType().equals(REGISTER_FORMATS)) {
             PineapplePlugin.addFormatSupporter(new PlainTextSupporter());
             PineapplePlugin.addFormatSupporter(new ImageSupporter());

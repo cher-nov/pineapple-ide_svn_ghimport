@@ -74,7 +74,7 @@ public final class PluginManager {
      * Imports the Application Data Plug-ins.
      */
     public static void importAppDataPlugins() {
-        File f = new File(Core.getApplicationDataFolder().toString() + "/Plugins/");
+        File f = new File(Core.getStaticContext().getApplicationDataFolder().toString() + "/Plugins/");
         System.out.println(f.toString());
         if (!f.exists()) {
             System.out.println("Creating...");
@@ -97,7 +97,7 @@ public final class PluginManager {
      * Imports the Application Executable Plug-ins.
      */
     public static void importAppExePlugins() {
-        File f = new File(Core.getApplicationExecutableFolder().toString() + "/Plugins/");
+        File f = new File(Core.getStaticContext().getApplicationExecutableFolder().toString() + "/Plugins/");
         System.out.println(f.toString());
         if (!f.exists()) {
             System.out.println("Creating...");
@@ -157,7 +157,7 @@ public final class PluginManager {
             
             Class c = loader.loadClass(className);
             Object o = c.getConstructor().newInstance();
-            Core.addPlugin((Plugin)o);
+            Core.getStaticContext().addPlugin((Plugin)o);
             c.getMethod("initialize").invoke(o);
         } catch (IllegalAccessException ex) {
             /* Should not happen */
