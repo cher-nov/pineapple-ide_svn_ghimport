@@ -54,6 +54,7 @@ public class NewProjectDialog extends JDialog implements EventHandler {
     public static String GENERATE_CATEGORIES = "newprojectdialog-generatecats";
     public static String GENERATE_PROJECTS = "newprojectdialog-generateprojs";
     public static String BUTTON_OK = "newprojectdialog-ok";
+    private static final long serialVersionUID = 1L;
     private JList projects;
 
     public NewProjectDialog(Frame owner) {
@@ -95,10 +96,10 @@ public class NewProjectDialog extends JDialog implements EventHandler {
                             "Close current project?", JOptionPane.YES_NO_OPTION);
                     if (i == JOptionPane.YES_OPTION) {
                         PineappleGUI.project = null;
-                        EventManager.fireEvent(this, BUTTON_OK, projects.getSelectedValue());
+                        EventManager.fireEvent(NewProjectDialog.this, BUTTON_OK, projects.getSelectedValue());
                     }
                 } else {
-                    EventManager.fireEvent(this, BUTTON_OK, projects.getSelectedValue());
+                    EventManager.fireEvent(NewProjectDialog.this, BUTTON_OK, projects.getSelectedValue());
                 }
             }
         });
@@ -121,7 +122,7 @@ public class NewProjectDialog extends JDialog implements EventHandler {
 
             public void valueChanged(ListSelectionEvent e) {
                 DefaultListModel model = new DefaultListModel();
-                EventManager.fireEvent(this, GENERATE_PROJECTS, projects, model);
+                EventManager.fireEvent(NewProjectDialog.this, GENERATE_PROJECTS, projects, model);
                 projects.setModel(model);
             }
         });
@@ -159,7 +160,7 @@ public class NewProjectDialog extends JDialog implements EventHandler {
      * {@inheritDoc}
      */
     @Override
-    public void dispose(){
+    public void dispose() {
         System.out.println("dispose()");
         EventManager.removeEventHandler(this);
         super.dispose();
