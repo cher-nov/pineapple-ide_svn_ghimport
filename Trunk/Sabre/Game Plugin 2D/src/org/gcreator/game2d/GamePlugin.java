@@ -20,7 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
-
 package org.gcreator.game2d;
 
 import javax.swing.DefaultListModel;
@@ -31,27 +30,28 @@ import org.gcreator.gui.PineappleGUI;
 import org.gcreator.managers.EventManager;
 import org.gcreator.plugins.Event;
 import org.gcreator.plugins.Plugin;
-import org.gcreator.project.DefaultProject;
 import org.gcreator.project.Project;
 
 /**
  * The Game 2D plugin
+ * 
  * @author Luís Reis
  */
-public class GamePlugin extends Plugin{
+public class GamePlugin extends Plugin {
+
     @Override
-    public String getName(){
+    public String getName() {
         return "Game Plugin 2D";
     }
-    
+
     @Override
-    public String getDescription(){
+    public String getDescription() {
         return "Adds 2D game support to Pineapple";
     }
-    
+
     @Override
-    public void handleEvent(Event e){
-        if(e.getEventType().equals(NewProjectDialog.GENERATE_PROJECTS)){
+    public void handleEvent(Event e) {
+        if (e.getEventType().equals(NewProjectDialog.GENERATE_PROJECTS)) {
             JList projects = (JList) e.getArguments()[0];
             DefaultListModel model = (DefaultListModel) e.getArguments()[1];
             model.addElement("2D Game Project");
@@ -72,7 +72,7 @@ public class GamePlugin extends Plugin{
             }
         }
     }
-    
+
     /**
      * 
      * Initializes the plugin(Registers the event handlers)
@@ -81,5 +81,10 @@ public class GamePlugin extends Plugin{
     public void initialize() {
         EventManager.addEventHandler(this, NewProjectDialog.GENERATE_PROJECTS);
         EventManager.addEventHandler(this, NewProjectDialog.BUTTON_OK);
+    }
+
+    @Override
+    public String getAuthor() {
+        return "Luís Reis";
     }
 }
