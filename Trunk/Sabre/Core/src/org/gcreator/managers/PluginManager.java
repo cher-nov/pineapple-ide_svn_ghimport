@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
-package org.gcreator.plugins;
+package org.gcreator.managers;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,19 +33,20 @@ import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.gcreator.core.Core;
+import org.gcreator.plugins.PluginCore;
 
 /**
  * This class handles the importing of plugins, usually at startup.
  * 
  * @author Luís Reis
  */
-public final class PluginImporter {
-
+public final class PluginManager {
+    
     private static Vector<File> modules = new Vector<File>();
-
+    
     /** Don't allow instantation
      */
-    private PluginImporter() {
+    private PluginManager() {
     }
 
     /**
@@ -57,14 +58,14 @@ public final class PluginImporter {
         importAppExePlugins();
         URL[] urls = new URL[modules.size()];
         int i = 0;
-        for (File file : modules) {
-            try {
+        for(File file : modules){
+            try{
                 urls[i++] = file.toURI().toURL();
-            } catch (Exception e) {
             }
+            catch(Exception e){}
         }
         URLClassLoader clsloader = new URLClassLoader(urls);
-        for (File file : modules) {
+        for(File file : modules){
             importPlugin(file, clsloader);
         }
     }
@@ -73,7 +74,7 @@ public final class PluginImporter {
      * Imports the Application Data Plug-ins.
      */
     public static void importAppDataPlugins() {
-        File f = new File(Core.getStaticContext().getApplicationDataFolder().toString() + "/Plugins/");
+        File f = new File(Core.getApplicationDataFolder().toString() + "/Plugins/");
         System.out.println(f.toString());
         if (!f.exists()) {
             System.out.println("Creating...");
@@ -96,7 +97,7 @@ public final class PluginImporter {
      * Imports the Application Executable Plug-ins.
      */
     public static void importAppExePlugins() {
-        File f = new File(Core.getStaticContext().getApplicationExecutableFolder().toString() + "/Plugins/");
+        File f = new File(Core.getApplicationExecutableFolder().toString() + "/Plugins/");
         System.out.println(f.toString());
         if (!f.exists()) {
             System.out.println("Creating...");
@@ -120,7 +121,6 @@ public final class PluginImporter {
      * Imports a plug-in from a {@link File}.
      * 
      * @param f The File to import the plug-in from.
-     * @param loader The {@link URLClassLoader} to load the class.
      */
     public static void importPlugin(File f, URLClassLoader loader) {
         try {
@@ -140,35 +140,34 @@ public final class PluginImporter {
      * 
      * @param f The Jar {@link java.io.File}.
      * @param className The {@link java.lang.Class} to load and initilize from the JAR.
-     * @param loader The {@link URLClassLoader} to load the class.
      * 
      * @throws java.lang.ClassNotFoundException  If the given class was not found in the JAR.
      * @throws java.lang.InstantiationException If the class failed to initilize
      * @throws java.lang.reflect.InvocationTargetException If an error occurs while initilizing the class.
      */
     @SuppressWarnings("unchecked")
-    public static void load(File f, String className, URLClassLoader loader) throws
+    public static void load(File f, String className, URLClassLoader loader) throws 
             ClassNotFoundException, InstantiationException, InvocationTargetException {
-
+        
         if (className == null) {
             return;
         }
         try {
             System.out.println("Loading " + f.toString());
-
+            
             Class c = loader.loadClass(className);
             Object o = c.getConstructor().newInstance();
-            Core.getStaticContext().addPlugin((PluginCore) o);
+            Core.addPlugin((PluginCore)o);
             c.getMethod("initialize").invoke(o);
         } catch (IllegalAccessException ex) {
             /* Should not happen */
-            Logger.getLogger(PluginImporter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PluginManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalArgumentException ex) {
             /* Should not happen */
-            Logger.getLogger(PluginImporter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PluginManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchMethodException ex) {
             /* Should not happen */
-            Logger.getLogger(PluginImporter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PluginManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
