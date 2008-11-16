@@ -97,6 +97,20 @@ public final class Node {
     public Vector<Node> getChildren() {
         return (Vector<Node>) children.clone();
     }
+    
+    /**
+     * Gets the children with a given name of this node
+     * 
+     * @see #getChildren()
+     */
+    public Vector<Node> getChildrenByName(String name) {
+        Vector<Node> v = new Vector<Node>();
+        for(Node n : children){
+            if(n.getName().equals(name))
+                v.add(n);
+        }
+        return v;
+    }
 
     /**
      * Counts the number of children

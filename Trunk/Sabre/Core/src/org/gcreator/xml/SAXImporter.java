@@ -82,7 +82,7 @@ public class SAXImporter extends DefaultHandler {
     }
 
     /**
-     * Gets the root of the document
+     * Gets the root node of the document
      * @see Node
      */
     public Node getDocumentRoot() {
