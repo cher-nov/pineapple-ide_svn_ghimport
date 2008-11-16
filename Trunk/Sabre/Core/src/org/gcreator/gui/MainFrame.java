@@ -25,7 +25,7 @@ package org.gcreator.gui;
 import javax.swing.JFrame;
 import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.EventHandler;
-import org.gcreator.plugins.EventManager;
+import org.gcreator.managers.EventManager;
 import org.gcreator.plugins.EventPriority;
 import org.gcreator.plugins.NotifyEvent;
 

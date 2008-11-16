@@ -20,8 +20,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package org.gcreator.plugins;
+package org.gcreator.managers;
 
+import org.gcreator.plugins.EventHandler;
+import org.gcreator.plugins.EventPriority;
+import org.gcreator.plugins.NotifyEvent;
 import java.util.Vector;
 
 /**
@@ -80,21 +83,15 @@ public class EventManager {
     /**
      * Removes a handler, regardless of the event(s) it points to
      */
-    public static void removeEventHandler(EventHandler handler) {
+    public static void removeEventHandler(EventHandler handler){
         EventObject o = new EventObject();
         o.handler = handler;
         o.deleter = true;
-        while (highPriority.remove(o)) {
-            continue;
-        }
-        while (mediumPriority.remove(o)) {
-            continue;
-        }
-        while (lowPriority.remove(o)) {
-            continue;
-        }
+        while(highPriority.remove(o)) continue;
+        while(mediumPriority.remove(o)) continue;
+        while(lowPriority.remove(o)) continue;
     }
-
+    
     /**
      * Fires a new event and notifies all listeners.
      * 
@@ -133,6 +130,7 @@ public class EventManager {
         }
     }
 
+    
     private static class EventObject {
 
         EventHandler handler;
@@ -142,18 +140,14 @@ public class EventManager {
          * for removeEventHandler purposes.
          */
         boolean deleter = false;
-
+        
         @Override
-        public boolean equals(Object o) {
-            if (o == null) {
-                return false;
-            }
-            if (o.getClass() != getClass()) {
-                return false;
-            }
-            if (((EventObject) o).handler == this.handler && (((EventObject) o).deleter || deleter || ((EventObject) o).type.equals(type))) {
+        public boolean equals(Object o){
+            if(o==null) return false;
+            if(o.getClass()!=getClass()) return false;
+            if(((EventObject) o).handler==this.handler
+                    && (((EventObject) o).deleter||deleter||((EventObject) o).type.equals(type)))
                 return true;
-            }
             return false;
         }
 
@@ -163,8 +157,5 @@ public class EventManager {
             hash = 83 * hash + (this.handler != null ? this.handler.hashCode() : 0);
             return hash;
         }
-    }
-
-    private EventManager() {
     }
 }
