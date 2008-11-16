@@ -21,41 +21,48 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-package org.gcreator.tree;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
-import org.gcreator.project.ProjectElement;
-import org.gcreator.project.ProjectFile;
+package org.gcreator.project.io;
+
+import javax.imageio.ImageIO;
+import org.gcreator.editors.ImagePreviewer;
+import org.gcreator.gui.DocumentPane;
+import org.gcreator.pineapple.PineapplePlugin;
+import org.gcreator.plugins.NotifyEvent;
 
 /**
- * A {@link javax.swing.tree.TreeNode} implementation 
- * for a {@link org.gcreator.project.ProjectFile}.
+ * Allows you to load images in Pineapple
+ * using {@link javax.imageio.ImageIO}.
  * 
  * @author Serge Humphrey
  */
-public class FileTreeNode extends DefaultMutableTreeNode implements BaseTreeNode {
-
-    private static final long serialVersionUID = 1;
-    private ProjectFile file;
+public class ImageSupporter implements FormatSupporter {
     
-    /**
-     * Creates a new file tree node.
-     * 
-     * @param e The {@link ProjectFile} that this node belongs to.
-     */
-    public FileTreeNode(ProjectFile e) {
-        this.setAllowsChildren(false);
-        this.setUserObject(e);
-        this.file = e;
+    public String[] getFormats() {
+        return ImageIO.getReaderFileSuffixes();
     }
 
-    /**
-     * Gets the {@link ProjectFile} that this node belongs to.
-     * 
-     * @return The {@link ProjectFile} that this node belongs to.
-     */
-    public ProjectElement getElement() {
-        return file;
+    public DocumentPane load(BasicFile f) {
+        return new ImagePreviewer(f);
     }
+
+    public void handleEvent(NotifyEvent event) {
+        if (event.getEventType().equals(PineapplePlugin.REGISTER_FORMATS)) {
+            PineapplePlugin.addFormatSupporter(this);
+        }
+    }
+
+    public String getName() {
+        return "Java ImageIO Image Loader";
+    }
+
+    public String getDescription() {
+        String s = "Loads images of the following types: ";
+        for (String f : ImageIO.getReaderFormatNames()) {
+            s += f+" ";
+        }
+        s += ".";
+        return s;
+    }
+
 }

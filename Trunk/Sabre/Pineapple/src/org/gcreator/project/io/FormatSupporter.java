@@ -22,55 +22,43 @@ THE SOFTWARE.
 */
 
 
-package org.gcreator.project;
+package org.gcreator.project.io;
 
-import java.io.File;
-import org.gcreator.tree.BaseTreeNode;
+import org.gcreator.gui.DocumentPane;
 
 /**
- * A base class for {@link FileElement} and {@link FolderElement}.
- *  
+ * This interface provides a system for adding support
+ * for for different file formats in projects. 
+ * 
  * @author Serge Humphrey
  */
-public abstract class BaseElement {
+public interface FormatSupporter {
     
     /**
-     * This file's parent.
+     * @return An array of strings, each representing the name of the 
+     * file format that this supporter supports, For example, rtf, cpp, c
      */
-    protected BaseElement parent;
+    public String[] getFormats();
     
     /**
-     * Gets the file.
+     * Creates a new {@link DocumentPaner} for the given file,
+     * depending on its type. 
+     * This should return <tt>null</tt>
+     * if the format isn't supported (athough this should never happen).
      * 
-     * @return The File.
+     * @param f The file to load
+     * @return A {@link DocumentPane} for the given file, depending
+     * on its type. 
      */
-    public abstract File getFile();
+    public DocumentPane load(BasicFile f);
     
     /**
-     * Gets the {@link org.gcreator.tree.BaseTreeNode} to be used for the tree.
-     * 
-     * @return A {@link org.gcreator.tree.BaseTreeNode} to be used for the tree.
+     * @return A human-readable name of this format supporter.
      */
-    public abstract BaseTreeNode getTreeNode();
+    public String getName();
     
     /**
-     * This returns the parent or null if it has not been set.
-     * 
-     * @return This file's parent. This may be null and is not very reliable.
-     * @see setParent(BaseElement e)
+     * @return A human-redable description of this format supporter.
      */
-    public BaseElement getParent() {
-        return parent;
-    }
-    
-    /**
-     * Sets the parent of this file.
-     * 
-     * @param e The new parent for this file.
-     * 
-     * @see getParent()
-     */
-    public void setParent(BaseElement e) {
-        this.parent = e;
-    }
+    public String getDescription();
 }

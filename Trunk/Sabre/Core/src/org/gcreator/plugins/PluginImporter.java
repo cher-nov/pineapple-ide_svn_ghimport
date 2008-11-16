@@ -24,7 +24,6 @@ package org.gcreator.plugins;
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Vector;
@@ -41,9 +40,9 @@ import org.gcreator.core.Core;
  * @author Luís Reis
  */
 public final class PluginImporter {
-    
+
     private static Vector<File> modules = new Vector<File>();
-    
+
     /** Don't allow instantation
      */
     private PluginImporter() {
@@ -58,14 +57,14 @@ public final class PluginImporter {
         importAppExePlugins();
         URL[] urls = new URL[modules.size()];
         int i = 0;
-        for(File file : modules){
-            try{
+        for (File file : modules) {
+            try {
                 urls[i++] = file.toURI().toURL();
+            } catch (Exception e) {
             }
-            catch(Exception e){}
         }
         URLClassLoader clsloader = new URLClassLoader(urls);
-        for(File file : modules){
+        for (File file : modules) {
             importPlugin(file, clsloader);
         }
     }
@@ -121,6 +120,7 @@ public final class PluginImporter {
      * Imports a plug-in from a {@link File}.
      * 
      * @param f The File to import the plug-in from.
+     * @param loader The {@link URLClassLoader} to load the class.
      */
     public static void importPlugin(File f, URLClassLoader loader) {
         try {
@@ -140,21 +140,22 @@ public final class PluginImporter {
      * 
      * @param f The Jar {@link java.io.File}.
      * @param className The {@link java.lang.Class} to load and initilize from the JAR.
+     * @param loader The {@link URLClassLoader} to load the class.
      * 
      * @throws java.lang.ClassNotFoundException  If the given class was not found in the JAR.
      * @throws java.lang.InstantiationException If the class failed to initilize
      * @throws java.lang.reflect.InvocationTargetException If an error occurs while initilizing the class.
      */
     @SuppressWarnings("unchecked")
-    public static void load(File f, String className, URLClassLoader loader) throws 
+    public static void load(File f, String className, URLClassLoader loader) throws
             ClassNotFoundException, InstantiationException, InvocationTargetException {
-        
+
         if (className == null) {
             return;
         }
         try {
             System.out.println("Loading " + f.toString());
-            
+
             Class c = loader.loadClass(className);
             Object o = c.getConstructor().newInstance();
             Core.getStaticContext().addPlugin((PluginCore) o);

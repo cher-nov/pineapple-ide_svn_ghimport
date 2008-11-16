@@ -25,7 +25,7 @@ THE SOFTWARE.
 package org.gcreator.tree;
 
 import javax.swing.tree.TreeNode;
-import org.gcreator.project.BaseElement;
+import org.gcreator.project.ProjectElement;
 
 /**
  * A Base tree node for other nodes to implement.
@@ -35,11 +35,11 @@ import org.gcreator.project.BaseElement;
 public interface BaseTreeNode extends TreeNode {
     
     /**
-     * Gets the {@link org.gcreator.project.BaseElement} 
+     * Gets the {@link org.gcreator.project.ProjectElement} 
      * that this node belongs to.
      * 
-     * @return The {@link org.gcreator.project.BaseElement} 
+     * @return The {@link org.gcreator.project.ProjectElement} 
      * that this node belongs to.
      */
-    public BaseElement getElement();
+    public ProjectElement getElement();
 }

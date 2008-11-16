@@ -24,11 +24,11 @@ THE SOFTWARE.
 
 package org.gcreator.project;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.gcreator.project.io.BasicFile;
 import org.gcreator.tree.BaseTreeNode;
 import org.gcreator.tree.FolderTreeNode;
 
@@ -37,39 +37,43 @@ import org.gcreator.tree.FolderTreeNode;
  * 
  * @author Serge Humphrey
  */
-public class FolderElement extends BaseElement {
+public class ProjectFolder extends ProjectElement {
     
-    private Vector<BaseElement> children;
-    private File folder;
-    private FolderTreeNode treeNode;
+    protected Vector<ProjectElement> children;
+    protected BasicFile folder;
+    protected FolderTreeNode treeNode;
+    protected Project project;
     
     /**
-     * Creates a new {@link FolderElement} and scans for files and adds them to its children.
+     * Creates a new {@link ProjectFolder} and scans for files and adds them to its children.
      * 
-     * @param folder The folder that this {@link FolderElement} should represent.
+     * @param folder The folder that this {@link ProjectFolder} should represent.
+     * @param p The {@link Project} that this folder should belong to.
+     * 
      * @throws java.lang.IllegalArgumentException If {@link java.io.File#isDirectory() folder.isDirecotry()} returns <tt>false</tt>.
      */
-    public FolderElement(File folder) throws IllegalArgumentException {
+    public ProjectFolder(BasicFile folder, Project p) throws IllegalArgumentException {
         if (!folder.isDirectory()) {
             throw new IllegalArgumentException("Illegal Folder: " + folder);
         }
         
         this.folder = folder;
-        children = new Vector<BaseElement>(folder.listFiles().length);
-        treeNode = new FolderTreeNode(this);
+        this.children = new Vector<ProjectElement>(folder.list().length);
+        this.treeNode = new FolderTreeNode(this);
+        this.project = p;
         
         reload();
     }
     
     public void reload() {
         children.clear();
-        for (File f : folder.listFiles()) {
+        for (BasicFile f : folder.list()) {
             try {
-                BaseElement e = Project.createElement(f);
+                ProjectElement e = project.createElement(f);
                 e.setParent(this);
                 children.add(e);
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(FolderElement.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProjectFolder.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -79,7 +83,7 @@ public class FolderElement extends BaseElement {
      * 
      * @return The folder's children.
      */
-    public Vector<BaseElement> getChildren() {
+    public Vector<ProjectElement> getChildren() {
         return children;
     }
     
@@ -94,7 +98,7 @@ public class FolderElement extends BaseElement {
      * 
      * @see #getChildrenCount()
      */
-    public BaseElement getChildAt(int index) throws ArrayIndexOutOfBoundsException {
+    public ProjectElement getChildAt(int index) throws ArrayIndexOutOfBoundsException {
         return children.get(index);
     }
     
@@ -108,11 +112,9 @@ public class FolderElement extends BaseElement {
     }
     
     /**
-     * Gets the {@link java.io.File} that this {@link FolderElement} represents.
-     * 
-     * @return The {@link java.io.File} that this {@link FolderElement} represents.
+     * {@inheritDoc }
      */
-    public File getFile() {
+    public BasicFile getFile() {
         return folder;
     }
     
@@ -120,9 +122,9 @@ public class FolderElement extends BaseElement {
      * Adds a child to the children.
      * Same as getChildren().add(e).
      * 
-     * @param e The {@link BaseElement} to add.
+     * @param e The {@link ProjectElement} to add.
      */
-    public void addChild(BaseElement e) {
+    public void addChild(ProjectElement e) {
         addChild(e);
     }
     
@@ -133,8 +135,8 @@ public class FolderElement extends BaseElement {
      * 
      * @throws java.io.FileNotFoundException If the given file does not exist.
      */
-    public void addChild(File f) throws FileNotFoundException {
-        addChild(Project.createElement(f));
+    public void addChild(BasicFile f) throws FileNotFoundException {
+        addChild(project.createElement(f));
     }
 
     /**
@@ -154,5 +156,13 @@ public class FolderElement extends BaseElement {
     @Override
     public String toString() {
         return ((folder != null) ? folder.getName() : "null");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Project getProject() {
+        return project;
     }
 }

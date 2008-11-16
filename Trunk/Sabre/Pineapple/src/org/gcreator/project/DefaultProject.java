@@ -20,43 +20,51 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
+
 package org.gcreator.project;
 
-import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.gcreator.project.io.ProjectManager;
 import java.util.Hashtable;
 import java.util.Vector;
-import org.gcreator.xml.Node;
-import org.gcreator.xml.SAXImporter;
-import org.xml.sax.SAXException;
+import org.gcreator.project.io.BasicFile;
+import org.gcreator.project.io.DefaultProjectManager;
 
 /**
- * An implementation of {@link Project}.
+ * A default implementation of {@link Project}.
  * 
  * @author Serge Humphrey
  */
 public class DefaultProject extends Project {
-
-    protected File manifestFile;
-    protected Vector<BaseElement> files;
+    
+    protected Vector<ProjectElement> files;
     protected Hashtable<String, String> settings;
-
+    protected ProjectManager manager;
+    protected ProjectType type;
+    
     public DefaultProject() {
-        this.files = new Vector<BaseElement>();
+        this.files = new Vector<ProjectElement>();
         this.settings = new Hashtable<String, String>();
-        this.manifestFile = null;
+        this.manager = new DefaultProjectManager(this);
+        this.type = new DefaultProjectType();
     }
 
-    public DefaultProject(File f) {
+    public DefaultProject(BasicFile f) {
         this();
-        this.manifestFile = f;
-        update();
+        try {
+            this.files.add(createElement(f));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DefaultProject.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Vector<BaseElement> getFiles() {
+    public Vector<ProjectElement> getFiles() {
         return files;
     }
 
@@ -64,7 +72,7 @@ public class DefaultProject extends Project {
      * {@inheritDoc}
      */
     @Override
-    public BaseElement getFileAt(int index) throws IndexOutOfBoundsException {
+    public ProjectElement getFileAt(int index) throws IndexOutOfBoundsException {
         return files.get(index);
     }
 
@@ -88,7 +96,7 @@ public class DefaultProject extends Project {
      * {@inheritDoc}
      */
     @Override
-    public void add(BaseElement e) {
+    public void add(ProjectElement e) {
         files.add(e);
     }
 
@@ -96,45 +104,23 @@ public class DefaultProject extends Project {
      * {@inheritDoc}
      */
     @Override
-    public boolean remove(BaseElement e) {
+    public boolean remove(ProjectElement e) {
         return files.remove(e);
     }
 
     /**
-     * Gets the files and settings from a file
+     * {@inheritDoc}
      */
     @Override
-    public void update() {
-        if (manifestFile != null) {
-            try {
-                SAXImporter importer = new SAXImporter(manifestFile);
-                Node root = importer.getDocumentRoot();
-                if (!root.getName().equals("pineapple-project")) {
-                    throw new SAXException("Not a pineapple project");
-                }
-                if (!root.hasAttribute("version")) {
-                    throw new SAXException("Not a valid pineapple project");
-                }
-                if (!root.getAttributeValue("version").equals("1.0")) {
-                    throw new SAXException("Can not read given project version");
-                }
-                Hashtable<String, String> hs = new Hashtable<String, String>();
-                Vector<BaseElement> fileTmp = new Vector<BaseElement>();
-                for (Node node : root.getChildren()) {
-                    if (node.getName().equals("setting")) {
-                        hs.put(node.getAttributeValue("key"), node.getAttributeValue("value"));
-                    }
-                    if(node.getName().equals("file")) {
-                        fileTmp.add(createElement(new File(node.getContent())));
-                    }
-                }
-                //So far, no exceptions, so let's do this!
-                //I hope the Garbage Collection does its job.
-                settings = hs;
-                files = fileTmp;
-                
-            } catch (Exception e) {
-            }
-        }
+    public ProjectManager getManager() {
+        return manager;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ProjectType getProjectType() {
+        return type;
     }
 }
