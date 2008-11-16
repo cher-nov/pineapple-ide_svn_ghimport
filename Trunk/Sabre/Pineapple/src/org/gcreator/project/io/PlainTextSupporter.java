@@ -28,7 +28,7 @@ import org.gcreator.editors.TextEditor;
 import org.gcreator.gui.DocumentPane;
 import org.gcreator.pineapple.PineapplePlugin;
 import org.gcreator.plugins.EventHandler;
-import org.gcreator.plugins.NotifyEvent;
+import org.gcreator.plugins.Event;
 
 /**
  * This class adds support for plain text documents in Pineapple.
@@ -52,7 +52,7 @@ public class PlainTextSupporter implements FormatSupporter, EventHandler {
         return new TextEditor(f);
     }
 
-    public void handleEvent(NotifyEvent event) {
+    public void handleEvent(Event event) {
         if (event.getEventType().equals(PineapplePlugin.REGISTER_FORMATS)) {
             PineapplePlugin.addFormatSupporter(this);
         }

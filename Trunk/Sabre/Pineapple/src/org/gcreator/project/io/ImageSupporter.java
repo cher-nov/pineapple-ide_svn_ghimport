@@ -28,7 +28,7 @@ import javax.imageio.ImageIO;
 import org.gcreator.editors.ImagePreviewer;
 import org.gcreator.gui.DocumentPane;
 import org.gcreator.pineapple.PineapplePlugin;
-import org.gcreator.plugins.NotifyEvent;
+import org.gcreator.plugins.Event;
 
 /**
  * Allows you to load images in Pineapple
@@ -46,7 +46,7 @@ public class ImageSupporter implements FormatSupporter {
         return new ImagePreviewer(f);
     }
 
-    public void handleEvent(NotifyEvent event) {
+    public void handleEvent(Event event) {
         if (event.getEventType().equals(PineapplePlugin.REGISTER_FORMATS)) {
             PineapplePlugin.addFormatSupporter(this);
         }

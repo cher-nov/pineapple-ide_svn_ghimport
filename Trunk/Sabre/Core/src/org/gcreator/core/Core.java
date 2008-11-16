@@ -27,10 +27,10 @@ import org.gcreator.managers.DefaultUncaughtExceptionHandler;
 import org.gcreator.managers.SettingsManager;
 import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.EventHandler;
-import org.gcreator.plugins.EventManager;
+import org.gcreator.managers.EventManager;
 import org.gcreator.plugins.EventPriority;
-import org.gcreator.plugins.NotifyEvent;
-import org.gcreator.plugins.PluginImporter;
+import org.gcreator.plugins.Event;
+import org.gcreator.managers.PluginManager;
 
 /**
  * The Core class contains all of the core functions, loading, etc.
@@ -40,8 +40,8 @@ import org.gcreator.plugins.PluginImporter;
 public class Core {
 
     /* 0.97... -> Alpha
-     * ...003 -> 3       */
-    private static final double version = 0.97003;
+     * ...004 -> 4       */
+    private static final double version = 0.97004;
     private static boolean safe;
     private static final StaticContext staticContext = new StaticContext();
 
@@ -62,14 +62,14 @@ public class Core {
         
         if (!Core.safe) {
             SettingsManager.load();
-            PluginImporter.loadPlugins();
+            PluginManager.loadPlugins();
         }
 
         /* Initilize the main window */
         EventManager.addEventHandler(new EventHandler() {
 
             @Override
-            public void handleEvent(NotifyEvent evt) {
+            public void handleEvent(Event evt) {
                 MainFrame frame = new MainFrame();
                 staticContext.setMainFrame(frame);
                 frame.initialize();
@@ -114,5 +114,40 @@ public class Core {
      */
     public static StaticContext getStaticContext() {
         return staticContext;
+    }
+    
+    /**
+     * Called by the JVM when the application is started.
+     * 
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        boolean safe = false;
+        
+        if (args.length == 0) {
+            safe = false;
+        }
+        
+        else if (args[0].equalsIgnoreCase("--help") || args[0].equalsIgnoreCase("-help") || args[0].equalsIgnoreCase("-h")) {
+            System.out.println("G-Creator version " + Core.version());
+            System.out.println("Usage: gcreator [options] [file]");
+            System.out.println("-h --help          Displays this help message");
+            System.out.println("-v --version       Displays the G-Creator version");
+            System.out.println("-s --safe          Doesn't load plug-ins and settings (Safe mode)");
+            System.exit(0);
+        }
+        else if (args[0].equalsIgnoreCase("--version") || args[0].equalsIgnoreCase("-version") || args[0].equalsIgnoreCase("-v")) {
+            System.out.println("G-Creator version " + Core.version());
+            System.out.println("Copyright © 2005-2008 The G-Creator Project");
+            System.out.println("http://www.g-creator.org");
+            System.exit(0);
+        }
+        else if (args[0].equalsIgnoreCase("--safe") || args[0].equalsIgnoreCase("-s") || args[0].equalsIgnoreCase("-safe")) {
+            safe = true;
+        }
+        else{
+            safe = false;
+        }
+        load(safe);
     }
 }

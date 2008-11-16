@@ -27,7 +27,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.gcreator.plugins.DefaultEventTypes;
-import org.gcreator.plugins.EventManager;
+import org.gcreator.managers.EventManager;
 
 /**
  * Provides a tabbed document interface provider.

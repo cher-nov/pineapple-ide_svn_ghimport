@@ -34,8 +34,8 @@ import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.gcreator.core.Core;
-import org.gcreator.plugins.EventManager;
-import org.gcreator.plugins.PluginCore;
+import org.gcreator.managers.EventManager;
+import org.gcreator.plugins.Plugin;
 
 /**
  * Allows the user to uninstall plugins
@@ -70,8 +70,8 @@ public final class PluginDialog extends JDialog {
                 if(o==null){
                     editorPane.setText("-No plugin selected-");
                 }
-                else if(o instanceof PluginCore){
-                    editorPane.setText(((PluginCore) o).getDescription());
+                else if(o instanceof Plugin){
+                    editorPane.setText(((Plugin) o).getDescription());
                 }
             }
         });

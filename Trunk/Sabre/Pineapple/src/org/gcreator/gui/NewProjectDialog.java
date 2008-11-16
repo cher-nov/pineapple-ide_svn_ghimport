@@ -40,8 +40,8 @@ import javax.swing.JSplitPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.gcreator.plugins.EventHandler;
-import org.gcreator.plugins.EventManager;
-import org.gcreator.plugins.NotifyEvent;
+import org.gcreator.managers.EventManager;
+import org.gcreator.plugins.Event;
 import org.gcreator.project.DefaultProject;
 import org.gcreator.project.Project;
 
@@ -128,7 +128,7 @@ public class NewProjectDialog extends JDialog implements EventHandler {
     }
 
     @Override
-    public void handleEvent(NotifyEvent evt) {
+    public void handleEvent(Event evt) {
         if (evt.getEventType().equals(GENERATE_CATEGORIES)) {
             System.out.println("Generate categories");
             Object[] args = evt.getArguments();

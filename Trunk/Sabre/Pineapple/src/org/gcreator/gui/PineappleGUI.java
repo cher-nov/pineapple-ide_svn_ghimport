@@ -74,9 +74,9 @@ import org.gcreator.tree.ProjectTreeNode;
 import org.gcreator.project.Project;
 import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.EventHandler;
-import org.gcreator.plugins.EventManager;
+import org.gcreator.managers.EventManager;
 import org.gcreator.plugins.EventPriority;
-import org.gcreator.plugins.NotifyEvent;
+import org.gcreator.plugins.Event;
 import org.gcreator.project.ProjectElement;
 import org.gcreator.project.DefaultProject;
 import org.gcreator.project.ProjectFile;
@@ -520,7 +520,7 @@ public class PineappleGUI implements EventHandler {
      * @param evt The sent event
      */
     @Override
-    public void handleEvent(NotifyEvent evt) {
+    public void handleEvent(Event evt) {
         //<editor-fold defaultstate="collapsed" desc="APPLICATION_INITIALIZED">
         if (evt.getEventType().equals(DefaultEventTypes.APPLICATION_INITIALIZED)) {
             boolean lf = false;

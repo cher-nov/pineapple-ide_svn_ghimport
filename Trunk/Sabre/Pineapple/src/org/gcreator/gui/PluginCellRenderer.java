@@ -26,7 +26,7 @@ package org.gcreator.gui;
 import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
-import org.gcreator.plugins.PluginCore;
+import org.gcreator.plugins.Plugin;
 
 /**
  * Renders a plugin
@@ -40,8 +40,8 @@ public class PluginCellRenderer extends DefaultListCellRenderer{
         
         Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         
-        if(value instanceof PluginCore){
-            this.setText(((PluginCore) value).getName());
+        if(value instanceof Plugin){
+            this.setText(((Plugin) value).getName());
         }
         
         return c;
