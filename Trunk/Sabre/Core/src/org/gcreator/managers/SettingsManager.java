@@ -113,7 +113,7 @@ public class SettingsManager {
      */
     public static void unload() {
         try {
-
+            
             if (!registryFile.exists()) {
                 registryFile.createNewFile();
             }

@@ -29,7 +29,7 @@ import org.gcreator.gui.MainFrame;
 import org.gcreator.plugins.Plugin;
 
 /**
- * This class handles G-Creator's application data, making sure all of the
+ * This class handles Sabre's application data, making sure all of the
  * appropriate folders exist.
  * 
  * @author Luís Reis
@@ -108,6 +108,8 @@ public final class StaticContext {
     
     /**
      * Adds a plugin to the plugin list.
+     * 
+     * @param plugin The {@link Plugin} to add.
      */
     public void addPlugin(Plugin plugin) {
         plugins.add(plugin);
@@ -115,6 +117,8 @@ public final class StaticContext {
     
     /**
      * Gets the loaded plugins
+     * @return A {@link Vector} of the plugins
+     * that are currently loaded.
      */
     @SuppressWarnings("unchecked")
     public Vector<Plugin> getPlugins(){
