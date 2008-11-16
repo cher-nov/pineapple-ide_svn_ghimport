@@ -22,8 +22,8 @@ THE SOFTWARE.
 */
 package org.gcreator.project;
 
-import java.io.File;
 import javax.swing.Icon;
+import org.gcreator.project.io.BasicFile;
 import org.gcreator.tree.BaseTreeNode;
 import org.gcreator.tree.FileTreeNode;
 
@@ -32,43 +32,48 @@ import org.gcreator.tree.FileTreeNode;
  * 
  * @author Serge Humphrey
  */
-public class FileElement extends BaseElement {
+public class ProjectFile extends ProjectElement {
 
-    private File file;
-    private String format;
-    private Icon icon;
-    private FileTreeNode treeNode;
+    protected BasicFile file;
+    protected String format;
+    protected Icon icon;
+    protected FileTreeNode treeNode;
+    protected Project project;
     
     /**
-     * Creates a new {@link FileElement} object and sets the format automatically.
+     * Creates a new {@link ProjectFile} object and sets the format automatically.
      * 
      * @param file The {@link java.io.File} object.
+     * @param p The {@link Project} that this file should belong to.
      */
-    public FileElement(File file) {
-        this(file, getFormat(file.getName()));
+    public ProjectFile(BasicFile file, Project p) {
+        this(file, getFormat(file.getName()), p);
     }
     
     /**
-     * Creates a new {@link FileElement} object.
+     * Creates a new {@link ProjectFile} object.
      * 
      * @param file The {@link java.io.File} object.
      * @param format The format of the file.
+     * @param p The {@link Project} that this file should belong to.
      */
-    public FileElement(File file, String format) {
+    public ProjectFile(BasicFile file, String format, Project p) {
         this.file = file;
         this.format = format;
         this.treeNode = new FileTreeNode(this);
+        this.project = p;
     }
 
     /**
-     * Creates a new {@link FileElement} object with an icon.
+     * Creates a new {@link ProjectFile} object with an icon.
      * 
      * @param file file The {@link java.io.File} object.
      * @param format format The format of the file.
      * @param icon The {@link javax.swing.Icon} to be drawn in the {@link javax.swing.JTree}.
+     * @param p The {@link Project} that this file should belong to.
      */
-    public FileElement(File file, String format, Icon icon) {
-        this(file, format);
+    public ProjectFile(BasicFile file, String format, Icon icon, Project p) {
+        this(file, format, p);
         this.icon = icon;
     }
 
@@ -82,11 +87,9 @@ public class FileElement extends BaseElement {
     }
 
     /**
-     * Gets the file.
-     * 
-     * @return The File.
+     * {@inheritDoc}
      */
-    public File getFile() {
+    public BasicFile getFile() {
         return file;
     }
 
@@ -113,7 +116,7 @@ public class FileElement extends BaseElement {
      * 
      * @param file The new File.
      */
-    public void setFile(File file) {
+    public void setFile(BasicFile file) {
         this.file = file;
     }
 
@@ -151,5 +154,13 @@ public class FileElement extends BaseElement {
     @Override
     public BaseTreeNode getTreeNode() {
         return treeNode;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Project getProject() {
+        return project;
     }
 }

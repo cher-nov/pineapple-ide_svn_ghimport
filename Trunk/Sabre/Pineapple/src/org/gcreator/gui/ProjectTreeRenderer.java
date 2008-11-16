@@ -27,7 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.gcreator.tree.ProjectTreeNode;
-import org.gcreator.project.FileElement;
+import org.gcreator.project.ProjectFile;
 import org.gcreator.project.Project;
 import org.gcreator.tree.FileTreeNode;
 
@@ -69,7 +69,7 @@ public class ProjectTreeRenderer extends DefaultTreeCellRenderer {
         
         if (val instanceof FileTreeNode) {
             FileTreeNode node = (FileTreeNode) val;
-            FileElement el = (FileElement) node.getElement();
+            ProjectFile el = (ProjectFile) node.getElement();
             if (el.getIcon() != null) {
                 l.setIcon(el.getIcon());
             }

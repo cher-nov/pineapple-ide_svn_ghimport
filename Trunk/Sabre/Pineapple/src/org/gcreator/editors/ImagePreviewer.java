@@ -26,11 +26,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import org.gcreator.gui.DocumentPane;
+import org.gcreator.project.io.BasicFile;
 
 /**
  * Previews an image
@@ -38,6 +40,8 @@ import org.gcreator.gui.DocumentPane;
  * @author Luís Reis
  */
 public class ImagePreviewer extends DocumentPane {
+    
+    private static final long serialVersionUID = 1L;
 
     private JScrollPane scroll;
     private JPanel panel;
@@ -47,7 +51,7 @@ public class ImagePreviewer extends DocumentPane {
      * Creates an ImagePreviewer from a File
      * @param file The image file
      */
-    public ImagePreviewer(File file) {
+    public ImagePreviewer(BasicFile file) {
         super(file);
 
         scroll = new JScrollPane();
@@ -61,9 +65,11 @@ public class ImagePreviewer extends DocumentPane {
             }
         };
         try {
-            img = ImageIO.read(file);
+            BufferedInputStream s = new BufferedInputStream(file.getInputStream());
+            img = ImageIO.read(s);
+            s.close();
         } catch (Exception e) {
-            System.out.println("Exception: " + e);
+            System.out.println("ImagePrev>>Exception: " + e);
         }
 
         scroll.setVisible(true);

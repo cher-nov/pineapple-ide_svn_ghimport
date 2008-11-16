@@ -26,6 +26,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Hashtable;
 import java.util.Vector;
+import org.gcreator.project.io.BasicFile;
+import org.gcreator.project.io.ProjectManager;
 
 /**
  * A basic foundation for projects.
@@ -39,14 +41,14 @@ public abstract class Project {
      * 
      * @return A {@link java.util.Vector} containing all of the project's file/folders in it.
      */
-    public abstract Vector<BaseElement> getFiles();
+    public abstract Vector<ProjectElement> getFiles();
 
     /**
      * Adds a file to the project.
      * 
      * @param e The file to add.
      */
-    public abstract void add(BaseElement e);
+    public abstract void add(ProjectElement e);
     
     /**
      * Removes a file from the project.
@@ -54,19 +56,19 @@ public abstract class Project {
      * @param e The file to remove.
      * @return <tt>true</tt> if the element was in the list.
      */
-    public abstract boolean remove(BaseElement e);
+    public abstract boolean remove(ProjectElement e);
     
     /**
-     * Returns the {@link BaseElement} at index <tt>index</tt>.
+     * Returns the {@link ProjectElement} at index <tt>index</tt>.
      * Same as getFiles().get(index).
      * 
      * @param index The index to fetch.
-     * @return Returns the {@link BaseElement} at index <tt>index</tt>.
+     * @return Returns the {@link ProjectElement} at index <tt>index</tt>.
      * 
      * @throws java.lang.IndexOutOfBoundsException If <tt>index</tt> was smaller 
      * than zero or greater than or equal to {@link #getFileCount()}.
      */
-    public abstract BaseElement getFileAt(int index) throws IndexOutOfBoundsException;
+    public abstract ProjectElement getFileAt(int index) throws IndexOutOfBoundsException;
 
     /**
      * Returns the number of elements belonging to this project.
@@ -86,7 +88,7 @@ public abstract class Project {
     public abstract Hashtable<String, String> getSettings();
 
     /**
-     * Creates an element, either a {@link FileElement} or {@link FolderElement}, depending on
+     * Creates an element, either a {@link ProjectFile} or {@link ProjectFolder}, depending on
      * whether the given file is a directory or not.
      * 
      * @param f The {@link java.io.File} which the element must exist.
@@ -94,24 +96,29 @@ public abstract class Project {
      * 
      * @throws java.io.FileNotFoundException If the given file does not exist.
      */
-    public static final BaseElement createElement(File f) throws FileNotFoundException {
+    public ProjectElement createElement(BasicFile f) throws FileNotFoundException {
         if (!f.exists()) {
             throw new FileNotFoundException("File '" + f + "' does not exist.");
         }
-        BaseElement e;
+        ProjectElement e;
         if (f.isDirectory()) {
-            e = new FolderElement(f);
+            e = new ProjectFolder(f, this);
         } else {
-            e = new FileElement(f);
+            e = new ProjectFile(f, this);
         }
         return e;
     }
     
     /**
-     * Reloads/Update the project.
-     * By default, this method does nothing, but may be useful in some cases.
+     * Gets the manager for this project.
+     * @return The {@link ProjectManager} for this project.
      */
-    public void update(){
-        
-    }
+    public abstract ProjectManager getManager();
+    
+    /**
+     * Gets the {@link ProjectType} class for this project.
+     * 
+     * @return The {@link ProjectType} class for this project.
+     */
+    public abstract ProjectType getProjectType();
 }

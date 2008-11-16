@@ -178,7 +178,7 @@ public class SettingsManager {
      * @return The value of the key that was deleted, or <tt>null</tt> if key did not already exist. 
      * (Note that if will also return <tt>null</tt> if the value of the key is <tt>null</tt>.)
      */
-    public static Object delete(String key) {
+    public static String delete(String key) {
         return registry.remove(key);
     }
 
@@ -187,7 +187,7 @@ public class SettingsManager {
      * @param key The key to find the value for.
      * @return The value of the given key. (Or <tt>null</tt> if ot does not exist.)
      */
-    public static Object get(String key) {
+    public static String get(String key) {
         return registry.get(key);
     }
 

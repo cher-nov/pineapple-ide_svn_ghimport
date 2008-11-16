@@ -26,21 +26,21 @@ package org.gcreator.tree;
 import java.util.Enumeration;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import org.gcreator.project.BaseElement;
-import org.gcreator.project.FolderElement;
+import org.gcreator.project.ProjectElement;
+import org.gcreator.project.ProjectFolder;
 
 /**
  * A {@link javax.swing.tree.TreeNode} implementation 
- * for a {@link org.gcreator.project.FolderElement}.
+ * for a {@link org.gcreator.project.ProjectFolder}.
  * 
  * @author Serge Humphrey
  */
 public class FolderTreeNode extends DefaultMutableTreeNode implements BaseTreeNode {
 
     private static final long serialVersionUID = 1;
-    private FolderElement folder;
+    private ProjectFolder folder;
 
-    public FolderTreeNode(FolderElement e) {
+    public FolderTreeNode(ProjectFolder e) {
         this.setAllowsChildren(true);
         this.setUserObject(e);
         this.folder = e;
@@ -108,7 +108,7 @@ public class FolderTreeNode extends DefaultMutableTreeNode implements BaseTreeNo
         return folder.getChildrenCount();
     }
 
-    public BaseElement getElement() {
+    public ProjectElement getElement() {
         return folder;
     }
 }

@@ -21,41 +21,61 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-package org.gcreator.tree;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
-import org.gcreator.project.ProjectElement;
-import org.gcreator.project.ProjectFile;
+package org.gcreator.project;
+
+import org.gcreator.project.io.BasicFile;
+import org.gcreator.tree.BaseTreeNode;
 
 /**
- * A {@link javax.swing.tree.TreeNode} implementation 
- * for a {@link org.gcreator.project.ProjectFile}.
- * 
+ * A base class for {@link FileElement} and {@link FolderElement}.
+ *  
  * @author Serge Humphrey
  */
-public class FileTreeNode extends DefaultMutableTreeNode implements BaseTreeNode {
-
-    private static final long serialVersionUID = 1;
-    private ProjectFile file;
+public abstract class ProjectElement {
     
     /**
-     * Creates a new file tree node.
-     * 
-     * @param e The {@link ProjectFile} that this node belongs to.
+     * This file's parent.
      */
-    public FileTreeNode(ProjectFile e) {
-        this.setAllowsChildren(false);
-        this.setUserObject(e);
-        this.file = e;
-    }
-
+    protected ProjectElement parent;
+    
     /**
-     * Gets the {@link ProjectFile} that this node belongs to.
+     * Gets the element's file.
      * 
-     * @return The {@link ProjectFile} that this node belongs to.
+     * @return The File.
      */
-    public ProjectElement getElement() {
-        return file;
+    public abstract BasicFile getFile();
+    
+    /**
+     * Gets the {@link org.gcreator.tree.BaseTreeNode} to be used for the tree.
+     * 
+     * @return A {@link org.gcreator.tree.BaseTreeNode} to be used for the tree.
+     */
+    public abstract BaseTreeNode getTreeNode();
+    
+    /**
+     * This returns the parent or null if it has not been set.
+     * 
+     * @return This file's parent. This may be null and is not very reliable.
+     * @see setParent(ProjectElement e)
+     */
+    public ProjectElement getParent() {
+        return parent;
     }
+    
+    /**
+     * Sets the parent of this file.
+     * 
+     * @param e The new parent for this file.
+     * 
+     * @see getParent()
+     */
+    public void setParent(ProjectElement e) {
+        this.parent = e;
+    }
+    
+    /**
+     * @return The {@link Project} that this element belongs to.
+     */
+    public abstract Project getProject();
 }

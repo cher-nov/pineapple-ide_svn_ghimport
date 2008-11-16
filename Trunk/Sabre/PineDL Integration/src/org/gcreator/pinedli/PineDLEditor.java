@@ -1,78 +1,68 @@
 /*
-Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
-Copyright (C) 2008 BobSerge<serge_1994@hotmail.com>
+    Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
+    Copyright (C) 2008 Serge Humphrey<bob@bobtheblueberry.com>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+    This file is part of PineDL Integration.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+    PineDL Integration is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
-package org.gcreator.editors;
+    PineDL Integration is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
+    You should have received a copy of the GNU General Public License
+    along with PineDL Integration.  If not, see <http://www.gnu.org/licenses/>.
+
+ */
+
+
+package org.gcreator.pinedli;
+
+import org.gcreator.gui.*;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import org.gcreator.gui.DocumentPane;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rtextarea.RTextScrollPane;
+import org.gcreator.editors.TextEditor;
 import org.gcreator.project.io.BasicFile;
 
 /**
- * Allows text edition
- * 
+ *
  * @author Luís Reis
  */
-public class TextEditor extends DocumentPane {
-    
-    private static final long serialVersionUID = 1L;
+public class PineDLEditor extends DocumentPane {
 
-    private JScrollPane scroll;
-    private JTextArea editor;
+    private static final long serialVersionUID = 1L;
+    private RTextScrollPane scroll;
+    private RSyntaxTextArea editor;
     private BasicFile file;
     
-    /**
-     * Creates a text editor from a File
-     * @param e The element to read the data from.
-     */
-    public TextEditor(BasicFile e) {
-        super(e);
-        setBackground(Color.white);
-        setLayout(new BorderLayout());
-        scroll = new JScrollPane();
-        editor = new JTextArea();
-        editor.setVisible(true);
-        scroll.setVisible(true);
-        scroll.setViewportView(editor);
-        editor.setTabSize(5);
-        add(scroll, BorderLayout.CENTER);
-        if (e != null && e.exists()) {
+    public PineDLEditor(BasicFile file) {
+        super(file);
+        this.setLayout(new BorderLayout());
+        this.editor = new RSyntaxTextArea();
+        this.file = file;
+        
+        if (file.exists()) {
             BufferedInputStream in = null;
             try {
-                in = new BufferedInputStream(e.getInputStream());
-                StringBuilder b = new StringBuilder((int) e.getLength());
+                in = new BufferedInputStream(file.getInputStream());
+                StringBuilder b = new StringBuilder((int) file.getLength());
                 int r;
                 while ((r = in.read()) != -1) {
                     b.append((char) r);
@@ -102,19 +92,20 @@ public class TextEditor extends DocumentPane {
                 setModified(true);
             }
         });
-        
-        this.file = e;
+        editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
+        scroll = new RTextScrollPane(getWidth(), getHeight(), editor, true);
+        this.add(scroll, BorderLayout.CENTER);
     }
 
     /**
      * Saves the file
+     * @return 
      */
     @Override
     public boolean saveBackend() {
         try {
             BufferedOutputStream out = new BufferedOutputStream(file.getOutputStream());
             out.write(editor.getText().getBytes());
-            out.close();
             return true;
         } catch (Exception e) {
             return false;
@@ -126,7 +117,6 @@ public class TextEditor extends DocumentPane {
      */
     @Override
     public boolean setupEditMenu(JMenu editMenu) {
-        System.out.println("setupEditMenu");
         JMenuItem cut = new JMenuItem("Cut");
         cut.setMnemonic('t');
         cut.setVisible(true);
