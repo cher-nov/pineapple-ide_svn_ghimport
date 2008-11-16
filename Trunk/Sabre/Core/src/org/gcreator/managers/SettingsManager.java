@@ -57,12 +57,12 @@ import org.xml.sax.SAXParseException;
 public class SettingsManager {
 
     private static Hashtable<String, String> registry;
-    private static File registryFile = new File(Core.getApplicationDataFolder().getPath() + File.separator + "settings.xml");
+    private static File registryFile = new File(Core.getStaticContext().getApplicationDataFolder().getPath() + File.separator + "settings.xml");
 
     /**
-     * Don't allow instantation.
-     */
-    private SettingsManager() {}
+     * Don't allow instantation.  */
+    private SettingsManager() {
+    }
 
     /**
      * Loads the G-Creator settings, or creates them
@@ -85,7 +85,6 @@ public class SettingsManager {
                 System.err.println("Registry load error: Can't read file " + registryFile);
                 return;
             }
-            
             SAXImporter im = new SAXImporter(registryFile);
             Node root = im.getDocumentRoot();
             for (Node n : root.getChildren()) {
