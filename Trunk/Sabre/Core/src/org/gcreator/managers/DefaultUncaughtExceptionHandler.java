@@ -33,6 +33,7 @@ import java.util.logging.Logger;
  * @author Serge Humphrey
  */
 public class DefaultUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+
     /**
      * Stores the exception into the log.
      * @param t The thread in which the exception happened
