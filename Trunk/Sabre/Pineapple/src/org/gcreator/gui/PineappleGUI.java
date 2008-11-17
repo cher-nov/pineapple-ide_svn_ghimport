@@ -35,7 +35,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -126,6 +125,11 @@ public class PineappleGUI implements EventHandler {
      * The tools menu
      */
     public static JMenu toolsMenu;
+    /**
+     * The help menu
+     */
+    public static JMenu helpMenu;
+    
     public static JMenuItem fileNewProject;
     public static JMenuItem fileOpenFile;
     public static JMenuItem fileOpenProject;
@@ -139,6 +143,8 @@ public class PineappleGUI implements EventHandler {
     public static JMenuItem projectDelete;
     public static JMenuItem projecImport;
     public static JMenuItem projectExport;
+    public static JMenuItem helpAbout;
+    
     /**
      * Provides a way to deal with multiple documents.
      */
@@ -476,6 +482,26 @@ public class PineappleGUI implements EventHandler {
         menubar.add(toolsMenu);
         //</editor-fold>
 
+        //<editor-fold defaultstate="collapsed" desc="Help menu">
+        helpMenu = new JMenu("Help");
+        helpMenu.setMnemonic('H');
+        helpMenu.setEnabled(true);
+        helpMenu.setVisible(true);
+        
+        helpAbout = new JMenuItem("About");
+        helpAbout.setMnemonic('A');
+        helpAbout.setEnabled(true);
+        helpAbout.setVisible(true);
+        helpAbout.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+                openAboutDialog();
+            }
+        });
+        helpMenu.add(helpAbout);
+        menubar.add(helpMenu);
+        
+        //</editor-fold>
+        
         for (ToolWindow window : manager.getToolWindows()) {
             window.setAvailable(true);
         }
@@ -501,6 +527,16 @@ public class PineappleGUI implements EventHandler {
      */
     public void openPluginDialog() {
         PluginDialog d = new PluginDialog(Core.getStaticContext().getMainFrame());
+        d.setVisible(true);
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="openAboutDialog()">
+    /**
+     * Opens the about dialog
+     */
+    public void openAboutDialog() {
+        AboutDialog d = new AboutDialog(Core.getStaticContext().getMainFrame());
         d.setVisible(true);
     }
     //</editor-fold>
