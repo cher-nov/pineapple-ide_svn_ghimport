@@ -20,7 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
-
 package org.gcreator.game2d;
 
 import org.gcreator.project.DefaultProject;
@@ -29,10 +28,11 @@ import org.gcreator.project.DefaultProject;
  * Provides a GameProject.
  * @author Luís Reis
  */
-public class GameProject extends DefaultProject{
-    public GameProject(){
+public class GameProject extends DefaultProject {
+
+    public GameProject() {
         super();
-        
+
         this.type = new GameProjectType();
     }
 }

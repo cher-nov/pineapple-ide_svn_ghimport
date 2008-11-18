@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 package org.gcreator.project;
 
+import java.awt.Panel;
 import java.io.File;
 
 /**

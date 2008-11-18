@@ -742,6 +742,7 @@ public class PineappleGUI implements EventHandler {
 
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
         chooser.setDialogTitle("Select the project to open");
         final String[] formats = getSupportedProjectFormats();
         StringBuilder b = new StringBuilder(formats.length * 4);
@@ -790,6 +791,7 @@ public class PineappleGUI implements EventHandler {
 
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
         chooser.setDialogTitle("Save Project");
         final String[] formats = project.getProjectType().getProjectFileTypes();
         StringBuilder b = new StringBuilder(formats.length * 4);
@@ -865,6 +867,7 @@ public class PineappleGUI implements EventHandler {
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(true);
         chooser.setDialogTitle("Select files to open");
+        chooser.setAcceptAllFileFilterUsed(false);
         final String[] formats = getSupportedFileFormats();
         StringBuilder b = new StringBuilder(formats.length * 4);
         for (String s : formats) {
@@ -951,7 +954,7 @@ public class PineappleGUI implements EventHandler {
      * Pops a New FolderProject Dialog
      */
     public void popupNewProjectDialog() {
-        NewProjectDialog dialog = new NewProjectDialog(Core.getStaticContext().getMainFrame());
+        NewProjectWizard dialog = new NewProjectWizard(Core.getStaticContext().getMainFrame());
         dialog.setVisible(true);
     }
     //</editor-fold>
