@@ -55,7 +55,8 @@ public final class GameProjectType implements ProjectType {
      * {@inheritDoc}
      */
     public String getDescription() {
-        return "This project type uses the file system for storage.";
+        return "Based on the default project, this project " +
+                "allows you to create very nice 2D games";
     }
     
     /**
