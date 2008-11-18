@@ -169,6 +169,10 @@ public class PineappleGUI implements EventHandler {
      */
     public static final String FILE_REMOVED = "file-removed";
     /**
+     * Event when a file is renamed.
+     */
+    public static final String FILE_RENAMED = "file-renamed";
+    /**
      * When a file is opened.
      * This event should have the opened File as the first argument.
      * File can be null.
@@ -217,6 +221,7 @@ public class PineappleGUI implements EventHandler {
         EventManager.addEventHandler(this, FILE_CHANGED, EventPriority.LOW);
         EventManager.addEventHandler(this, FILE_DELETED, EventPriority.LOW);
         EventManager.addEventHandler(this, FILE_REMOVED, EventPriority.LOW);
+        EventManager.addEventHandler(this, FILE_RENAMED, EventPriority.LOW);
         EventManager.addEventHandler(this, TREE_MENU_INVOKED, EventPriority.HIGH);
         EventManager.addEventHandler(this, PROJECT_OPENED, EventPriority.HIGH);
         EventManager.addEventHandler(this, PROJECT_SAVED, EventPriority.HIGH);
@@ -589,6 +594,7 @@ public class PineappleGUI implements EventHandler {
                 fileSave.setEnabled(false);
             }
         //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="FILE_OPENED">
         } else if (evt.getEventType().equals(FILE_OPENED) && evt.getArguments().length >= 1) {
 
             DocumentPane p;
@@ -602,7 +608,7 @@ public class PineappleGUI implements EventHandler {
             dip.add(p.getFile().getName(), p);
             evt.handleEvent();
             tree.updateUI();
-
+        //</editor-fold>
         } else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_DISPOSED)) {
 
             /* Save the MyDoggy settings */
@@ -647,7 +653,9 @@ public class PineappleGUI implements EventHandler {
             }
         } else if (evt.getEventType().equals(FILE_REMOVED)) {
             tree.updateUI();
-        } else if (evt.getEventType().equals(TREE_MENU_INVOKED)) {
+        } else if (evt.getEventType().equals(FILE_RENAMED)) {
+            tree.updateUI();
+        }else if (evt.getEventType().equals(TREE_MENU_INVOKED)) {
             if (evt.getArguments().length < 2 || !(evt.getArguments()[0] instanceof JPopupMenu)) {
                 return;
             }
@@ -663,13 +671,38 @@ public class PineappleGUI implements EventHandler {
                 });
             }
 
-            if (o instanceof BaseTreeNode && project.getFiles().indexOf(((BaseTreeNode) o).getElement()) != -1) {
+            if (o instanceof BaseTreeNode &&
+                    project.getFiles().indexOf(((BaseTreeNode) o).getElement()) != -1) {
                 final BaseTreeNode t = (BaseTreeNode) o;
                 menu.add("Remove").addActionListener(new ActionListener() {
 
                     public void actionPerformed(ActionEvent e) {
                         project.remove(t.getElement());
                         EventManager.fireEvent(this, FILE_REMOVED, t.getElement());
+                    }
+                });
+            }
+            
+            if (o instanceof BaseTreeNode &&
+                    project.getFiles().indexOf(((BaseTreeNode) o).getElement()) != -1) {
+                final BaseTreeNode t = (BaseTreeNode) o;
+                menu.add("Rename").addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent e) {
+                        String s = JOptionPane.showInputDialog(
+                                Core.getStaticContext().getMainFrame(),
+                                "New name:",
+                                "Rename file",
+                                JOptionPane.QUESTION_MESSAGE);
+                        if(s!=null){
+                            try{
+                                project.rename(t.getElement().getFile(), s);
+                            }
+                            catch(Exception ex){
+                                
+                            }
+                        }
+                        EventManager.fireEvent(this, FILE_RENAMED, t.getElement(), s);
                     }
                 });
             }

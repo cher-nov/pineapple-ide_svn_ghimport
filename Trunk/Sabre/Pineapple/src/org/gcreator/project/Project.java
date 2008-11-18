@@ -24,6 +24,7 @@ package org.gcreator.project;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Vector;
 import org.gcreator.project.io.BasicFile;
@@ -147,5 +148,18 @@ public abstract class Project {
      */
     public void setProjectFolder(File f) {
         this.projectFolder = f;
+    }
+    
+    /**
+     * Renames a child file
+     * 
+     * @param f The file to rename
+     * @param newName The new file name
+     * 
+     * @throws java.io.IOException If there is an error with
+     *  {@link BasicFile#rename(java.lang.String) }
+     */
+    public void rename(BasicFile f, String newName) throws IOException{
+        f.rename(newName);
     }
 }
