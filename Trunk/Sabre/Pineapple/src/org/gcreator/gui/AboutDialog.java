@@ -90,7 +90,7 @@ public class AboutDialog extends JDialog {
         editor.setContentType("text/html");
         editor.setText("Development Team: <br/>" +
                 "<ul>" +
-                "<li>" +   "Luís 'luiscubal' Reis"  + "</li>" +
+                "<li>" +   "Luís Reis"  + "</li>" +
                 "<li>" +   "Serge Humphrey"         + "</li>" +
                 "<li>" +   "Russel"                 + "</li>" +
                 "</ul>"
