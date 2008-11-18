@@ -93,12 +93,11 @@ public final class PluginTableModel extends AbstractTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         return this.getValueAt(0, columnIndex).getClass();
     }
-
     /**
      * Prevents the warning dialog from being permanently shown
      */
     private static boolean askedBefore = false;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -107,28 +106,30 @@ public final class PluginTableModel extends AbstractTableModel {
         if (columnIndex != 1) {
             return false;
         }
-        
-        if(getValueAt(
-                rowIndex, 0).equals("Pineapple Default Plug-In"))
-            return false;
-        
         Plugin p = Core.getStaticContext().getPlugins().get(rowIndex);
         if (!p.isEnabled()) {
             return true;
         }
-        int o = JOptionPane.OK_OPTION;
-        if(!askedBefore){
-            o = JOptionPane.showConfirmDialog(Core.getStaticContext().getMainFrame(), 
-                "<html>Are you sure you want to disable plugin "+p.getName()+"?<br/>" +
-                "Disabling some plugins may result in losing important " +
-                "features." +
-                "<br/><br/>" +
-                "To revert these changes, you must manually delete the settings" +
-                "<br/>file under {USER HOME}/.sabre/settings.xml.</html>");
-            if(o==JOptionPane.OK_OPTION)
-                askedBefore = true;
+        if (getValueAt(
+                rowIndex, 0).equals("Pineapple Default Plug-In")) {
+            return false;
         }
         
+        
+        int o = JOptionPane.OK_OPTION;
+        if (!askedBefore) {
+            o = JOptionPane.showConfirmDialog(Core.getStaticContext().getMainFrame(),
+                    "<html>Are you sure you want to disable plugin " + p.getName() + "?<br/>" +
+                    "Disabling some plugins may result in losing important " +
+                    "features." +
+                    "<br/><br/>" +
+                    "To revert these changes, you must manually delete the settings" +
+                    "<br/>file under {USER HOME}/.sabre/settings.xml.</html>");
+            if (o == JOptionPane.OK_OPTION) {
+                askedBefore = true;
+            }
+        }
+
         return (o == JOptionPane.OK_OPTION);
     }
 
@@ -138,7 +139,7 @@ public final class PluginTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         if (aValue instanceof Boolean && columnIndex == 1) {
-            Core.getStaticContext().getPlugins().get(rowIndex).setEnabled((Boolean)aValue);
+            Core.getStaticContext().getPlugins().get(rowIndex).setEnabled((Boolean) aValue);
         }
     }
 }

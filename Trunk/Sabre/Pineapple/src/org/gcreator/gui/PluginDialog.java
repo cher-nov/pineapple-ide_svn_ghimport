@@ -20,7 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
-
 package org.gcreator.gui;
 
 import java.awt.Frame;
@@ -46,6 +45,7 @@ import org.gcreator.plugins.Plugin;
  * Allows the user to uninstall plugins
  * In the future, plugin installation and updating would also
  * be nice
+ * 
  * @author Luís Reis
  */
 public final class PluginDialog extends JDialog implements ActionListener {
@@ -56,11 +56,11 @@ public final class PluginDialog extends JDialog implements ActionListener {
     private JScrollPane scrollPane;
     private JEditorPane editorPane;
     private JTable table;
-    
+
     public PluginDialog(Frame f) {
         super(f);
         Box center = Box.createVerticalBox();
-        
+
         this.setTitle("Plugins");
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setSize(320, 240);
@@ -75,7 +75,7 @@ public final class PluginDialog extends JDialog implements ActionListener {
                 if (e.getFirstIndex() < 0) {
                     return;
                 }
-                Plugin p = Core.getStaticContext().getPlugins().get(e.getFirstIndex());
+                Plugin p = Core.getStaticContext().getPlugins().get(table.getSelectedRow());
                 if (p != null) {
                     editorPane.setText(p.getDescription());
                 }
@@ -92,9 +92,9 @@ public final class PluginDialog extends JDialog implements ActionListener {
         splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(table), scrollPane);
         splitPane.setVisible(true);
         splitPane.setDividerLocation(80);
-        
+
         center.add(splitPane);
-        
+
         JButton close = new JButton("Close");
         close.addActionListener(this);
         JLabel notice = new JLabel("<html><em>Restart Pineapple for changes to take effect.</em></html>");
@@ -102,10 +102,10 @@ public final class PluginDialog extends JDialog implements ActionListener {
         Box box1 = Box.createHorizontalBox();
         box1.add(Box.createHorizontalGlue());
         box1.add(close);
-        
+
         this.add(center, "Center");
         this.add(box1, "South");
-        
+
         EventManager.fireEvent(this, PLUGINDIALOG_OPEN, this);
     }
 

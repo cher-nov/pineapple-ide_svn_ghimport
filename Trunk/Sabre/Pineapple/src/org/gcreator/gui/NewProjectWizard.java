@@ -9,12 +9,8 @@ import java.awt.CardLayout;
 import java.io.File;
 import javax.swing.AbstractListModel;
 import javax.swing.JFileChooser;
-import javax.swing.ListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListDataListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import org.gcreator.core.Core;
 import org.gcreator.pineapple.PineapplePlugin;
 
@@ -43,13 +39,13 @@ public final class NewProjectWizard extends javax.swing.JDialog {
             private void update() {
                 updateProjectFolder();
                 String text = projectNameTextField.getText();
-                if (text != null && text != "" && !text.contains(File.separator)) {
+                if (text != null && !text.equals("") && !text.contains(File.separator)) {
                     finishButton.setEnabled(true);
                 } else {
                     finishButton.setEnabled(false);
                 }
                 if (text.contains(File.separator)) {
-                   errorLabel.setVisible(true);
+                    setErrorMessage("Error: Project name can't contain " + File.separator);
                 } else {
                     errorLabel.setVisible(false);
                 }
@@ -87,6 +83,10 @@ public final class NewProjectWizard extends javax.swing.JDialog {
                 + projectNameTextField.getText());
     }
 
+    private void setErrorMessage(String s) {
+        errorLabel.setText("<html><span style=\"color: red;\">" + s + "</span></html>");
+        errorLabel.setVisible(true);
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -393,14 +393,14 @@ private void projectsListValueChanged(javax.swing.event.ListSelectionEvent evt) 
 }//GEN-LAST:event_projectsListValueChanged
 
 private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
-    File f;
+    File f = null;
     try {
         f = new File(projectFolderTextField.getText());
-        if (!f.mkdirs()) {
+        if (!f.mkdirs() && !f.exists()) {
             throw new Exception();
         }
     } catch (Exception exc) {
-        errorLabel.setVisible(true);
+        setErrorMessage("Can't create directory " + f);
         return;
     }
     PineappleGUI.project = PineapplePlugin.projectTypes.get(projectsList.getSelectedIndex()).create();
