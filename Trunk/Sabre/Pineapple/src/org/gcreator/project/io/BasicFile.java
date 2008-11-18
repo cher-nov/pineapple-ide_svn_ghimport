@@ -112,4 +112,12 @@ public interface BasicFile {
      * @throws java.io.IOException If an {@link java.io.IOException} occurs.
      */
     public OutputStream getOutputStream() throws IOException;
+    
+    /**
+     * Renames the file
+     * 
+     * @param newName The new name for the file
+     * @throws java.io.IOException If an errors occurs while renaming the file
+     */
+    public void rename(String newName) throws IOException;
 }

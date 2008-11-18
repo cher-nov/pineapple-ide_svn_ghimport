@@ -141,4 +141,12 @@ public class FileFile implements BasicFile {
         return file.exists();
     }
     
+    /**
+     * {@inheritDoc}
+     */
+    public void rename(String newName) throws IOException{
+        if(!file.renameTo(new File(newName))){
+            throw new IOException("Renaming failed");
+        }
+    }
 }
