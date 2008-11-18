@@ -208,6 +208,7 @@ public class DefaultProjectManager implements ProjectManager {
         Document doc = builder.newDocument();
         Element root = doc.createElement("pineapple-project");
         root.setAttribute("version", Float.toString(PROJECT_VERSION));
+        root.setAttribute("hasfolder", Boolean.toString(project.getProjectFolder() != null));
         /* Files */
         Element files = doc.createElement("files");
         for (ProjectElement p : project.getFiles()) {
@@ -297,6 +298,10 @@ public class DefaultProjectManager implements ProjectManager {
                 System.err.println("Error: wrong manifest version");
                 return;
             }
+            if (root.getAttribute("hasfolder").equals(Boolean.toString(Boolean.TRUE))) {
+                project.setProjectFolder(f.getParentFile());
+            }
+            
             /* Files */
             Node files = root.getElementsByTagName("files").item(0);
             if (files == null) {
