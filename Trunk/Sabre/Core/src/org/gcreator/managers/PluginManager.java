@@ -34,6 +34,7 @@ import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.gcreator.core.Core;
+import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.Plugin;
 
 /**
@@ -71,6 +72,7 @@ public final class PluginManager {
             boolean enabled = !(SettingsManager.exists(key) && SettingsManager.get(key).equals(Boolean.FALSE.toString()));
             importPlugin(file, clsloader, enabled);
         }
+        EventManager.fireEvent(null, DefaultEventTypes.PLUGINS_LOADED);
     }
 
     /**

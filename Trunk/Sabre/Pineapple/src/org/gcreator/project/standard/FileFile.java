@@ -19,10 +19,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
-
-
-package org.gcreator.project.io;
+ */
+package org.gcreator.project.standard;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.gcreator.project.io.BasicFile;
 
 /**
  * A implementation of {@link BasicFile} for using
@@ -38,9 +37,9 @@ import java.io.OutputStream;
  * @author Serge Humphrey
  */
 public class FileFile implements BasicFile {
-    
+
     protected File file;
-    
+
     /**
      * Creates a new {@link FileFile} with a given {@link java.io.File}.
      * 
@@ -49,14 +48,14 @@ public class FileFile implements BasicFile {
     public FileFile(File file) {
         this.file = file;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public String getName() {
         return file.getName();
     }
-    
+
     /**
      * {@inheritDoc}
      * 
@@ -70,7 +69,7 @@ public class FileFile implements BasicFile {
     public long getLength() {
         return file.length();
     }
-    
+
     /**
      * {@inheritDoc }
      * @see java.io.File#delete() 
@@ -79,10 +78,10 @@ public class FileFile implements BasicFile {
         if (file.isDirectory()) {
             recursiveDelete(file);
         }
-        
+
         return file.delete();
     }
-    
+
     private void recursiveDelete(File f) {
         if (f.exists()) {
             return;
@@ -95,14 +94,14 @@ public class FileFile implements BasicFile {
             }
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public InputStream getInputStream() throws IOException {
         return new FileInputStream(file);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -125,7 +124,7 @@ public class FileFile implements BasicFile {
         if (ffiles == null) {
             return null;
         }
-        
+
         FileFile[] files = new FileFile[ffiles.length];
         int i = 0;
         for (File f : ffiles) {
@@ -133,19 +132,19 @@ public class FileFile implements BasicFile {
         }
         return files;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public boolean exists() {
         return file.exists();
     }
-    
+
     /**
      * {@inheritDoc}
      */
-    public void rename(String newName) throws IOException{
-        if(!file.renameTo(new File(newName))){
+    public void rename(String newName) throws IOException {
+        if (!file.renameTo(new File(newName))) {
             throw new IOException("Renaming failed");
         }
     }

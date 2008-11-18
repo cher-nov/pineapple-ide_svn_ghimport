@@ -19,7 +19,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 package org.gcreator.project;
 
 import java.io.File;
@@ -38,7 +38,7 @@ import org.gcreator.project.io.ProjectManager;
 public abstract class Project {
 
     protected File projectFolder;
-    
+
     /**
      * Gets all of the files in the form of a {@link java.util.Vector}.
      * 
@@ -52,7 +52,7 @@ public abstract class Project {
      * @param e The file to add.
      */
     public abstract void add(ProjectElement e);
-    
+
     /**
      * Removes a file from the project.
      * 
@@ -60,7 +60,7 @@ public abstract class Project {
      * @return <tt>true</tt> if the element was in the list.
      */
     public abstract boolean remove(ProjectElement e);
-    
+
     /**
      * Returns the {@link ProjectElement} at index <tt>index</tt>.
      * Same as getFiles().get(index).
@@ -111,20 +111,20 @@ public abstract class Project {
         }
         return e;
     }
-    
+
     /**
      * Gets the manager for this project.
      * @return The {@link ProjectManager} for this project.
      */
     public abstract ProjectManager getManager();
-    
+
     /**
      * Gets the {@link ProjectType} class for this project.
      * 
      * @return The {@link ProjectType} class for this project.
      */
     public abstract ProjectType getProjectType();
-    
+
     /**
      * Gets the folder that this project stores all
      * of its junk in. This may return <tt>null</tt> if
@@ -137,7 +137,7 @@ public abstract class Project {
     public File getProjectFolder() {
         return projectFolder;
     }
-    
+
     /**
      * Sets the folder that this project can use for
      * storing data in.
@@ -149,7 +149,18 @@ public abstract class Project {
     public void setProjectFolder(File f) {
         this.projectFolder = f;
     }
-    
+
+    /**
+     * This allows you to set wether the the user
+     * can save their project.
+     * For example, the user would not need to save
+     * their project if it were something like {@link DefaultProject}
+     * and it updated the project manifest when something was changed.
+     * 
+     * @return Whether the user is allowed to save the project.
+     */
+    public abstract boolean allowsSave();
+
     /**
      * Renames a child file
      * 
@@ -159,7 +170,7 @@ public abstract class Project {
      * @throws java.io.IOException If there is an error with
      *  {@link BasicFile#rename(java.lang.String) }
      */
-    public void rename(BasicFile f, String newName) throws IOException{
+    public void rename(BasicFile f, String newName) throws IOException {
         f.rename(newName);
     }
 }

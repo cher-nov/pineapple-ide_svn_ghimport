@@ -41,4 +41,5 @@ public final class DefaultEventTypes {
     public static final String WINDOW_CREATED = "window-created";
     public static final String WINDOW_DISPOSED = "window-disposed";
     public static final String ALL = "all";
+    public static final String PLUGINS_LOADED = "plugins-loaded";
 }

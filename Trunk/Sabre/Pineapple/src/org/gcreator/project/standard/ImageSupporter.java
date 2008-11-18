@@ -22,50 +22,49 @@ THE SOFTWARE.
 */
 
 
-package org.gcreator.project;
+package org.gcreator.project.standard;
 
-import java.io.File;
+import javax.imageio.ImageIO;
+import org.gcreator.editors.ImagePreviewer;
+import org.gcreator.gui.DocumentPane;
+import org.gcreator.pineapple.PineapplePlugin;
+import org.gcreator.plugins.Event;
+import org.gcreator.project.io.BasicFile;
+import org.gcreator.project.io.FormatSupporter;
 
 /**
- * Provides information about a type of {@link Project}.
+ * Allows you to load images in Pineapple
+ * using {@link javax.imageio.ImageIO}.
  * 
  * @author Serge Humphrey
  */
-public interface ProjectType {
+public class ImageSupporter implements FormatSupporter {
     
-    /**
-     * Creates a new project, of a certain type.
-     * 
-     * @return A new {@link Project} implementation.
-     */
-    public Project create();
-    
-    /**
-     * Creates and loads a new project from a given file.
-     * 
-     * @param f The {@link File} to load.
-     * @return A new {@link Project} implementation.
-     */
-    public Project create(File f);
-    
-    /**
-     * Gets the file formats that this {@link ProjectManager} can save/load.
-     * 
-     * @return An array of strings for each of the
-     * file formats this {@link ProjectManager} can save/load.
-     * 
-     * @see #getImportFileTypes() 
-     * @see #getExportFileTypes() 
-     */
-    public String[] getProjectFileTypes();
-    
-    /**
-     * @return A human-readable name project type.
-     */
-    public String getName();
-    
-    /**
-     * @return A human-readable description of this project type.
-     */
-    public String getDescription();
+    public String[] getFormats() {
+        return ImageIO.getReaderFileSuffixes();
+    }
+
+    public DocumentPane load(BasicFile f) {
+        return new ImagePreviewer(f);
+    }
+
+    public void handleEvent(Event event) {
+        if (event.getEventType().equals(PineapplePlugin.REGISTER_FORMATS)) {
+            PineapplePlugin.addFormatSupporter(this);
+        }
+    }
+
+    public String getName() {
+        return "Java ImageIO Image Loader";
+    }
+
+    public String getDescription() {
+        String s = "Loads images of the following types: ";
+        for (String f : ImageIO.getReaderFormatNames()) {
+            s += f+" ";
+        }
+        s += ".";
+        return s;
+    }
+
 }

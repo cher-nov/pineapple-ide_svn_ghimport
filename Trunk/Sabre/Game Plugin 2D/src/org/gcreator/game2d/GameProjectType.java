@@ -25,10 +25,10 @@ THE SOFTWARE.
 package org.gcreator.game2d;
 
 import java.io.File;
-import org.gcreator.project.DefaultProject;
+import org.gcreator.project.standard.DefaultProject;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectType;
-import org.gcreator.project.io.DefaultProjectManager;
+import org.gcreator.project.standard.DefaultProjectManager;
 
 /**
  * The {@link ProjectType} for {@link DefaultProject}.
@@ -69,43 +69,7 @@ public final class GameProjectType implements ProjectType {
     /**
      * {@inheritDoc}
      */
-    public String[] getImportFileTypes() {
-        return DefaultProjectManager.getImportFileTypes();
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public String[] getExportFileTypes() {
-        return DefaultProjectManager.getExportFileTypes();
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public boolean allowsImport(File f) {
-        return DefaultProjectManager.allowsImport(f);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public boolean allowsExport(File f) {
-        return DefaultProjectManager.allowsExport(f);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     public String[] getProjectFileTypes() {
         return DefaultProjectManager.getProjectFileTypes();
     }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public boolean allowsProject(File f) {
-        return DefaultProjectManager.allowsProject(f);
-    }
-
 }
