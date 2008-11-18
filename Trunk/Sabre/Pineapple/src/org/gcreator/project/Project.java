@@ -36,6 +36,8 @@ import org.gcreator.project.io.ProjectManager;
  */
 public abstract class Project {
 
+    protected File projectFolder;
+    
     /**
      * Gets all of the files in the form of a {@link java.util.Vector}.
      * 
@@ -121,4 +123,29 @@ public abstract class Project {
      * @return The {@link ProjectType} class for this project.
      */
     public abstract ProjectType getProjectType();
+    
+    /**
+     * Gets the folder that this project stores all
+     * of its junk in. This may return <tt>null</tt> if
+     * this has not been set.
+     * 
+     * @return This projects folder for storing stuff in.
+     * 
+     * @see #setProjectFolder(java.io.File) 
+     */
+    public File getProjectFolder() {
+        return projectFolder;
+    }
+    
+    /**
+     * Sets the folder that this project can use for
+     * storing data in.
+     * 
+     * @param f The new folder for storing data in.
+     * 
+     * @see #getProjectFolder() 
+     */
+    public void setProjectFolder(File f) {
+        this.projectFolder = f;
+    }
 }
