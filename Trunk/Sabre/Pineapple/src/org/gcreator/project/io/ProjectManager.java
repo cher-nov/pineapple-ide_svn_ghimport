@@ -72,4 +72,41 @@ public interface ProjectManager {
      * @return This manager's project.
      */
     public Project getProject();
+    
+    /**
+     * Imports some file (such as a ZIP) to the project.
+     * Note that this isn't just called 'import' because
+     * that is a Java keyword.
+     * 
+     * @param f The file to import.
+     * 
+     * @see #getImportFileTypes() 
+     */
+    public void importFile(File f);
+    
+    /**
+     * Exports the project to a {@link java.io.File}.
+     * 
+     * @param f The file to export to.
+     * 
+     * @see #getExportFileTypes() 
+     */
+    public void exportFile(File f);
+    
+    /**
+     * Returns the file types that the manager can import.
+     * This is similar to {@link #getProjectFileTypes()}, however, importing
+     * projects may be done in a different way.
+     * 
+     * @return An array containing all of the file types that this
+     * manager can import.
+     */
+    public String[] getImportFileTypes();
+    
+    /**
+     * Returns a list of file types that the manager can export projects to.
+     * @return An array containing all of the file types that this
+     * manager can export.
+     */
+    public String[] getExportFileTypes();
 }

@@ -63,7 +63,7 @@ public class PineDLPlugin extends Plugin implements FormatSupporter {
      */
     @Override
     public void handleEvent(Event e) {
-        if (e.getEventType().equals(DefaultEventTypes.APPLICATION_INITIALIZED)) {
+        if (e.getEventType().equals(PineapplePlugin.REGISTER_FORMATS)) {
             PineapplePlugin.addFormatSupporter(this);
         }
     }
@@ -73,7 +73,7 @@ public class PineDLPlugin extends Plugin implements FormatSupporter {
      */
     @Override
     public void initialize() {
-        EventManager.addEventHandler(this, DefaultEventTypes.APPLICATION_INITIALIZED);
+        EventManager.addEventHandler(this, PineapplePlugin.REGISTER_FORMATS);
     }
 
     /**

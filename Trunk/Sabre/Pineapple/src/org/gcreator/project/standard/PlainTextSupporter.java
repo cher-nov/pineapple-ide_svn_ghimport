@@ -22,13 +22,15 @@ THE SOFTWARE.
 */
 
 
-package org.gcreator.project.io;
+package org.gcreator.project.standard;
 
 import org.gcreator.editors.TextEditor;
 import org.gcreator.gui.DocumentPane;
 import org.gcreator.pineapple.PineapplePlugin;
 import org.gcreator.plugins.EventHandler;
 import org.gcreator.plugins.Event;
+import org.gcreator.project.io.BasicFile;
+import org.gcreator.project.io.FormatSupporter;
 
 /**
  * This class adds support for plain text documents in Pineapple.

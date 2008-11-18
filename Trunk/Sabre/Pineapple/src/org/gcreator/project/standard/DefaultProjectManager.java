@@ -22,7 +22,7 @@ THE SOFTWARE.
 */
 
 
-package org.gcreator.project.io;
+package org.gcreator.project.standard;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -42,10 +42,11 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.gcreator.project.DefaultProject;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectElement;
 import org.gcreator.project.ProjectFolder;
+import org.gcreator.project.io.BasicFile;
+import org.gcreator.project.io.ProjectManager;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -97,34 +98,9 @@ public class DefaultProjectManager implements ProjectManager {
     }
     
     /**
-     * {@inheritDoc}
+     * Not supported.
      */
     public void save(File f) {
-        
-        /* Verify that the file format is supported. */
-        String format;
-        int i = f.getName().lastIndexOf('.');
-        if (i == -1 || i == f.getName().length()) {
-            format = null;
-        } else {
-            format = f.getName().substring(i+1);
-        }
-        boolean supportedFormat = false;
-        for (String s : PROJECT_TYPES) {
-            if (format.equals(s)) {
-                supportedFormat = true;
-                break;
-            }
-        }
-        if (!supportedFormat) {
-            return;
-        }
-        
-        /* Pineapple Manifest File */
-        if (format.equals("pmf")) {
-           saveToManifest(f);
-        }
-        
     }
     
     /**
@@ -151,10 +127,6 @@ public class DefaultProjectManager implements ProjectManager {
         return PROJECT_TYPES;
     }
 
-    public static boolean allowsProject(File f) {
-        return true;
-    }
-
     public static boolean save(ProjectElement e, Object newContent) {
         if (newContent instanceof String) {
             BufferedOutputStream out = null;
@@ -177,29 +149,33 @@ public class DefaultProjectManager implements ProjectManager {
         }
         return false;
     }
-    
-    public static String[] getImportFileTypes() {
+        
+    /**
+     * {@inheritDoc}
+     */
+    public String[] getImportFileTypes() {
         return null; /* No Importing supported yet. */
     }
-
-    public static String[] getExportFileTypes() {
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String[] getExportFileTypes() {
         return null; /* No Exporting supported yet. */
     }
 
-    public static boolean allowsImport(File f) {
-        return false;
-    }
-
-    public static boolean allowsExport(File f) {
-        return false;
-    }
-
     /**
-     * Saves the file to a manifest.
-     * 
-     * @param f The manifest file to save to.
+     * Saves the project to a manifest.
      */
-    protected void saveToManifest(File f) {
+    protected void saveToManifest() {
+        File f = new File(project.getProjectFolder().getPath() + File.separator + "/project.pmf");
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         DocumentBuilder builder = createDocumentBuilder();
         if (builder == null) {
             System.err.println("Error: can't save projct XML to null builder.");
@@ -357,6 +333,18 @@ public class DefaultProjectManager implements ProjectManager {
 
     public Project getProject() {
         return project;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void importFile(File f) {
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public void exportFile(File f) {
     }
 
 }

@@ -22,47 +22,51 @@ THE SOFTWARE.
 */
 
 
-package org.gcreator.project.io;
+package org.gcreator.project.standard;
 
-import javax.imageio.ImageIO;
-import org.gcreator.editors.ImagePreviewer;
-import org.gcreator.gui.DocumentPane;
-import org.gcreator.pineapple.PineapplePlugin;
-import org.gcreator.plugins.Event;
+import java.io.File;
+import org.gcreator.project.Project;
+import org.gcreator.project.ProjectType;
 
 /**
- * Allows you to load images in Pineapple
- * using {@link javax.imageio.ImageIO}.
+ * The {@link ProjectType} for {@link DefaultProject}.
  * 
  * @author Serge Humphrey
  */
-public class ImageSupporter implements FormatSupporter {
+public final class DefaultProjectType implements ProjectType {
     
-    public String[] getFormats() {
-        return ImageIO.getReaderFileSuffixes();
+    /**
+     * {@inheritDoc}
+     */
+    public Project create() {
+        return new DefaultProject();
     }
-
-    public DocumentPane load(BasicFile f) {
-        return new ImagePreviewer(f);
-    }
-
-    public void handleEvent(Event event) {
-        if (event.getEventType().equals(PineapplePlugin.REGISTER_FORMATS)) {
-            PineapplePlugin.addFormatSupporter(this);
-        }
-    }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     public String getName() {
-        return "Java ImageIO Image Loader";
+        return "Default";
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     public String getDescription() {
-        String s = "Loads images of the following types: ";
-        for (String f : ImageIO.getReaderFormatNames()) {
-            s += f+" ";
-        }
-        s += ".";
-        return s;
+        return "This project type uses the file system for storage.";
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    public Project create(File f) {
+        return new DefaultProjectManager(f).getProject();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String[] getProjectFileTypes() {
+        return DefaultProjectManager.getProjectFileTypes();
+    }
 }

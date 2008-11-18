@@ -22,7 +22,7 @@ THE SOFTWARE.
  */
 package org.gcreator.game2d;
 
-import org.gcreator.project.DefaultProject;
+import org.gcreator.project.standard.DefaultProject;
 
 /**
  * Provides a GameProject.

@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
 
-package org.gcreator.project;
+package org.gcreator.project.standard;
 
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
@@ -29,8 +29,10 @@ import java.util.logging.Logger;
 import org.gcreator.project.io.ProjectManager;
 import java.util.Hashtable;
 import java.util.Vector;
+import org.gcreator.project.Project;
+import org.gcreator.project.ProjectElement;
+import org.gcreator.project.ProjectType;
 import org.gcreator.project.io.BasicFile;
-import org.gcreator.project.io.DefaultProjectManager;
 
 /**
  * A default implementation of {@link Project}.
@@ -41,7 +43,7 @@ public class DefaultProject extends Project {
     
     protected Vector<ProjectElement> files;
     protected Hashtable<String, String> settings;
-    protected ProjectManager manager;
+    protected DefaultProjectManager manager;
     protected ProjectType type;
     
     public DefaultProject() {
@@ -64,8 +66,9 @@ public class DefaultProject extends Project {
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("unchecked")
     public Vector<ProjectElement> getFiles() {
-        return files;
+        return (Vector<ProjectElement>) files.clone();
     }
 
     /**
@@ -88,8 +91,9 @@ public class DefaultProject extends Project {
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("unchecked")
     public Hashtable<String, String> getSettings() {
-        return settings;
+        return (Hashtable<String, String>) settings.clone();
     }
 
     /**
@@ -98,6 +102,7 @@ public class DefaultProject extends Project {
     @Override
     public void add(ProjectElement e) {
         files.add(e);
+        manager.saveToManifest();
     }
 
     /**
@@ -105,7 +110,9 @@ public class DefaultProject extends Project {
      */
     @Override
     public boolean remove(ProjectElement e) {
-        return files.remove(e);
+        boolean b = files.remove(e);
+        manager.saveToManifest();
+        return b;
     }
 
     /**
@@ -122,5 +129,13 @@ public class DefaultProject extends Project {
     @Override
     public ProjectType getProjectType() {
         return type;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean allowsSave() {
+        return false;
     }
 }

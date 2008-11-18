@@ -66,11 +66,11 @@ public final class NewProjectWizard extends javax.swing.JDialog {
             private static final long serialVersionUID = 1;
             
             public int getSize() {
-                return PineapplePlugin.projectTypes.size();
+                return PineapplePlugin.getProjectTypes().size();
             }
 
             public Object getElementAt(int index) {
-                return PineapplePlugin.projectTypes.get(index).getName();
+                return PineapplePlugin.getProjectTypes().get(index).getName();
             }
         });
         
@@ -383,13 +383,14 @@ private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 }//GEN-LAST:event_backButtonActionPerformed
 
 private void projectsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_projectsListValueChanged
-    int i = evt.getFirstIndex();
+    int i = projectsList.getSelectedIndex();
     if (i < 0) {
         nextButton.setEnabled(false);
+        descriptionTextPane.setText(null);
         return;
     }
     nextButton.setEnabled(true);
-    descriptionTextPane.setText(PineapplePlugin.projectTypes.get(i).getDescription());
+    descriptionTextPane.setText(PineapplePlugin.getProjectTypes().get(i).getDescription());
 }//GEN-LAST:event_projectsListValueChanged
 
 private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
@@ -403,7 +404,7 @@ private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         setErrorMessage("Can't create directory " + f);
         return;
     }
-    PineappleGUI.project = PineapplePlugin.projectTypes.get(projectsList.getSelectedIndex()).create();
+    PineappleGUI.project = PineapplePlugin.getProjectTypes().get(projectsList.getSelectedIndex()).create();
     PineappleGUI.project.setProjectFolder(f);
     PineappleGUI.tree.updateUI();
     dispose();
