@@ -26,6 +26,9 @@ public:
 
     virtual void onKeyDown(SDLKey key);
     virtual void onKeyUp(SDLKey key);
+
+    int getWidth() { return width; }
+    int getHeight() { return height; }
 };
 
 #endif
