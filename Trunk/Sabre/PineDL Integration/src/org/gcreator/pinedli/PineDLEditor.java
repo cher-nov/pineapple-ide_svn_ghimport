@@ -58,7 +58,64 @@ public class PineDLEditor extends DocumentPane {
         this.file = file;
         
         editor.restoreDefaultSyntaxHighlightingColorScheme();
-        editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
+        String x;
+        int i = file.getName().lastIndexOf('.');
+        if (i < 0 || i >= file.getName().length()) {
+            x = null;
+        } else {
+            x = file.getName().substring(i + 1);
+        }
+        
+        if (x == null) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("asm")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.ASSEMBLER_X86_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("c")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.C_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("cpp") || x.equalsIgnoreCase("h")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.CPLUSPLUS_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("cs")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.CSHARP_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("f") || x.equalsIgnoreCase("f77") || 
+                x.equalsIgnoreCase("for") || x.equalsIgnoreCase("for") ||
+                x.equalsIgnoreCase("f90") || x.equalsIgnoreCase("pyf")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("groovy") || x.equalsIgnoreCase("groovy")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.GROOVY_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("htm") || x.equalsIgnoreCase("html")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.HTML_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("java")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.JAVA_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("js")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.JAVASCRIPT_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("jsp")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.JSP_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("lua")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.LUA_SYNTAX_STYLE);
+        } else if (file.getName().equalsIgnoreCase("makefile") ||
+                   file.getName().equalsIgnoreCase("gnumakefile") ) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.MAKEFILE_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("pl")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.PERL_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("pdl")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("rb")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.RUBY_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("sas")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.SAS_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("sql")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.SQL_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("tcl")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.TCL_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("sh")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.UNIX_SHELL_SYNTAX_STYLE);
+        } else if (x.equalsIgnoreCase("bat")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.WINDOWS_BATCH_SYNTAX_STYLE);
+        }  else if (x.equalsIgnoreCase("xml")) {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.XML_SYNTAX_STYLE);
+        } else {
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
+        }
         
         if (file.exists()) {
             BufferedInputStream in = null;

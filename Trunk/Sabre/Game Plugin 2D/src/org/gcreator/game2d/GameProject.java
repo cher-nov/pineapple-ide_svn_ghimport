@@ -22,6 +22,7 @@ THE SOFTWARE.
  */
 package org.gcreator.game2d;
 
+import java.io.File;
 import org.gcreator.project.standard.DefaultProject;
 
 /**
@@ -30,9 +31,8 @@ import org.gcreator.project.standard.DefaultProject;
  */
 public class GameProject extends DefaultProject {
 
-    public GameProject() {
-        super();
-
+    public GameProject(File folder) {
+        super(folder);
         this.type = new GameProjectType();
     }
 }

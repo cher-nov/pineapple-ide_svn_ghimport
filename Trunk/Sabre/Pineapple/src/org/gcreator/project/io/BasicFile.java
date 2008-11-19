@@ -120,4 +120,13 @@ public interface BasicFile {
      * @throws java.io.IOException If an errors occurs while renaming the file
      */
     public void rename(String newName) throws IOException;
+    
+    /**
+     * Returns some kind of path to the file.
+     * This should not be used for 
+     * 
+     * @return Some kind of path to the file,
+     * like {@link java.io.File#getPath()} or something similar.
+     */
+    public String getPath();
 }

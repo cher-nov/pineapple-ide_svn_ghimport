@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -248,8 +249,15 @@ public class PineappleGUI implements EventHandler {
 
         manager = new MyDoggyToolWindowManager();
         f.getContentPane().add(manager);
-
-        project = new DefaultProject();
+        
+        File tmp = null;
+        try {
+            tmp = new File(File.createTempFile("prefix", "suffix").getParent() + File.separator + "temp-pine_" + Math.random() * 1000);
+            tmp.mkdirs();
+        } catch (IOException ex) {
+            Logger.getLogger(PineappleGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        project = new DefaultProject(tmp);
 
         //<editor-fold defaultstate="collapsed" desc="Tree Initialization">
         projectNode = new ProjectTreeNode(project);

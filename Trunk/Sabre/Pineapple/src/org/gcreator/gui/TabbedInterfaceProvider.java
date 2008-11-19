@@ -26,7 +26,6 @@ import java.awt.BorderLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.managers.EventManager;
 
 /**
@@ -34,6 +33,8 @@ import org.gcreator.managers.EventManager;
  * @author Luís Reis
  */
 public class TabbedInterfaceProvider extends DocumentInterfaceProvider {
+    
+    private static final long serialVersionUID = 1L;
 
     /**
      * The underlying JTabbedPane.
@@ -123,7 +124,7 @@ public class TabbedInterfaceProvider extends DocumentInterfaceProvider {
     public void remove(DocumentPane pane) {
         tabs.remove(pane);
         if (pane != null) {
-        //Eventually should fire event
+            //Eventually should fire event
         }
     }
 

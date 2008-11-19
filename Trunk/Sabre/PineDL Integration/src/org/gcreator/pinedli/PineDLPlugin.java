@@ -55,7 +55,10 @@ public class PineDLPlugin extends Plugin implements FormatSupporter {
     @Override
     public String getDescription() {
         return "PineDL Integration adds several PineDL edition tools to " +
-                "Pineapple, including syntax highlighting";
+                "Pineapple, including syntax highlighting in " +
+                "Assembler (X86), C, C++, CSS, C#, Fortran, Groovy, HTML, " +
+                "Java, JavaScript, JSP, Lua, Make, Perl, PineDL, Ruby, SAS, " +
+                "SQL, Tcl, UNIX shell scripts, Windows batch, and XML files";
     }
 
     /**
