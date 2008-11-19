@@ -14,8 +14,12 @@ private:
 public:
     Texture(const std::string file, int originx = 0, int originy = 0);
     ~Texture();
+
     int getWidth() { return width; }
     int getHeight() { return height; }
+    int getOriginX() { return originx; }
+    int getOriginY() { return originy; }
+
     void draw(float x, float y, float angle = 0);
 };
 

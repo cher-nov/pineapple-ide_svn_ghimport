@@ -6,13 +6,18 @@ using namespace Pineapple;
 class Ship : public Actor
 {
 public:
-    Ship(int x, int y, Texture* t)
+    Ship(int x, int y)
     {
         this->x = x;
         this->y = y;
-        this->t = t;
+        this->t = new Texture("test.png", 16, 16);
 
         this->friction = 1;
+    }
+
+    ~Ship()
+    {
+        delete this->t;
     }
 
     void update()
@@ -30,6 +35,16 @@ public:
             direction -= 4;
 
         angle = direction;
+
+        if (x > Application::getScene()->getWidth() + t->getOriginX())
+            x = -(t->getOriginX());
+        if (x < -(t->getOriginX()))
+            x = Application::getScene()->getWidth() + t->getOriginX();
+
+        if (y > Application::getScene()->getHeight() + t->getOriginY())
+            y = -(t->getOriginY());
+        if (y < -(t->getOriginY()))
+            y = Application::getScene()->getHeight() + t->getOriginY();
     }
 };
 
@@ -38,7 +53,9 @@ class TestScene : public Scene
 public:
     TestScene()
     {
-        addActor(new Ship(50, 50, new Texture("test.png", 16, 16)));
+        addActor(new Ship(50, 50));
+        width = 640;
+        height = 480;
     }
 };
 
