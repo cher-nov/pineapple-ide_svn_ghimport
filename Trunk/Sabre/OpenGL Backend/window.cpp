@@ -7,7 +7,7 @@ int Window::width;
 int Window::height;
 bool Window::fullscreen = false;
 bool Window::resizable = false;
-char* Window::caption;
+std::string Window::caption;
 
 //
 //save window size and reset the window
@@ -32,11 +32,9 @@ void Window::setFullscreen(bool fullscreen)
 //
 //set the caption and update the window
 //
-void Window::setCaption(const char* title)
+void Window::setCaption(const std::string title)
 {
-    caption = new char[strlen(title)];
-    strcpy(caption, title);
-    SDL_WM_SetCaption(caption, NULL);
+    SDL_WM_SetCaption(title.c_str(), NULL);
 }
 
 //

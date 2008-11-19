@@ -12,7 +12,7 @@ private:
     int originy;
     GLuint textureid;
 public:
-    Texture(const char* file, int originx = 0, int originy = 0);
+    Texture(const std::string file, int originx = 0, int originy = 0);
     ~Texture();
     int getWidth() { return width; }
     int getHeight() { return height; }

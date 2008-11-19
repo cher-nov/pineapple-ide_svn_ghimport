@@ -7,7 +7,7 @@ class Pineapple::Window
 {
     static int width;
     static int height;
-    static char* caption;
+    static std::string caption;
     static bool fullscreen;
     static bool resizable;
 
@@ -15,7 +15,7 @@ class Pineapple::Window
 public:
     static void setSize(int width, int height, bool fullscreen = false);
     static void setFullscreen(bool fullscreen);
-    static void setCaption(const char* title);
+    static void setCaption(const std::string title);
     static void setResizable(bool resizable);
 
     static int getWidth() { return width; }
