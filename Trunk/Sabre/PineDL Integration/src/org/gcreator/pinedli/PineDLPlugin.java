@@ -23,7 +23,6 @@ package org.gcreator.pinedli;
 import org.gcreator.gui.DocumentPane;
 import org.gcreator.managers.EventManager;
 import org.gcreator.pineapple.PineapplePlugin;
-import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.Event;
 import org.gcreator.plugins.Plugin;
 import org.gcreator.project.io.BasicFile;
@@ -38,7 +37,29 @@ public class PineDLPlugin extends Plugin implements FormatSupporter {
 
     private final String[] FORMATS = {
         "pdl",
-        "pinedl",
+        "asm",
+        "c",
+        "cpp",
+        "h",
+        "cs",
+        "f", "f77", "for", "f90",
+        "pyf",
+        "groovy",
+        "htm", "html",
+        "java",
+        "js",
+        "jsp",
+        "lua",
+        "?.*",
+        "pl",
+        "pdl",
+        "rb",
+        "sas",
+        "sql",
+        "tcl",
+        "sh",
+        "bat",
+        "xml",
     };
 
     /**

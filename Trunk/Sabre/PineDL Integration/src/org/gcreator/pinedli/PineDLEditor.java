@@ -67,7 +67,7 @@ public class PineDLEditor extends DocumentPane {
         }
         
         if (x == null) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.NO_SYNTAX_STYLE);
         } else if (x.equalsIgnoreCase("asm")) {
             editor.setSyntaxEditingStyle(RSyntaxTextArea.ASSEMBLER_X86_SYNTAX_STYLE);
         } else if (x.equalsIgnoreCase("c")) {
@@ -114,7 +114,7 @@ public class PineDLEditor extends DocumentPane {
         }  else if (x.equalsIgnoreCase("xml")) {
             editor.setSyntaxEditingStyle(RSyntaxTextArea.XML_SYNTAX_STYLE);
         } else {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.NO_SYNTAX_STYLE);
         }
         
         if (file.exists()) {
