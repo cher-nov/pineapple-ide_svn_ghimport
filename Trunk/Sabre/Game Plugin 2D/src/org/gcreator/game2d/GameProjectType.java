@@ -62,8 +62,8 @@ public final class GameProjectType implements ProjectType {
     /**
      * {@inheritDoc}
      */
-    public Project load(File f) {
-        return new DefaultProjectManager(f).getProject();
+    public Project load(File f, File folder) {
+        return new DefaultProjectManager(f, folder).getProject();
     }
     
     /**
