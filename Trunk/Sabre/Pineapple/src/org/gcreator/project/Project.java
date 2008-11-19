@@ -101,7 +101,7 @@ public abstract class Project {
      */
     public ProjectElement createElement(BasicFile f) throws FileNotFoundException {
         if (!f.exists()) {
-            throw new FileNotFoundException("File '" + f + "' does not exist.");
+            throw new FileNotFoundException("File '" + f.getPath() + "' does not exist.");
         }
         ProjectElement e;
         if (f.isDirectory()) {

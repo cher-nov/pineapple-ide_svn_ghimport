@@ -23,16 +23,13 @@ THE SOFTWARE.
 
 package org.gcreator.project.standard;
 
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.File;
 import org.gcreator.project.io.ProjectManager;
 import java.util.Hashtable;
 import java.util.Vector;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectElement;
 import org.gcreator.project.ProjectType;
-import org.gcreator.project.io.BasicFile;
 
 /**
  * A default implementation of {@link Project}.
@@ -46,20 +43,17 @@ public class DefaultProject extends Project {
     protected DefaultProjectManager manager;
     protected ProjectType type;
     
-    public DefaultProject() {
+    /**
+     * Creates a new {@link DefaultProject}.
+     * 
+     * @param folder The folder to use as the project folder.
+     */
+    public DefaultProject(File folder) {
+        this.projectFolder = folder;
         this.files = new Vector<ProjectElement>();
         this.settings = new Hashtable<String, String>();
         this.manager = new DefaultProjectManager(this);
         this.type = new DefaultProjectType();
-    }
-
-    public DefaultProject(BasicFile f) {
-        this();
-        try {
-            this.files.add(createElement(f));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DefaultProject.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**

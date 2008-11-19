@@ -40,8 +40,8 @@ public final class GameProjectType implements ProjectType {
     /**
      * {@inheritDoc}
      */
-    public Project create() {
-        return new GameProject();
+    public Project create(File folder) {
+        return new GameProject(folder);
     }
     
     /**
@@ -62,7 +62,7 @@ public final class GameProjectType implements ProjectType {
     /**
      * {@inheritDoc}
      */
-    public Project create(File f) {
+    public Project load(File f) {
         return new DefaultProjectManager(f).getProject();
     }
     

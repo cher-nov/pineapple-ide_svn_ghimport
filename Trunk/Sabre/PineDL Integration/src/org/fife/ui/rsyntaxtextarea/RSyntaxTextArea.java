@@ -76,6 +76,7 @@ import org.fife.ui.rtextarea.RTextAreaUI;
  *    <li>Lua
  *    <li>Make
  *    <li>Perl
+ *    <li>PineDL
  *    <li>Ruby
  *    <li>SAS
  *    <li>SQL

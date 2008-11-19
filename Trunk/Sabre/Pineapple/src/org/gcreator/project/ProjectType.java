@@ -36,17 +36,19 @@ public interface ProjectType {
     /**
      * Creates a new project, of a certain type.
      * 
+     * @param folder The folder for the project.
      * @return A new {@link Project} implementation.
      */
-    public Project create();
+    public Project create(File folder);
     
     /**
      * Creates and loads a new project from a given file.
      * 
      * @param f The {@link File} to load.
+     * @param folder The folder for the project.
      * @return A new {@link Project} implementation.
      */
-    public Project create(File f);
+    public Project load(File f, File folder);
     
     /**
      * Gets the file formats that this {@link ProjectManager} can save/load.

@@ -88,13 +88,14 @@ public class DefaultProjectManager implements ProjectManager {
      * Creates a new manger, and loads the project from a file.
      * 
      * @param f The {@link java.io.File} to load.
+     * @param folder The folder for the project.
      * @throws NullPointerException If the given project is <tt>null</tt>.
      */
-    public DefaultProjectManager(File f) throws NullPointerException {
+    public DefaultProjectManager(File f, File folder) throws NullPointerException {
         if (f == null) {
             throw new NullPointerException("File may not be null.");
         }
-        this.project = load(f);
+        this.project = load(f, folder);
     }
     
     /**
@@ -106,8 +107,8 @@ public class DefaultProjectManager implements ProjectManager {
     /**
      * {@inheritDoc}
      */
-    public DefaultProject load(File f) {
-        DefaultProject p = new DefaultProject();
+    public DefaultProject load(File f, File folder) {
+        DefaultProject p = new DefaultProject(folder);
         String format;
         int i = f.getName().lastIndexOf('.');
         if (i == -1 || i == f.getName().length()) {
@@ -125,29 +126,6 @@ public class DefaultProjectManager implements ProjectManager {
 
     public static String[] getProjectFileTypes() {
         return PROJECT_TYPES;
-    }
-
-    public static boolean save(ProjectElement e, Object newContent) {
-        if (newContent instanceof String) {
-            BufferedOutputStream out = null;
-            try {
-                String s = newContent.toString();
-                out = new BufferedOutputStream(e.getFile().getOutputStream());
-                out.write(s.getBytes());
-                return true;
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                try {
-                    out.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-        return false;
     }
         
     /**
@@ -241,7 +219,7 @@ public class DefaultProjectManager implements ProjectManager {
 
     private void recursiveSave(ProjectElement p, Element e, Document doc) {
         Element elem = doc.createElement("file");
-        elem.setAttribute("path", p.getFile().toString());
+        elem.setAttribute("path", p.getFile().getPath());
 
         if (p instanceof ProjectFolder) {
             for (ProjectElement pe : ((ProjectFolder) p).getChildren()) {

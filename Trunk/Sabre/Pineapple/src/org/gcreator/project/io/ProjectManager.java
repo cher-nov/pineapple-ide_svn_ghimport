@@ -51,12 +51,13 @@ public interface ProjectManager {
      * Creates a new {@link Project} from a {@link java.io.File}.
      * 
      * @param f The {@link java.io.File} to be loaded.
+     * @param folder The folder dor the project.
      * @return A new {@link Project} created from the given {@link java.io.File}.
      * 
      * @see #getProjectFileTypes() 
      * @see #allowsProject(java.io.File) 
      */
-    public Project load(File f);
+    public Project load(File f, File folder);
     
     /**
      * Creates a {@link Basicfile} implementation for a
