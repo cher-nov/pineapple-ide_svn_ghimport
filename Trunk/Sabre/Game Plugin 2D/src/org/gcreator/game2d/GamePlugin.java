@@ -23,7 +23,7 @@ THE SOFTWARE.
 package org.gcreator.game2d;
 
 import org.gcreator.managers.EventManager;
-import org.gcreator.pineapple.PineapplePlugin;
+import org.gcreator.pineapple.PineappleCore;
 import org.gcreator.plugins.Event;
 import org.gcreator.plugins.Plugin;
 
@@ -46,8 +46,8 @@ public class GamePlugin extends Plugin {
 
     @Override
     public void handleEvent(Event e) {
-        if (e.getEventType().equals(PineapplePlugin.REGISTER_PROJECT_TYPES)) {
-            PineapplePlugin.addProjectType(new GameProjectType());
+        if (e.getEventType().equals(PineappleCore.REGISTER_PROJECT_TYPES)) {
+            PineappleCore.addProjectType(new GameProjectType());
         }
     }
 
@@ -57,7 +57,7 @@ public class GamePlugin extends Plugin {
      */
     @Override
     public void initialize() {
-        EventManager.addEventHandler(this, PineapplePlugin.REGISTER_PROJECT_TYPES);
+        EventManager.addEventHandler(this, PineappleCore.REGISTER_PROJECT_TYPES);
     }
 
     @Override

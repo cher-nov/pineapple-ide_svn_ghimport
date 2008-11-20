@@ -29,6 +29,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.io.ProjectManager;
+import org.gcreator.tree.ProjectTreeNode;
 
 /**
  * A basic foundation for projects.
@@ -173,4 +174,9 @@ public abstract class Project {
     public void rename(BasicFile f, String newName) throws IOException {
         f.rename(newName);
     }
+    
+    /**
+     * @return The {@link ProjectTreeNode} for the project.
+     */
+    public abstract ProjectTreeNode getTreeNode();
 }

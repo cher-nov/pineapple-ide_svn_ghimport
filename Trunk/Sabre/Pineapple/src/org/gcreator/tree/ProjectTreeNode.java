@@ -19,9 +19,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
-
-
+ */
 package org.gcreator.tree;
 
 import java.util.Enumeration;
@@ -29,15 +27,15 @@ import javax.swing.tree.TreeNode;
 import org.gcreator.project.Project;
 
 /**
- * The tree node for the project
+ * The tree node for the project.
  * 
  * @author Serge Humphrey
  */
-public class ProjectTreeNode implements TreeNode {
-    
+public final class ProjectTreeNode implements TreeNode {
+
     private static final long serialVersionUID = 1;
     private Project project;
-    
+
     /**
      * Creates a new {@link ProjectTreeNode}.
      * 
@@ -87,7 +85,7 @@ public class ProjectTreeNode implements TreeNode {
      */
     @Override
     public int getIndex(TreeNode node) {
-        return project.getFiles().indexOf(((BaseTreeNode)node).getElement());
+        return project.getFiles().indexOf(((BaseTreeNode) node).getElement());
     }
 
     /**
@@ -115,7 +113,9 @@ public class ProjectTreeNode implements TreeNode {
     @Override
     public Enumeration children() {
         return new Enumeration() {
+
             private int index = 0;
+
             public boolean hasMoreElements() {
                 return index < project.getFileCount();
             }
@@ -125,7 +125,7 @@ public class ProjectTreeNode implements TreeNode {
             }
         };
     }
-    
+
     /**
      * Gets the {@link Project} that this node belongs to.
      * 
@@ -133,14 +133,5 @@ public class ProjectTreeNode implements TreeNode {
      */
     public Project getProject() {
         return project;
-    }
-    
-    /**
-     * Sets the {@link project} that this node belongs to.
-     * 
-     * @see #getProject()
-     */
-    public void setProject(Project project){
-        this.project = project;
     }
 }
