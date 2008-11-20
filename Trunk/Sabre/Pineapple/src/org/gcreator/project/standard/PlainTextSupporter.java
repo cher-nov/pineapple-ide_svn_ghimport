@@ -26,7 +26,7 @@ package org.gcreator.project.standard;
 
 import org.gcreator.editors.TextEditor;
 import org.gcreator.gui.DocumentPane;
-import org.gcreator.pineapple.PineapplePlugin;
+import org.gcreator.pineapple.PineappleCore;
 import org.gcreator.plugins.EventHandler;
 import org.gcreator.plugins.Event;
 import org.gcreator.project.io.BasicFile;
@@ -55,8 +55,8 @@ public class PlainTextSupporter implements FormatSupporter, EventHandler {
     }
 
     public void handleEvent(Event event) {
-        if (event.getEventType().equals(PineapplePlugin.REGISTER_FORMATS)) {
-            PineapplePlugin.addFormatSupporter(this);
+        if (event.getEventType().equals(PineappleCore.REGISTER_FORMATS)) {
+            PineappleCore.addFormatSupporter(this);
         }
     }
 

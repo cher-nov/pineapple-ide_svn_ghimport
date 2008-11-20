@@ -22,7 +22,7 @@ package org.gcreator.pinedli;
 
 import org.gcreator.gui.DocumentPane;
 import org.gcreator.managers.EventManager;
-import org.gcreator.pineapple.PineapplePlugin;
+import org.gcreator.pineapple.PineappleCore;
 import org.gcreator.plugins.Event;
 import org.gcreator.plugins.Plugin;
 import org.gcreator.project.io.BasicFile;
@@ -87,8 +87,8 @@ public class PineDLPlugin extends Plugin implements FormatSupporter {
      */
     @Override
     public void handleEvent(Event e) {
-        if (e.getEventType().equals(PineapplePlugin.REGISTER_FORMATS)) {
-            PineapplePlugin.addFormatSupporter(this);
+        if (e.getEventType().equals(PineappleCore.REGISTER_FORMATS)) {
+            PineappleCore.addFormatSupporter(this);
         }
     }
 
@@ -97,7 +97,7 @@ public class PineDLPlugin extends Plugin implements FormatSupporter {
      */
     @Override
     public void initialize() {
-        EventManager.addEventHandler(this, PineapplePlugin.REGISTER_FORMATS);
+        EventManager.addEventHandler(this, PineappleCore.REGISTER_FORMATS);
     }
 
     /**

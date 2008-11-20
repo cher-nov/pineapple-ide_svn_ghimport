@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import org.gcreator.gui.PineappleGUI;
+import org.gcreator.pineapple.PineappleCore;
 import org.gcreator.project.io.BasicFile;
 
 /**
@@ -148,8 +149,8 @@ public class FileFile implements BasicFile {
         if (!file.renameTo(new File(newName))) {
             throw new IOException("Renaming failed");
         }
-        if (PineappleGUI.project.getManager() instanceof DefaultProjectManager) {
-            ((DefaultProjectManager)PineappleGUI.project.getManager()).saveToManifest();
+        if (PineappleCore.getProject().getManager() instanceof DefaultProjectManager) {
+            ((DefaultProjectManager)PineappleCore.getProject().getManager()).saveToManifest();
         }
     }
     

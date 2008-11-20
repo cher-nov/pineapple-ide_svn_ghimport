@@ -22,18 +22,9 @@ THE SOFTWARE.
  */
 package org.gcreator.pineapple;
 
-import java.util.Vector;
-import org.gcreator.gui.PineappleGUI;
 import org.gcreator.managers.EventManager;
 import org.gcreator.plugins.DefaultEventTypes;
-import org.gcreator.plugins.EventPriority;
-import org.gcreator.plugins.Event;
 import org.gcreator.plugins.Plugin;
-import org.gcreator.project.standard.DefaultProjectType;
-import org.gcreator.project.ProjectType;
-import org.gcreator.project.io.FormatSupporter;
-import org.gcreator.project.standard.ImageSupporter;
-import org.gcreator.project.standard.PlainTextSupporter;
 
 /**
  * The Plugin class for Pineapple.
@@ -42,32 +33,6 @@ import org.gcreator.project.standard.PlainTextSupporter;
  */
 public final class PineapplePlugin extends Plugin {
 
-    /**
-     * The {@link PineappleGUI} object.
-     */
-    private static PineappleGUI gui;
-    /**
-     * The format supporters.
-     */
-    private static Vector<FormatSupporter> formats;
-    /**
-     * The project types.
-     */
-    private static Vector<ProjectType> projectTypes;
-    /**
-     * Event called to add format supporters to
-     * the PineapplePlugin's list.
-     * 
-     * @see #addFormatSupporter(FormatSupporter) 
-     */
-    public static final String REGISTER_FORMATS = "register-formats";
-    /**
-     * Event called to add project types to
-     * the PineapplePlugin's list.
-     * 
-     * @see #addProjectType(ProjectType) 
-     */
-    public static final String REGISTER_PROJECT_TYPES = "register-managers";
     /**
      * Gives static access to the plugin's name.
      */
@@ -96,57 +61,9 @@ public final class PineapplePlugin extends Plugin {
     @Override
     public void initialize() {
         try {
-            EventManager.addEventHandler(this, REGISTER_FORMATS, EventPriority.MEDIUM);
-            EventManager.addEventHandler(this, REGISTER_PROJECT_TYPES, EventPriority.MEDIUM);
-            EventManager.addEventHandler(this, DefaultEventTypes.PLUGINS_LOADED);
-
-            gui = new PineappleGUI();
+            PineappleCore.intialize();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * Adds a {@link FormatSupporter} to the list of available
-     * format supporters.
-     * 
-     * @param s The {@link FormatSupporter} to add.
-     */
-    public static void addFormatSupporter(FormatSupporter s) {
-        formats.add(s);
-    }
-
-    /**
-     * Adds a {@link ProjectType} to the list of available
-     * project types.
-     * 
-     * @param t The {@link ProjectType} to add.
-     */
-    public static void addProjectType(ProjectType t) {
-        projectTypes.add(t);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void handleEvent(Event event) {
-        if (event.getEventType().equals(DefaultEventTypes.PLUGINS_LOADED)) {
-            
-            PineapplePlugin.formats = new Vector<FormatSupporter>(4);
-            EventManager.fireEvent(this, PineapplePlugin.REGISTER_FORMATS);
-            PineapplePlugin.projectTypes = new Vector<ProjectType>(2);
-            EventManager.fireEvent(this, PineapplePlugin.REGISTER_PROJECT_TYPES);
-            
-        } else if (event.getEventType().equals(REGISTER_FORMATS)) {
-            
-            PineapplePlugin.addFormatSupporter(new PlainTextSupporter());
-            PineapplePlugin.addFormatSupporter(new ImageSupporter());
-            
-        } else if (event.getEventType().equals(REGISTER_PROJECT_TYPES)) {
-            
-            PineapplePlugin.addProjectType(new DefaultProjectType());
-            
         }
     }
 
@@ -155,28 +72,5 @@ public final class PineapplePlugin extends Plugin {
      */
     public String getAuthor() {
         return "Serge Humphrey, Luís Reis";
-    }
-    
-    /**
-     * @return The {@link PineappleGUI} instance.
-     */
-    public static PineappleGUI getGUI() {
-        return gui;
-    }
-    
-    /**
-     * @return A list of the available project types.
-     */
-    @SuppressWarnings("unchecked")
-    public static Vector<ProjectType> getProjectTypes() {
-        return (Vector<ProjectType>) projectTypes.clone();
-    }
-    
-    /**
-     * @return A list of the available format supporters.
-     */
-    @SuppressWarnings("unchecked")
-    public static Vector<FormatSupporter> getFormatSupporters() {
-        return (Vector<FormatSupporter>) formats.clone();
     }
 }

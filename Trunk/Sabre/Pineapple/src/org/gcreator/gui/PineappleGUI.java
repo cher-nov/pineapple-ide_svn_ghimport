@@ -35,7 +35,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,20 +64,18 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import org.gcreator.core.Core;
 import org.gcreator.managers.SettingsManager;
-import org.gcreator.pineapple.PineapplePlugin;
-import org.gcreator.tree.ProjectTreeNode;
-import org.gcreator.project.Project;
 import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.EventHandler;
 import org.gcreator.managers.EventManager;
-import org.gcreator.plugins.EventPriority;
+import org.gcreator.pineapple.PineappleCore;
 import org.gcreator.plugins.Event;
+import org.gcreator.plugins.EventPriority;
 import org.gcreator.project.ProjectElement;
-import org.gcreator.project.standard.DefaultProject;
 import org.gcreator.project.ProjectFile;
 import org.gcreator.project.ProjectFolder;
 import org.gcreator.project.ProjectType;
@@ -102,10 +99,6 @@ public class PineappleGUI implements EventHandler {
      * The project tree
      */
     public static JTree tree;
-    /**
-     * The root node of {@link #tree}
-     */
-    public static ProjectTreeNode projectNode;
     /**
      * The menubar of the application
      */
@@ -152,10 +145,8 @@ public class PineappleGUI implements EventHandler {
      * Allows docking
      */
     public static MyDoggyToolWindowManager manager;
-    /**
-     * The current project
-     */
-    public static Project project = null;
+    
+    private DefaultTreeModel treeModel;
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Events">
     /**
@@ -163,7 +154,7 @@ public class PineappleGUI implements EventHandler {
      */
     public static final String FILE_DELETED = "file-deleted";
     /**
-     * Event when a file is removed from the project.
+     * Event when a file is removed from the PineappleCore.getProject().
      */
     public static final String FILE_REMOVED = "file-removed";
     /**
@@ -232,7 +223,9 @@ public class PineappleGUI implements EventHandler {
         EventManager.addEventHandler(this, TREE_MENU_INVOKED, EventPriority.HIGH);
         EventManager.addEventHandler(this, PROJECT_OPENED, EventPriority.HIGH);
         EventManager.addEventHandler(this, PROJECT_SAVED, EventPriority.HIGH);
-
+        
+        /* Other Events */
+        EventManager.addEventHandler(this, PineappleCore.PROJECT_CHANGED, EventPriority.HIGH);
     }
     //</editor-fold>
 
@@ -250,18 +243,9 @@ public class PineappleGUI implements EventHandler {
         manager = new MyDoggyToolWindowManager();
         f.getContentPane().add(manager);
         
-        File tmp = null;
-        try {
-            tmp = new File(File.createTempFile("prefix", "suffix").getParent() + File.separator + "temp-pine_" + Math.random() * 1000);
-            tmp.mkdirs();
-        } catch (IOException ex) {
-            Logger.getLogger(PineappleGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        project = new DefaultProject(tmp);
-
         //<editor-fold defaultstate="collapsed" desc="Tree Initialization">
-        projectNode = new ProjectTreeNode(project);
-        tree = new JTree(projectNode);
+        treeModel = new DefaultTreeModel(null);
+        tree = new JTree(treeModel);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         tree.setVisible(true);
         tree.setCellRenderer(new ProjectTreeRenderer());
@@ -269,7 +253,11 @@ public class PineappleGUI implements EventHandler {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                final Object o = tree.getPathForRow(tree.getClosestRowForLocation(e.getX(), e.getY())).getLastPathComponent();
+                TreePath trp = tree.getPathForRow(tree.getClosestRowForLocation(e.getX(), e.getY()));
+                if (trp == null) {
+                    return;
+                }
+                Object o = trp.getLastPathComponent();
                 if (o == null) {
                     return;
                 }
@@ -318,7 +306,7 @@ public class PineappleGUI implements EventHandler {
                 }
                 BaseTreeNode node = (BaseTreeNode) o;
 
-                projectRemove.setEnabled(project.getFiles().indexOf(node.getElement()) != -1);
+                projectRemove.setEnabled(PineappleCore.getProject().getFiles().indexOf(node.getElement()) != -1);
                 projectOpen.setEnabled(node instanceof FileTreeNode);
                 projectDelete.setEnabled(true);
             }
@@ -371,7 +359,8 @@ public class PineappleGUI implements EventHandler {
 
             @Override
             public boolean isEnabled() {
-                return project.allowsSave();
+                return PineappleCore.getProject() != null &&
+                       PineappleCore.getProject().allowsSave();
             }
         };
         fileSaveProject.setMnemonic('v');
@@ -458,7 +447,7 @@ public class PineappleGUI implements EventHandler {
 
             public void actionPerformed(ActionEvent evt) {
                 ProjectElement el = ((BaseTreeNode) tree.getSelectionPath().getLastPathComponent()).getElement();
-                project.remove(el);
+                PineappleCore.getProject().remove(el);
                 EventManager.fireEvent(this, FILE_REMOVED, el);
             }
         });
@@ -483,7 +472,10 @@ public class PineappleGUI implements EventHandler {
 
             @Override
             public boolean isEnabled() {
-                String[] s = project.getManager().getImportFileTypes();
+                if (PineappleCore.getProject() == null) {
+                    return false;
+                }
+                String[] s = PineappleCore.getProject().getManager().getImportFileTypes();
                 return (s != null && s.length > 0);
             }
         };
@@ -503,7 +495,10 @@ public class PineappleGUI implements EventHandler {
 
             @Override
             public boolean isEnabled() {
-                String[] s = project.getManager().getExportFileTypes();
+                if (PineappleCore.getProject() == null) {
+                    return false;
+                }
+                String[] s = PineappleCore.getProject().getManager().getExportFileTypes();
                 return (s != null && s.length > 0);
             }
         };
@@ -608,7 +603,7 @@ public class PineappleGUI implements EventHandler {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="handleEvent(NotifyEvent)">
+    //<editor-fold defaultstate="collapsed" desc="handleEvent(Event)">
     /**
      * Handles any provided events
      * @param evt The sent event
@@ -666,6 +661,7 @@ public class PineappleGUI implements EventHandler {
             evt.handleEvent();
             tree.updateUI();
         //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="WINDOW_DISPOSE">
         } else if (evt.getEventType().equals(DefaultEventTypes.WINDOW_DISPOSED)) {
 
             /* Save the MyDoggy settings */
@@ -689,7 +685,7 @@ public class PineappleGUI implements EventHandler {
                     }
                 }
             }
-
+        //</editor-fold>
         } else if (evt.getEventType().equals(PROJECT_OPENED)) {
 
             if (evt.getArguments().length == 0) {
@@ -697,7 +693,7 @@ public class PineappleGUI implements EventHandler {
             }
             File f = (File) evt.getArguments()[0];
             ProjectType t = getProjectType(f);
-            project = t.create(f);
+            PineappleCore.setProject(t.create(f));
             tree.updateUI();
 
         } else if (evt.getEventType().equals(FILE_DELETED)) {
@@ -729,19 +725,19 @@ public class PineappleGUI implements EventHandler {
             }
 
             if (o instanceof BaseTreeNode &&
-                    project.getFiles().indexOf(((BaseTreeNode) o).getElement()) != -1) {
+                    PineappleCore.getProject().getFiles().indexOf(((BaseTreeNode) o).getElement()) != -1) {
                 final BaseTreeNode t = (BaseTreeNode) o;
                 menu.add("Remove").addActionListener(new ActionListener() {
 
                     public void actionPerformed(ActionEvent e) {
-                        project.remove(t.getElement());
+                        PineappleCore.getProject().remove(t.getElement());
                         EventManager.fireEvent(this, FILE_REMOVED, t.getElement());
                     }
                 });
             }
 
             if (o instanceof BaseTreeNode &&
-                    project.getFiles().indexOf(((BaseTreeNode) o).getElement()) != -1) {
+                    PineappleCore.getProject().getFiles().indexOf(((BaseTreeNode) o).getElement()) != -1) {
                 final BaseTreeNode t = (BaseTreeNode) o;
                 menu.add("Rename").addActionListener(new ActionListener() {
 
@@ -753,7 +749,7 @@ public class PineappleGUI implements EventHandler {
                                 JOptionPane.QUESTION_MESSAGE);
                         if (s != null) {
                             try {
-                                project.rename(t.getElement().getFile(), s);
+                                PineappleCore.getProject().rename(t.getElement().getFile(), s);
                             } catch (Exception ex) {
                             }
                         }
@@ -775,7 +771,14 @@ public class PineappleGUI implements EventHandler {
                 return;
             }
             File f = (File) evt.getArguments()[0];
-            project.getManager().save(f);
+            PineappleCore.getProject().getManager().save(f);
+        } else if (evt.getEventType().equals(PineappleCore.PROJECT_CHANGED)) {
+            if (PineappleCore.getProject() == null) {
+                treeModel.setRoot(null);
+            } else {
+                treeModel.setRoot(PineappleCore.getProject().getTreeNode());
+            }
+            tree.updateUI();
         }
     }
     //</editor-fold>
@@ -801,7 +804,7 @@ public class PineappleGUI implements EventHandler {
                 public void run() {
                     String s = f.getName();
                     String format = "<none>";
-                    ProjectFile el = new ProjectFile(f, format, project);
+                    ProjectFile el = new ProjectFile(f, format, PineappleCore.getProject());
                     try {
                         int index = s.lastIndexOf('.') + 1;
                         if (index > 0) {
@@ -824,7 +827,7 @@ public class PineappleGUI implements EventHandler {
      * Opens a project
      */
     public void openProject() {
-        if (project != null) {
+        if (PineappleCore.getProject() != null) {
             closeProject();
         }
 
@@ -869,10 +872,10 @@ public class PineappleGUI implements EventHandler {
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="importFile()">
     /**
-     * Imports a file to the project.
+     * Imports a file to the PineappleCore.getProject().
      */
     public void importFile() {
-        if (project != null) {
+        if (PineappleCore.getProject() != null) {
             closeProject();
         }
 
@@ -880,7 +883,7 @@ public class PineappleGUI implements EventHandler {
         chooser.setMultiSelectionEnabled(false);
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setDialogTitle("Select the file to import");
-        final String[] formats = project.getManager().getImportFileTypes();
+        final String[] formats = PineappleCore.getProject().getManager().getImportFileTypes();
         StringBuilder b = new StringBuilder(formats.length * 4);
         for (String s : formats) {
             b.append(s + " ");
@@ -920,7 +923,7 @@ public class PineappleGUI implements EventHandler {
      * Exports the porject to a file.
      */
     public void exportFile() {
-        if (project != null) {
+        if (PineappleCore.getProject() != null) {
             closeProject();
         }
 
@@ -928,7 +931,7 @@ public class PineappleGUI implements EventHandler {
         chooser.setMultiSelectionEnabled(false);
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setDialogTitle("Select the file to export to");
-        final String[] formats = project.getManager().getExportFileTypes();
+        final String[] formats = PineappleCore.getProject().getManager().getExportFileTypes();
         StringBuilder b = new StringBuilder(formats.length * 4);
         for (String s : formats) {
             b.append(s + " ");
@@ -968,7 +971,7 @@ public class PineappleGUI implements EventHandler {
      * Saves the project
      */
     public void saveProject() {
-        if (project == null) {
+        if (PineappleCore.getProject() == null) {
             return;
         }
 
@@ -976,7 +979,7 @@ public class PineappleGUI implements EventHandler {
         chooser.setMultiSelectionEnabled(false);
         chooser.setAcceptAllFileFilterUsed(false);
         chooser.setDialogTitle("Save Project");
-        final String[] formats = project.getProjectType().getProjectFileTypes();
+        final String[] formats = PineappleCore.getProject().getProjectType().getProjectFileTypes();
         StringBuilder b = new StringBuilder(formats.length * 4);
         for (String s : formats) {
             b.append(s + " ");
@@ -1021,7 +1024,7 @@ public class PineappleGUI implements EventHandler {
      * Closes the current project
      */
     public void closeProject() {
-        project.getFiles().clear();
+        PineappleCore.getProject().getFiles().clear();
         tree.updateUI();
     }
     //</editor-fold>
@@ -1042,7 +1045,7 @@ public class PineappleGUI implements EventHandler {
     /**
      * Opens a file
      * 
-     * @param addFile Wheather to add the file to the project.
+     * @param addFile Wheather to add the file to the PineappleCore.getProject().
      * @param allowFolder Wheather you want to allow the user to choose folders.
      */
     public void openFile(boolean addFile, boolean allowFolder) {
@@ -1085,10 +1088,10 @@ public class PineappleGUI implements EventHandler {
                     JOptionPane.showMessageDialog(Core.getStaticContext().getMainFrame(),
                             "File " + f + "Does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                BasicFile bf = project.getManager().createBasicFileFromFile(f);
+                BasicFile bf = PineappleCore.getProject().getManager().createBasicFileFromFile(f);
                 if (addFile) {
                     BaseTreeNode node = null;
-                    for (ProjectElement e : project.getFiles()) {
+                    for (ProjectElement e : PineappleCore.getProject().getFiles()) {
                         if ((node = hasFile(f, e)) != null) {
                             break;
                         }
@@ -1096,9 +1099,9 @@ public class PineappleGUI implements EventHandler {
 
                     if (node == null) {
                         try {
-                            ProjectElement e = project.createElement(bf);
+                            ProjectElement e = PineappleCore.getProject().createElement(bf);
                             node = e.getTreeNode();
-                            project.add(e);
+                            PineappleCore.getProject().add(e);
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(PineappleGUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -1149,7 +1152,7 @@ public class PineappleGUI implements EventHandler {
         if (JOptionPane.showConfirmDialog(tree,
                 "<html>Are you sure you want to delete this file from your file system?<br/>This will be permanent.</html>") == JOptionPane.YES_OPTION) {
             e.getFile().delete();
-            project.remove(e);
+            PineappleCore.getProject().remove(e);
             EventManager.fireEvent(this, FILE_DELETED, e);
         }
     }
@@ -1177,7 +1180,7 @@ public class PineappleGUI implements EventHandler {
 
         final Vector<FormatSupporter> supporters = new Vector<FormatSupporter>(2);
 
-        for (FormatSupporter fs : PineapplePlugin.getFormatSupporters()) {
+        for (FormatSupporter fs : PineappleCore.getFormatSupporters()) {
             String[] s = fs.getFormats();
             if (s == null) {
                 continue;
@@ -1302,7 +1305,7 @@ public class PineappleGUI implements EventHandler {
 
         final Vector<ProjectType> types = new Vector<ProjectType>(2);
 
-        for (ProjectType pt : PineapplePlugin.getProjectTypes()) {
+        for (ProjectType pt : PineappleCore.getProjectTypes()) {
             String[] s = pt.getProjectFileTypes();
             if (s == null) {
                 continue;
@@ -1407,7 +1410,7 @@ public class PineappleGUI implements EventHandler {
     private String[] getSupportedFileFormats() {
         Vector<String> formats = new Vector<String>(2);
 
-        for (FormatSupporter fs : PineapplePlugin.getFormatSupporters()) {
+        for (FormatSupporter fs : PineappleCore.getFormatSupporters()) {
             String[] s = fs.getFormats();
             if (s == null) {
                 continue;
@@ -1423,7 +1426,7 @@ public class PineappleGUI implements EventHandler {
     private String[] getSupportedProjectFormats() {
         Vector<String> formats = new Vector<String>(2);
 
-        for (ProjectType pt : PineapplePlugin.getProjectTypes()) {
+        for (ProjectType pt : PineappleCore.getProjectTypes()) {
             String[] s = pt.getProjectFileTypes();
             if (s == null) {
                 continue;

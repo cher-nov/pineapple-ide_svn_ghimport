@@ -27,7 +27,7 @@ package org.gcreator.project.standard;
 import javax.imageio.ImageIO;
 import org.gcreator.editors.ImagePreviewer;
 import org.gcreator.gui.DocumentPane;
-import org.gcreator.pineapple.PineapplePlugin;
+import org.gcreator.pineapple.PineappleCore;
 import org.gcreator.plugins.Event;
 import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.io.FormatSupporter;
@@ -49,8 +49,8 @@ public class ImageSupporter implements FormatSupporter {
     }
 
     public void handleEvent(Event event) {
-        if (event.getEventType().equals(PineapplePlugin.REGISTER_FORMATS)) {
-            PineapplePlugin.addFormatSupporter(this);
+        if (event.getEventType().equals(PineappleCore.REGISTER_FORMATS)) {
+            PineappleCore.addFormatSupporter(this);
         }
     }
 

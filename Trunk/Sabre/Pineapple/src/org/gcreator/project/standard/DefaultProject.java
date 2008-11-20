@@ -30,6 +30,7 @@ import java.util.Vector;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectElement;
 import org.gcreator.project.ProjectType;
+import org.gcreator.tree.ProjectTreeNode;
 
 /**
  * A default implementation of {@link Project}.
@@ -42,6 +43,7 @@ public class DefaultProject extends Project {
     protected Hashtable<String, String> settings;
     protected DefaultProjectManager manager;
     protected ProjectType type;
+    protected ProjectTreeNode treeNode;
     
     /**
      * Creates a new {@link DefaultProject}.
@@ -54,6 +56,7 @@ public class DefaultProject extends Project {
         this.settings = new Hashtable<String, String>();
         this.manager = new DefaultProjectManager(this);
         this.type = new DefaultProjectType();
+        this.treeNode = new ProjectTreeNode(this);
     }
 
     /**
@@ -131,5 +134,13 @@ public class DefaultProject extends Project {
     @Override
     public boolean allowsSave() {
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ProjectTreeNode getTreeNode() {
+        return treeNode;
     }
 }
