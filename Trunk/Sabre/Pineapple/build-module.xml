@@ -18,6 +18,7 @@
         <v-copy src="Pineapple/mydoggy-plaf-1.4.2.jar" destdir="Core/dist/Plugins"/>
         <v-copy src="Pineapple/mydoggy-res-1.4.2.jar" destdir="Core/build/Plugins"/>
         <v-copy src="Pineapple/mydoggy-res-1.4.2.jar" destdir="Core/dist/Plugins"/>
-    
+        <v-copy src="Pineapple/activation.jar" destdir="Core/dist/Plugins"/>
+        
     </target>
 </project>

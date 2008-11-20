@@ -145,7 +145,6 @@ public class PineappleGUI implements EventHandler {
      * Allows docking
      */
     public static MyDoggyToolWindowManager manager;
-    
     private DefaultTreeModel treeModel;
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Events">
@@ -180,17 +179,14 @@ public class PineappleGUI implements EventHandler {
      * When a project is saved
      */
     public static final String PROJECT_SAVED = "project-saved";
-    
     /**
      * When a file is imported to the project
      */
     public static final String PROJECT_IMPORTED = "file-project-imported";
-    
     /**
      * When a project is exported to a file
      */
     public static final String PROJECT_EXPORTED = "file-project-exported";
-    
     /**
      * When a popup menu is created on the tree
      */
@@ -223,7 +219,7 @@ public class PineappleGUI implements EventHandler {
         EventManager.addEventHandler(this, TREE_MENU_INVOKED, EventPriority.HIGH);
         EventManager.addEventHandler(this, PROJECT_OPENED, EventPriority.HIGH);
         EventManager.addEventHandler(this, PROJECT_SAVED, EventPriority.HIGH);
-        
+
         /* Other Events */
         EventManager.addEventHandler(this, PineappleCore.PROJECT_CHANGED, EventPriority.HIGH);
     }
@@ -242,7 +238,7 @@ public class PineappleGUI implements EventHandler {
 
         manager = new MyDoggyToolWindowManager();
         f.getContentPane().add(manager);
-        
+
         //<editor-fold defaultstate="collapsed" desc="Tree Initialization">
         treeModel = new DefaultTreeModel(null);
         tree = new JTree(treeModel);
@@ -313,6 +309,7 @@ public class PineappleGUI implements EventHandler {
         });
         tree.setScrollsOnExpand(true);
         tree.setShowsRootHandles(true);
+        tree.setToggleClickCount(3);
         manager.registerToolWindow("Project", "Project", null, new JScrollPane(tree),
                 ToolWindowAnchor.LEFT);
         //</editor-fold>
@@ -360,7 +357,7 @@ public class PineappleGUI implements EventHandler {
             @Override
             public boolean isEnabled() {
                 return PineappleCore.getProject() != null &&
-                       PineappleCore.getProject().allowsSave();
+                        PineappleCore.getProject().allowsSave();
             }
         };
         fileSaveProject.setMnemonic('v');
@@ -428,7 +425,15 @@ public class PineappleGUI implements EventHandler {
         });
         projectMenu.add(projectOpen);
 
-        projectAdd = new JMenuItem("Add File/Folder...");
+        projectAdd = new JMenuItem("Add File/Folder...") {
+
+            private static final long serialVersionUID = 1;
+
+            @Override
+            public boolean isEnabled() {
+                return PineappleCore.getProject() != null;
+            }
+        };
         projectAdd.setMnemonic('A');
         projectAdd.setVisible(true);
         projectAdd.addActionListener(new ActionListener() {
@@ -488,7 +493,7 @@ public class PineappleGUI implements EventHandler {
             }
         });
         projectMenu.add(projectImport);
-        
+
         projectExport = new JMenuItem("Export") {
 
             private static final long serialVersionUID = 1;
@@ -694,7 +699,6 @@ public class PineappleGUI implements EventHandler {
             File f = (File) evt.getArguments()[0];
             ProjectType t = getProjectType(f);
             PineappleCore.setProject(t.create(f));
-            tree.updateUI();
 
         } else if (evt.getEventType().equals(FILE_DELETED)) {
             if (evt.getArguments().length > 0 && evt.getArguments()[0] instanceof ProjectElement) {
@@ -831,43 +835,12 @@ public class PineappleGUI implements EventHandler {
             closeProject();
         }
 
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setDialogTitle("Select the project to open");
-        final String[] formats = getSupportedProjectFormats();
-        StringBuilder b = new StringBuilder(formats.length * 4);
-        for (String s : formats) {
-            b.append(s + " ");
-        }
-        final String desc = b.toString();
-
-        chooser.addChoosableFileFilter(new FileFilter() {
-
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()) {
-                    return true;
-                }
-                for (String s : formats) {
-                    if (f.getName().matches(".+\\." + s)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            public String getDescription() {
-                return desc;
-            }
-        });
-        int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
-        if (res != JFileChooser.CANCEL_OPTION) {
-            EventManager.fireEvent(this, PROJECT_OPENED, chooser.getSelectedFile());
+        File f = showFileChooserSingle(createFileChooser("Select the project to open", getSupportedProjectFormats()));
+        if (f != null) {
+            EventManager.fireEvent(this, PROJECT_OPENED, f);
+            tree.updateUI();
         }
 
-        tree.updateUI();
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="importFile()">
@@ -879,43 +852,12 @@ public class PineappleGUI implements EventHandler {
             closeProject();
         }
 
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setDialogTitle("Select the file to import");
-        final String[] formats = PineappleCore.getProject().getManager().getImportFileTypes();
-        StringBuilder b = new StringBuilder(formats.length * 4);
-        for (String s : formats) {
-            b.append(s + " ");
-        }
-        final String desc = b.toString();
-
-        chooser.addChoosableFileFilter(new FileFilter() {
-
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()) {
-                    return true;
-                }
-                for (String s : formats) {
-                    if (f.getName().matches(".+\\." + s)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            public String getDescription() {
-                return desc;
-            }
-        });
-        int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
-        if (res != JFileChooser.CANCEL_OPTION) {
-            EventManager.fireEvent(this, PROJECT_IMPORTED, chooser.getSelectedFile());
+        File f = showFileChooserSingle(createFileChooser("Select the file to import", PineappleCore.getProject().getManager().getImportFileTypes()));
+        if (f != null && f.exists()) {
+            EventManager.fireEvent(this, PROJECT_IMPORTED, f);
+            tree.updateUI();
         }
 
-        tree.updateUI();
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="exportFile()">
@@ -927,43 +869,11 @@ public class PineappleGUI implements EventHandler {
             closeProject();
         }
 
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setDialogTitle("Select the file to export to");
-        final String[] formats = PineappleCore.getProject().getManager().getExportFileTypes();
-        StringBuilder b = new StringBuilder(formats.length * 4);
-        for (String s : formats) {
-            b.append(s + " ");
+        File f = showFileChooserSingle(createFileChooser("Export...", PineappleCore.getProject().getManager().getExportFileTypes()));
+        if (f != null) {
+            EventManager.fireEvent(this, PROJECT_EXPORTED, f);
+            tree.updateUI();
         }
-        final String desc = b.toString();
-
-        chooser.addChoosableFileFilter(new FileFilter() {
-
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()) {
-                    return true;
-                }
-                for (String s : formats) {
-                    if (f.getName().matches(".+\\." + s)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            public String getDescription() {
-                return desc;
-            }
-        });
-        int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
-        if (res != JFileChooser.CANCEL_OPTION) {
-            EventManager.fireEvent(this, PROJECT_EXPORTED, chooser.getSelectedFile());
-        }
-
-        tree.updateUI();
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="saveProject()">
@@ -974,49 +884,15 @@ public class PineappleGUI implements EventHandler {
         if (PineappleCore.getProject() == null) {
             return;
         }
-
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setAcceptAllFileFilterUsed(false);
-        chooser.setDialogTitle("Save Project");
-        final String[] formats = PineappleCore.getProject().getProjectType().getProjectFileTypes();
-        StringBuilder b = new StringBuilder(formats.length * 4);
-        for (String s : formats) {
-            b.append(s + " ");
-        }
-        final String desc = b.toString();
-
-        chooser.addChoosableFileFilter(new FileFilter() {
-
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()) {
-                    return true;
-                }
-                for (String s : formats) {
-                    if (f.getName().matches(".+\\." + s)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            public String getDescription() {
-                return desc;
-            }
-        });
-
-        int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
-        if (res != JFileChooser.CANCEL_OPTION) {
-            File f = chooser.getSelectedFile();
+        File f = showFileChooserSingle(createFileChooser("Save Project", PineappleCore.getProject().getProjectType().getProjectFileTypes()));
+        if (f != null) {
             if (!f.getName().contains(".")) {
-                f = new File(f.getPath() + formats[0]);
+                System.err.println(f + " no good");
+                return;
             }
             EventManager.fireEvent(this, PROJECT_SAVED, f);
+            tree.updateUI();
         }
-
-        tree.updateUI();
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="closeProject()">
@@ -1049,40 +925,10 @@ public class PineappleGUI implements EventHandler {
      * @param allowFolder Wheather you want to allow the user to choose folders.
      */
     public void openFile(boolean addFile, boolean allowFolder) {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(true);
-        chooser.setDialogTitle("Select files to open");
-        chooser.setAcceptAllFileFilterUsed(false);
-        final String[] formats = getSupportedFileFormats();
-        StringBuilder b = new StringBuilder(formats.length * 4);
-        for (String s : formats) {
-            b.append(s + " ");
-        }
-        final String desc = b.toString();
-
-        chooser.addChoosableFileFilter(new FileFilter() {
-
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()) {
-                    return true;
-                }
-                for (String s : formats) {
-                    if (f.getName().matches(".+\\." + s)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            public String getDescription() {
-                return desc;
-            }
-        });
-        chooser.setFileSelectionMode(((allowFolder) ? JFileChooser.FILES_AND_DIRECTORIES : JFileChooser.FILES_ONLY));
-        if (chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK") != JFileChooser.CANCEL_OPTION) {
-            File[] files = chooser.getSelectedFiles();
+        JFileChooser fc = createFileChooser("Select files to open", getSupportedFileFormats());
+        fc.setFileSelectionMode((allowFolder) ? JFileChooser.FILES_AND_DIRECTORIES : JFileChooser.FILES_ONLY);
+        File files[] = showFileChooserMultiple(fc);
+        if (files != null && files.length > 0) {
             for (File f : files) {
                 if (!f.exists()) {
                     JOptionPane.showMessageDialog(Core.getStaticContext().getMainFrame(),
@@ -1143,6 +989,9 @@ public class PineappleGUI implements EventHandler {
         dialog.setVisible(true);
     }
     //</editor-fold>
+    
+    /* Private methods */
+    
     //<editor-fold defaultstate="collapsed" desc="deleteFile(ProjectElement)">
     /**
      * Deletes a file from the file system
@@ -1234,6 +1083,10 @@ public class PineappleGUI implements EventHandler {
         box.add(cbox);
         box.add(Box.createHorizontalGlue());
         south.add(box);
+
+
+
+
 
         final JButton ok,  cancel;
         ok = new JButton("OK");
@@ -1359,6 +1212,10 @@ public class PineappleGUI implements EventHandler {
         box.add(Box.createHorizontalGlue());
         south.add(box);
 
+
+
+
+
         final JButton ok,  cancel;
         ok = new JButton("OK");
         ok.setEnabled(false);
@@ -1406,22 +1263,6 @@ public class PineappleGUI implements EventHandler {
         return types.get(list.getSelectedIndex());
     }
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="getSupportedFileFormats()">
-    private String[] getSupportedFileFormats() {
-        Vector<String> formats = new Vector<String>(2);
-
-        for (FormatSupporter fs : PineappleCore.getFormatSupporters()) {
-            String[] s = fs.getFormats();
-            if (s == null) {
-                continue;
-            }
-            for (String ff : s) {
-                formats.add(ff);
-            }
-        }
-        return formats.toArray(new String[formats.size()]);
-    }
-    //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="getSupportedProjectFormats()">
     private String[] getSupportedProjectFormats() {
         Vector<String> formats = new Vector<String>(2);
@@ -1438,4 +1279,81 @@ public class PineappleGUI implements EventHandler {
         return formats.toArray(new String[formats.size()]);
     }
     //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="getSupportedFileFormats()">
+    private String[] getSupportedFileFormats() {
+        Vector<String> formats = new Vector<String>(2);
+
+        for (FormatSupporter fs : PineappleCore.getFormatSupporters()) {
+            String[] s = fs.getFormats();
+            if (s == null) {
+                continue;
+            }
+            for (String ff : s) {
+                formats.add(ff);
+            }
+        }
+        return formats.toArray(new String[formats.size()]);
+    }
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="createFileChooser(String title, final String[] formats)">
+    private JFileChooser createFileChooser(String title, final String[] formats) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (title != null) {
+            chooser.setDialogTitle(title);
+        }
+        int length = Math.min(formats.length * 4, 50);
+        StringBuilder b = new StringBuilder(length);
+        for (String s : formats) {
+            if (b.length() > length) {
+                b.append(" ...");
+                break;
+            }
+            b.append(s + " ");
+        }
+        final String desc = b.toString();
+
+        chooser.addChoosableFileFilter(new FileFilter() {
+
+            @Override
+            public boolean accept(File f) {
+                if (f.isDirectory()) {
+                    return true;
+                }
+                for (String s : formats) {
+                    if (f.getName().matches(".+\\." + s)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            public String getDescription() {
+                return desc;
+            }
+        });
+        return chooser;
+    }
+    //</editor-fold>
+    
+    private File showFileChooserSingle(JFileChooser chooser) {
+        chooser.setMultiSelectionEnabled(false);
+        int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
+        if (res != JFileChooser.CANCEL_OPTION) {
+            return chooser.getSelectedFile();
+        }
+
+        return null;
+    }
+    
+    private File[] showFileChooserMultiple(JFileChooser chooser) {
+        chooser.setMultiSelectionEnabled(true);
+        int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
+        if (res != JFileChooser.CANCEL_OPTION) {
+            return chooser.getSelectedFiles();
+        }
+
+        return null;
+    }
 }
