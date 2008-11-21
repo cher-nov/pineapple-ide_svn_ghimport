@@ -107,6 +107,9 @@ public class DefaultProject extends Project {
      */
     @Override
     public boolean remove(ProjectElement e) {
+        if (!e.allowsDelete()) {
+            return false;
+        }
         boolean b = files.remove(e);
         manager.saveToManifest();
         return b;
