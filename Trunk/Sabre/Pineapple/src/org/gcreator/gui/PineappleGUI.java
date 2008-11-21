@@ -83,6 +83,7 @@ import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.io.FormatSupporter;
 import org.gcreator.tree.BaseTreeNode;
 import org.gcreator.tree.FileTreeNode;
+import org.gcreator.tree.ProjectTreeNode;
 import org.noos.xing.mydoggy.ToolWindow;
 import org.noos.xing.mydoggy.ToolWindowAnchor;
 import org.noos.xing.mydoggy.plaf.MyDoggyToolWindowManager;
@@ -712,12 +713,109 @@ public class PineappleGUI implements EventHandler {
             tree.updateUI();
         } else if (evt.getEventType().equals(FILE_RENAMED)) {
             tree.updateUI();
+        //<editor-fold defaultstate="collapsed" desc="Tree Pop-up Menu">
         } else if (evt.getEventType().equals(TREE_MENU_INVOKED)) {
             if (evt.getArguments().length < 2 || !(evt.getArguments()[0] instanceof JPopupMenu)) {
                 return;
             }
             JPopupMenu menu = (JPopupMenu) evt.getArguments()[0];
             final Object o = evt.getArguments()[1];
+
+            //<editor-fold defaultstate="collapsed" desc="Project menu">
+            if (o instanceof ProjectTreeNode) {
+
+                JMenuItem tfileSaveProject = new JMenuItem("Save Project") {
+
+                    private static final long serialVersionUID = 1;
+
+                    @Override
+                    public boolean isEnabled() {
+                        return PineappleCore.getProject() != null &&
+                                PineappleCore.getProject().allowsSave();
+                    }
+                };
+                menu.add(tfileSaveProject);
+                
+                JMenuItem tprojectAdd = new JMenuItem("Add File/Folder...") {
+
+                    private static final long serialVersionUID = 1;
+
+                    @Override
+                    public boolean isEnabled() {
+                        return PineappleCore.getProject() != null;
+                    }
+                };
+                tprojectAdd.setMnemonic('A');
+                tprojectAdd.setVisible(true);
+                tprojectAdd.addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent evt) {
+                        openFile(true, true);
+                    }
+                });
+                menu.add(tprojectAdd);
+
+                JMenuItem tprojectRemove = new JMenuItem("Close");
+                tprojectRemove.setMnemonic('C');
+                tprojectRemove.setVisible(true);
+                tprojectRemove.setEnabled(true);
+                tprojectRemove.addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent evt) {
+                        closeProject();
+                    }
+                });
+                menu.add(tprojectRemove);
+
+
+                JMenuItem tprojectImport = new JMenuItem("Import") {
+
+                    private static final long serialVersionUID = 1;
+
+                    @Override
+                    public boolean isEnabled() {
+                        if (PineappleCore.getProject() == null) {
+                            return false;
+                        }
+                        String[] s = PineappleCore.getProject().getManager().getImportFileTypes();
+                        return (s != null && s.length > 0);
+                    }
+                };
+                tprojectImport.setMnemonic('I');
+                tprojectImport.setVisible(true);
+                tprojectImport.addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent evt) {
+                        importFile();
+                    }
+                });
+                menu.add(tprojectImport);
+
+                JMenuItem tprojectExport = new JMenuItem("Export") {
+
+                    private static final long serialVersionUID = 1;
+
+                    @Override
+                    public boolean isEnabled() {
+                        if (PineappleCore.getProject() == null) {
+                            return false;
+                        }
+                        String[] s = PineappleCore.getProject().getManager().getExportFileTypes();
+                        return (s != null && s.length > 0);
+                    }
+                };
+                tprojectExport.setMnemonic('E');
+                tprojectExport.setVisible(true);
+                tprojectExport.addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent evt) {
+                        exportFile();
+                    }
+                });
+                menu.add(tprojectExport);
+
+            }
+            //</editor-fold>
 
             if (o instanceof FileTreeNode) {
                 menu.add("Open...").addActionListener(new ActionListener() {
@@ -726,7 +824,9 @@ public class PineappleGUI implements EventHandler {
                         openFile(((FileTreeNode) o).getElement().getFile());
                     }
                 });
+                //TODO: Open With >
             }
+            
 
             if (o instanceof BaseTreeNode &&
                     PineappleCore.getProject().getFiles().indexOf(((BaseTreeNode) o).getElement()) != -1) {
@@ -770,6 +870,7 @@ public class PineappleGUI implements EventHandler {
                     }
                 });
             }
+        //</editor-fold>
         } else if (evt.getEventType().equals(PROJECT_SAVED)) {
             if (evt.getArguments().length < 1) {
                 return;
@@ -991,7 +1092,6 @@ public class PineappleGUI implements EventHandler {
     //</editor-fold>
     
     /* Private methods */
-    
     //<editor-fold defaultstate="collapsed" desc="deleteFile(ProjectElement)">
     /**
      * Deletes a file from the file system
@@ -1088,6 +1188,8 @@ public class PineappleGUI implements EventHandler {
 
 
 
+
+
         final JButton ok,  cancel;
         ok = new JButton("OK");
         ok.setEnabled(false);
@@ -1177,7 +1279,7 @@ public class PineappleGUI implements EventHandler {
         if (types.size() == 1) {
             return types.get(0);
         }
-        final JDialog d = new JDialog(Core.getStaticContext().getMainFrame(), "Open File", true);
+        final JDialog d = new JDialog(Core.getStaticContext().getMainFrame(), "Open Project", true);
         final JList list = new JList();
         list.setModel(new AbstractListModel() {
 
@@ -1211,6 +1313,8 @@ public class PineappleGUI implements EventHandler {
         box.add(cbox);
         box.add(Box.createHorizontalGlue());
         south.add(box);
+
+
 
 
 
@@ -1336,7 +1440,6 @@ public class PineappleGUI implements EventHandler {
         return chooser;
     }
     //</editor-fold>
-    
     private File showFileChooserSingle(JFileChooser chooser) {
         chooser.setMultiSelectionEnabled(false);
         int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
@@ -1346,7 +1449,7 @@ public class PineappleGUI implements EventHandler {
 
         return null;
     }
-    
+
     private File[] showFileChooserMultiple(JFileChooser chooser) {
         chooser.setMultiSelectionEnabled(true);
         int res = chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK");
