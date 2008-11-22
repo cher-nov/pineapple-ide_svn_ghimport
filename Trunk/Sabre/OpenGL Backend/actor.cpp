@@ -7,20 +7,33 @@ using namespace Pineapple;
 //
 Actor::Actor()
 {
-    x = 0;
-    y = 0;
-
-    hspeed = 0;
-    vspeed = 0;
-
-    speed = 0;
-    direction = 0;
-    friction = 0;
-
-    gravity = 0;
-    gravity_direction = 270;
-
     angle = 0;
+    x = y = 0;
+    motion = new VectorXY(0, 0);
+    gravity = new VectorRV(0, 270);
+    friction = 0;
+}
+
+Actor::~Actor()
+{
+    delete motion;
+    delete gravity;
+}
+
+//
+//Loop outside the room
+//
+void Actor::loop()
+{
+    if (x > Application::getScene()->getWidth() + texture->getOriginX())
+        x = -texture->getOriginX();
+    if (x < -texture->getOriginX())
+        x = Application::getScene()->getWidth() + texture->getOriginX();
+
+    if (y > Application::getScene()->getHeight() + texture->getOriginY())
+        y = -texture->getOriginY();
+    if (y < -texture->getOriginY())
+        y = Application::getScene()->getHeight() + texture->getOriginY();
 }
 
 //
@@ -29,26 +42,10 @@ Actor::Actor()
 //
 void Actor::move()
 {
-    //friction
-    speed = sign(speed) * max(abs(speed) - friction, 0.0f);
+    motion->setSpeed(sign(motion->getSpeed()) * min(abs(motion->getSpeed()) - friction, 8.0f));
 
-    //direction/speed
-    if (speed != 0)
-    {
-        x += speed * cos(direction * PI/180);
-        y -= speed * sin(direction * PI/180);
-    }
-
-    //gravity
-    if (gravity != 0)
-    {
-        hspeed += gravity * cos(gravity_direction * PI/180);
-        vspeed -= gravity * sin(gravity_direction * PI/180);
-    }
-
-    //h/v speed
-    x += hspeed;
-    y += vspeed;
+    x += motion->getX();
+    y += motion->getY();
 }
 
 //
@@ -56,5 +53,5 @@ void Actor::move()
 //
 void Actor::draw()
 {
-    t->draw(x, y, angle);
+    texture->draw(50, 50, 0);
 }
