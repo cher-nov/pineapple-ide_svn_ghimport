@@ -322,10 +322,6 @@ public class DefaultProjectManager implements ProjectManager {
         }
     }
 
-    public BasicFile createBasicFile(File f) {
-        return new FileFile(f);
-    }
-
     public Project getProject() {
         return project;
     }

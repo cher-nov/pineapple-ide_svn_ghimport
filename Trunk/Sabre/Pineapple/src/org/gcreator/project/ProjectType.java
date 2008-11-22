@@ -25,6 +25,7 @@ THE SOFTWARE.
 package org.gcreator.project;
 
 import java.io.File;
+import org.gcreator.project.io.BasicFile;
 
 /**
  * Provides information about a type of {@link Project}.
@@ -71,4 +72,14 @@ public interface ProjectType {
      * @return A human-readable description of this project type.
      */
     public String getDescription();
+    
+    /**
+     * Creates a {@link Basicfile} implementation for a
+     * given {@link java.io.File java.io.File}.
+     * 
+     * @param f The {@link java.io.File} to use.
+     * @return a {@link Basicfile} implementation for a
+     * given {@link java.io.File java.io.File}.
+     */
+    public BasicFile createBasicFile(File f);
 }
