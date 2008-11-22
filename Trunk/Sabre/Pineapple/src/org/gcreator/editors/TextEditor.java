@@ -55,7 +55,44 @@ public class TextEditor extends DocumentPane {
     private JScrollPane scroll;
     private JTextArea editor;
     private BasicFile file;
-    protected UndoManager undo = new UndoManager();
+    /**
+     * A special undo manager to deal with the Edit Menu
+     */
+    protected UndoManager undo = new UndoManager() {
+        
+        public static final long serialVersionUID = 1;
+
+        @Override
+        public void undoableEditHappened(UndoableEditEvent e) {
+            super.undoableEditHappened(e);
+            updateMenus();
+        }
+        
+        @Override
+        public void undo(){
+            super.undo();
+            updateMenus();
+        }
+        
+        @Override
+        public void redo(){
+            super.redo();
+            updateMenus();
+        }
+        
+        public void updateMenus(){
+            DocumentPane pane = PineappleGUI.dip.getSelectedDocument();
+            PineappleGUI.editMenu.removeAll();
+            if (pane != null) {
+                PineappleGUI.editMenu.setEnabled(
+                        pane.setupEditMenu(PineappleGUI.editMenu));
+                PineappleGUI.fileSave.setEnabled(pane.canSave());
+            } else {
+                PineappleGUI.editMenu.setEnabled(false);
+                PineappleGUI.fileSave.setEnabled(false);
+            }
+        }
+    };
 
     /**
      * Creates a text editor from a File
@@ -107,21 +144,6 @@ public class TextEditor extends DocumentPane {
             }
         });
         editor.getDocument().addUndoableEditListener(undo);
-        editor.getDocument().addUndoableEditListener(new UndoableEditListener() {
-
-            public void undoableEditHappened(UndoableEditEvent e) {
-                DocumentPane pane = PineappleGUI.dip.getSelectedDocument();
-                PineappleGUI.editMenu.removeAll();
-                if (pane != null) {
-                    PineappleGUI.editMenu.setEnabled(
-                            pane.setupEditMenu(PineappleGUI.editMenu));
-                    PineappleGUI.fileSave.setEnabled(pane.canSave());
-                } else {
-                    PineappleGUI.editMenu.setEnabled(false);
-                    PineappleGUI.fileSave.setEnabled(false);
-                }
-            }
-        });
 
         this.file = e;
     }
