@@ -84,6 +84,7 @@ import org.gcreator.project.ProjectFolder;
 import org.gcreator.project.ProjectType;
 import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.io.FormatSupporter;
+import org.gcreator.project.standard.FileFile;
 import org.gcreator.tree.BaseTreeNode;
 import org.gcreator.tree.FileTreeNode;
 import org.gcreator.tree.ProjectTreeNode;
@@ -520,7 +521,7 @@ public class PineappleGUI implements EventHandler {
             }
         });
         projectMenu.add(projectExport);
-        
+
         projectFind = new JMenuItem("Find...") {
 
             private static final long serialVersionUID = 1;
@@ -545,8 +546,8 @@ public class PineappleGUI implements EventHandler {
             }
         });
         projectMenu.add(projectFind);
-        
-        
+
+
         menubar.add(projectMenu);
         //</editor-fold>
 
@@ -853,13 +854,13 @@ public class PineappleGUI implements EventHandler {
                         openFile(((FileTreeNode) o).getElement().getFile());
                     }
                 });
-                
-                
-                
+
+
+
 //!!        TODO: Open With >
-                
-                
-                
+
+
+
             }
 
 
@@ -908,7 +909,7 @@ public class PineappleGUI implements EventHandler {
                     }
                 });
             }
-            
+
             if (o instanceof ProjectFolder) {
                 final ProjectFolder f = (ProjectFolder) o;
                 menu.add("Reload").addActionListener(new ActionListener() {
@@ -918,7 +919,7 @@ public class PineappleGUI implements EventHandler {
                     }
                 });
             }
-            
+
             if (o instanceof BaseTreeNode) {
                 menu.add("Delete").addActionListener(new ActionListener() {
 
@@ -965,12 +966,6 @@ public class PineappleGUI implements EventHandler {
                 public void run() {
                     String s = f.getName();
                     String format = "<none>";
-                    ProjectElement el = null;
-                    try {
-                        el = PineappleCore.getProject().createElement(f);
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(PineappleGUI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
                     try {
                         int index = s.lastIndexOf('.') + 1;
                         if (index > 0) {
@@ -978,7 +973,7 @@ public class PineappleGUI implements EventHandler {
                         }
                     } catch (Exception e) {
                     }
-                    EventManager.fireEvent(this, FILE_OPENED, f, format, el);
+                    EventManager.fireEvent(this, FILE_OPENED, f, format);
                     dip.updateUI();
                 }
             };
@@ -1091,16 +1086,9 @@ public class PineappleGUI implements EventHandler {
                     JOptionPane.showMessageDialog(Core.getStaticContext().getMainFrame(),
                             "File " + f + "Does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                BasicFile bf;
-                if (PineappleCore.getProject() != null) {
-                    bf = PineappleCore.getProject().getProjectType().createBasicFile(f);
-                } else {
-                    ProjectType t = getProjectType(f);
-                    if (t == null) {
-                        return;
-                    }
-                    bf = t.createBasicFile(f);
-                }
+                
+                BasicFile bf = getProjectElement(f);
+                
                 if (addFile) {
                     BaseTreeNode node = null;
                     for (ProjectElement e : PineappleCore.getProject().getFiles()) {
@@ -1108,7 +1096,7 @@ public class PineappleGUI implements EventHandler {
                             break;
                         }
                     }
-
+                    
                     if (node == null) {
                         try {
                             ProjectElement e = PineappleCore.getProject().createElement(bf);
@@ -1154,7 +1142,7 @@ public class PineappleGUI implements EventHandler {
     }
     //</editor-fold>
     
-    /* Private methods */
+    /* Private methods */    
     
     //<editor-fold defaultstate="collapsed" desc="deleteFile(ProjectElement)">
     /**
@@ -1170,7 +1158,7 @@ public class PineappleGUI implements EventHandler {
         }
     }
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="getFormatSupporter(BasicFile f)">
+    //<editor-fold defaultstate="collapsed" desc="getFormatSupporter(BasicFile f, boolean)">
     private FormatSupporter getFormatSupporter(BasicFile f, boolean remember) {
         String format;
         int i = f.getName().lastIndexOf('.');
@@ -1179,9 +1167,9 @@ public class PineappleGUI implements EventHandler {
         } else {
             format = f.getName().substring(i + 1);
         }
-        
+
         String key = "files.formats.formatsupporter.remember." + format;
-        
+
         if (remember) {
 
             if (format != null && SettingsManager.exists(key)) {
@@ -1337,7 +1325,7 @@ public class PineappleGUI implements EventHandler {
         }
 
         if (types.size() == 0) {
-            JOptionPane.showMessageDialog(manager, "<html>Error:<br/>File format not supported.</html>");
+            JOptionPane.showMessageDialog(manager, "<html>Error:<br/>Project type not supported.</html>");
             return null;
         }
         if (types.size() == 1) {
@@ -1524,6 +1512,18 @@ public class PineappleGUI implements EventHandler {
         }
 
         return null;
+    }
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="getProjectElement(File)">
+    private BasicFile getProjectElement(File f) {
+        BasicFile bf;
+        if (PineappleCore.getProject() != null) {
+            bf = PineappleCore.getProject().getProjectType().createBasicFile(f);
+        } else {
+            /* Shouldn't use FileFile, but will anyways. */
+            bf = new FileFile(f);
+        }
+        return bf;
     }
     //</editor-fold>
 }
