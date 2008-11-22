@@ -198,7 +198,7 @@ public class DefaultProject extends Project {
         super.setName(s);
         saveLater();
     }
-
+    
     private void saveLater() {
         if (managing) {
             return;

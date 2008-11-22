@@ -28,6 +28,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import org.gcreator.tree.ProjectTreeNode;
 import org.gcreator.project.ProjectFile;
 import org.gcreator.project.Project;
+import org.gcreator.project.ProjectElement;
+import org.gcreator.tree.BaseTreeNode;
 import org.gcreator.tree.FileTreeNode;
 
 /**
@@ -61,13 +63,14 @@ public class ProjectTreeRenderer extends DefaultTreeCellRenderer {
                 } else {
                     this.setText("Project");
                 }
-                FileTreeNode node = (FileTreeNode) val;
-                ProjectFile el = (ProjectFile) node.getElement();
-                if (el.getIcon() != null) {
-                    this.setIcon(el.getIcon());
-                }
             } catch (Exception exc) {
-                this.setText("Project");
+                this.setText(exc.getLocalizedMessage());
+            }
+        } else if (val instanceof BaseTreeNode) {
+            BaseTreeNode node = (BaseTreeNode) val;
+            ProjectElement el = (ProjectElement) node.getElement();
+            if (el.getIcon() != null) {
+                this.setIcon(el.getIcon());
             }
         }
 
