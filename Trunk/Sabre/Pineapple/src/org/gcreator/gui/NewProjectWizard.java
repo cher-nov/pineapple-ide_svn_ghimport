@@ -404,7 +404,8 @@ private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         setErrorMessage("Can't create directory " + f);
         return;
     }
-    PineappleCore.setProject(PineappleCore.getProjectTypes().get(projectsList.getSelectedIndex()).create(f));
+    PineappleCore.setProject(PineappleCore.getProjectTypes().
+     get(projectsList.getSelectedIndex()).create(projectNameTextField.getText() ,f));
     PineappleGUI.tree.updateUI();
     dispose();
 }//GEN-LAST:event_finishButtonActionPerformed

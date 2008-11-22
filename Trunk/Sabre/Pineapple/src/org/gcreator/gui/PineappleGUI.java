@@ -229,7 +229,6 @@ public class PineappleGUI implements EventHandler {
         EventManager.addEventHandler(this, PineappleCore.PROJECT_CHANGED, EventPriority.HIGH);
     }
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="initializeWindow()">
     /**
      * Initilize's the Pineapple Window.
@@ -619,7 +618,6 @@ public class PineappleGUI implements EventHandler {
         }
     }
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="openPluginDialog()">
     /**
      * Opens the plugin dialog
@@ -638,7 +636,6 @@ public class PineappleGUI implements EventHandler {
         d.setVisible(true);
     }
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="handleEvent(Event)">
     /**
      * Handles any provided events
@@ -729,7 +726,7 @@ public class PineappleGUI implements EventHandler {
             }
             File f = (File) evt.getArguments()[0];
             ProjectType t = getProjectType(f);
-            PineappleCore.setProject(t.create(f.getParentFile()));
+            PineappleCore.setProject(t.load(f, f.getParentFile()));
 
         } else if (evt.getEventType().equals(FILE_DELETED)) {
             if (evt.getArguments().length > 0 && evt.getArguments()[0] instanceof ProjectElement) {
@@ -859,7 +856,7 @@ public class PineappleGUI implements EventHandler {
                 
                 
                 
-            //TODO: Open With >
+//!!        TODO: Open With >
                 
                 
                 
@@ -895,6 +892,19 @@ public class PineappleGUI implements EventHandler {
                             }
                         }
                         EventManager.fireEvent(this, FILE_RENAMED, t.getElement(), s);
+                    }
+                });
+            } else if (o instanceof ProjectTreeNode) {
+                menu.add("Rename").addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent e) {
+                        String s = JOptionPane.showInputDialog(
+                                Core.getStaticContext().getMainFrame(),
+                                "New name:",
+                                PineappleCore.getProject().getName());
+                        if (s != null && !s.equals("")) {
+                            PineappleCore.getProject().setName(s);
+                        }
                     }
                 });
             }
@@ -934,7 +944,6 @@ public class PineappleGUI implements EventHandler {
         }
     }
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="openFile(final File)">
     /**
      * Opens a given file
@@ -977,7 +986,6 @@ public class PineappleGUI implements EventHandler {
         }
     }
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="openProject()">
     /**
      * Opens a project
@@ -1055,7 +1063,6 @@ public class PineappleGUI implements EventHandler {
         PineappleCore.setProject(null);
     }
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="saveFile()">
     /**
      * Saves the currently open file
@@ -1067,7 +1074,6 @@ public class PineappleGUI implements EventHandler {
         }
     }
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="openFile(boolean, boolean)">
     /**
      * Opens a file
@@ -1112,7 +1118,6 @@ public class PineappleGUI implements EventHandler {
         }
     }
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="hasFile(File, ProjectElement)">
     private static BaseTreeNode hasFile(File f, ProjectElement e) {
         if (e instanceof ProjectFile) {
@@ -1130,7 +1135,6 @@ public class PineappleGUI implements EventHandler {
         return null;
     }
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="popupNewProjectDialog()">
     /**
      * Pops a New FolderProject Dialog
@@ -1282,7 +1286,9 @@ public class PineappleGUI implements EventHandler {
         if (cbox.isSelected() && format != null) {
             SettingsManager.set(key, supporters.get(list.getSelectedIndex()).getClass().getName());
         }
-
+        if (list.getSelectedIndex() < 0) {
+            return null;
+        }
         return supporters.get(list.getSelectedIndex());
     }
     //</editor-fold>

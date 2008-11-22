@@ -20,12 +20,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
-
 package org.gcreator.project.standard;
 
 import java.io.File;
 import org.gcreator.project.io.ProjectManager;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectElement;
@@ -38,60 +38,48 @@ import org.gcreator.tree.ProjectTreeNode;
  * @author Serge Humphrey
  */
 public class DefaultProject extends Project {
-    
+
     protected Vector<ProjectElement> files;
     protected Hashtable<String, String> settings;
     protected DefaultProjectManager manager;
     protected ProjectType type;
     protected ProjectTreeNode treeNode;
+    protected boolean managing = false;
     
     /**
      * Creates a new {@link DefaultProject}.
      * 
-     * @param folder The folder to use as the project folder.
-     * @param type The project type class.
-     * @param manager The manager for this project.
+     * @param name The name of the project. May be <tt>null</tt>.
+     * @param folder The folder to use as the project folder. May be <strong>not</strong> <tt>null</tt>.
+     * @param type The project type class. May be <tt>null</tt>.
+     * @param manager The manager for this project. May be <tt>null</tt>.
+     * @param save Whether to save the project manifest first.
      */
-    public DefaultProject(File folder, DefaultProjectType type, DefaultProjectManager manager) {
+    protected DefaultProject(String name, File folder, DefaultProjectType type, DefaultProjectManager manager, boolean save) {
         this.projectFolder = folder;
         this.files = new Vector<ProjectElement>();
-        this.settings = new Hashtable<String, String>();
-        this.manager = manager;
-        this.type = type;
+        this.settings = new ProjectSettings<String, String>();
+        this.manager = ((manager != null) ? manager : new DefaultProjectManager(this));
+        this.type = ((type != null) ? type : new DefaultProjectType());
         this.treeNode = new ProjectTreeNode(this);
+        this.settings.put("name", ((name != null) ? name : "Project"));
+        if (save) {
+            saveLater();
+        }
     }
 
     /**
      * Creates a new {@link DefaultProject}.
      * 
-     * @param folder The folder to use as the project folder.
-     * @param type The project type class.
+     * @param name The name of the project. May be <tt>null</tt>.
+     * @param folder The folder to use as the project folder. May be <strong>not</strong> <tt>null</tt>.
+     * @param type The project type class. May be <tt>null</tt>.
+     * @param manager The manager for this project. May be <tt>null</tt>.
      */
-    public DefaultProject(File folder, DefaultProjectType type) {
-        this(folder, type, null);
-        this.manager = new DefaultProjectManager(this);
+    protected DefaultProject(String name, File folder, DefaultProjectType type, DefaultProjectManager manager) {
+        this(name, folder, type, manager, true);
     }
-    
-    /**
-     * Creates a new {@link DefaultProject}.
-     * 
-     * @param folder The folder to use as the project folder.
-     * @param manager The manager for this project.
-     */
-    public DefaultProject(File folder, DefaultProjectManager manager) {
-        this(folder, new DefaultProjectType(), manager);
-    }
-    
-    /**
-     * Creates a new {@link DefaultProject}.
-     * 
-     * @param folder The folder to use as the project folder.
-     */
-    public DefaultProject(File folder) {
-        this(folder, new DefaultProjectType(),  null);
-        this.manager = new DefaultProjectManager(this);
-    }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -123,7 +111,7 @@ public class DefaultProject extends Project {
     @Override
     @SuppressWarnings("unchecked")
     public Hashtable<String, String> getSettings() {
-        return (Hashtable<String, String>) settings.clone();
+        return settings;
     }
 
     /**
@@ -186,14 +174,86 @@ public class DefaultProject extends Project {
     @Override
     public void clear() {
         files.clear();
-        manager.saveToManifest();
+        saveLater();
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        return files.indexOf(o);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int indexOf(Object o) {
-        return files.indexOf(o);
+    public String getName() {
+        return settings.get("name");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setName(String s) {
+        super.setName(s);
+        saveLater();
+    }
+
+    private void saveLater() {
+        if (managing) {
+            return;
+        }
+        Thread t = new Thread(new Runnable() {
+
+            public void run() {
+                if (manager != null && !managing) {
+                    manager.saveToManifest();
+                }
+            }
+        });
+        t.start();
+    }
+
+    private class ProjectSettings<K, V> extends Hashtable<K, V> {
+
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public V put(K key, V value) {
+            V l = super.put(key, value);
+            saveLater();
+            return l;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void clear() {
+            super.clear();
+            saveLater();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public V remove(Object key) {
+            V l = super.remove(key);
+            saveLater();
+            return l;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void putAll(Map<? extends K, ? extends V> t) {
+            super.putAll(t);
+            saveLater();
+        }
     }
 }

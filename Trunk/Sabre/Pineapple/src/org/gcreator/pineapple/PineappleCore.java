@@ -84,6 +84,11 @@ public final class PineappleCore {
      */
     public static final String PROJECT_CHANGED = "project-changed";
     
+    /**
+     * Event called when the project is renamed.
+     */
+    public static final String PROJECT_RENAMED = "project-renamed";
+    
     public static void intialize() {
         CoreEventHandler c = new CoreEventHandler();
         EventManager.addEventHandler(c, REGISTER_FORMATS, EventPriority.MEDIUM);

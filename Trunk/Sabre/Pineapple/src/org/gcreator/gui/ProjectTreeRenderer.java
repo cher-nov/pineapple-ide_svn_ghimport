@@ -23,7 +23,6 @@ THE SOFTWARE.
 package org.gcreator.gui;
 
 import java.awt.Component;
-import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.gcreator.tree.ProjectTreeNode;

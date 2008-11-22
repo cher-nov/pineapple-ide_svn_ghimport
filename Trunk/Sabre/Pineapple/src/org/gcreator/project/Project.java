@@ -1,3 +1,4 @@
+
 /*
 Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
 Copyright (C) 2008 Serge Humphrey <bob@bobtheblueberry.com>
@@ -26,6 +27,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Hashtable;
+import org.gcreator.managers.EventManager;
+import org.gcreator.pineapple.PineappleCore;
 import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.io.ProjectManager;
 import org.gcreator.project.standard.DefaultProject;
@@ -193,4 +196,22 @@ public abstract class Project {
      * @return An {@link Iterable} for iterating the project's elements.
      */
     public abstract Iterable<ProjectElement> getFiles();
+    
+    /**
+     * @return The name of the project.
+     */
+    public String getName() {
+        return getSettings().get("name");
+    }
+    
+    /**
+     * Sets the name of the project.
+     * 
+     * @param s The new name for the project.
+     */
+    public void setName(String s) {
+        String old = getSettings().get("name");
+        getSettings().put("name", s);
+        EventManager.fireEvent(this, PineappleCore.PROJECT_RENAMED, old, s);
+    }
 }
