@@ -51,7 +51,57 @@ public class PineDLEditor extends DocumentPane {
     private RTextScrollPane scroll;
     private RSyntaxTextArea editor;
     private BasicFile file;
-    public Hashtable<String, Integer> styles = new Hashtable<String, Integer>();
+    public static Hashtable<String, Integer> styles = new Hashtable<String, Integer>();
+    public static Hashtable<Integer, String> names = new Hashtable<Integer, String>();
+    static{
+        names.put(RSyntaxTextArea.NO_SYNTAX_STYLE, "No style");
+        styles.put("asm", RSyntaxTextArea.ASSEMBLER_X86_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.ASSEMBLER_X86_SYNTAX_STYLE, "Assembly");
+        styles.put("c", RSyntaxTextArea.C_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.C_SYNTAX_STYLE, "C");
+        styles.put("cpp", RSyntaxTextArea.CPLUSPLUS_SYNTAX_STYLE);
+        styles.put("h", RSyntaxTextArea.CPLUSPLUS_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.CPLUSPLUS_SYNTAX_STYLE, "C++");
+        styles.put("cs", RSyntaxTextArea.CSHARP_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.CSHARP_SYNTAX_STYLE, "C#");
+        styles.put("f", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
+        styles.put("f77", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
+        styles.put("for", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
+        styles.put("f90", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
+        styles.put("pyf", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.FORTRAN_SYNTAX_STYLE, "Fortran");
+        styles.put("groovy", RSyntaxTextArea.GROOVY_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.GROOVY_SYNTAX_STYLE, "Groovy");
+        styles.put("htm", RSyntaxTextArea.HTML_SYNTAX_STYLE);
+        styles.put("html", RSyntaxTextArea.HTML_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.HTML_SYNTAX_STYLE, "HTML");
+        styles.put("java", RSyntaxTextArea.JAVA_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.JAVA_SYNTAX_STYLE, "Java");
+        styles.put("js", RSyntaxTextArea.JAVASCRIPT_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.JAVASCRIPT_SYNTAX_STYLE, "JavaScript");
+        styles.put("jsp", RSyntaxTextArea.JSP_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.JSP_SYNTAX_STYLE, "JSP");
+        styles.put("lua", RSyntaxTextArea.LUA_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.LUA_SYNTAX_STYLE, "Lua");
+        styles.put("pl", RSyntaxTextArea.PERL_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.PERL_SYNTAX_STYLE, "Perl");
+        styles.put("pdl", RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.PINEDL_SYNTAX_STYLE, "PineDL");
+        styles.put("rb", RSyntaxTextArea.RUBY_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.RUBY_SYNTAX_STYLE, "Ruby");
+        styles.put("sas", RSyntaxTextArea.SAS_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.SAS_SYNTAX_STYLE, "SAS");
+        styles.put("sql", RSyntaxTextArea.SQL_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.SAS_SYNTAX_STYLE, "SQL");
+        styles.put("tcl", RSyntaxTextArea.TCL_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.TCL_SYNTAX_STYLE, "TCL");
+        styles.put("sh", RSyntaxTextArea.UNIX_SHELL_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.UNIX_SHELL_SYNTAX_STYLE, "SH (Unix Shell)");
+        styles.put("bat", RSyntaxTextArea.WINDOWS_BATCH_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.WINDOWS_BATCH_SYNTAX_STYLE, "BAT (Windows Batch)");
+        styles.put("xml", RSyntaxTextArea.XML_SYNTAX_STYLE);
+        names.put(RSyntaxTextArea.XML_SYNTAX_STYLE, "XML");
+    }
     
     public PineDLEditor(BasicFile file) {
         super(file);
@@ -67,33 +117,6 @@ public class PineDLEditor extends DocumentPane {
         } else {
             x = file.getName().substring(i + 1);
         }
-        
-        styles.put("asm", RSyntaxTextArea.ASSEMBLER_X86_SYNTAX_STYLE);
-        styles.put("c", RSyntaxTextArea.C_SYNTAX_STYLE);
-        styles.put("cpp", RSyntaxTextArea.CPLUSPLUS_SYNTAX_STYLE);
-        styles.put("h", RSyntaxTextArea.CPLUSPLUS_SYNTAX_STYLE);
-        styles.put("cs", RSyntaxTextArea.CSHARP_SYNTAX_STYLE);
-        styles.put("f", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
-        styles.put("f77", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
-        styles.put("for", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
-        styles.put("f90", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
-        styles.put("pyf", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
-        styles.put("groovy", RSyntaxTextArea.GROOVY_SYNTAX_STYLE);
-        styles.put("htm", RSyntaxTextArea.HTML_SYNTAX_STYLE);
-        styles.put("html", RSyntaxTextArea.HTML_SYNTAX_STYLE);
-        styles.put("java", RSyntaxTextArea.JAVA_SYNTAX_STYLE);
-        styles.put("js", RSyntaxTextArea.JAVASCRIPT_SYNTAX_STYLE);
-        styles.put("jsp", RSyntaxTextArea.JSP_SYNTAX_STYLE);
-        styles.put("lua", RSyntaxTextArea.LUA_SYNTAX_STYLE);
-        styles.put("pl", RSyntaxTextArea.PERL_SYNTAX_STYLE);
-        styles.put("pdl", RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
-        styles.put("rb", RSyntaxTextArea.RUBY_SYNTAX_STYLE);
-        styles.put("sas", RSyntaxTextArea.SAS_SYNTAX_STYLE);
-        styles.put("sql", RSyntaxTextArea.SQL_SYNTAX_STYLE);
-        styles.put("tcl", RSyntaxTextArea.TCL_SYNTAX_STYLE);
-        styles.put("sh", RSyntaxTextArea.UNIX_SHELL_SYNTAX_STYLE);
-        styles.put("bat", RSyntaxTextArea.WINDOWS_BATCH_SYNTAX_STYLE);
-        styles.put("xml", RSyntaxTextArea.XML_SYNTAX_STYLE);
         
         if (x == null) {
             editor.setSyntaxEditingStyle(RSyntaxTextArea.NO_SYNTAX_STYLE);
