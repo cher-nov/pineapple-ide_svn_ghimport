@@ -49,23 +49,56 @@ public class DefaultProject extends Project {
      * Creates a new {@link DefaultProject}.
      * 
      * @param folder The folder to use as the project folder.
+     * @param type The project type class.
+     * @param manager The manager for this project.
      */
-    public DefaultProject(File folder) {
+    public DefaultProject(File folder, DefaultProjectType type, DefaultProjectManager manager) {
         this.projectFolder = folder;
         this.files = new Vector<ProjectElement>();
         this.settings = new Hashtable<String, String>();
-        this.manager = new DefaultProjectManager(this);
-        this.type = new DefaultProjectType();
+        this.manager = manager;
+        this.type = type;
         this.treeNode = new ProjectTreeNode(this);
     }
 
+    /**
+     * Creates a new {@link DefaultProject}.
+     * 
+     * @param folder The folder to use as the project folder.
+     * @param type The project type class.
+     */
+    public DefaultProject(File folder, DefaultProjectType type) {
+        this(folder, type, null);
+        this.manager = new DefaultProjectManager(this);
+    }
+    
+    /**
+     * Creates a new {@link DefaultProject}.
+     * 
+     * @param folder The folder to use as the project folder.
+     * @param manager The manager for this project.
+     */
+    public DefaultProject(File folder, DefaultProjectManager manager) {
+        this(folder, new DefaultProjectType(), manager);
+    }
+    
+    /**
+     * Creates a new {@link DefaultProject}.
+     * 
+     * @param folder The folder to use as the project folder.
+     */
+    public DefaultProject(File folder) {
+        this(folder, new DefaultProjectType(),  null);
+        this.manager = new DefaultProjectManager(this);
+    }
+    
     /**
      * {@inheritDoc}
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Vector<ProjectElement> getFiles() {
-        return (Vector<ProjectElement>) files.clone();
+    public Iterable<ProjectElement> getFiles() {
+        return files;
     }
 
     /**
@@ -145,5 +178,22 @@ public class DefaultProject extends Project {
     @Override
     public ProjectTreeNode getTreeNode() {
         return treeNode;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clear() {
+        files.clear();
+        manager.saveToManifest();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int indexOf(Object o) {
+        return files.indexOf(o);
     }
 }

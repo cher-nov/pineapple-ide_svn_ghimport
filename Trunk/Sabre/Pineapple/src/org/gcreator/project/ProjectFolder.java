@@ -165,4 +165,12 @@ public class ProjectFolder extends ProjectElement {
     public Project getProject() {
         return project;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName() {
+        return folder.getName();
+    }
 }

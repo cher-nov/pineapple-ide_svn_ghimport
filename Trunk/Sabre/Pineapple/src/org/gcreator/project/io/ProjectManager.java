@@ -55,7 +55,7 @@ public interface ProjectManager {
      * @return a {@link Basicfile} implementation for a
      * given {@link java.io.File java.io.File}.
      */
-    public BasicFile createBasicFileFromFile(File f);
+    public BasicFile createBasicFile(File f);
     
     /**
      * @return This manager's project.

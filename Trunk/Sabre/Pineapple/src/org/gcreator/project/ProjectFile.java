@@ -35,7 +35,6 @@ import org.gcreator.tree.FileTreeNode;
 public class ProjectFile extends ProjectElement {
 
     protected BasicFile file;
-    protected String format;
     protected Icon icon;
     protected FileTreeNode treeNode;
     protected Project project;
@@ -47,19 +46,7 @@ public class ProjectFile extends ProjectElement {
      * @param p The {@link Project} that this file should belong to.
      */
     public ProjectFile(BasicFile file, Project p) {
-        this(file, getFormat(file.getName()), p);
-    }
-    
-    /**
-     * Creates a new {@link ProjectFile} object.
-     * 
-     * @param file The {@link java.io.File} object.
-     * @param format The format of the file.
-     * @param p The {@link Project} that this file should belong to.
-     */
-    public ProjectFile(BasicFile file, String format, Project p) {
         this.file = file;
-        this.format = format;
         this.treeNode = new FileTreeNode(this);
         this.project = p;
     }
@@ -68,12 +55,11 @@ public class ProjectFile extends ProjectElement {
      * Creates a new {@link ProjectFile} object with an icon.
      * 
      * @param file file The {@link java.io.File} object.
-     * @param format format The format of the file.
      * @param icon The {@link javax.swing.Icon} to be drawn in the {@link javax.swing.JTree}.
      * @param p The {@link Project} that this file should belong to.
      */
-    public ProjectFile(BasicFile file, String format, Icon icon, Project p) {
-        this(file, format, p);
+    public ProjectFile(BasicFile file, Icon icon, Project p) {
+        this(file, p);
         this.icon = icon;
     }
 
@@ -83,7 +69,7 @@ public class ProjectFile extends ProjectElement {
      * @return The file's format, or <tt>null</tt> if the file has no format.
      */
     public String getFormat() {
-        return format;
+        return getFormat(this.getName());
     }
 
     /**
@@ -98,17 +84,9 @@ public class ProjectFile extends ProjectElement {
      * 
      * @return The icon.
      */
+    @Override
     public Icon getIcon() {
         return icon;
-    }
-
-    /**
-     * Sets the format.
-     * 
-     * @param format The new file format.
-     */
-    public void setFormat(String format) {
-        this.format = format;
     }
 
     /**
@@ -142,7 +120,7 @@ public class ProjectFile extends ProjectElement {
     
     private static String getFormat(String file) {
         int i = file.lastIndexOf(".");
-        if (i < 0) {
+        if (i < 0 || i >= file.length()) {
             return null;
         }
         return file.substring(i+1);
@@ -162,5 +140,13 @@ public class ProjectFile extends ProjectElement {
     @Override
     public Project getProject() {
         return project;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName() {
+        return file.getName();
     }
 }

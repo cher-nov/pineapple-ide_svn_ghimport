@@ -41,7 +41,7 @@ import org.gcreator.gui.DocumentPane;
 import org.gcreator.project.io.BasicFile;
 
 /**
- *
+ * Editor for PineDL, and a bunch of other langauges.
  * @author Luís Reis
  */
 public class PineDLEditor extends DocumentPane {

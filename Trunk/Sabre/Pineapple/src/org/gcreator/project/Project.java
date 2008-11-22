@@ -26,9 +26,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.Vector;
 import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.io.ProjectManager;
+import org.gcreator.project.standard.DefaultProject;
 import org.gcreator.tree.ProjectTreeNode;
 
 /**
@@ -39,13 +39,6 @@ import org.gcreator.tree.ProjectTreeNode;
 public abstract class Project {
 
     protected File projectFolder;
-
-    /**
-     * Gets all of the files in the form of a {@link java.util.Vector}.
-     * 
-     * @return A {@link java.util.Vector} containing all of the project's file/folders in it.
-     */
-    public abstract Vector<ProjectElement> getFiles();
 
     /**
      * Adds a file to the project.
@@ -62,6 +55,22 @@ public abstract class Project {
      */
     public abstract boolean remove(ProjectElement e);
 
+    /**
+     * Removes all of the files from the project.
+     */
+    public abstract void clear();
+    
+    /**
+     * Gets the index of the first occurance of an object
+     * in the project. Not that this does not look inside
+     * folders inside the project, just the base elements.
+     * 
+     * @param o The element to find.
+     * @return The index of the first occurance of a given
+     * object in the project.
+     */
+    public abstract int indexOf(Object o);
+    
     /**
      * Returns the {@link ProjectElement} at index <tt>index</tt>.
      * Same as getFiles().get(index).
@@ -179,4 +188,9 @@ public abstract class Project {
      * @return The {@link ProjectTreeNode} for the project.
      */
     public abstract ProjectTreeNode getTreeNode();
+    
+    /**
+     * @return An {@link Iterable} for iterating the project's elements.
+     */
+    public abstract Iterable<ProjectElement> getFiles();
 }
