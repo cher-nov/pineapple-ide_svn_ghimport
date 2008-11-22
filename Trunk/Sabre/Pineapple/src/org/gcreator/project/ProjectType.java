@@ -36,10 +36,11 @@ public interface ProjectType {
     /**
      * Creates a new project, of a certain type.
      * 
+     * @param name The name of the project.
      * @param folder The folder for the project.
      * @return A new {@link Project} implementation.
      */
-    public Project create(File folder);
+    public Project create(String name, File folder);
     
     /**
      * Creates and loads a new project from a given file.

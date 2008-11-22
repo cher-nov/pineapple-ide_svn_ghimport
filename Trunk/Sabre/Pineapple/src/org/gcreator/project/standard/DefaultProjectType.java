@@ -38,8 +38,8 @@ public final class DefaultProjectType implements ProjectType {
     /**
      * {@inheritDoc}
      */
-    public Project create(File folder) {
-        return new DefaultProject(folder, this);
+    public Project create(String name, File folder) {
+        return new DefaultProject(name, folder, this, null);
     }
     
     /**

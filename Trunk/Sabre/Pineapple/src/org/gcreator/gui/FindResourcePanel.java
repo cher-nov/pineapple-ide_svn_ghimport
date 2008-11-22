@@ -34,14 +34,17 @@ import java.util.Vector;
 import javax.swing.AbstractListModel;
 import javax.swing.Box;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
 import org.gcreator.pineapple.PineappleCore;
 import org.gcreator.project.ProjectElement;
+import org.gcreator.project.ProjectFile;
 import org.gcreator.project.ProjectFolder;
 
 
@@ -70,6 +73,7 @@ public final class FindResourcePanel extends JPanel implements ActionListener, M
         top = Box.createHorizontalBox();
         top.add(Box.createHorizontalGlue());
         search = new JTextField();
+        search.addActionListener(this);
         top.add(search);
         top.add(Box.createHorizontalStrut(4));
         go = new JButton("Go");
@@ -86,17 +90,24 @@ public final class FindResourcePanel extends JPanel implements ActionListener, M
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == go) {
-            search(go.getText());
+        if (e.getSource() == go || e.getSource() == search) {
+            search(search.getText());
         }
     }
     
     private void search(String s) {
         results.clear();
-        for (ProjectElement e : PineappleCore.getProject().getFiles()) {
-            search(s, e);
+        go.setEnabled(false);
+        try {
+            for (ProjectElement e : PineappleCore.getProject().getFiles()) {
+                search(s, e);
+            }
+            list.updateUI();
+        } catch (Throwable r) {
+            Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), r);
+        } finally {
+            go.setEnabled(true);
         }
-        list.updateUI();
     }
     
     private void search(String s, ProjectElement e) {
@@ -106,7 +117,7 @@ public final class FindResourcePanel extends JPanel implements ActionListener, M
         
         if (e instanceof ProjectFolder) {
             for (ProjectElement p : ((ProjectFolder)e).getChildren()) {
-                search(s, e);
+                search(s, p);
             }
         }
     }
@@ -135,6 +146,12 @@ public final class FindResourcePanel extends JPanel implements ActionListener, M
                 this.setText(e.getFile().getName());
                 if (e.getIcon() != null) {
                     this.setIcon(e.getIcon());
+                } else {
+                    if (value instanceof ProjectFile) {
+                       this.setIcon((Icon) UIManager.get("Tree.leafIcon"));
+                    } else if (value instanceof ProjectFolder) {
+                       this.setIcon((Icon) UIManager.get("Tree.closedIcon")); 
+                    }
                 }
             }
             return this;
@@ -148,7 +165,7 @@ public final class FindResourcePanel extends JPanel implements ActionListener, M
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() >= 2) {
             Object o = list.getSelectedValue();
-            if (o != null && o instanceof ProjectElement) {
+            if (o != null && o instanceof ProjectFile) {
                 PineappleCore.getGUI().openFile(((ProjectElement)o).getFile());
             }
         }

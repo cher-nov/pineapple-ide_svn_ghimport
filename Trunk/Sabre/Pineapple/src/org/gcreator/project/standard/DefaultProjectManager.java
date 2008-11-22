@@ -62,7 +62,7 @@ public class DefaultProjectManager implements ProjectManager {
         /* Pineapple Project File */
         "pmf",
     };
-    public static final float PROJECT_VERSION = 1.0F;
+    public static final float PROJECT_VERSION = 1.05F;
 
     /**
      * Creates a new manger, with a given project.
@@ -112,7 +112,7 @@ public class DefaultProjectManager implements ProjectManager {
      * @see #allowsProject(java.io.File) 
      */
     public DefaultProject load(File f, File folder, DefaultProjectType t) {
-        DefaultProject p = new DefaultProject(folder, t, this);
+        DefaultProject p = new DefaultProject(null, folder, t, this, false);
         String format;
         int i = f.getName().lastIndexOf('.');
         if (i == -1 || i == f.getName().length()) {
@@ -120,6 +120,11 @@ public class DefaultProjectManager implements ProjectManager {
         } else {
             format = f.getName().substring(i + 1);
         }
+        if (format == null) {
+            System.err.println("Error: File " + f + " has null format");
+            return null;
+        }
+
         /* Pineapple Manifest File */
         if (format.equals("pmf")) {
             loadFromManifest(f, p);
@@ -148,63 +153,63 @@ public class DefaultProjectManager implements ProjectManager {
 
     /**
      * Saves the project to a manifest.
+     * 
      */
     protected void saveToManifest() {
-        File f = new File(project.getProjectFolder().getPath() + File.separator + "project.pmf");
-        if (!f.exists()) {
-            try {
+        if (project == null || project.getProjectFolder() == null) {
+            return;
+        }
+        try {
+            project.managing = true;
+            File f = new File(project.getProjectFolder().getPath() + File.separator + "project.pmf");
+            if (!f.exists()) {
                 f.createNewFile();
-            } catch (IOException ex) {
-                Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        DocumentBuilder builder = createDocumentBuilder();
-        if (builder == null) {
-            System.err.println("Error: can't save projct XML to null builder.");
-            return;
-        }
-        Document doc = builder.newDocument();
-        Element root = doc.createElement("pineapple-project");
-        root.setAttribute("version", Float.toString(PROJECT_VERSION));
-        /* Files */
-        Element files = doc.createElement("files");
-        for (ProjectElement p : project.getFiles()) {
-            Element elem = doc.createElement("file");
-            elem.setAttribute("path", p.getFile().getPath());
-            files.appendChild(elem);
-        }
-        root.appendChild(files);
+            DocumentBuilder builder = createDocumentBuilder();
+            if (builder == null) {
+                System.err.println("Error: can't save projct XML to null builder.");
+                return;
+            }
+            Document doc = builder.newDocument();
+            Element root = doc.createElement("pineapple-project");
+            root.setAttribute("version", Float.toString(PROJECT_VERSION));
+            root.setAttribute("name", project.getName());
+            /* Files */
+            Element files = doc.createElement("files");
+            for (ProjectElement p : project.getFiles()) {
+                Element elem = doc.createElement("file");
+                elem.setAttribute("path", p.getFile().getPath());
+                files.appendChild(elem);
+            }
+            root.appendChild(files);
 
-        /* Settings */
-        Element settings = doc.createElement("settings");
-        for (String s : project.getSettings().keySet()) {
-            Element setting = doc.createElement("settings");
-            setting.setAttribute("key", s);
-            setting.setAttribute("value", project.getSettings().get(s));
-        }
-        root.appendChild(settings);
+            /* Settings */
+            Element settings = doc.createElement("settings");
+            for (String s : project.settings.keySet()) {
+                Element setting = doc.createElement("settings");
+                setting.setAttribute("key", s);
+                setting.setAttribute("value", project.settings.get(s));
+            }
+            root.appendChild(settings);
 
+            doc.appendChild(root);
+            // Prepare the DOM document for writing
+            Source source = new DOMSource(doc);
+            Result result = null;
 
-        doc.appendChild(root);
-        // Prepare the DOM document for writing
-        Source source = new DOMSource(doc);
-        Result result = null;
-
-        // Write the DOM document to the file
-        Transformer xformer;
-        try {
+            // Write the DOM document to the file
+            Transformer xformer;
             result = new StreamResult(new FileOutputStream(f));
-        } catch (IOException ex) {
-            Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        }
-        try {
             xformer = TransformerFactory.newInstance().newTransformer();
             xformer.transform(source, result);
+        } catch (IOException ex) {
+            Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerConfigurationException ex) {
             Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerException ex) {
             Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            project.managing = false;
         }
     }
 
@@ -213,7 +218,7 @@ public class DefaultProjectManager implements ProjectManager {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setIgnoringComments(true);
             factory.setIgnoringElementContentWhitespace(true);
-            factory.setValidating(true);
+            factory.setValidating(false);
             DocumentBuilder builder = factory.newDocumentBuilder();
             return builder;
         } catch (ParserConfigurationException ex) {
@@ -230,47 +235,58 @@ public class DefaultProjectManager implements ProjectManager {
      */
     protected void loadFromManifest(File f, DefaultProject project) {
         try {
+            project.managing = true;
             DocumentBuilder builder = createDocumentBuilder();
             if (builder == null) {
                 System.err.println("Error: can't load projct XML from null builder.");
+                project = null;
                 return;
             }
             Document doc = builder.parse(f);
             Element root = doc.getDocumentElement();
             if (!root.getTagName().equals("pineapple-project")) {
                 System.err.println("Error: not a valid Pineapple Project Manifest");
+                project = null;
                 return;
             }
-            if (root.getAttribute("version").equals(Float.toString(PROJECT_VERSION))) {
-                System.err.println("Error: wrong manifest version");
+            if (!root.hasAttribute("version")) {
+                System.err.println("Error: no manifest version");
+                project = null;
                 return;
             }
-            
+            if (!root.getAttribute("version").equals(Float.toString(PROJECT_VERSION))) {
+                System.err.println("Error: wrong manifest version: " +
+                        root.getAttribute("version") + ", current: " + Float.toString(PROJECT_VERSION));
+                project = null;
+                return;
+            }
+
             project.setProjectFolder(f.getParentFile());
-            
+
 
             /* Files */
             Node files = root.getElementsByTagName("files").item(0);
             if (files == null) {
                 System.err.println("Error: No <files> tag");
+                project = null;
                 return;
             }
             for (int i = 0; i < files.getChildNodes().getLength(); i++) {
-
-                if (!(files instanceof Element)) {
-                    System.err.println("Warning: " + files + " is not of class NodeImpl. Cannot load.");
-                    return;
+                Node node = files.getChildNodes().item(i);
+                if (!(node instanceof Element)) {
+                    System.err.println("Warning: " + node + " is not of class Element. Cannot load.");
+                    continue;
                 }
-                Element n = (Element) files;
+                Element n = (Element) node;
                 if (!n.hasAttribute("path")) {
                     System.err.println("Warning: " + n + " has not path attribute. Cannot load.");
-                    return;
+                    continue;
                 }
 
                 File file = new File(n.getAttribute("path"));
                 if (!file.exists()) {
                     System.err.println("Error: file " + file + " does not exist.");
-                    return;
+                    continue;
                 }
                 try {
                     project.add(project.createElement(new FileFile(file)));
@@ -281,20 +297,27 @@ public class DefaultProjectManager implements ProjectManager {
             }
 
             /* Settings */
-            Element settings = doc.createElement("settings");
-            for (String s : project.getSettings().keySet()) {
-                Element setting = doc.createElement("settings");
-                setting.setAttribute("key", s);
-                setting.setAttribute("value", project.getSettings().get(s));
+            Node settings = doc.getElementsByTagName("settings").item(0);
+            if (settings == null) {
+                System.err.println("Error: No <settings> tag");
+                return;
             }
-            root.appendChild(settings);
 
-
-            doc.appendChild(root);
+            for (int i = 0; i < settings.getChildNodes().getLength(); i++) {
+                Node node = files.getChildNodes().item(i);
+                if (!(node instanceof Element)) {
+                    System.err.println("Warning: " + node + " is not of class Element. Cannot load.");
+                    continue;
+                }
+                Element setting = (Element) node;
+                project.settings.put(setting.getAttribute("key"), setting.getAttribute("value"));
+            }
         } catch (SAXException ex) {
             Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            project.managing = true;
         }
     }
 
