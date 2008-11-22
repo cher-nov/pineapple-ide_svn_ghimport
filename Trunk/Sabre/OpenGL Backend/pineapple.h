@@ -19,6 +19,10 @@ namespace Pineapple
     class Texture;
     class Timer;
     class Keyboard;
+
+    class Vector;
+    class VectorXY;
+    class VectorRV;
 }
 
 #include "application.h"
@@ -30,5 +34,7 @@ namespace Pineapple
 #include "texture.h"
 #include "timer.h"
 #include "keyboard.h"
+
+#include "vector.h"
 
 #endif
