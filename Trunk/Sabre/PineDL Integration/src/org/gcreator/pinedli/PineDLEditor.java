@@ -28,6 +28,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JMenu;
@@ -50,6 +51,7 @@ public class PineDLEditor extends DocumentPane {
     private RTextScrollPane scroll;
     private RSyntaxTextArea editor;
     private BasicFile file;
+    public Hashtable<String, Integer> styles = new Hashtable<String, Integer>();
     
     public PineDLEditor(BasicFile file) {
         super(file);
@@ -66,55 +68,45 @@ public class PineDLEditor extends DocumentPane {
             x = file.getName().substring(i + 1);
         }
         
+        styles.put("asm", RSyntaxTextArea.ASSEMBLER_X86_SYNTAX_STYLE);
+        styles.put("c", RSyntaxTextArea.C_SYNTAX_STYLE);
+        styles.put("cpp", RSyntaxTextArea.CPLUSPLUS_SYNTAX_STYLE);
+        styles.put("h", RSyntaxTextArea.CPLUSPLUS_SYNTAX_STYLE);
+        styles.put("cs", RSyntaxTextArea.CSHARP_SYNTAX_STYLE);
+        styles.put("f", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
+        styles.put("f77", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
+        styles.put("for", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
+        styles.put("f90", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
+        styles.put("pyf", RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
+        styles.put("groovy", RSyntaxTextArea.GROOVY_SYNTAX_STYLE);
+        styles.put("htm", RSyntaxTextArea.HTML_SYNTAX_STYLE);
+        styles.put("html", RSyntaxTextArea.HTML_SYNTAX_STYLE);
+        styles.put("java", RSyntaxTextArea.JAVA_SYNTAX_STYLE);
+        styles.put("js", RSyntaxTextArea.JAVASCRIPT_SYNTAX_STYLE);
+        styles.put("jsp", RSyntaxTextArea.JSP_SYNTAX_STYLE);
+        styles.put("lua", RSyntaxTextArea.LUA_SYNTAX_STYLE);
+        styles.put("pl", RSyntaxTextArea.PERL_SYNTAX_STYLE);
+        styles.put("pdl", RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
+        styles.put("rb", RSyntaxTextArea.RUBY_SYNTAX_STYLE);
+        styles.put("sas", RSyntaxTextArea.SAS_SYNTAX_STYLE);
+        styles.put("sql", RSyntaxTextArea.SQL_SYNTAX_STYLE);
+        styles.put("tcl", RSyntaxTextArea.TCL_SYNTAX_STYLE);
+        styles.put("sh", RSyntaxTextArea.UNIX_SHELL_SYNTAX_STYLE);
+        styles.put("bat", RSyntaxTextArea.WINDOWS_BATCH_SYNTAX_STYLE);
+        styles.put("xml", RSyntaxTextArea.XML_SYNTAX_STYLE);
+        
         if (x == null) {
             editor.setSyntaxEditingStyle(RSyntaxTextArea.NO_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("asm")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.ASSEMBLER_X86_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("c")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.C_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("cpp") || x.equalsIgnoreCase("h")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.CPLUSPLUS_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("cs")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.CSHARP_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("f") || x.equalsIgnoreCase("f77") || 
-                x.equalsIgnoreCase("for") || x.equalsIgnoreCase("for") ||
-                x.equalsIgnoreCase("f90") || x.equalsIgnoreCase("pyf")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.FORTRAN_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("groovy") || x.equalsIgnoreCase("groovy")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.GROOVY_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("htm") || x.equalsIgnoreCase("html")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.HTML_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("java")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.JAVA_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("js")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.JAVASCRIPT_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("jsp")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.JSP_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("lua")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.LUA_SYNTAX_STYLE);
-        } else if (file.getName().equalsIgnoreCase("makefile") ||
-                   file.getName().equalsIgnoreCase("gnumakefile") ) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.MAKEFILE_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("pl")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.PERL_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("pdl")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("rb")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.RUBY_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("sas")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.SAS_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("sql")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.SQL_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("tcl")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.TCL_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("sh")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.UNIX_SHELL_SYNTAX_STYLE);
-        } else if (x.equalsIgnoreCase("bat")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.WINDOWS_BATCH_SYNTAX_STYLE);
-        }  else if (x.equalsIgnoreCase("xml")) {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.XML_SYNTAX_STYLE);
-        } else {
-            editor.setSyntaxEditingStyle(RSyntaxTextArea.NO_SYNTAX_STYLE);
+        }
+        else{
+            if(styles.containsKey(x.toLowerCase())){
+                System.out.println("Found");
+                editor.setSyntaxEditingStyle(styles.get(x.toLowerCase()));
+            }
+            else{
+                System.out.println("Not found: " + x.toLowerCase());
+                editor.setSyntaxEditingStyle(RSyntaxTextArea.NO_SYNTAX_STYLE);
+            }
         }
         
         if (file.exists()) {
