@@ -27,6 +27,7 @@ package org.gcreator.project.standard;
 import java.io.File;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectType;
+import org.gcreator.project.io.BasicFile;
 
 /**
  * The {@link ProjectType} for {@link DefaultProject}.
@@ -68,5 +69,9 @@ public final class DefaultProjectType implements ProjectType {
      */
     public String[] getProjectFileTypes() {
         return DefaultProjectManager.getProjectFileTypes();
+    }
+    
+    public BasicFile createBasicFile(File f) {
+        return new FileFile(f);
     }
 }

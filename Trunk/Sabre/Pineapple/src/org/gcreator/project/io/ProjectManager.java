@@ -48,16 +48,6 @@ public interface ProjectManager {
     public void save(File f);
     
     /**
-     * Creates a {@link Basicfile} implementation for a
-     * given {@link java.io.File java.io.File}.
-     * 
-     * @param f The {@link java.io.File} to use.
-     * @return a {@link Basicfile} implementation for a
-     * given {@link java.io.File java.io.File}.
-     */
-    public BasicFile createBasicFile(File f);
-    
-    /**
      * @return This manager's project.
      */
     public Project getProject();
