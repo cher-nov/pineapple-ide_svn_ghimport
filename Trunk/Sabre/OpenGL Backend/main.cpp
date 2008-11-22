@@ -1,5 +1,4 @@
 #include "pineapple.h"
-#include <iostream>
 
 using namespace Pineapple;
 
@@ -10,41 +9,34 @@ public:
     {
         this->x = x;
         this->y = y;
-        this->t = new Texture("test.png", 16, 16);
 
-        this->friction = 1;
+        friction = 1;
+
+        texture = new Texture("test.png", 16, 16);
     }
 
     ~Ship()
     {
-        delete this->t;
+        delete texture;
     }
 
     void update()
     {
-        if (Keyboard::isKeyDown(KeyUp))
-            speed += 2;
-        if (Keyboard::isKeyDown(KeyDown))
-            speed -= 2;
+        loop();
 
-        speed = sign(speed) * min(abs(speed), 8.0f);
+        if (Keyboard::isKeyDown(KeyUp))
+            motion->setSpeed(motion->getSpeed() + 2);
+        if (Keyboard::isKeyDown(KeyDown))
+            setSpeed(getSpeed() - 2);
+
+        setSpeed(sign(getSpeed()) * min(abs(getSpeed()), 8.0f));
 
         if (Keyboard::isKeyDown(KeyLeft))
-            direction += 4;
+            setDirection(getDirection() + 4);
         if (Keyboard::isKeyDown(KeyRight))
-            direction -= 4;
+            setDirection(getDirection() - 4);
 
-        angle = direction;
-
-        if (x > Application::getScene()->getWidth() + t->getOriginX())
-            x = -(t->getOriginX());
-        if (x < -(t->getOriginX()))
-            x = Application::getScene()->getWidth() + t->getOriginX();
-
-        if (y > Application::getScene()->getHeight() + t->getOriginY())
-            y = -(t->getOriginY());
-        if (y < -(t->getOriginY()))
-            y = Application::getScene()->getHeight() + t->getOriginY();
+        setAngle(getDirection());
     }
 };
 
