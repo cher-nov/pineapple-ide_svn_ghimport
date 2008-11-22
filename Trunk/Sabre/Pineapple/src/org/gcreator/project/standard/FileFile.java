@@ -148,7 +148,7 @@ public class FileFile implements BasicFile {
         if (!file.renameTo(new File(newName))) {
             throw new IOException("Renaming failed for " + this.file);
         }
-        if (PineappleCore.getProject().getManager() instanceof DefaultProjectManager) {
+        if (PineappleCore.getProject() != null && PineappleCore.getProject().getManager() instanceof DefaultProjectManager) {
             ((DefaultProjectManager)PineappleCore.getProject().getManager()).saveToManifest();
         }
     }
