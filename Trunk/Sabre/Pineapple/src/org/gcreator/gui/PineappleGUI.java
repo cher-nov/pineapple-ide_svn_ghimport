@@ -1091,7 +1091,16 @@ public class PineappleGUI implements EventHandler {
                     JOptionPane.showMessageDialog(Core.getStaticContext().getMainFrame(),
                             "File " + f + "Does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                BasicFile bf = PineappleCore.getProject().get().createBasicFile(f);
+                BasicFile bf;
+                if (PineappleCore.getProject() != null) {
+                    bf = PineappleCore.getProject().getProjectType().createBasicFile(f);
+                } else {
+                    ProjectType t = getProjectType(f);
+                    if (t == null) {
+                        return;
+                    }
+                    bf = t.createBasicFile(f);
+                }
                 if (addFile) {
                     BaseTreeNode node = null;
                     for (ProjectElement e : PineappleCore.getProject().getFiles()) {

@@ -24,15 +24,38 @@ package org.gcreator.game2d;
 
 import java.io.File;
 import org.gcreator.project.standard.DefaultProject;
+import org.gcreator.project.standard.DefaultProjectManager;
+import org.gcreator.project.standard.DefaultProjectType;
 
 /**
  * Provides a GameProject.
  * @author Luís Reis
  */
 public class GameProject extends DefaultProject {
-
-    public GameProject(File folder) {
-        super(folder);
+    
+    /**
+     * Creates a new {@link GameProject}.
+     * 
+     * @param name The name of the project. May be <tt>null</tt>.
+     * @param folder The folder to use as the project folder. May be <strong>not</strong> <tt>null</tt>.
+     * @param type The project type class. May be <tt>null</tt>.
+     * @param manager The manager for this project. May be <tt>null</tt>.
+     * @param save Whether to save the project manifest first.
+     */
+    protected GameProject(String name, File folder, DefaultProjectType type, DefaultProjectManager manager, boolean save) {
+        super(name, folder, type, manager, save);
+        this.type = new GameProjectType();
+    }
+    /**
+     * Creates a new {@link GameProject}.
+     * 
+     * @param name The name of the project. May be <tt>null</tt>.
+     * @param folder The folder to use as the project folder. May be <strong>not</strong> <tt>null</tt>.
+     * @param type The project type class. May be <tt>null</tt>.
+     * @param manager The manager for this project. May be <tt>null</tt>.
+     */
+    protected GameProject(String name, File folder, DefaultProjectType type, DefaultProjectManager manager) {
+        super(name, folder, type, manager, true);
         this.type = new GameProjectType();
     }
 }
