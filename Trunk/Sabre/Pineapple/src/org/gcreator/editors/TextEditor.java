@@ -42,6 +42,7 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoManager;
 import org.gcreator.gui.DocumentPane;
 import org.gcreator.gui.PineappleGUI;
+import org.gcreator.managers.IntegratedUndoManager;
 import org.gcreator.project.io.BasicFile;
 
 /**
@@ -55,44 +56,9 @@ public class TextEditor extends DocumentPane {
     private JScrollPane scroll;
     private JTextArea editor;
     private BasicFile file;
-    /**
-     * A special undo manager to deal with the Edit Menu
-     */
-    protected UndoManager undo = new UndoManager() {
-        
-        public static final long serialVersionUID = 1;
 
-        @Override
-        public void undoableEditHappened(UndoableEditEvent e) {
-            super.undoableEditHappened(e);
-            updateMenus();
-        }
-        
-        @Override
-        public void undo(){
-            super.undo();
-            updateMenus();
-        }
-        
-        @Override
-        public void redo(){
-            super.redo();
-            updateMenus();
-        }
-        
-        public void updateMenus(){
-            DocumentPane pane = PineappleGUI.dip.getSelectedDocument();
-            PineappleGUI.editMenu.removeAll();
-            if (pane != null) {
-                PineappleGUI.editMenu.setEnabled(
-                        pane.setupEditMenu(PineappleGUI.editMenu));
-                PineappleGUI.fileSave.setEnabled(pane.canSave());
-            } else {
-                PineappleGUI.editMenu.setEnabled(false);
-                PineappleGUI.fileSave.setEnabled(false);
-            }
-        }
-    };
+    public IntegratedUndoManager undo = new IntegratedUndoManager();
+    
 
     /**
      * Creates a text editor from a File
