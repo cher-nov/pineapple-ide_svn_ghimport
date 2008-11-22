@@ -33,9 +33,8 @@ import org.gcreator.managers.EventManager;
  * @author Luís Reis
  */
 public class TabbedInterfaceProvider extends DocumentInterfaceProvider {
-    
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     /**
      * The underlying JTabbedPane.
      * Do not use unless you're directly targetting TabbedInterfaceProvider

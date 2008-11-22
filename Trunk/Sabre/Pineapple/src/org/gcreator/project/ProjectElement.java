@@ -19,11 +19,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
-
-
+ */
 package org.gcreator.project;
 
+import javax.swing.Icon;
 import org.gcreator.project.io.BasicFile;
 import org.gcreator.tree.BaseTreeNode;
 
@@ -33,26 +32,26 @@ import org.gcreator.tree.BaseTreeNode;
  * @author Serge Humphrey
  */
 public abstract class ProjectElement {
-    
+
     /**
      * This file's parent.
      */
     protected ProjectElement parent;
-    
+
     /**
      * Gets the element's file.
      * 
      * @return The File.
      */
     public abstract BasicFile getFile();
-    
+
     /**
      * Gets the {@link org.gcreator.tree.BaseTreeNode} to be used for the tree.
      * 
      * @return A {@link org.gcreator.tree.BaseTreeNode} to be used for the tree.
      */
     public abstract BaseTreeNode getTreeNode();
-    
+
     /**
      * This returns the parent or null if it has not been set.
      * 
@@ -62,7 +61,7 @@ public abstract class ProjectElement {
     public ProjectElement getParent() {
         return parent;
     }
-    
+
     /**
      * Sets the parent of this file.
      * 
@@ -73,16 +72,29 @@ public abstract class ProjectElement {
     public void setParent(ProjectElement e) {
         this.parent = e;
     }
-    
+
     /**
      * @return The {@link Project} that this element belongs to.
      */
     public abstract Project getProject();
-    
+
     /**
      * @return Whether this elemetn can be deleted.
      */
     public boolean allowsDelete() {
         return true;
     }
+
+    /**
+     * @return A special icon for the element, or <tt>null</tt>
+     * if there isn't any.
+     */
+    public Icon getIcon() {
+        return null;
+    }
+
+    /**
+     * @return The name of this element.
+     */
+    public abstract String getName();
 }

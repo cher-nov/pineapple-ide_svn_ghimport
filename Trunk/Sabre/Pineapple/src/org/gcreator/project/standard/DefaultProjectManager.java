@@ -19,12 +19,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
-
-
+ */
 package org.gcreator.project.standard;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -44,7 +41,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectElement;
-import org.gcreator.project.ProjectFolder;
 import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.io.ProjectManager;
 import org.w3c.dom.Document;
@@ -60,15 +56,14 @@ import org.xml.sax.SAXException;
  * @author Serge Humphrey
  */
 public class DefaultProjectManager implements ProjectManager {
-    
+
     protected DefaultProject project;
-    public static final String[] PROJECT_TYPES = new String[] {
+    public static final String[] PROJECT_TYPES = new String[]{
         /* Pineapple Project File */
         "pmf",
     };
-    
     public static final float PROJECT_VERSION = 1.0F;
-    
+
     /**
      * Creates a new manger, with a given project.
      * 
@@ -83,65 +78,67 @@ public class DefaultProjectManager implements ProjectManager {
         }
         this.project = p;
     }
-    
+
     /**
      * Creates a new manger, and loads the project from a file.
      * 
      * @param f The {@link java.io.File} to load.
      * @param folder The folder for the project.
+     * @param type The project type for the project.
      * @throws NullPointerException If the given project is <tt>null</tt>.
      */
-    public DefaultProjectManager(File f, File folder) throws NullPointerException {
+    public DefaultProjectManager(File f, File folder, DefaultProjectType type) throws NullPointerException {
         if (f == null) {
             throw new NullPointerException("File may not be null.");
         }
-        this.project = load(f, folder);
+        this.project = load(f, folder, type);
     }
-    
+
     /**
      * Not supported.
      */
     public void save(File f) {
     }
-    
+
     /**
      * Creates a new {@link Project} from a {@link java.io.File}.
      * 
      * @param f The {@link java.io.File} to be loaded.
      * @param folder The folder dor the project.
+     * @param t The project type for te project.
      * @return A new {@link Project} created from the given {@link java.io.File}.
      * 
      * @see #getProjectFileTypes() 
      * @see #allowsProject(java.io.File) 
      */
-    public DefaultProject load(File f, File folder) {
-        DefaultProject p = new DefaultProject(folder);
+    public DefaultProject load(File f, File folder, DefaultProjectType t) {
+        DefaultProject p = new DefaultProject(folder, t, this);
         String format;
         int i = f.getName().lastIndexOf('.');
         if (i == -1 || i == f.getName().length()) {
             format = null;
         } else {
-            format = f.getName().substring(i+1);
+            format = f.getName().substring(i + 1);
         }
         /* Pineapple Manifest File */
         if (format.equals("pmf")) {
-           loadFromManifest(f, p);
+            loadFromManifest(f, p);
         }
-        
+
         return p;
     }
 
     public static String[] getProjectFileTypes() {
         return PROJECT_TYPES;
     }
-        
+
     /**
      * {@inheritDoc}
      */
     public String[] getImportFileTypes() {
         return null; /* No Importing supported yet. */
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -153,7 +150,7 @@ public class DefaultProjectManager implements ProjectManager {
      * Saves the project to a manifest.
      */
     protected void saveToManifest() {
-        File f = new File(project.getProjectFolder().getPath() + File.separator + "/project.pmf");
+        File f = new File(project.getProjectFolder().getPath() + File.separator + "project.pmf");
         if (!f.exists()) {
             try {
                 f.createNewFile();
@@ -169,14 +166,15 @@ public class DefaultProjectManager implements ProjectManager {
         Document doc = builder.newDocument();
         Element root = doc.createElement("pineapple-project");
         root.setAttribute("version", Float.toString(PROJECT_VERSION));
-        root.setAttribute("hasfolder", Boolean.toString(project.getProjectFolder() != null));
         /* Files */
         Element files = doc.createElement("files");
         for (ProjectElement p : project.getFiles()) {
-            recursiveSave(p, files, doc);
+            Element elem = doc.createElement("file");
+            elem.setAttribute("path", p.getFile().getPath());
+            files.appendChild(elem);
         }
         root.appendChild(files);
-        
+
         /* Settings */
         Element settings = doc.createElement("settings");
         for (String s : project.getSettings().keySet()) {
@@ -185,8 +183,8 @@ public class DefaultProjectManager implements ProjectManager {
             setting.setAttribute("value", project.getSettings().get(s));
         }
         root.appendChild(settings);
-        
-        
+
+
         doc.appendChild(root);
         // Prepare the DOM document for writing
         Source source = new DOMSource(doc);
@@ -224,18 +222,6 @@ public class DefaultProjectManager implements ProjectManager {
         return null;
     }
 
-    private void recursiveSave(ProjectElement p, Element e, Document doc) {
-        Element elem = doc.createElement("file");
-        elem.setAttribute("path", p.getFile().getPath());
-
-        if (p instanceof ProjectFolder) {
-            for (ProjectElement pe : ((ProjectFolder) p).getChildren()) {
-                recursiveSave(pe, elem, doc);
-            }
-        }
-        e.appendChild(elem);
-    }
-
     /**
      * Loads a project from a manifest.
      * 
@@ -259,10 +245,10 @@ public class DefaultProjectManager implements ProjectManager {
                 System.err.println("Error: wrong manifest version");
                 return;
             }
-            if (root.getAttribute("hasfolder").equals(Boolean.toString(Boolean.TRUE))) {
-                project.setProjectFolder(f.getParentFile());
-            }
             
+            project.setProjectFolder(f.getParentFile());
+            
+
             /* Files */
             Node files = root.getElementsByTagName("files").item(0);
             if (files == null) {
@@ -280,7 +266,7 @@ public class DefaultProjectManager implements ProjectManager {
                     System.err.println("Warning: " + n + " has not path attribute. Cannot load.");
                     return;
                 }
-                
+
                 File file = new File(n.getAttribute("path"));
                 if (!file.exists()) {
                     System.err.println("Error: file " + file + " does not exist.");
@@ -291,7 +277,7 @@ public class DefaultProjectManager implements ProjectManager {
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
 
             /* Settings */
@@ -312,24 +298,23 @@ public class DefaultProjectManager implements ProjectManager {
         }
     }
 
-    public BasicFile createBasicFileFromFile(File f) {
+    public BasicFile createBasicFile(File f) {
         return new FileFile(f);
     }
 
     public Project getProject() {
         return project;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public void importFile(File f) {
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public void exportFile(File f) {
     }
-
 }

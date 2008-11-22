@@ -1,6 +1,6 @@
 /*
 Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
-Copyright (C) 2008 BobSerge<serge_1994@hotmail.com>
+Copyright (C) 2008 Serge Humphrey<serge_1994@hotmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@ import org.gcreator.tree.FileTreeNode;
 public class ProjectTreeRenderer extends DefaultTreeCellRenderer {
 
     private static final long serialVersionUID = 1;
-    
+
     public ProjectTreeRenderer() {
         setOpaque(false);
     }
@@ -50,31 +50,28 @@ public class ProjectTreeRenderer extends DefaultTreeCellRenderer {
             boolean isSelected, boolean isExpanded, boolean isLeaf, int row,
             boolean hasFocus) {
 
-        JLabel l = (JLabel) super.getTreeCellRendererComponent(tree, val, isSelected, isExpanded, isLeaf, row, hasFocus);
+        super.getTreeCellRendererComponent(tree, val, isSelected, isExpanded, isLeaf, row, hasFocus);
 
         if (val instanceof ProjectTreeNode) {
             try {
-                ProjectTreeNode n = (ProjectTreeNode)val;
+                ProjectTreeNode n = (ProjectTreeNode) val;
                 Project p = n.getProject();
                 String name = p.getSettings().get("name");
                 if (name != null) {
-                    l.setText(name);
+                    this.setText(name);
                 } else {
-                    l.setText("Project");
+                    this.setText("Project");
+                }
+                FileTreeNode node = (FileTreeNode) val;
+                ProjectFile el = (ProjectFile) node.getElement();
+                if (el.getIcon() != null) {
+                    this.setIcon(el.getIcon());
                 }
             } catch (Exception exc) {
-                l.setText("Project");
-            }
-        }
-        
-        if (val instanceof FileTreeNode) {
-            FileTreeNode node = (FileTreeNode) val;
-            ProjectFile el = (ProjectFile) node.getElement();
-            if (el.getIcon() != null) {
-                l.setIcon(el.getIcon());
+                this.setText("Project");
             }
         }
 
-        return l;
+        return this;
     }
 }

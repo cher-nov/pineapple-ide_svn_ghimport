@@ -39,7 +39,7 @@ public final class DefaultProjectType implements ProjectType {
      * {@inheritDoc}
      */
     public Project create(File folder) {
-        return new DefaultProject(folder);
+        return new DefaultProject(folder, this);
     }
     
     /**
@@ -60,7 +60,7 @@ public final class DefaultProjectType implements ProjectType {
      * {@inheritDoc}
      */
     public Project load(File f, File folder) {
-        return new DefaultProjectManager(f, folder).getProject();
+        return new DefaultProjectManager(f, folder, this).getProject();
     }
     
     /**

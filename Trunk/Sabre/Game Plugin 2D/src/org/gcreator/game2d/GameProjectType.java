@@ -29,6 +29,7 @@ import org.gcreator.project.standard.DefaultProject;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectType;
 import org.gcreator.project.standard.DefaultProjectManager;
+import org.gcreator.project.standard.DefaultProjectType;
 
 /**
  * The {@link ProjectType} for {@link DefaultProject}.
@@ -63,7 +64,7 @@ public final class GameProjectType implements ProjectType {
      * {@inheritDoc}
      */
     public Project load(File f, File folder) {
-        return new DefaultProjectManager(f, folder).getProject();
+        return new DefaultProjectManager(f, folder, new DefaultProjectType()).getProject();
     }
     
     /**

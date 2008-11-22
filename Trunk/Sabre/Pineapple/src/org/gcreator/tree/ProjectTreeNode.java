@@ -85,7 +85,7 @@ public final class ProjectTreeNode implements TreeNode {
      */
     @Override
     public int getIndex(TreeNode node) {
-        return project.getFiles().indexOf(((BaseTreeNode) node).getElement());
+        return project.indexOf(((BaseTreeNode) node).getElement());
     }
 
     /**
