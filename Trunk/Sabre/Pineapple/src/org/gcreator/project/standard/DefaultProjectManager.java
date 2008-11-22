@@ -189,6 +189,7 @@ public class DefaultProjectManager implements ProjectManager {
                 Element setting = doc.createElement("settings");
                 setting.setAttribute("key", s);
                 setting.setAttribute("value", project.settings.get(s));
+                settings.appendChild(setting);
             }
             root.appendChild(settings);
 
