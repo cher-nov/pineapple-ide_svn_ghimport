@@ -128,7 +128,9 @@ public class PineappleGUI implements EventHandler {
      * The help menu
      */
     public static JMenu helpMenu;
+    
     public static JMenuItem fileNewProject;
+    public static JMenuItem fileNewFile;
     public static JMenuItem fileOpenFile;
     public static JMenuItem fileOpenProject;
     public static JMenuItem fileSaveProject;
@@ -343,6 +345,19 @@ public class PineappleGUI implements EventHandler {
             }
         });
         fileMenu.add(fileNewProject);
+        
+        fileNewFile = new JMenuItem("New File/Folder");
+        fileNewFile.setMnemonic('N');
+        fileNewFile.setVisible(true);
+        fileNewFile.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                popupNewFileDialog();
+            }
+        });
+        fileMenu.add(fileNewFile);
+        
+        fileMenu.addSeparator();
 
         fileOpenProject = new JMenuItem("Open Project");
         fileOpenProject.setMnemonic('j');
@@ -1141,6 +1156,15 @@ public class PineappleGUI implements EventHandler {
         dialog.setVisible(true);
     }
     //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="popupNewFileDialog()">
+    /**
+     * Pops a New File Dialog
+     */
+    public void popupNewFileDialog() {
+        NewFileWizard dialog = new NewFileWizard(Core.getStaticContext().getMainFrame());
+        dialog.setVisible(true);
+    }
+    //</editor-fold>
     
     /* Private methods */    
     
@@ -1160,7 +1184,7 @@ public class PineappleGUI implements EventHandler {
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="getFormatSupporter(BasicFile f, boolean)">
     private FormatSupporter getFormatSupporter(BasicFile f, boolean remember) {
-        String format;
+        final String format;
         int i = f.getName().lastIndexOf('.');
         if (i < 0 || i >= f.getName().length()) {
             format = null;
@@ -1256,7 +1280,7 @@ public class PineappleGUI implements EventHandler {
                 int i = e.getFirstIndex();
                 ok.setEnabled(i >= 0);
                 if (i >= 0) {
-                    text.setText(supporters.get(list.getSelectedIndex()).getDescription());
+                    text.setText(supporters.get(list.getSelectedIndex()).getDescription(format));
                 }
             }
         });
