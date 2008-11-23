@@ -64,7 +64,7 @@ public class PlainTextSupporter implements FormatSupporter, EventHandler {
         return "Plain Text Editor";
     }
 
-    public String getDescription() {
+    public String getDescription(String type) {
         return "Supports simple plain-text documents";
     }
 

@@ -58,7 +58,8 @@ public interface FormatSupporter {
     public String getName();
     
     /**
+     * @param type The file format
      * @return A human-redable description of this format supporter.
      */
-    public String getDescription();
+    public String getDescription(String type);
 }

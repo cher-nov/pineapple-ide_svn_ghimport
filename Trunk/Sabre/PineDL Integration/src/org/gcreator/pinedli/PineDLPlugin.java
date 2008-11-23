@@ -86,6 +86,14 @@ public class PineDLPlugin extends Plugin implements FormatSupporter {
      * {@inheritDoc}
      */
     @Override
+    public String getDescription(String type) {
+        return "Text editor with syntax highlighting";
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void handleEvent(Event e) {
         if (e.getEventType().equals(PineappleCore.REGISTER_FORMATS)) {
             PineappleCore.addFormatSupporter(this);

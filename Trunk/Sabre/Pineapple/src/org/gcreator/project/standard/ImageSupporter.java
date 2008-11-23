@@ -58,12 +58,8 @@ public class ImageSupporter implements FormatSupporter {
         return "Java ImageIO Image Loader";
     }
 
-    public String getDescription() {
-        String s = "Loads images of the following types: ";
-        for (String f : ImageIO.getReaderFormatNames()) {
-            s += f+" ";
-        }
-        s += ".";
+    public String getDescription(String type) {
+        String s = "Displays an image.";
         return s;
     }
 
