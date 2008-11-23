@@ -1161,6 +1161,12 @@ public class PineappleGUI implements EventHandler {
      * Pops a New File Dialog
      */
     public void popupNewFileDialog() {
+        if(PineappleCore.getProject()==null){
+            JOptionPane.showMessageDialog(
+                    Core.getStaticContext().getMainFrame(),
+                    "Can not create new file if no project is open");
+            return;
+        }
         NewFileWizard dialog = new NewFileWizard(Core.getStaticContext().getMainFrame());
         dialog.setVisible(true);
     }

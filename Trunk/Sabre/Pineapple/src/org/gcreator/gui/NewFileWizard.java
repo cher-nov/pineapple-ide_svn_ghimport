@@ -3,9 +3,9 @@
  *
  * Created on 23 de Novembro de 2008, 19:16
  */
-
 package org.gcreator.gui;
 
+import java.util.Vector;
 import javax.swing.AbstractListModel;
 import org.gcreator.pineapple.PineappleCore;
 import org.gcreator.project.io.FormatSupporter;
@@ -17,7 +17,7 @@ import org.gcreator.project.io.FormatSupporter;
 public class NewFileWizard extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * Creates new form NewFileWizard
      * @param parent The parent JFrame
@@ -25,19 +25,26 @@ public class NewFileWizard extends javax.swing.JDialog {
     public NewFileWizard(java.awt.Frame parent) {
         super(parent);
         initComponents();
-        
-        /*typesList.setModel(new AbstractListModel() {
+
+        typesList.setModel(new AbstractListModel() {
 
             private static final long serialVersionUID = 1;
-            
+
             public int getSize() {
-                return PineappleCore.getFormatSupporters().size();
+                return PineappleCore.fileTypeNames.size();
             }
 
             public Object getElementAt(int index) {
-                return PineappleCore.getFormatSupporters().get(index).getName();
+                int i = 0;
+                for (String k : PineappleCore.fileTypeNames.values()) {
+                    if (index == i) {
+                        return k;
+                    }
+                    i++;
+                }
+                return null;
             }
-        });*/
+        });
     }
 
     /** This method is called from within the constructor to
@@ -70,6 +77,11 @@ public class NewFileWizard extends javax.swing.JDialog {
         jLabel3.setText("Description");
 
         typesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        typesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                typesListValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(typesList);
 
         jButton1.setText("Finish");
@@ -81,6 +93,7 @@ public class NewFileWizard extends javax.swing.JDialog {
             }
         });
 
+        jEditorPane1.setContentType("text/html");
         jEditorPane1.setEditable(false);
         jScrollPane2.setViewportView(jEditorPane1);
 
@@ -133,6 +146,13 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     dispose();
 }//GEN-LAST:event_jButton2ActionPerformed
 
+private void typesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_typesListValueChanged
+    for (String k : PineappleCore.fileTypeNames.keySet()) {
+        if(PineappleCore.fileTypeNames.get(k).equals(typesList.getSelectedValue())){
+            jEditorPane1.setText(PineappleCore.fileTypeDescriptions.get(k));
+        }
+    }
+}//GEN-LAST:event_typesListValueChanged
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -144,5 +164,4 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList typesList;
     // End of variables declaration//GEN-END:variables
-
 }

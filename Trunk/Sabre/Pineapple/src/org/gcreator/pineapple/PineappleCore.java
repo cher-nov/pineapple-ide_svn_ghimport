@@ -22,6 +22,7 @@ THE SOFTWARE.
  */
 package org.gcreator.pineapple;
 
+import java.util.Hashtable;
 import java.util.Vector;
 import org.gcreator.gui.PineappleGUI;
 import org.gcreator.managers.EventManager;
@@ -63,6 +64,24 @@ public final class PineappleCore {
      */
     private static Project project = null;
 
+    /**
+     * The file type names
+     */
+    public static Hashtable<String, String> fileTypeNames =
+            new Hashtable<String, String>();
+    
+    /**
+     * The file type descriptions
+     */
+    public static Hashtable<String, String> fileTypeDescriptions =
+            new Hashtable<String, String>();
+    
+    static{
+        fileTypeNames.put("txt", "Text File");
+        
+        fileTypeDescriptions.put("txt", "A plain text file");
+    }
+    
     /**
      * Event called to add format supporters to
      * the PineapplePlugin's list.
