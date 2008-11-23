@@ -8,7 +8,10 @@ package org.gcreator.gui;
 import java.util.Vector;
 import javax.swing.AbstractListModel;
 import org.gcreator.pineapple.PineappleCore;
+import org.gcreator.project.Project;
+import org.gcreator.project.ProjectFile;
 import org.gcreator.project.io.FormatSupporter;
+import org.gcreator.project.io.ProjectManager;
 
 /**
  * Wizard to create a new file
@@ -85,6 +88,11 @@ public class NewFileWizard extends javax.swing.JDialog {
         jScrollPane1.setViewportView(typesList);
 
         jButton1.setText("Finish");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancel");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -147,12 +155,28 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_jButton2ActionPerformed
 
 private void typesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_typesListValueChanged
+    Object o = typesList.getSelectedValue();
     for (String k : PineappleCore.fileTypeNames.keySet()) {
-        if(PineappleCore.fileTypeNames.get(k).equals(typesList.getSelectedValue())){
+        if(PineappleCore.fileTypeNames.get(k).equals(o)){
             jEditorPane1.setText(PineappleCore.fileTypeDescriptions.get(k));
         }
     }
 }//GEN-LAST:event_typesListValueChanged
+
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    Object o = typesList.getSelectedValue();
+    for (String k : PineappleCore.fileTypeNames.keySet()) {
+        if(PineappleCore.fileTypeNames.get(k).equals(o)){
+            Project p = PineappleCore.getProject();
+            ProjectManager m = p.getManager();
+            p.add(new ProjectFile(m.createFile(p, k), p));
+            PineappleGUI.tree.updateUI();
+            break;
+        }
+    }
+    dispose();
+}//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

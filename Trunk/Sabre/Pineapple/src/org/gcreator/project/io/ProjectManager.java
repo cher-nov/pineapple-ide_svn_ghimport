@@ -53,6 +53,14 @@ public interface ProjectManager {
     public Project getProject();
     
     /**
+     * Creates a new file.
+     * @param p The project which owns the file
+     * @param type The file type
+     * @return Returns the created file
+     */
+    public BasicFile createFile(Project p, String type);
+    
+    /**
      * Imports some file (such as a ZIP) to the project.
      * Note that this isn't just called 'import' because
      * that is a Java keyword.

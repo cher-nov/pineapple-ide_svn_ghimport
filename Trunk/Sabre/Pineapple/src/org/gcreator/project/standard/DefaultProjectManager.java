@@ -41,6 +41,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectElement;
+import org.gcreator.project.ProjectFile;
+import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.io.ProjectManager;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -99,6 +101,14 @@ public class DefaultProjectManager implements ProjectManager {
      * Not supported.
      */
     public void save(File f) {
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public BasicFile createFile(Project p, String type){
+        File f = new File(p.getProjectFolder(), "newFile."+type);
+        return new FileFile(f);
     }
 
     /**
