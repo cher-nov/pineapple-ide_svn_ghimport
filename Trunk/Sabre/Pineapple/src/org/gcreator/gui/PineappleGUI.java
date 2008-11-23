@@ -701,7 +701,7 @@ public class PineappleGUI implements EventHandler {
             DocumentPane p;
             Object[] arguments = evt.getArguments();
             BasicFile f = (BasicFile) arguments[0];
-            FormatSupporter fs = getFormatSupporter(f, true);
+            FormatSupporter fs = getFormatSupporter(f, false);
             if (fs == null) {
                 return;
             }
@@ -862,19 +862,48 @@ public class PineappleGUI implements EventHandler {
             //</editor-fold>
 
             if (o instanceof FileTreeNode) {
+                final FileTreeNode n = (FileTreeNode) o;
                 menu.add("Open...").addActionListener(new ActionListener() {
 
                     public void actionPerformed(ActionEvent e) {
                         MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("");
-                        openFile(((FileTreeNode) o).getElement().getFile());
+                        openFile(n.getElement().getFile());
                     }
                 });
 
+                JMenu openWith = new JMenu("Open With");
+                for (final FormatSupporter s : getFormatSupporters(n.getElement().getName())) {
+                    if (s == null) {
+                        continue;
+                    }
+                    JMenuItem m = new JMenuItem(s.getName());
+                    m.setEnabled(true);
+                    m.setVisible(true);
+                    m.addActionListener(new ActionListener() {
 
+                        public void actionPerformed(ActionEvent e) {
+                            s.load(n.getElement().getFile());
+                        }
+                    });
+                    openWith.add(m);
+                }
+                JMenuItem other = new JMenuItem("Other...");
+                other.setMnemonic('O');
+                other.setEnabled(true);
+                other.setVisible(true);
+                other.addActionListener(new ActionListener() {
 
-//!!        TODO: Open With >
+                    public void actionPerformed(ActionEvent e) {
+                        FormatSupporter s = getFormatSupporter(n.getElement().getFile(), true);
+                        if (s == null) {
+                            return;
+                        }
+                        s.load(n.getElement().getFile());
+                    }
+                });
+                openWith.add(other);
 
-
+                menu.add(openWith);
 
             }
 
@@ -1101,9 +1130,9 @@ public class PineappleGUI implements EventHandler {
                     JOptionPane.showMessageDialog(Core.getStaticContext().getMainFrame(),
                             "File " + f + "Does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                
+
                 BasicFile bf = getProjectElement(f);
-                
+
                 if (addFile) {
                     BaseTreeNode node = null;
                     for (ProjectElement e : PineappleCore.getProject().getFiles()) {
@@ -1111,7 +1140,7 @@ public class PineappleGUI implements EventHandler {
                             break;
                         }
                     }
-                    
+
                     if (node == null) {
                         try {
                             ProjectElement e = PineappleCore.getProject().createElement(bf);
@@ -1189,7 +1218,7 @@ public class PineappleGUI implements EventHandler {
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="getFormatSupporter(BasicFile f, boolean)">
-    private FormatSupporter getFormatSupporter(BasicFile f, boolean remember) {
+    private FormatSupporter getFormatSupporter(BasicFile f, boolean openWith) {
         final String format;
         int i = f.getName().lastIndexOf('.');
         if (i < 0 || i >= f.getName().length()) {
@@ -1200,7 +1229,7 @@ public class PineappleGUI implements EventHandler {
 
         String key = "files.formats.formatsupporter.remember." + format;
 
-        if (remember) {
+        if (!openWith) {
 
             if (format != null && SettingsManager.exists(key)) {
                 try {
@@ -1213,26 +1242,19 @@ public class PineappleGUI implements EventHandler {
             }
         }
 
-        final Vector<FormatSupporter> supporters = new Vector<FormatSupporter>(2);
-
-        for (FormatSupporter fs : PineappleCore.getFormatSupporters()) {
-            String[] s = fs.getFormats();
-            if (s == null) {
-                continue;
-            }
-            for (String ff : s) {
-                if (format == null || f.getName().matches(".+\\." + ff)) {
-                    supporters.add(fs);
-                }
-            }
+        final FormatSupporter[] supporters;
+        if (openWith) {
+            supporters = getFormatSupporters(null);
+        } else {
+            supporters = getFormatSupporters(f.getName());
         }
 
-        if (supporters.size() == 0) {
+        if (supporters.length == 0) {
             JOptionPane.showMessageDialog(manager, "<html>Error:<br/>File format not supported.</html>");
             return null;
         }
-        if (supporters.size() == 1) {
-            return supporters.get(0);
+        if (supporters.length == 1) {
+            return supporters[0];
         }
 
         final JDialog d = new JDialog(Core.getStaticContext().getMainFrame(), "Open File", true);
@@ -1242,11 +1264,11 @@ public class PineappleGUI implements EventHandler {
             private static final long serialVersionUID = 1;
 
             public int getSize() {
-                return supporters.size();
+                return supporters.length;
             }
 
             public Object getElementAt(int index) {
-                return supporters.get(index).getName();
+                return supporters[index].getName();
             }
         });
 
@@ -1270,7 +1292,7 @@ public class PineappleGUI implements EventHandler {
         box.add(Box.createHorizontalGlue());
         south.add(box);
 
-        final JButton ok,  cancel;
+        final  JButton ok,  cancel;
         ok = new JButton("OK");
         ok.setEnabled(false);
         ok.addActionListener(new ActionListener() {
@@ -1286,7 +1308,7 @@ public class PineappleGUI implements EventHandler {
                 int i = e.getFirstIndex();
                 ok.setEnabled(i >= 0);
                 if (i >= 0) {
-                    text.setText(supporters.get(list.getSelectedIndex()).getDescription(format));
+                    text.setText(supporters[list.getSelectedIndex()].getDescription(format));
                 }
             }
         });
@@ -1311,12 +1333,12 @@ public class PineappleGUI implements EventHandler {
         d.setVisible(true);
 
         if (cbox.isSelected() && format != null) {
-            SettingsManager.set(key, supporters.get(list.getSelectedIndex()).getClass().getName());
+            SettingsManager.set(key, supporters[list.getSelectedIndex()].getClass().getName());
         }
         if (list.getSelectedIndex() < 0) {
             return null;
         }
-        return supporters.get(list.getSelectedIndex());
+        return supporters[list.getSelectedIndex()];
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="getProjectType(File f)">
@@ -1402,7 +1424,7 @@ public class PineappleGUI implements EventHandler {
 
 
 
-        final JButton ok,  cancel;
+        final  JButton ok,  cancel;
         ok = new JButton("OK");
         ok.setEnabled(false);
         ok.addActionListener(new ActionListener() {
@@ -1554,6 +1576,37 @@ public class PineappleGUI implements EventHandler {
             bf = new FileFile(f);
         }
         return bf;
+    }
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="getFormatSupporters(String)">
+    public FormatSupporter[] getFormatSupporters(String fname) {
+        String format;
+        if (fname == null) {
+            format = null;
+        } else {
+            int i = fname.lastIndexOf('.');
+            if (i < 0 || i >= fname.length()) {
+                format = null;
+            } else {
+                format = fname.substring(i + 1);
+            }
+        }
+        Vector<FormatSupporter> supporters = new Vector<FormatSupporter>(2);
+
+        for (FormatSupporter fs : PineappleCore.getFormatSupporters()) {
+            String[] s = fs.getFormats();
+            if (s == null) {
+                continue;
+            }
+            for (String ff : s) {
+                if (format == null || fname.matches(".+\\." + ff)) {
+                    supporters.add(fs);
+                }
+                /* No need to add the supporter again */
+                break;
+            }
+        }
+        return supporters.toArray(new FormatSupporter[supporters.size()]);
     }
     //</editor-fold>
 }

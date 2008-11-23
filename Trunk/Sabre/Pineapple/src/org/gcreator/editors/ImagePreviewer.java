@@ -27,11 +27,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
-import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import org.gcreator.gui.DocumentPane;
+import org.gcreator.gui.PineappleGUI;
 import org.gcreator.project.io.BasicFile;
 
 /**
@@ -57,6 +57,8 @@ public class ImagePreviewer extends DocumentPane {
         scroll = new JScrollPane();
         panel = new JPanel() {
 
+            private static final long serialVersionUID = 1;
+            
             @Override
             public void paint(Graphics g) {
                 if (img != null) {
@@ -71,7 +73,11 @@ public class ImagePreviewer extends DocumentPane {
         } catch (Exception e) {
             System.out.println("ImagePrev>>Exception: " + e);
         }
-
+        
+        if (img == null) {
+            PineappleGUI.dip.remove(this);
+            return;
+        }
         scroll.setVisible(true);
         panel.setVisible(true);
         panel.setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
