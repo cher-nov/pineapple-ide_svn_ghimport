@@ -25,11 +25,13 @@ THE SOFTWARE.
 package org.gcreator.game2d;
 
 import java.io.File;
+import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.standard.DefaultProject;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectType;
 import org.gcreator.project.standard.DefaultProjectManager;
 import org.gcreator.project.standard.DefaultProjectType;
+import org.gcreator.project.standard.FileFile;
 
 /**
  * The {@link ProjectType} for {@link DefaultProject}.
@@ -64,7 +66,8 @@ public final class GameProjectType implements ProjectType {
      * {@inheritDoc}
      */
     public Project load(File f, File folder) {
-        return new DefaultProjectManager(f, folder, new DefaultProjectType()).getProject();
+        return new DefaultProjectManager(f, folder, new DefaultProjectType(),
+                new GameProject(null, folder, this, null, false)).getProject();
     }
     
     /**
@@ -72,5 +75,12 @@ public final class GameProjectType implements ProjectType {
      */
     public String[] getProjectFileTypes() {
         return DefaultProjectManager.getProjectFileTypes();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public BasicFile createBasicFile(File f) {
+        return new FileFile(f);
     }
 }

@@ -28,7 +28,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -41,15 +40,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.InputMap;
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -332,31 +328,9 @@ public class RTextArea extends RTextAreaBase
 
         rightClickMenu.addSeparator();
 
-        JMenu stylingMenu = new JMenu("Style");
-
-        Vector<Integer> vi = new Vector<Integer>();
-        vi.add(RSyntaxTextArea.NO_SYNTAX_STYLE);
-        for (int value : PineDLEditor.styles.values()) {
-            if (!vi.contains(value)) {
-                vi.add(value);
-            }
+        if (RTextArea.this instanceof RSyntaxTextArea) {
+            rightClickMenu.add(PineDLEditor.createStyleMenu((RSyntaxTextArea) this));
         }
-        for (final int value : vi) {
-            menuItem = new JMenuItem(PineDLEditor.names.get(value));
-            menuItem.setAccelerator(null);
-            menuItem.setToolTipText(null);
-            menuItem.addActionListener(new ActionListener() {
-
-                public void actionPerformed(ActionEvent e) {
-                    if (RTextArea.this instanceof RSyntaxTextArea){
-                        ((RSyntaxTextArea) RTextArea.this).setSyntaxEditingStyle(value);
-                    }
-                }
-            });
-            stylingMenu.add(menuItem);
-        }
-
-        rightClickMenu.add(stylingMenu);
 
         ComponentOrientation orientation = ComponentOrientation.getOrientation(Locale.getDefault());
         rightClickMenu.applyComponentOrientation(orientation);

@@ -23,9 +23,9 @@ THE SOFTWARE.
 package org.gcreator.game2d;
 
 import java.io.File;
+import org.gcreator.project.ProjectType;
 import org.gcreator.project.standard.DefaultProject;
 import org.gcreator.project.standard.DefaultProjectManager;
-import org.gcreator.project.standard.DefaultProjectType;
 
 /**
  * Provides a GameProject.
@@ -42,7 +42,7 @@ public class GameProject extends DefaultProject {
      * @param manager The manager for this project. May be <tt>null</tt>.
      * @param save Whether to save the project manifest first.
      */
-    protected GameProject(String name, File folder, DefaultProjectType type, DefaultProjectManager manager, boolean save) {
+    protected GameProject(String name, File folder, ProjectType type, DefaultProjectManager manager, boolean save) {
         super(name, folder, type, manager, save);
         this.type = new GameProjectType();
     }
@@ -54,7 +54,7 @@ public class GameProject extends DefaultProject {
      * @param type The project type class. May be <tt>null</tt>.
      * @param manager The manager for this project. May be <tt>null</tt>.
      */
-    protected GameProject(String name, File folder, DefaultProjectType type, DefaultProjectManager manager) {
+    protected GameProject(String name, File folder, ProjectType type, DefaultProjectManager manager) {
         super(name, folder, type, manager, true);
         this.type = new GameProjectType();
     }
