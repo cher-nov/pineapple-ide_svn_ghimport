@@ -1,25 +1,23 @@
 /*
-    Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
-    Copyright (C) 2008 Serge Humphrey<bob@bobtheblueberry.com>
+Copyright (C) 2008 Luís Reis<luiscubal@gmail.com>
+Copyright (C) 2008 Serge Humphrey<bob@bobtheblueberry.com>
 
-    This file is part of PineDL Integration.
+This file is part of PineDL Integration.
 
-    PineDL Integration is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+PineDL Integration is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    PineDL Integration is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
+PineDL Integration is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with PineDL Integration.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with PineDL Integration.  If not, see <http://www.gnu.org/licenses/>.
 
  */
-
-
 package org.gcreator.pinedli;
 
 import java.awt.BorderLayout;
@@ -29,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JMenu;
@@ -43,6 +42,7 @@ import org.gcreator.project.io.BasicFile;
 
 /**
  * Editor for PineDL, and a bunch of other langauges.
+ * 
  * @author Luís Reis
  */
 public class PineDLEditor extends DocumentPane {
@@ -50,10 +50,11 @@ public class PineDLEditor extends DocumentPane {
     private static final long serialVersionUID = 1L;
     private RTextScrollPane scroll;
     private RSyntaxTextArea editor;
-    private BasicFile file;
     public static Hashtable<String, Integer> styles = new Hashtable<String, Integer>();
     public static Hashtable<Integer, String> names = new Hashtable<Integer, String>();
-    static{
+    
+
+    static {
         names.put(RSyntaxTextArea.NO_SYNTAX_STYLE, "No style");
         styles.put("asm", RSyntaxTextArea.ASSEMBLER_X86_SYNTAX_STYLE);
         names.put(RSyntaxTextArea.ASSEMBLER_X86_SYNTAX_STYLE, "Assembly");
@@ -102,13 +103,13 @@ public class PineDLEditor extends DocumentPane {
         styles.put("xml", RSyntaxTextArea.XML_SYNTAX_STYLE);
         names.put(RSyntaxTextArea.XML_SYNTAX_STYLE, "XML");
     }
-    
+
     public PineDLEditor(BasicFile file) {
         super(file);
         this.setLayout(new BorderLayout());
         this.editor = new RSyntaxTextArea();
         this.file = file;
-        
+
         editor.restoreDefaultSyntaxHighlightingColorScheme();
         String x;
         int i = file.getName().lastIndexOf('.');
@@ -117,21 +118,19 @@ public class PineDLEditor extends DocumentPane {
         } else {
             x = file.getName().substring(i + 1);
         }
-        
+
         if (x == null) {
             editor.setSyntaxEditingStyle(RSyntaxTextArea.NO_SYNTAX_STYLE);
-        }
-        else{
-            if(styles.containsKey(x.toLowerCase())){
+        } else {
+            if (styles.containsKey(x.toLowerCase())) {
                 System.out.println("Found");
                 editor.setSyntaxEditingStyle(styles.get(x.toLowerCase()));
-            }
-            else{
+            } else {
                 System.out.println("Not found: " + x.toLowerCase());
                 editor.setSyntaxEditingStyle(RSyntaxTextArea.NO_SYNTAX_STYLE);
             }
         }
-        
+
         if (file.exists()) {
             BufferedInputStream in = null;
             try {
@@ -166,7 +165,7 @@ public class PineDLEditor extends DocumentPane {
                 setModified(true);
             }
         });
-        
+
         scroll = new RTextScrollPane(getWidth(), getHeight(), editor, true);
         this.add(scroll, BorderLayout.CENTER);
     }
@@ -231,7 +230,43 @@ public class PineDLEditor extends DocumentPane {
             }
         });
         editMenu.add(selall);
+        
+        editMenu.addSeparator();
+        editMenu.add(PineDLEditor.createStyleMenu(editor));
+        
 
         return true;
+    }
+
+    /**
+     * Creates a new style menu for choosing the syntax style.
+     * 
+     * @param r The {@link RSyntaxTextArea} to apply any changes to.
+     * @return A menu contianing all of the syntax styles.
+     */
+    public static JMenu createStyleMenu(final RSyntaxTextArea r) {
+        JMenu stylingMenu = new JMenu("Style");
+
+        Vector<Integer> vi = new Vector<Integer>();
+        vi.add(RSyntaxTextArea.NO_SYNTAX_STYLE);
+        for (int value : PineDLEditor.styles.values()) {
+            if (!vi.contains(value)) {
+                vi.add(value);
+            }
+        }
+        JMenuItem menuItem;
+        for (final int value : vi) {
+            menuItem = new JMenuItem(PineDLEditor.names.get(value));
+            menuItem.setAccelerator(null);
+            menuItem.setToolTipText(null);
+            menuItem.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    r.setSyntaxEditingStyle(value);
+                }
+            });
+            stylingMenu.add(menuItem);
+        }
+        return stylingMenu;
     }
 }

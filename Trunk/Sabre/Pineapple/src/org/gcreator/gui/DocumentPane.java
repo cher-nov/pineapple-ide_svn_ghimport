@@ -22,8 +22,6 @@ THE SOFTWARE.
  */
 package org.gcreator.gui;
 
-import java.net.URI;
-import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -32,13 +30,15 @@ import org.gcreator.project.io.BasicFile;
 
 /**
  * DocumentPane is the most basic unit of file editing.
+ * 
  * @author Luís Reis
  */
-public class DocumentPane extends JPanel {
+public abstract class DocumentPane extends JPanel {
+
     private static final long serialVersionUID = 1L;
-
-    private BasicFile file;
-
+    protected BasicFile file;
+    protected boolean modified;
+    
     /**
      * Creates a DocumentPane for a specific file.
      * @param file The file
@@ -48,16 +48,15 @@ public class DocumentPane extends JPanel {
     }
 
     /**
-     * Gets the file
-     * @return The file.
+     * @return The file that this pane edits.
      */
     public BasicFile getFile() {
         return file;
     }
 
     /**
-     * Saves the file
-     * @return Whether or not the file was saved
+     * Saves the file.
+     * @return Whether or not the file was saved.
      */
     public boolean save() {
         if (file == null) {
@@ -74,7 +73,7 @@ public class DocumentPane extends JPanel {
     }
 
     /**
-     * Saves the backend with no interface requests
+     * Saves the backend with no interface requests.
      * @return Wheather the save was successful.
      */
     public boolean saveBackend() {
@@ -82,21 +81,10 @@ public class DocumentPane extends JPanel {
     }
 
     /**
-     * Saves the file with a new location
-     * @return Whether save was sucessful or not
+     * Saves the file with a new location.
+     * @return Whether save was sucessful or not.
      */
     public boolean saveas() {
-        /*
-         * TODO:
-         * 
-         JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle("Select where to save");
-        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-        if (chooser.showDialog(Core.getStaticContext().getMainFrame(), "OK") != JFileChooser.CANCEL_OPTION) {
-            file = chooser.getSelectedFile();
-            return true;
-        }
-        */
         return false;
     }
 
@@ -108,18 +96,17 @@ public class DocumentPane extends JPanel {
     public boolean setupEditMenu(JMenu editMenu) {
         return false;
     }
-    private boolean modified = false;
 
     /**
-     * Returns whether or not the file was modified
+     * @return Whether or not the file was modified.
      */
     public boolean isModified() {
         return modified;
     }
 
     /**
-     * Sets whether or not the file was modified
-     * @param modified Whether or not the file was modified
+     * Sets whether or not the file was modified.
+     * @param modified Whether or not the file was modified.
      */
     public void setModified(boolean modified) {
         this.modified = modified;
@@ -130,14 +117,13 @@ public class DocumentPane extends JPanel {
     }
 
     /**
-     * Gets whether or not the file can be saved
+     * @return whether or not the file can be saved.
      */
     public boolean canSave() {
         return isModified();
     }
 
     /**
-     * Gets the title of the document
      * @return The title of the document.
      */
     public String getTitle() {
@@ -156,8 +142,8 @@ public class DocumentPane extends JPanel {
     }
 
     /**
-     * Destroys, but asks whether or not to save the document first
-     * Returns whether or not is was disposed
+     * Destroys, but asks whether or not to save the document first.
+     * @return whether or not is was disposed.
      */
     public boolean dispose() {
         if (canSave()) {

@@ -41,7 +41,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectElement;
-import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.io.ProjectManager;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -85,13 +84,15 @@ public class DefaultProjectManager implements ProjectManager {
      * @param f The {@link java.io.File} to load.
      * @param folder The folder for the project.
      * @param type The project type for the project.
+     * @param initial The {@link DefaultProject} to load the file to.
+     * If this is <tt>null</tt>, a new {@link DefaultProject} will be created.
      * @throws NullPointerException If the given project is <tt>null</tt>.
      */
-    public DefaultProjectManager(File f, File folder, DefaultProjectType type) throws NullPointerException {
+    public DefaultProjectManager(File f, File folder, DefaultProjectType type, DefaultProject initial) throws NullPointerException {
         if (f == null) {
             throw new NullPointerException("File may not be null.");
         }
-        this.project = load(f, folder, type);
+        this.project = load(f, folder, type, initial);
     }
 
     /**
@@ -106,13 +107,17 @@ public class DefaultProjectManager implements ProjectManager {
      * @param f The {@link java.io.File} to be loaded.
      * @param folder The folder dor the project.
      * @param t The project type for te project.
+     * @param initial The {@link DefaultProject} to load the file to.
+     * If this is <tt>null</tt>, a new {@link DefaultProject} will be created.
      * @return A new {@link Project} created from the given {@link java.io.File}.
      * 
      * @see #getProjectFileTypes() 
      * @see #allowsProject(java.io.File) 
      */
-    public DefaultProject load(File f, File folder, DefaultProjectType t) {
-        DefaultProject p = new DefaultProject(null, folder, t, this, false);
+    public DefaultProject load(File f, File folder, DefaultProjectType t, DefaultProject initial) {
+        if (initial == null) {
+            initial = new DefaultProject(null, folder, t, this, false);
+        }
         String format;
         int i = f.getName().lastIndexOf('.');
         if (i == -1 || i == f.getName().length()) {
@@ -127,10 +132,10 @@ public class DefaultProjectManager implements ProjectManager {
 
         /* Pineapple Manifest File */
         if (format.equals("pmf")) {
-            loadFromManifest(f, p);
+            loadFromManifest(f, initial);
         }
 
-        return p;
+        return initial;
     }
 
     public static String[] getProjectFileTypes() {

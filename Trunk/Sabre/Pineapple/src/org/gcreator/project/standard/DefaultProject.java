@@ -55,7 +55,7 @@ public class DefaultProject extends Project {
      * @param manager The manager for this project. May be <tt>null</tt>.
      * @param save Whether to save the project manifest first.
      */
-    protected DefaultProject(String name, File folder, DefaultProjectType type, DefaultProjectManager manager, boolean save) {
+    protected DefaultProject(String name, File folder, ProjectType type, DefaultProjectManager manager, boolean save) {
         this.projectFolder = folder;
         this.files = new Vector<ProjectElement>();
         this.settings = new ProjectSettings<String, String>();
@@ -76,7 +76,7 @@ public class DefaultProject extends Project {
      * @param type The project type class. May be <tt>null</tt>.
      * @param manager The manager for this project. May be <tt>null</tt>.
      */
-    protected DefaultProject(String name, File folder, DefaultProjectType type, DefaultProjectManager manager) {
+    protected DefaultProject(String name, File folder, ProjectType type, DefaultProjectManager manager) {
         this(name, folder, type, manager, true);
     }
 
