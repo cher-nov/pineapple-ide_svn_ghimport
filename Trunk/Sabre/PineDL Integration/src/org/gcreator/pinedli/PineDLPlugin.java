@@ -105,6 +105,10 @@ public class PineDLPlugin extends Plugin implements FormatSupporter {
      */
     @Override
     public void initialize() {
+        PineappleCore.fileTypeNames.put("pdl", "PineDL Script");
+        PineappleCore.fileTypeDescriptions.put("pdl",
+                "Code written in the PineDL programming language.");
+        
         EventManager.addEventHandler(this, PineappleCore.REGISTER_FORMATS);
     }
 
