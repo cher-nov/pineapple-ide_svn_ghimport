@@ -144,6 +144,7 @@ public class PineappleGUI implements EventHandler {
     public static JMenuItem projectExport;
     public static JMenuItem projectDelete;
     public static JMenuItem projectFind;
+    public static JMenuItem projectClose;
     public static JMenuItem helpAbout;
     /**
      * Provides a way to deal with multiple documents.
@@ -563,6 +564,25 @@ public class PineappleGUI implements EventHandler {
         projectMenu.add(projectFind);
 
 
+        projectClose = new JMenuItem("Close Project") {
+
+            private static final long serialVersionUID = 1;
+
+            @Override
+            public boolean isEnabled() {
+                return PineappleCore.getProject() != null;
+            }
+        };
+        projectClose.setMnemonic('C');
+        projectClose.setVisible(true);
+        projectClose.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent evt) {
+                closeProject();
+            }
+        });
+        projectMenu.add(projectClose);
+        
         menubar.add(projectMenu);
         //</editor-fold>
 
