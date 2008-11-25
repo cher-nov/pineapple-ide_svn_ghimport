@@ -31,6 +31,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.gcreator.gui.ActionRenderer;
@@ -66,52 +68,69 @@ public class CodeActionType extends ActionType {
         private static final long serialVersionUID = 1594450534973488561L;
         public JLabel label;
         public Action action;
+        RSyntaxTextArea editor = null;
+        RTextScrollPane scroll = null;
 
         public CodePanel(Action action, final ActionRenderer actRender) {
             setLayout(new BorderLayout());
             this.action = action;
-            label = new JLabel(action.args.toString());
-            label.setVisible(true);
-            label.addMouseListener(new MouseAdapter() {
+            //label = new JLabel(action.args.toString());
+            //label.setVisible(true);
+            //label.addMouseListener(new MouseAdapter() {
 
-                RSyntaxTextArea editor = null;
-                RTextScrollPane scroll = null;
+            //    @Override
+            //    public void mouseClicked(MouseEvent e) {
+            editor = new RSyntaxTextArea();
+            editor.restoreDefaultSyntaxHighlightingColorScheme();
+            editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
+            scroll =
+                    new RTextScrollPane(getWidth(),
+                    getHeight(), editor, false);
+            scroll.setVisible(true);
+            editor.setVisible(true);
+            editor.setFocusable(true);
+            editor.setText(CodePanel.this.action.args.toString());
+            scroll.setFocusable(false);
+            add(scroll, BorderLayout.CENTER);
+            editor.getDocument().addDocumentListener(new DocumentListener() {
 
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    editor = new RSyntaxTextArea();
-                    editor.restoreDefaultSyntaxHighlightingColorScheme();
-                    editor.setSyntaxEditingStyle(RSyntaxTextArea.PINEDL_SYNTAX_STYLE);
-                    scroll =
-                            new RTextScrollPane(getWidth(),
-                            getHeight(), editor, false);
-                    scroll.setVisible(true);
-                    editor.setVisible(true);
-                    editor.setFocusable(true);
-                    editor.setText(CodePanel.this.action.args.toString());
-                    scroll.setFocusable(false);
-                    add(scroll, BorderLayout.CENTER);
-                    label.setVisible(false);
-                    editor.addKeyListener(new KeyAdapter() {
+                public void insertUpdate(DocumentEvent e) {
+                    update(e);
+                }
 
-                        @Override
-                        public void keyPressed(KeyEvent e) {
-                            if(e.getKeyChar()=='\n'){
-                                CodePanel.this.action.args = editor.getText();
-                                label.setText(CodePanel.this.action.args.toString());
-                                CodePanel.this.remove(scroll);
-                                label.setVisible(true);
-                            }
-                        }
-                    });
+                public void removeUpdate(DocumentEvent e) {
+                    update(e);
+                }
+
+                public void changedUpdate(DocumentEvent e) {
+                    update(e);
+                }
+                
+                public void update(DocumentEvent e){
+                    CodePanel.this.action.args = editor.getText();
                 }
             });
-            add(label, BorderLayout.CENTER);
+            //        label.setVisible(false);
+                    /*editor.addKeyListener(new KeyAdapter() {
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+            if(e.getKeyChar()=='\n'){
+            CodePanel.this.action.args = editor.getText();
+            label.setText(CodePanel.this.action.args.toString());
+            CodePanel.this.remove(scroll);
+            label.setVisible(true);
+            }
+            }
+            });*/
+            //    }
+            //});
+            //add(label, BorderLayout.CENTER);
         }
 
         @Override
         public Dimension getPreferredSize() {
-            Dimension d = new Dimension(label.getPreferredSize());
+            Dimension d = new Dimension(editor.getPreferredSize());
             d.height += 20;
             d.width = getWidth();
             return d;
