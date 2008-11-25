@@ -72,7 +72,9 @@ public class IfActionType extends ActionType{
                 @Override
                 public void componentResized(ComponentEvent e){
                     label.setSize(getWidth(), 15);
-                    ear.setSize(getWidth()-10, ear.getPreferredSize().height);
+                    if(CodePanel.this.action.expanded){
+                        ear.setSize(getWidth()-10, ear.getPreferredSize().height);
+                    }
                 }
             });
             this.action = action;
@@ -80,14 +82,13 @@ public class IfActionType extends ActionType{
             label.setVisible(true);
             add(label);
             label.setLocation(0, 10);
-            System.out.println("label.setSize("+getWidth()+", 15);");
             label.setSize(getWidth(), 15);
             if(action.expanded){
-            ear = new EmbedActionRenderer(action, bgColor, actRender);
-            ear.setVisible(true);
-            add(ear);
-            ear.setLocation(10, 40);
-            ear.setSize(getWidth()-10, ear.getPreferredSize().height);
+                ear = new EmbedActionRenderer(action, bgColor, actRender);
+                ear.setVisible(true);
+                add(ear);
+                ear.setLocation(10, 40);
+                ear.setSize(getWidth()-10, ear.getPreferredSize().height);
             }
         }
         

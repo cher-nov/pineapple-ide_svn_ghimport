@@ -40,9 +40,8 @@ public class EmbedActionRenderer extends ActionRenderer{
     public EmbedActionRenderer(Action arg, Color usedColor, ActionRenderer actRender){
         this.arg = arg;
         this.usedColor = usedColor;
-        updateUI();
-        System.out.println("lh="+lh);
         this.actRender = actRender;
+        updateUI();
     }
     
     @Override
