@@ -70,9 +70,9 @@ public abstract class ActionRenderer extends JPanel{
      */
     public abstract Color getUsedColor();
     
-    public static final Color LIGHT_ORANGE = new Color(255, 150, 10);
-    public static final Color LIGHT_BLUE = new Color(150, 200, 255);
-    public static final Color LIGHT_GREEN = new Color(150, 255, 150);
+    public static final Color LIGHT_ORANGE = new Color(255, 170, 40);
+    public static final Color LIGHT_BLUE = new Color(170, 220, 255);
+    public static final Color LIGHT_GREEN = new Color(170, 255, 170);
     
     public int lh = 35;
     

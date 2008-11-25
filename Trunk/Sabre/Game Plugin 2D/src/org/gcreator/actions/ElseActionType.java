@@ -55,6 +55,7 @@ public class ElseActionType extends ActionType{
             return null;
         }
         
+        System.out.println("Parent="+actRender.getClass());
         CodePanel p = new CodePanel(action, bgColor, actRender);
         p.setBackground(bgColor);
         
@@ -74,7 +75,9 @@ public class ElseActionType extends ActionType{
                 @Override
                 public void componentResized(ComponentEvent e){
                     label.setSize(getWidth(), 15);
-                    ear.setSize(getWidth()-10, ear.getPreferredSize().height);
+                    if(CodePanel.this.action.expanded){
+                        ear.setSize(getWidth()-10, ear.getPreferredSize().height);
+                    }
                 }
             });
             renderer = actRender;
@@ -86,18 +89,20 @@ public class ElseActionType extends ActionType{
                 public void mouseClicked(MouseEvent evt){
                     CodePanel.this.action.expanded = !CodePanel.this.action.expanded;
                     label.setText("["+(CodePanel.this.action.expanded?"-":"+")+"] Else");
+                    System.out.println("Time to update:");
                     renderer.updateUI();
+                    System.out.println("Finished updating");
                 }
             });
             add(label);
             label.setLocation(0, 10);
             label.setSize(getWidth(), 15);
             if(action.expanded){
-            ear = new EmbedActionRenderer(action, bgColor, actRender);
-            ear.setVisible(true);
-            add(ear);
-            ear.setLocation(10, 40);
-            ear.setSize(getWidth()-10, ear.getPreferredSize().height);
+                ear = new EmbedActionRenderer(action, bgColor, actRender);
+                ear.setVisible(true);
+                add(ear);
+                ear.setLocation(10, 40);
+                ear.setSize(getWidth()-10, ear.getPreferredSize().height);
             }
         }
         

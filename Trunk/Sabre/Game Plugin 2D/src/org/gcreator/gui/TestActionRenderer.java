@@ -72,4 +72,9 @@ public class TestActionRenderer extends ActionRenderer{
     public Vector<Action> getActions(){
         return va;
     }
+    
+    public void updateUI(){
+        System.out.println("PARENT UPDATED");
+        super.updateUI();
+    }
 }

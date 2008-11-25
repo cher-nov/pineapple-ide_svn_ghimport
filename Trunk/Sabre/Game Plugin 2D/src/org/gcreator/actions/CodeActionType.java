@@ -70,7 +70,6 @@ public class CodeActionType extends ActionType {
         public CodePanel(Action action, final ActionRenderer actRender) {
             setLayout(new BorderLayout());
             this.action = action;
-            System.out.println("args="+action.args.toString());
             label = new JLabel(action.args.toString());
             label.setVisible(true);
             label.addMouseListener(new MouseAdapter() {
