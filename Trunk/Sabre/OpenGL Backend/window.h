@@ -1,9 +1,11 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "pineapple.h"
+#include <string>
 
-class Pineapple::Window
+namespace Pineapple {
+
+class Window
 {
     static int width;
     static int height;
@@ -23,5 +25,7 @@ public:
 
     static void run();
 };
+
+}
 
 #endif

@@ -1,9 +1,9 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include "pineapple.h"
+namespace Pineapple {
 
-class Pineapple::View
+class View
 {
     int px;
     int py;
@@ -24,5 +24,7 @@ public:
          int py = 0);
     void set();
 };
+
+}
 
 #endif

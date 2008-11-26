@@ -1,3 +1,4 @@
+#include "SDL/SDL.h"
 #include "timer.h"
 
 using namespace Pineapple;

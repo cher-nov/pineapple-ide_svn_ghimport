@@ -1,29 +1,28 @@
 #ifndef ACTOR_H
 #define ACTOR_H
 
-#include "pineapple.h"
-using namespace Pineapple;
+#include "vector.h"
+#include "texture.h"
+#include "keyboard.h"
 
-class Pineapple::Actor
+namespace Pineapple {
+
+class Actor
 {
-    float x, y;
     Vector* motion;
     Vector* gravity;
     float friction;
 protected:
     Texture* texture;
     float angle;
+    float x, y;
 public:
     Actor();
     virtual ~Actor();
 
-    float getX() { return x; }
-    float getY() { return y; }
-    void setX(float x) { this->x = x; }
-    void setY(float y) { this->y = y; }
-
     float getHSpeed() { return motion->getX(); }
     float getVSpeed() { return motion->getY(); }
+
     void setHSpeed(float x) { motion->setX(x); }
     void setVSpeed(float y) { motion->setY(y); }
 
@@ -32,8 +31,8 @@ public:
     void setSpeed(float s) { motion->setSpeed(s); }
     void setDirection(float d) { motion->setDirection(d); }
 
-    float getFriction() { return friction; }
     void setFriction(float f) { friction = f; }
+    float getFriction() { return friction; }
 
     float getGravity() { return gravity->getSpeed(); }
     float getGravityDirection() { return gravity->getDirection(); }
@@ -43,12 +42,17 @@ public:
 
     void loop();
 
+    enum Motion { MotionXY, MotionRV };
+    void setMotionMode(Motion m);
+
     virtual void update() {}
     void move();
     virtual void draw();
 
-    virtual void onKeyDown(SDLKey key) {}
-    virtual void onKeyUp(SDLKey key) {}
+    virtual void onKeyDown(Key key) {}
+    virtual void onKeyUp(Key key) {}
 };
+
+}
 
 #endif

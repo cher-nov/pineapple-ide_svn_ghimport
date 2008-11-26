@@ -1,9 +1,11 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include "pineapple.h"
+#include "scene.h"
 
-class Pineapple::Application
+namespace Pineapple {
+
+class Application
 {
     static int speed;
     static bool running;
@@ -17,5 +19,7 @@ public:
 	static void setScene(Scene* scene);
 	static Scene* getScene() { return currentScene; }
 };
+
+}
 
 #endif

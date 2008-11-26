@@ -1,8 +1,12 @@
-#include <math.h>
-#define PI 3.14159265
+#ifndef PAMATH_H
+#define PAMATH_H
+
+#include <cmath>
 
 namespace Pineapple
 {
+    const double pi = 3.141592653589793238;
+
     template <class T>
     inline int sign(T a)
     {
@@ -27,3 +31,5 @@ namespace Pineapple
         return (a > 0) ? a : -a;
     }
 }
+
+#endif

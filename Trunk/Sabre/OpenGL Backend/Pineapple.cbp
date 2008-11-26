@@ -46,13 +46,14 @@
 		<Unit filename="keycodes.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="pamath.h" />
-		<Unit filename="pineapple.h" />
 		<Unit filename="scene.cpp" />
 		<Unit filename="scene.h" />
 		<Unit filename="texture.cpp" />
 		<Unit filename="texture.h" />
 		<Unit filename="timer.cpp" />
 		<Unit filename="timer.h" />
+		<Unit filename="vector.cpp" />
+		<Unit filename="vector.h" />
 		<Unit filename="view.cpp" />
 		<Unit filename="view.h" />
 		<Unit filename="window.cpp" />

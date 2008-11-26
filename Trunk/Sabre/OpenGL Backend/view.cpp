@@ -1,4 +1,6 @@
+#include "SDL/SDL_opengl.h"
 #include "view.h"
+#include "window.h"
 #include <iostream>
 
 using namespace Pineapple;

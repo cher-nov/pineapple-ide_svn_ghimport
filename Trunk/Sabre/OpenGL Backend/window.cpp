@@ -1,5 +1,9 @@
+#include "SDL/SDL.h"
+#include "SDL/SDL_opengl.h"
 #include "window.h"
-#include <iostream>
+#include "timer.h"
+#include "scene.h"
+#include "application.h"
 
 using namespace Pineapple;
 
@@ -90,12 +94,12 @@ void Window::run()
 
                 case SDL_KEYDOWN:
                     if (s != NULL)
-                        s->onKeyDown(event.key.keysym.sym);
+                        s->onKeyDown((Key)event.key.keysym.sym);
                     break;
 
                 case SDL_KEYUP:
                     if (s != NULL)
-                        s->onKeyUp(event.key.keysym.sym);
+                        s->onKeyUp((Key)event.key.keysym.sym);
                     break;
             }
         }
