@@ -1,10 +1,14 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "pineapple.h"
+#include "actor.h"
+#include "view.h"
+#include "keyboard.h"
 #include <vector>
 
-class Pineapple::Scene
+namespace Pineapple {
+
+class Scene
 {
 protected:
     std::vector<Actor*> actors;
@@ -24,11 +28,13 @@ public:
     virtual void addActor(Actor* actor);
     virtual void addView(View* view);
 
-    virtual void onKeyDown(SDLKey key);
-    virtual void onKeyUp(SDLKey key);
+    virtual void onKeyDown(Key key);
+    virtual void onKeyUp(Key key);
 
     int getWidth() { return width; }
     int getHeight() { return height; }
 };
+
+}
 
 #endif

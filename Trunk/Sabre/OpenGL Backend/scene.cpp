@@ -1,5 +1,10 @@
+#include "SDL/SDL.h"
+#include "SDL/SDL_opengl.h"
+#include <vector>
+#include "application.h"
+#include "actor.h"
 #include "scene.h"
-
+#include "scene.h"
 using namespace Pineapple;
 
 //
@@ -83,9 +88,9 @@ void Scene::addView(View* view)
     views.push_back(view);
 }
 
-void Scene::onKeyDown(SDLKey key)
+void Scene::onKeyDown(Key key)
 {
-    if (key == SDLK_ESCAPE)
+    if (key == KeyEscape)
         Application::exit();
 
     for (unsigned int i = 0; i < actors.size(); i++)
@@ -94,7 +99,7 @@ void Scene::onKeyDown(SDLKey key)
     }
 }
 
-void Scene::onKeyUp(SDLKey key)
+void Scene::onKeyUp(Key key)
 {
     for (unsigned int i = 0; i < actors.size(); i++)
     {

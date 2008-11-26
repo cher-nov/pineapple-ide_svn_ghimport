@@ -1,9 +1,11 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include "pineapple.h"
+#include "pamath.h"
 
-class Pineapple::Vector
+namespace Pineapple {
+
+class Vector
 {
 public:
     virtual void setX(float x) = 0;
@@ -19,13 +21,13 @@ public:
     virtual float getSpeed() = 0;
 };
 
-class Pineapple::VectorXY : public Pineapple::Vector
+class VectorXY : public Vector
 {
     float x;
     float y;
     float direction;
 public:
-    VectorXY(float x, float y) { this->x = x; this->y = y; }
+    VectorXY(float x, float y) { this->x = x; this->y = y; direction = 0; }
 
     void setX(float x) { this->x = x; }
     void setY(float y) { this->y = y; }
@@ -35,22 +37,28 @@ public:
 
     void setDirection(float d)
     {
-        x = cos(d * PI/180) * getSpeed();
-        y = -sin(d * PI/180) * getSpeed();
+        x = cos(d * pi/180) * (180/pi) * getSpeed();
+        y = -sin(d * pi/180) * (180/pi) * getSpeed();
         direction = d;
     }
 
     void setSpeed(float s)
     {
-        x = cos(direction ? direction : getDirection() * PI/180) * s;
-        y = -sin(direction ? direction : getDirection() * PI/180) * s;
+        x = cos(getDirection() * pi/180) * s;
+        y = -sin(getDirection() * pi/180) * s;
     }
 
-    float getDirection() { return direction = atan2(x, y); }
-    float getSpeed() { return sqrt(x * x + y * y); }
+    float getDirection()
+    {
+        return (x == 0 && y == 0) ? direction : (direction = atan2(x, y) * 180/pi);
+    }
+    float getSpeed()
+    {
+        return sqrt(x * x + y * y);
+    }
 };
 
-class Pineapple::VectorRV : public Pineapple::Vector
+class VectorRV : public Vector
 {
     float direction;
     float speed;
@@ -63,20 +71,22 @@ public:
     float getDirection() { return direction; }
     float getSpeed() { return speed; }
 
+    float getX() { return cos(direction * pi/180) * speed; }
+    float getY() { return -sin(direction * pi/180) * speed; }
+
     void setX(float x)
     {
-        direction = atan2(x, getY());
+        direction = atan2(x, getY()) * 180/pi;
         speed = sqrt(x * x + getY() * getY());
     }
 
     void setY(float y)
     {
-        direction = atan2(getX(), y);
+        direction = atan2(getX(), y) * 180/pi;
         speed = sqrt(getX() * getX() + y * y);
     }
-
-    float getX() { return cos(direction * PI/180) * speed; }
-    float getY() { return -sin(direction * PI/180) * speed; }
 };
+
+}
 
 #endif

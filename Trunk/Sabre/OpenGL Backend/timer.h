@@ -1,9 +1,9 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include "pineapple.h"
+namespace Pineapple {
 
-class Pineapple::Timer
+class Timer
 {
 private:
     int startTicks;
@@ -13,6 +13,8 @@ public:
     void start();
     int get_ticks();
 };
+
+}
 
 #endif
 

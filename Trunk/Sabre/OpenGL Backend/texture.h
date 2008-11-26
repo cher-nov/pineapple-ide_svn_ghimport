@@ -1,9 +1,12 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "pineapple.h"
+#include "SDL/SDL_opengl.h"
+#include <string>
 
-class Pineapple::Texture
+namespace Pineapple {
+
+class Texture
 {
 private:
     int width;
@@ -22,5 +25,7 @@ public:
 
     void draw(float x, float y, float angle = 0);
 };
+
+}
 
 #endif

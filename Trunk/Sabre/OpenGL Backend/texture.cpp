@@ -1,3 +1,6 @@
+#include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
+#include "SDL/SDL_opengl.h"
 #include "texture.h"
 
 using namespace Pineapple;

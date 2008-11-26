@@ -1,5 +1,6 @@
+#include "application.h"
+#include "vector.h"
 #include "actor.h"
-
 using namespace Pineapple;
 
 //
@@ -14,6 +15,9 @@ Actor::Actor()
     friction = 0;
 }
 
+//
+//Free actor
+//
 Actor::~Actor()
 {
     delete motion;
@@ -37,6 +41,19 @@ void Actor::loop()
 }
 
 //
+//switch between VectorXY and VectorRV
+//
+void Actor::setMotionMode(Motion m)
+{
+    Vector* motion = this->motion;
+    if (m == MotionXY)
+        this->motion = new VectorXY(motion->getX(), motion->getY());
+    else
+        this->motion = new VectorRV(motion->getDirection(), motion->getSpeed());
+    delete motion;
+}
+
+//
 //Actor motion
 //Updates location based on local vars
 //
@@ -53,5 +70,5 @@ void Actor::move()
 //
 void Actor::draw()
 {
-    texture->draw(50, 50, 0);
+    texture->draw(x, y, angle);
 }

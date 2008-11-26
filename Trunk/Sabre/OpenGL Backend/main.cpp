@@ -1,5 +1,7 @@
-#include "pineapple.h"
-
+#include "actor.h"
+#include "keyboard.h"
+#include "application.h"
+#include "window.h"
 using namespace Pineapple;
 
 class Ship : public Actor
@@ -9,8 +11,8 @@ public:
     {
         this->x = x;
         this->y = y;
-
-        friction = 1;
+        setFriction(1);
+        setMotionMode(MotionRV);
 
         texture = new Texture("test.png", 16, 16);
     }
@@ -25,7 +27,7 @@ public:
         loop();
 
         if (Keyboard::isKeyDown(KeyUp))
-            motion->setSpeed(motion->getSpeed() + 2);
+            setSpeed(getSpeed() + 2);
         if (Keyboard::isKeyDown(KeyDown))
             setSpeed(getSpeed() - 2);
 
@@ -36,7 +38,7 @@ public:
         if (Keyboard::isKeyDown(KeyRight))
             setDirection(getDirection() - 4);
 
-        setAngle(getDirection());
+        angle = getDirection();
     }
 };
 

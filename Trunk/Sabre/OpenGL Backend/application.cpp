@@ -1,5 +1,6 @@
+#include "SDL/SDL_opengl.h"
+#include "scene.h"
 #include "application.h"
-
 using namespace Pineapple;
 
 int Application::speed = 60;
