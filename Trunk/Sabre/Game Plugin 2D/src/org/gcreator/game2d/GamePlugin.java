@@ -25,6 +25,8 @@ package org.gcreator.game2d;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import org.gcreator.editors.ActorEditor;
+import org.gcreator.editors.TextEditor;
 import org.gcreator.gui.DocumentPane;
 import org.gcreator.gui.PineappleGUI;
 import org.gcreator.gui.TestActionRenderer;
@@ -34,6 +36,8 @@ import org.gcreator.plugins.DefaultEventTypes;
 import org.gcreator.plugins.Event;
 import org.gcreator.plugins.EventPriority;
 import org.gcreator.plugins.Plugin;
+import org.gcreator.project.io.BasicFile;
+import org.gcreator.project.io.FormatSupporter;
 import org.noos.xing.mydoggy.ToolWindow;
 import org.noos.xing.mydoggy.ToolWindowAnchor;
 
@@ -42,7 +46,7 @@ import org.noos.xing.mydoggy.ToolWindowAnchor;
  * 
  * @author Luís Reis
  */
-public class GamePlugin extends Plugin {
+public class GamePlugin extends Plugin implements FormatSupporter{
 
     public static final String PALETTE_CREATED = "game-palette-created";
     
@@ -53,7 +57,48 @@ public class GamePlugin extends Plugin {
     public String getName() {
         return "Game Plugin 2D";
     }
+    
+    @Override
+    public String getDescription(String format){
+        if(format==null){
+            return "";
+        }
+        
+        if(format.equals("actor")){
+            return "Edits actors, that is, game entities with behavior.";
+        }
+        
+        return "";
+    }
+    
+    public DocumentPane load(BasicFile f){
+        String n = f.getName();
+        int index = n.indexOf(".");
+        if(index==-1){
+            return new TextEditor(f);
+        }
+        //x. length=2 index=1
+        if(index==n.length()-1){
+            return new TextEditor(f);
+        }
+        
+        //x.txt index=1 n.substring(index=".txt")
+        String format = n.substring(index+1);
+        if(format.equals("actor")){
+            return new ActorEditor(f);
+        }
+        
+        return new TextEditor(f);
+    }
 
+    public static String[] formats = new String[]{
+        "actor"
+    };
+    
+    public String[] getFormats(){
+        return formats;
+    }
+    
     @Override
     public String getDescription() {
         return "Adds 2D game support to Pineapple";
@@ -87,6 +132,8 @@ public class GamePlugin extends Plugin {
             }
         } else if (e.getEventType().equals(PineappleCore.REGISTER_PROJECT_TYPES)) {
             PineappleCore.addProjectType(new GameProjectType());
+        } else if (e.getEventType().equals(PineappleCore.REGISTER_FORMATS)) {
+            PineappleCore.addFormatSupporter(this);
         }
     }
 
@@ -99,6 +146,12 @@ public class GamePlugin extends Plugin {
         EventManager.addEventHandler(this, DefaultEventTypes.WINDOW_CREATED, EventPriority.LOW);
         EventManager.addEventHandler(this, PineappleGUI.FILE_CHANGED);
         EventManager.addEventHandler(this, PineappleCore.REGISTER_PROJECT_TYPES);
+        EventManager.addEventHandler(this, PineappleCore.REGISTER_FORMATS);
+        PineappleCore.fileTypeNames.put("actor", "Game Actor");
+        PineappleCore.fileTypeDescriptions.put("actor",
+                "Game entities associated with a position and a behavior.");
+        
+        EventManager.addEventHandler(this, PineappleCore.REGISTER_FORMATS);
     }
 
     @Override

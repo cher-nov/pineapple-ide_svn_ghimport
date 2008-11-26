@@ -130,8 +130,8 @@ public class CodeActionType extends ActionType {
 
         @Override
         public Dimension getPreferredSize() {
-            Dimension d = new Dimension(editor.getPreferredSize());
-            d.height += 20;
+            Dimension d = new Dimension();
+            d.height = 60;
             d.width = getWidth();
             return d;
         }
