@@ -23,12 +23,10 @@ THE SOFTWARE.
 
 package org.gcreator.actions;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.gcreator.gui.ActionRenderer;
@@ -39,6 +37,10 @@ import org.gcreator.gui.EmbedActionRenderer;
  * @author Luís Reis
  */
 public class IfActionType extends ActionType{
+    /**
+     * The If Action type, provided as a static variable to make
+     * sure it is only initialized once.
+     */
     public static final IfActionType ACTIONTYPE_IF = new IfActionType();
     
     protected IfActionType(){

@@ -40,6 +40,10 @@ import org.gcreator.gui.EmbedActionRenderer;
  * @author Luís Reis
  */
 public class ElseActionType extends ActionType{
+    /**
+     * The Else Action type, provided as a static variable to make
+     * sure it is only initialized once.
+     */
     public static final ElseActionType ACTIONTYPE_ELSE = new ElseActionType();
     
     protected ElseActionType(){
