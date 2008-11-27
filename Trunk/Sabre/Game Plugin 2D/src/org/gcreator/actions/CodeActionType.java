@@ -25,10 +25,6 @@ package org.gcreator.actions;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
@@ -43,6 +39,10 @@ import org.gcreator.gui.ActionRenderer;
  */
 public class CodeActionType extends ActionType {
 
+    /**
+     * The Code Action type, provided as a static variable to make
+     * sure it is only initialized once.
+     */
     public static final CodeActionType ACTIONTYPE_CODE = new CodeActionType();
 
     protected CodeActionType() {

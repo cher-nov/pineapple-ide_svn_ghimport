@@ -48,6 +48,9 @@ import org.noos.xing.mydoggy.ToolWindowAnchor;
  */
 public class GamePlugin extends Plugin implements FormatSupporter{
 
+    /**
+     * Called when the palette is created
+     */
     public static final String PALETTE_CREATED = "game-palette-created";
     
     public static ToolWindow palette = null;
