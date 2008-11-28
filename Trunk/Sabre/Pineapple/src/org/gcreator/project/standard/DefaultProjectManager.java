@@ -22,10 +22,14 @@ THE SOFTWARE.
  */
 package org.gcreator.project.standard;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -41,13 +45,17 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectElement;
-import org.gcreator.project.ProjectFile;
 import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.io.ProjectManager;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * Defualt implementation of {@link ProjectManager}
@@ -102,12 +110,12 @@ public class DefaultProjectManager implements ProjectManager {
      */
     public void save(File f) {
     }
-    
+
     /**
      * {@inheritDoc}
      */
-    public BasicFile createFile(Project p, String type){
-        File f = new File(p.getProjectFolder(), "newFile."+type);
+    public BasicFile createFile(Project p, String type) {
+        File f = new File(p.getProjectFolder(), "newFile." + type);
         return new FileFile(f);
     }
 
@@ -170,8 +178,8 @@ public class DefaultProjectManager implements ProjectManager {
      * Saves the project to a manifest.
      * 
      */
-    protected void saveToManifest() {
-        if (project == null || project.getProjectFolder() == null) {
+    protected synchronized void saveToManifest() {
+        if (project == null || project.getProjectFolder() == null || project.managing) {
             return;
         }
         try {
@@ -186,6 +194,8 @@ public class DefaultProjectManager implements ProjectManager {
                 return;
             }
             Document doc = builder.newDocument();
+            doc.setXmlStandalone(true);
+            doc.setXmlVersion("1.0");
             Element root = doc.createElement("pineapple-project");
             root.setAttribute("version", Float.toString(PROJECT_VERSION));
             root.setAttribute("name", project.getName());
@@ -201,7 +211,7 @@ public class DefaultProjectManager implements ProjectManager {
             /* Settings */
             Element settings = doc.createElement("settings");
             for (String s : project.settings.keySet()) {
-                Element setting = doc.createElement("settings");
+                Element setting = doc.createElement("setting");
                 setting.setAttribute("key", s);
                 setting.setAttribute("value", project.settings.get(s));
                 settings.appendChild(setting);
@@ -249,91 +259,22 @@ public class DefaultProjectManager implements ProjectManager {
      * @param f The manifest file to load.
      * @param project The project to apply the manifest to.
      */
-    protected void loadFromManifest(File f, DefaultProject project) {
+    protected synchronized void loadFromManifest(File f, DefaultProject project) {
+        if (project.managing) {
+            return;
+        }
         try {
             project.managing = true;
-            DocumentBuilder builder = createDocumentBuilder();
-            if (builder == null) {
-                System.err.println("Error: can't load projct XML from null builder.");
-                project = null;
-                return;
+            synchronized (this) {
+                new ProjectXMLHandler(f, project);
             }
-            Document doc = builder.parse(f);
-            Element root = doc.getDocumentElement();
-            if (!root.getTagName().equals("pineapple-project")) {
-                System.err.println("Error: not a valid Pineapple Project Manifest");
-                project = null;
-                return;
-            }
-            if (!root.hasAttribute("version")) {
-                System.err.println("Error: no manifest version");
-                project = null;
-                return;
-            }
-            if (!root.getAttribute("version").equals(Float.toString(PROJECT_VERSION))) {
-                System.err.println("Error: wrong manifest version: " +
-                        root.getAttribute("version") + ", current: " + Float.toString(PROJECT_VERSION));
-                project = null;
-                return;
-            }
-
-            project.setProjectFolder(f.getParentFile());
-
-
-            /* Files */
-            Node files = root.getElementsByTagName("files").item(0);
-            if (files == null) {
-                System.err.println("Error: No <files> tag");
-                project = null;
-                return;
-            }
-            for (int i = 0; i < files.getChildNodes().getLength(); i++) {
-                Node node = files.getChildNodes().item(i);
-                if (!(node instanceof Element)) {
-                    System.err.println("Warning: " + node + " is not of class Element. Cannot load.");
-                    continue;
-                }
-                Element n = (Element) node;
-                if (!n.hasAttribute("path")) {
-                    System.err.println("Warning: " + n + " has not path attribute. Cannot load.");
-                    continue;
-                }
-
-                File file = new File(n.getAttribute("path"));
-                if (!file.exists()) {
-                    System.err.println("Error: file " + file + " does not exist.");
-                    continue;
-                }
-                try {
-                    project.add(project.createElement(new FileFile(file)));
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-
-            /* Settings */
-            Node settings = doc.getElementsByTagName("settings").item(0);
-            if (settings == null) {
-                System.err.println("Error: No <settings> tag");
-                return;
-            }
-
-            for (int i = 0; i < settings.getChildNodes().getLength(); i++) {
-                Node node = files.getChildNodes().item(i);
-                if (!(node instanceof Element)) {
-                    System.err.println("Warning: " + node + " is not of class Element. Cannot load.");
-                    continue;
-                }
-                Element setting = (Element) node;
-                project.settings.put(setting.getAttribute("key"), setting.getAttribute("value"));
-            }
+            this.project = project;
         } catch (SAXException ex) {
             Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            project.managing = true;
+            project.managing = false;
         }
     }
 
@@ -351,5 +292,174 @@ public class DefaultProjectManager implements ProjectManager {
      * {@inheritDoc}
      */
     public void exportFile(File f) {
+    }
+
+    private final class ProjectXMLHandler implements ContentHandler {
+
+        private Locator locator;
+        private boolean files,  settings;
+        private boolean loading;
+        private DefaultProject project;
+
+        public ProjectXMLHandler(File f, DefaultProject p) throws SAXException, FileNotFoundException, IOException {
+            this.project = p;
+            XMLReader r = XMLReaderFactory.createXMLReader();
+            r.setContentHandler(this);
+            InputStream in = new BufferedInputStream(new FileInputStream(f));
+            r.parse(new InputSource(in));
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void setDocumentLocator(Locator locator) {
+            this.locator = locator;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void startDocument() throws SAXException {
+            // Nothing to do here.
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void endDocument() throws SAXException {
+            // Nothing to do here.
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void startPrefixMapping(String prefix, String uri) throws SAXException {
+            System.out.println("Nobody cares about Namespace '" + prefix + "', Namespace URI " + uri);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void endPrefixMapping(String prefix) throws SAXException {
+            System.out.println("A request was made to end Namespace '" + prefix + "', but no one cares");
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
+            System.out.println("["+localName+"]");
+            if (localName.equalsIgnoreCase("pineapple-project")) {
+
+                String version = atts.getValue("version");
+                if (version == null) {
+                    System.err.println("FATAL ERROR: No project version.");
+                    loading = false;
+                } else if (version.equals(Float.toString(PROJECT_VERSION))) {
+                    loading = true;
+                } else {
+                    System.err.println("FATAL ERROR: Wrong project version: " + version + " :: required: " + PROJECT_VERSION);
+                    loading = false;
+                }
+
+                String name = atts.getValue("name");
+                if (name == null) {
+                    System.out.println("WARNING: No 'name' attribute to project. Using default.");
+                    project.setName("Project");
+                } else {
+                    project.setName(name);
+                }
+                return;
+
+            } else if (localName.equalsIgnoreCase("files")) {
+                files = true;
+                return;
+            } else if (localName.equalsIgnoreCase("settings")) {
+                settings = true;
+                return;
+            }
+
+            if (!loading) {
+                System.err.println("WARINING: invalid request to load element '" + qName +
+                        "' when pineapple-project element has not yet been parsed.");
+                return;
+            }
+
+            if (files) {
+                String path = atts.getValue("path");
+                if (path == null) {
+                    System.err.println("ERROR: No path attribute for file.");
+                } else {
+                    File file = new File(path);
+                    if (!file.exists()) {
+                        System.err.println("ERROR: file " + file + " does not exist.");
+                        return;
+                    }
+                    try {
+                        System.out.println("Looks like we got a go! " + file);
+                        project.add(project.createElement(new FileFile(file)));
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } else if (settings) {
+                String key = atts.getValue("key");
+                String value = atts.getValue("value");
+                if (key == null) {
+                    System.err.println("ERROR: no 'key' attribute for setting.");
+                    return;
+                } else if (value == null) {
+                    System.err.println("ERROR: no 'value' attribute for setting.");
+                    return;
+                }
+                project.settings.put(key, value);
+            } else {
+                System.err.println("WARNING: unrecegnized element '" + qName + "'");
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void endElement(String uri, String localName, String qName) throws SAXException {
+            if (!loading) {
+                return;
+            }
+            if (localName.equalsIgnoreCase("pineapple-project")) {
+                loading = false;
+            } else if (localName.equalsIgnoreCase("files")) {
+                files = false;
+            } else if (localName.equalsIgnoreCase("settings")) {
+                settings = false;
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void characters(char[] ch, int start, int length) throws SAXException {
+            System.out.println("NOTE: Charachters '" + Arrays.copyOfRange(ch, start, start + length) + "'");
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
+            System.out.println("NOTE: Ignorable Witespace '" + Arrays.copyOfRange(ch, start, start + length) + "'");
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void processingInstruction(String target, String data) throws SAXException {
+            System.out.println("NOTE: Processing '" + target + "', data '" + data + "'");
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        public void skippedEntity(String name) throws SAXException {
+            System.out.println("NOTE: Skipped Entity '" + name + "'");
+        }
     }
 }

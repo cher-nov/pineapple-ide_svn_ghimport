@@ -5,6 +5,13 @@
 <project name="Game_Plugin_2D" default="default" basedir=".">
     <description>Builds, tests, and runs the project Game Plugin 2D.</description>
     <import file="nbproject/build-impl.xml"/>
+    
+    <waitfor>
+        <available file="dist/Game_Plugin_2D.jar" />
+    </waitfor>
+    <echo message="Completed build"/>
+    <ant antfile="Game Plugin 2D/build-module.xml" dir="../"/>
+    
     <!--
 
     There exist several targets which are by default empty and which can be 

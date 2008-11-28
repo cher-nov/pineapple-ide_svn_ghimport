@@ -309,8 +309,9 @@ public class PineappleGUI implements EventHandler {
                     return;
                 }
                 BaseTreeNode node = (BaseTreeNode) o;
-
-                projectRemove.setEnabled(PineappleCore.getProject().indexOf(node.getElement()) != -1);
+                
+                projectRemove.setEnabled((PineappleCore.getProject() != null) ?
+                    (PineappleCore.getProject().indexOf(node.getElement()) != -1) : false);
                 projectOpen.setEnabled(node instanceof FileTreeNode);
                 projectDelete.setEnabled(true);
             }
@@ -486,8 +487,11 @@ public class PineappleGUI implements EventHandler {
         projectDelete.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent evt) {
-                ProjectElement el = ((BaseTreeNode) tree.getSelectionPath().getLastPathComponent()).getElement();
-                deleteFile(el);
+                try {
+                    ProjectElement el = ((BaseTreeNode) tree.getSelectionPath().getLastPathComponent()).getElement();
+                    deleteFile(el);
+                } catch (NullPointerException exc) {
+                }
             }
         });
         projectMenu.add(projectDelete);
@@ -553,6 +557,7 @@ public class PineappleGUI implements EventHandler {
 
             public void actionPerformed(ActionEvent evt) {
                 JDialog d = new JDialog(Core.getStaticContext().getMainFrame());
+                d.setTitle("Search Resources");
                 d.setSize(320, 240);
                 d.setMinimumSize(new Dimension(320, 240));
                 d.setModalityType(ModalityType.MODELESS);
@@ -886,7 +891,6 @@ public class PineappleGUI implements EventHandler {
                 menu.add("Open...").addActionListener(new ActionListener() {
 
                     public void actionPerformed(ActionEvent e) {
-                        MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("");
                         openFile(n.getElement().getFile());
                     }
                 });
@@ -1009,7 +1013,7 @@ public class PineappleGUI implements EventHandler {
         }
     }
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="openFile(final File)">
+    //<editor-fold defaultstate="collapsed" desc="openFile(BaiscFile)">
     /**
      * Opens a given file
      * @param f The file to open
@@ -1143,6 +1147,7 @@ public class PineappleGUI implements EventHandler {
     public void openFile(boolean addFile, boolean allowFolder) {
         JFileChooser fc = createFileChooser("Select files to open", getSupportedFileFormats());
         fc.setFileSelectionMode((allowFolder) ? JFileChooser.FILES_AND_DIRECTORIES : JFileChooser.FILES_ONLY);
+        fc.setMultiSelectionEnabled(true);
         File files[] = showFileChooserMultiple(fc);
         if (files != null && files.length > 0) {
             for (File f : files) {

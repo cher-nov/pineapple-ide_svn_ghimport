@@ -96,6 +96,7 @@ public final class FindResourcePanel extends JPanel implements ActionListener, M
     }
     
     private void search(String s) {
+        s = s.toLowerCase();
         results.clear();
         go.setEnabled(false);
         try {
@@ -111,7 +112,7 @@ public final class FindResourcePanel extends JPanel implements ActionListener, M
     }
     
     private void search(String s, ProjectElement e) {
-        if (e.getName().contains(s)) {
+        if (e.getName().toLowerCase().contains(s)) {
             results.add(e);
         }
         
