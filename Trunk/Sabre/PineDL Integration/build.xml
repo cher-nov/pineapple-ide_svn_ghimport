@@ -5,6 +5,13 @@
 <project name="PineDL_Integration" default="default" basedir=".">
     <description>Builds, tests, and runs the project PineDL Integration.</description>
     <import file="nbproject/build-impl.xml"/>
+    
+    <waitfor>
+        <available file="dist/PineDL_Integration.jar" />
+    </waitfor>
+    <echo message="Completed build"/>
+    <ant antfile="PineDL Integration/build-module.xml" dir="../"/>
+    
     <!--
 
     There exist several targets which are by default empty and which can be 

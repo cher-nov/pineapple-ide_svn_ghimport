@@ -26,11 +26,9 @@ import java.awt.Component;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.gcreator.tree.ProjectTreeNode;
-import org.gcreator.project.ProjectFile;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectElement;
 import org.gcreator.tree.BaseTreeNode;
-import org.gcreator.tree.FileTreeNode;
 
 /**
  * A FolderProject tree cell renderer
@@ -56,19 +54,20 @@ public class ProjectTreeRenderer extends DefaultTreeCellRenderer {
         if (val instanceof ProjectTreeNode) {
             try {
                 ProjectTreeNode n = (ProjectTreeNode) val;
+                
                 Project p = n.getProject();
                 String name = p.getSettings().get("name");
                 if (name != null) {
                     this.setText(name);
                 } else {
-                    this.setText("Project");
+                    this.setText("[null]");
                 }
             } catch (Exception exc) {
                 this.setText(exc.getLocalizedMessage());
             }
         } else if (val instanceof BaseTreeNode) {
             BaseTreeNode node = (BaseTreeNode) val;
-            ProjectElement el = (ProjectElement) node.getElement();
+            ProjectElement el = node.getElement();
             if (el.getIcon() != null) {
                 this.setIcon(el.getIcon());
             }
