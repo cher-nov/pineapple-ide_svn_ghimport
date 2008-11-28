@@ -24,6 +24,7 @@ THE SOFTWARE.
 package org.gcreator.actions;
 
 import java.awt.Color;
+import java.util.Vector;
 import javax.swing.JPanel;
 import org.gcreator.gui.ActionRenderer;
 
@@ -32,6 +33,14 @@ import org.gcreator.gui.ActionRenderer;
  * @author Luís Reis
  */
 public class ActionType {
+    
+    public static Vector<ActionType> actionTypes = new Vector<ActionType>();
+    static{
+        actionTypes.add(IfActionType.ACTIONTYPE_IF);
+        actionTypes.add(CodeActionType.ACTIONTYPE_CODE);
+        actionTypes.add(ElseActionType.ACTIONTYPE_ELSE);
+    }
+    
     protected ActionType(){
         
     }
@@ -50,5 +59,23 @@ public class ActionType {
         JPanel p = new JPanel();
         p.setBackground(bgColor);
         return p;
+    }
+    
+    /**
+     * Saves the arguments
+     * @param action The action to save
+     * @return The string version of the file
+     */
+    public String save(Action action){
+        return action.args==null?null:action.args.toString();
+    }
+    
+    /**
+     * Loads the arguments from a string
+     * @param action The action to use as storage
+     * @param args The arguments to load
+     */
+    public void load(Action action, String args){
+        action.args = args;
     }
 }
