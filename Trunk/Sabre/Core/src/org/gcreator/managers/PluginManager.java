@@ -137,7 +137,7 @@ public final class PluginManager {
             jaris.close();
             Attributes a = m.getMainAttributes();
             String className = a.getValue("Pineapple-EntryPoint");
-            if (className.equals("org.gcreator.game2d.GamePlugin")) {
+            if (className != null && className.equals("org.gcreator.game2d.GamePlugin")) {
                 return;
             }
             load(f, className, loader, enabled);
