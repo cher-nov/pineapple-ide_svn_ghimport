@@ -2,6 +2,7 @@
 #define VECTOR_H
 
 #include "pamath.h"
+using namespace Pineapple::Math;
 
 namespace Pineapple {
 
