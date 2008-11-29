@@ -1248,7 +1248,7 @@ public class PineappleGUI implements EventHandler {
         if (i < 0 || i >= f.getName().length()) {
             format = null;
         } else {
-            format = f.getName().substring(i + 1);
+            format = f.getName().substring(i + 1).toLowerCase();
         }
 
         String key = "files.formats.formatsupporter.remember." + format;
@@ -1260,7 +1260,8 @@ public class PineappleGUI implements EventHandler {
                     String cname = SettingsManager.get(key);
                     Class<?> c = Class.forName(cname);
                     Object o = c.newInstance();
-                    return (FormatSupporter) o;
+                    FormatSupporter s = (FormatSupporter) o;
+                    return s;
                 } catch (Exception exc) {
                 }
             }
@@ -1274,7 +1275,7 @@ public class PineappleGUI implements EventHandler {
         }
 
         if (supporters.length == 0) {
-            JOptionPane.showMessageDialog(manager, "<html>Error:<br/>File format not supported.</html>");
+            JOptionPane.showMessageDialog(manager, "<html>Error:<br/>File format '" + format + "' not supported.</html>");
             return null;
         }
         if (supporters.length == 1) {
@@ -1372,7 +1373,7 @@ public class PineappleGUI implements EventHandler {
         if (i < 0 || i >= f.getName().length()) {
             format = null;
         } else {
-            format = f.getName().substring(i + 1);
+            format = f.getName().substring(i + 1).toLowerCase();
         }
 
         String key = "files.projects.projecttypes.remember." + format;
@@ -1388,20 +1389,21 @@ public class PineappleGUI implements EventHandler {
 
         final Vector<ProjectType> types = new Vector<ProjectType>(2);
 
+        String fname = f.getName().toLowerCase();
         for (ProjectType pt : PineappleCore.getProjectTypes()) {
             String[] s = pt.getProjectFileTypes();
             if (s == null) {
                 continue;
             }
             for (String ff : s) {
-                if (format == null || f.getName().matches(".+\\." + ff)) {
+                if (format == null || fname.matches(".+\\." + ff)) {
                     types.add(pt);
                 }
             }
         }
 
         if (types.size() == 0) {
-            JOptionPane.showMessageDialog(manager, "<html>Error:<br/>Project type not supported.</html>");
+            JOptionPane.showMessageDialog(manager, "<html>Error:<br/>Project type '" + format + "' not supported.</html>");
             return null;
         }
         if (types.size() == 1) {
@@ -1441,13 +1443,6 @@ public class PineappleGUI implements EventHandler {
         box.add(cbox);
         box.add(Box.createHorizontalGlue());
         south.add(box);
-
-
-
-
-
-
-
         final  JButton ok,  cancel;
         ok = new JButton("OK");
         ok.setEnabled(false);
@@ -1538,7 +1533,7 @@ public class PineappleGUI implements EventHandler {
         StringBuilder b = new StringBuilder(length);
         for (String s : formats) {
             if (b.length() > length) {
-                b.append(" ...");
+                b.append("...");
                 break;
             }
             b.append(s + " ");
@@ -1604,6 +1599,7 @@ public class PineappleGUI implements EventHandler {
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="getFormatSupporters(String)">
     public FormatSupporter[] getFormatSupporters(String fname) {
+        fname = fname.toLowerCase();
         String format;
         if (fname == null) {
             format = null;
@@ -1623,11 +1619,11 @@ public class PineappleGUI implements EventHandler {
                 continue;
             }
             for (String ff : s) {
-                if (format == null || fname.matches(".+\\." + ff)) {
+                if (format == null || fname.matches(".+\\." + ff.toLowerCase())) {
                     supporters.add(fs);
+                    /* No need to add the supporter again (if format is null or something)*/
+                    break;
                 }
-                /* No need to add the supporter again */
-                break;
             }
         }
         return supporters.toArray(new FormatSupporter[supporters.size()]);

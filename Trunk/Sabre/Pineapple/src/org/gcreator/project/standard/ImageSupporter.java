@@ -39,7 +39,7 @@ import org.gcreator.project.io.FormatSupporter;
  * @author Serge Humphrey
  */
 public class ImageSupporter implements FormatSupporter {
-    
+
     public String[] getFormats() {
         return ImageIO.getReaderFileSuffixes();
     }

@@ -348,7 +348,6 @@ public class DefaultProjectManager implements ProjectManager {
          * {@inheritDoc}
          */
         public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
-            System.out.println("["+localName+"]");
             if (localName.equalsIgnoreCase("pineapple-project")) {
 
                 String version = atts.getValue("version");
@@ -396,7 +395,6 @@ public class DefaultProjectManager implements ProjectManager {
                         return;
                     }
                     try {
-                        System.out.println("Looks like we got a go! " + file);
                         project.add(project.createElement(new FileFile(file)));
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
