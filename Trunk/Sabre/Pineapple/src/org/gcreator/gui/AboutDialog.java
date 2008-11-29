@@ -131,7 +131,7 @@ public class AboutDialog extends JDialog {
                  "<tr>" + 
                     "<td>PineDL Integration</td> <td>LGPL</td> <td>PineDL Integration" +
                     " provides nice text editors and file support for PineDL, using PDL" +
-                    "files.</td>" + 
+                    " files.</td>" + 
                  "</tr>" +
                  "<tr>" + 
                     "<td>Game Plugin 2D</td> <td>MIT</td> <td>The Game 2D Plugin allows" +
