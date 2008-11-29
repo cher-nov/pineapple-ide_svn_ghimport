@@ -22,6 +22,10 @@ THE SOFTWARE.
 */
 package org.gcreator.core;
 
+import java.io.IOException;
+import java.io.PrintStream;
+import java.text.DateFormat;
+import java.util.Calendar;
 import org.gcreator.gui.MainFrame;
 import org.gcreator.managers.DefaultUncaughtExceptionHandler;
 import org.gcreator.managers.SettingsManager;
@@ -56,6 +60,16 @@ public class Core {
      * @see #unload()
      */
     protected static void load(boolean safe) {
+        /******************ALPHA CODE****************/
+        try{
+            DateFormat d = DateFormat.getDateInstance();
+            System.setErr(new PrintStream(("error-log-"+d.format(Calendar.getInstance().getTime())+".log").replaceAll("/", "-")));
+            System.setOut(new PrintStream(("output-log-"+d.format(Calendar.getInstance().getTime())+".log").replaceAll("/", "-")));
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        /******************END OF ALPHA CODE*********/
         Core.safe = safe;
         
         Thread.setDefaultUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler());
