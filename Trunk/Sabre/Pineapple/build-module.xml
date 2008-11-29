@@ -10,8 +10,8 @@
     <target name="default">
         <v-copy src="Pineapple/dist/Pineapple.jar" destdir="Core/build/Plugins"/>
         <v-copy src="Pineapple/dist/Pineapple.jar" destdir="Core/dist/Plugins"/>
-        <v-copy src="Pineapple/TableLayout-20050920.jar" destdir="Core/build/Plugins"/>
-        <v-copy src="Pineapple/TableLayout-20050920.jar" destdir="Core/dist/Plugins"/>
+        <v-copy src="Pineapple/lib/TableLayout-bin-jdk1.1-2007-04-21.jar" destdir="Core/build/Plugins"/>
+        <v-copy src="Pineapple/lib/TableLayout-bin-jdk1.1-2007-04-21.jar" destdir="Core/dist/Plugins"/>
         <v-copy src="Pineapple/lib/mydoggy-api-1.5.0.jar" destdir="Core/build/Plugins"/>
         <v-copy src="Pineapple/lib/mydoggy-api-1.5.0.jar" destdir="Core/dist/Plugins"/>
         <v-copy src="Pineapple/lib/mydoggy-plaf-1.5.0.jar" destdir="Core/build/Plugins"/>
