@@ -10,6 +10,5 @@
     <target name="default">
         <v-copy src="PineDL Integration/dist/PineDL_Integration.jar" destdir="Core/build/Plugins"/>
         <v-copy src="PineDL Integration/dist/PineDL_Integration.jar" destdir="Core/dist/Plugins"/>
-    
     </target>
 </project>
