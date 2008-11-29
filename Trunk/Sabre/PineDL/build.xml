@@ -6,11 +6,6 @@
     <description>Builds, tests, and runs the project PineDL.</description>
     <import file="nbproject/build-impl.xml"/>
     
-    <waitfor>
-        <available file="dist/PineDL.jar" />
-    </waitfor>
-    <echo message="Completed build"/>
-    <ant antfile="PineDL/build-module.xml" dir="../"/>
     <!--
 
     There exist several targets which are by default empty and which can be 
