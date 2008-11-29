@@ -136,7 +136,11 @@ public final class PluginManager {
             Manifest m = jaris.getManifest();
             jaris.close();
             Attributes a = m.getMainAttributes();
-            load(f, a.getValue("Pineapple-EntryPoint"), loader, enabled);
+            String className = a.getValue("Pineapple-EntryPoint");
+            if (className.equals("org.gcreator.game2d.GamePlugin")) {
+                return;
+            }
+            load(f, className, loader, enabled);
         } catch (Exception e) {
             Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
         }
