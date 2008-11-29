@@ -133,4 +133,19 @@ public class PineDLPlugin extends Plugin implements FormatSupporter {
     public String getAuthor() {
         return "Luís Reis, Serge Humphrey";
     }
+    
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setEnabled(boolean b) {
+        boolean old = enabled;
+        super.setEnabled(b);
+        if (b && !old) {
+            PineappleCore.addFormatSupporter(this);
+        } else if (!b && old) {
+            PineappleCore.removeFormatSupporter(this);
+        }
+    }
 }

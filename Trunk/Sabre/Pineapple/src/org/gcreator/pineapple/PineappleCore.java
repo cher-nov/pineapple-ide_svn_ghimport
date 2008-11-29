@@ -136,6 +136,30 @@ public final class PineappleCore {
     public static void addProjectType(ProjectType t) {
         projectTypes.add(t);
     }
+    
+    /**
+     * Removes the given {@link FormatSupporter} from the list of 
+     * format supporters.
+     * 
+     * @param s The {@link FormatSupporter} to remove.
+     * @return Whether the list of formats did contain
+     * the given supporter.
+     */
+    public static boolean removeFormatSupporter(FormatSupporter s) {
+        return formats.remove(s);
+    }
+
+    /**
+     * Removes the given {@link ProjectType} to the list of
+     * project types.
+     * 
+     * @param t The {@link ProjectType} to remove.
+     * @return Whether the list of formats did contain the
+     * given project type.
+     */
+    public static boolean removeProjectType(ProjectType t) {
+        return projectTypes.remove(t);
+    }
 
     /**
      * @return The {@link PineappleGUI} instance.
