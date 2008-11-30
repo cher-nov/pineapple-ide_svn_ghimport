@@ -127,7 +127,6 @@ public class PineappleGUI implements EventHandler {
      * The help menu
      */
     public static JMenu helpMenu;
-    
     public static JMenuItem fileNewProject;
     public static JMenuItem fileNewFile;
     public static JMenuItem fileOpenFile;
@@ -308,9 +307,8 @@ public class PineappleGUI implements EventHandler {
                     return;
                 }
                 BaseTreeNode node = (BaseTreeNode) o;
-                
-                projectRemove.setEnabled((PineappleCore.getProject() != null) ?
-                    (PineappleCore.getProject().indexOf(node.getElement()) != -1) : false);
+
+                projectRemove.setEnabled((PineappleCore.getProject() != null) ? (PineappleCore.getProject().indexOf(node.getElement()) != -1) : false);
                 projectOpen.setEnabled(node instanceof FileTreeNode);
                 projectDelete.setEnabled(true);
             }
@@ -346,7 +344,7 @@ public class PineappleGUI implements EventHandler {
             }
         });
         fileMenu.add(fileNewProject);
-        
+
         fileNewFile = new JMenuItem("New File/Folder");
         fileNewFile.setMnemonic('N');
         fileNewFile.setVisible(true);
@@ -357,7 +355,7 @@ public class PineappleGUI implements EventHandler {
             }
         });
         fileMenu.add(fileNewFile);
-        
+
         fileMenu.addSeparator();
 
         fileOpenProject = new JMenuItem("Open Project");
@@ -586,7 +584,7 @@ public class PineappleGUI implements EventHandler {
             }
         });
         projectMenu.add(projectClose);
-        
+
         menubar.add(projectMenu);
         //</editor-fold>
 
@@ -1214,7 +1212,7 @@ public class PineappleGUI implements EventHandler {
      * Pops a New File Dialog
      */
     public void popupNewFileDialog() {
-        if(PineappleCore.getProject()==null){
+        if (PineappleCore.getProject() == null) {
             JOptionPane.showMessageDialog(
                     Core.getStaticContext().getMainFrame(),
                     "Can not create new file if no project is open");
@@ -1225,7 +1223,7 @@ public class PineappleGUI implements EventHandler {
     }
     //</editor-fold>
     
-    /* Private methods */    
+    /* Private methods */
     
     //<editor-fold defaultstate="collapsed" desc="deleteFile(ProjectElement)">
     /**
@@ -1253,17 +1251,15 @@ public class PineappleGUI implements EventHandler {
 
         String key = "files.formats.formatsupporter.remember." + format;
 
-        if (!openWith) {
-
-            if (format != null && SettingsManager.exists(key)) {
-                try {
-                    String cname = SettingsManager.get(key);
-                    Class<?> c = Class.forName(cname);
-                    Object o = c.newInstance();
-                    FormatSupporter s = (FormatSupporter) o;
-                    return s;
-                } catch (Exception exc) {
+        if (!openWith && format != null && SettingsManager.exists(key)) {
+            try {
+                String cname = SettingsManager.get(key);
+                for (FormatSupporter s : PineappleCore.getFormatSupporters()) {
+                    if (s.getClass().getName().equals(cname)) {
+                        return s;
+                    }
                 }
+            } catch (Exception exc) {
             }
         }
 
@@ -1317,7 +1313,7 @@ public class PineappleGUI implements EventHandler {
         box.add(Box.createHorizontalGlue());
         south.add(box);
 
-        final  JButton ok,  cancel;
+        final JButton ok,  cancel;
         ok = new JButton("OK");
         ok.setEnabled(false);
         ok.addActionListener(new ActionListener() {
@@ -1380,9 +1376,11 @@ public class PineappleGUI implements EventHandler {
         if (format != null && SettingsManager.exists(key)) {
             try {
                 String cname = SettingsManager.get(key);
-                Class<?> c = Class.forName(cname);
-                Object o = c.newInstance();
-                return (ProjectType) o;
+                for (ProjectType t : PineappleCore.getProjectTypes()) {
+                    if (t.getClass().getName().equals(cname)) {
+                        return t;
+                    }
+                }
             } catch (Exception exc) {
             }
         }
@@ -1443,7 +1441,7 @@ public class PineappleGUI implements EventHandler {
         box.add(cbox);
         box.add(Box.createHorizontalGlue());
         south.add(box);
-        final  JButton ok,  cancel;
+        final JButton ok,  cancel;
         ok = new JButton("OK");
         ok.setEnabled(false);
         ok.addActionListener(new ActionListener() {
