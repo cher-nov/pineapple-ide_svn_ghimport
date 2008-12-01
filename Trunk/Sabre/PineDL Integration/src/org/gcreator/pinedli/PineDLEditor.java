@@ -30,8 +30,11 @@ import java.util.Hashtable;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -97,7 +100,7 @@ public class PineDLEditor extends DocumentPane {
         styles.put("tcl", RSyntaxTextArea.TCL_SYNTAX_STYLE);
         names.put(RSyntaxTextArea.TCL_SYNTAX_STYLE, "TCL");
         styles.put("sh", RSyntaxTextArea.UNIX_SHELL_SYNTAX_STYLE);
-        names.put(RSyntaxTextArea.UNIX_SHELL_SYNTAX_STYLE, "SH (Unix Shell)");
+        names.put(RSyntaxTextArea.UNIX_SHELL_SYNTAX_STYLE, "Bourne [UNIX] Shell Script");
         styles.put("bat", RSyntaxTextArea.WINDOWS_BATCH_SYNTAX_STYLE);
         names.put(RSyntaxTextArea.WINDOWS_BATCH_SYNTAX_STYLE, "BAT (Windows Batch)");
         styles.put("xml", RSyntaxTextArea.XML_SYNTAX_STYLE);
@@ -254,17 +257,22 @@ public class PineDLEditor extends DocumentPane {
                 vi.add(value);
             }
         }
-        JMenuItem menuItem;
+        
+        ButtonGroup menus = new ButtonGroup();
         for (final int value : vi) {
-            menuItem = new JMenuItem(PineDLEditor.names.get(value));
+            JRadioButtonMenuItem menuItem;
+            menuItem = new JRadioButtonMenuItem(PineDLEditor.names.get(value));
+            menuItem.setSelected(r.getSyntaxEditingStyle() == value);
             menuItem.setAccelerator(null);
-            menuItem.setToolTipText(null);
+            menuItem.setToolTipText(names.get(value));
+            menuItem.setSelected(value == r.getSyntaxEditingStyle()); 
             menuItem.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
                     r.setSyntaxEditingStyle(value);
                 }
             });
+            menus.add(menuItem);
             stylingMenu.add(menuItem);
         }
         return stylingMenu;
