@@ -48,6 +48,10 @@ void Texture::draw(float x, float y, float angle)
     //use this texture
     glBindTexture(GL_TEXTURE_2D, this->textureid);
 
+    //enable alpha blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     //translate/rotate, then draw a quad with the texture
     glTranslatef(x, y, 0);
     glRotatef(-angle, 0, 0, 1);
