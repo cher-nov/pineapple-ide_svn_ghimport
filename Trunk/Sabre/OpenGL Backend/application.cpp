@@ -13,9 +13,6 @@ void Application::init()
 		throw "Could not initialize SDL";
     atexit(SDL_Quit);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
     running = true;
 }
 

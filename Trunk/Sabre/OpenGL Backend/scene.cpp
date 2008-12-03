@@ -12,7 +12,7 @@ using namespace Pineapple;
 //
 Scene::Scene()
 {
-    glClearColor(1, 1, 1, 1);
+    glClearColor(0, 0, 0, 1);
 }
 
 //
