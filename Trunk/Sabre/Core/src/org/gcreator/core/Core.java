@@ -61,7 +61,7 @@ public class Core {
      */
     protected static void load(boolean safe) {
         /* Logging code for Alpha testing releases */
-      /*  try {
+        try {
             DateFormat d = DateFormat.getDateInstance();
             System.setErr(new PrintStream(("error-log-" + d.format(Calendar.getInstance().getTime()) + ".log").replaceAll("/", "-")));
             System.setOut(new PrintStream(("output-log-" + d.format(Calendar.getInstance().getTime()) + ".log").replaceAll("/", "-")));
