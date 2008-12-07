@@ -15,11 +15,12 @@ import org.gcreator.project.ProjectFolder;
 public final class NewFileWizard extends javax.swing.JDialog {
 
     private static final long serialVersionUID = 1L;
+    private static final String FOLDER = "Folder";
     private CardLayout cardLayout;
     private ProjectFolder folder;
     private Project project;
     private String type;
-
+    
     /**
      * Creates a {@link NewFileWizard}.
      * Note that this does not show the dialog.
@@ -42,13 +43,16 @@ public final class NewFileWizard extends javax.swing.JDialog {
             private static final long serialVersionUID = 1;
 
             public int getSize() {
-                return PineappleCore.fileTypeNames.size();
+                return PineappleCore.fileTypeNames.size() + 1;
             }
 
             public Object getElementAt(int index) {
+                if (index == 0) {
+                    return FOLDER;
+                }
                 int i = 0;
                 for (String k : PineappleCore.fileTypeNames.values()) {
-                    if (index == i) {
+                    if (index-1 == i) {
                         return k;
                     }
                     i++;
@@ -100,12 +104,17 @@ public final class NewFileWizard extends javax.swing.JDialog {
             setError("Invalid File Name");
             return;
         }
-        String fname = text + "." + type;
+        String fname;
+        if (type != null) {
+            fname = text + "." + type;
+        } else {
+            fname = text;
+        }
         if (folder == null) {
             for (ProjectElement e : project.getFiles()) {
                 if (e.getName().equals(fname)) {
                     finishButton.setEnabled(false);
-                    setError("File exists.");
+                    setError("File already exists.");
                     return;
                 }
             }
@@ -113,7 +122,7 @@ public final class NewFileWizard extends javax.swing.JDialog {
             for (ProjectElement e : folder.getChildren()) {
                 if (e.getName().equals(fname)) {
                     finishButton.setEnabled(false);
-                    setError("File exists.");
+                    setError("File already exists.");
                     return;
                 }
             }
@@ -373,6 +382,12 @@ private void typesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//
         return;
     }
     nextButton.setEnabled(true);
+    if (o.equals(FOLDER)) {
+        type = null;
+        extensionLabel.setText(null);
+        fileDescriptionPane.setText("A new folder.");
+        return;
+    }
     for (String k : PineappleCore.fileTypeNames.keySet()) {
         if (PineappleCore.fileTypeNames.get(k).equals(o)) {
             this.type = k;
@@ -384,8 +399,11 @@ private void typesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//
 }//GEN-LAST:event_typesListValueChanged
 
 private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
-    Object o = typesList.getSelectedValue();
-    project.getManager().createFile(folder, fileNameTextField.getText(), type);
+    if (type != null) {
+        project.getManager().createFile(folder, fileNameTextField.getText(), type);
+    } else {
+        project.getManager().createFolder(folder, fileNameTextField.getText());
+    }
     PineappleGUI.tree.updateUI();
     dispose();
 }//GEN-LAST:event_finishButtonActionPerformed
@@ -401,7 +419,11 @@ private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     backButton.setEnabled(true);
     nextButton.setEnabled(false);
     finishButton.setEnabled(true);
-    fileNameTextField.setText("new" + type.toUpperCase() + "File");
+    if (type != null) {
+        fileNameTextField.setText("new" + type.toUpperCase() + "File");
+    } else {
+        fileNameTextField.setText("newFolder");
+    }
     cardLayout.next(stepsPanel);
 }//GEN-LAST:event_nextButtonActionPerformed
 

@@ -110,6 +110,8 @@ public class DefaultProjectManager implements ProjectManager {
      * Not supported.
      */
     public void save(File f) {
+        //Save the project anyway.
+        saveToManifest();
     }
 
     /**
@@ -124,6 +126,27 @@ public class DefaultProjectManager implements ProjectManager {
         } catch (IOException ex) {
             Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        FileFile ff = new FileFile(f, project);
+        if (folder == null) {
+            try {
+                project.add(project.createElement(ff));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            folder.reload();
+        }
+        return ff;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public BasicFile createFolder(ProjectFolder folder, String name) {
+        File f = new File(
+            ((folder == null) ? project.getProjectFolder() : ((FileFile)folder.getFile()).file),
+            name);
+        f.mkdir();
         FileFile ff = new FileFile(f, project);
         if (folder == null) {
             try {
