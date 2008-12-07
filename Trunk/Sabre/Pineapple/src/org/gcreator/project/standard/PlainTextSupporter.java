@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 package org.gcreator.project.standard;
 
+import javax.imageio.ImageIO;
 import org.gcreator.editors.TextEditor;
 import org.gcreator.gui.DocumentPane;
 import org.gcreator.pineapple.PineappleCore;
@@ -38,34 +39,47 @@ import org.gcreator.project.io.FormatSupporter;
  * @author Serge Humphrey
  */
 public class PlainTextSupporter implements FormatSupporter, EventHandler {
-
-    protected static final String[] formats = new String[] {
-        /* TXT Windows text files */
-        "txt",
-        /* Regular Expression for everything */
-        ".*",
-    };
     
-    public String[] getFormats() {
-        return formats;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public DocumentPane load(BasicFile f) {
         return new TextEditor(f);
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     public void handleEvent(Event event) {
         if (event.getEventType().equals(PineappleCore.REGISTER_FORMATS)) {
             PineappleCore.addFormatSupporter(this);
         }
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     public String getName() {
         return "Plain Text Editor";
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     public String getDescription(String type) {
         return "Supports simple plain-text documents";
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
+    public boolean accept(String format) {
+        /* Don't load images */
+        for (String s : ImageIO.getReaderFileSuffixes()) {
+            if (s.equalsIgnoreCase(format)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

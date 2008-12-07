@@ -39,28 +39,48 @@ import org.gcreator.project.io.FormatSupporter;
  * @author Serge Humphrey
  */
 public class ImageSupporter implements FormatSupporter {
-
-    public String[] getFormats() {
-        return ImageIO.getReaderFileSuffixes();
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public DocumentPane load(BasicFile f) {
         return new ImagePreviewer(f);
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     public void handleEvent(Event event) {
         if (event.getEventType().equals(PineappleCore.REGISTER_FORMATS)) {
             PineappleCore.addFormatSupporter(this);
         }
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     public String getName() {
         return "Java ImageIO Image Loader";
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     public String getDescription(String type) {
         String s = "Displays an image.";
         return s;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public boolean accept(String format) {
+        /* Don't load images */
+        for (String s : ImageIO.getReaderFileSuffixes()) {
+            if (s.equalsIgnoreCase(format)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
