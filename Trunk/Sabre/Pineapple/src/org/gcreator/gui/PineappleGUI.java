@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -1212,7 +1213,7 @@ public class PineappleGUI implements EventHandler {
                 if (i < 0 || i >= f.getName().length()) {
                     format = null;
                 } else {
-                    format = f.getName().substring(i+1);
+                    format = f.getName().substring(i + 1);
                 }
                 for (FormatSupporter fs : PineappleCore.getFormatSupporters()) {
                     if (fs.accept(format)) {
@@ -1230,14 +1231,13 @@ public class PineappleGUI implements EventHandler {
         fc.setMultiSelectionEnabled(true);
         File files[] = showFileChooserMultiple(fc);
         if (files != null && files.length > 0) {
+            fileLoop:
             for (File f : files) {
                 if (!f.exists()) {
                     JOptionPane.showMessageDialog(Core.getStaticContext().getMainFrame(),
                             "File " + f + "Does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
-                BasicFile bf = getProjectElement(f);
-
+                BasicFile bf;
                 if (addFile) {
                     BaseTreeNode node = null;
                     for (ProjectElement e : PineappleCore.getProject().getFiles()) {
@@ -1245,6 +1245,41 @@ public class PineappleGUI implements EventHandler {
                             break;
                         }
                     }
+                    try {
+                        if (!f.getCanonicalPath().contains(PineappleCore.getProject().getProjectFolder().getCanonicalPath())) {
+                            int option = JOptionPane.showConfirmDialog(
+                                    Core.getStaticContext().getMainFrame(),
+                                    "<html>The given file, " + f + " is not a inside the project's directory.<br/>" +
+                                    "Do you want to copy it to a new location?</html>",
+                                    "Copy File",
+                                    JOptionPane.OK_CANCEL_OPTION);
+                            if (option != JOptionPane.OK_OPTION) {
+                                continue fileLoop;
+                            }
+
+
+                            //TODO: change this around a bit, add some user input.
+                            File nf = new File(PineappleCore.getProject().getProjectFolder(), f.getName());
+                            int i = 0;
+                            while (nf.exists()) {
+                                nf = new File(PineappleCore.getProject().getProjectFolder(), f.getName() + i++);
+                            }
+                            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(nf));
+                            BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
+                            int read;
+                            while ((read = in.read()) != -1) {
+                                out.write(read);
+                            }
+                            in.close();
+                            out.close();
+                            f = nf;
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(PineappleGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+
+                    bf = getProjectElement(f);
 
                     if (node == null) {
                         try {
@@ -1256,6 +1291,8 @@ public class PineappleGUI implements EventHandler {
                         }
                     }
                     tree.updateUI();
+                } else {
+                    bf = getProjectElement(f);
                 }
                 if (!f.isDirectory()) {
                     openFile(bf);
@@ -1306,8 +1343,10 @@ public class PineappleGUI implements EventHandler {
     }
     //</editor-fold>
     
+    
     /* Private methods 
      */
+    
     
     //<editor-fold defaultstate="collapsed" desc="deleteFile(ProjectElement)">
     /**
@@ -1397,7 +1436,7 @@ public class PineappleGUI implements EventHandler {
         box.add(Box.createHorizontalGlue());
         south.add(box);
 
-        final JButton ok,  cancel;
+        final  JButton ok,   cancel ;
         ok = new JButton("OK");
         ok.setEnabled(false);
         ok.addActionListener(new ActionListener() {
@@ -1525,7 +1564,7 @@ public class PineappleGUI implements EventHandler {
         box.add(cbox);
         box.add(Box.createHorizontalGlue());
         south.add(box);
-        final JButton ok,  cancel;
+        final  JButton ok,   cancel ;
         ok = new JButton("OK");
         ok.setEnabled(false);
         ok.addActionListener(new ActionListener() {
