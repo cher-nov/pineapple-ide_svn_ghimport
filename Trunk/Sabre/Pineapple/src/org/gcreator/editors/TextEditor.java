@@ -26,6 +26,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -37,16 +39,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
-import javax.swing.undo.UndoManager;
 import org.gcreator.gui.DocumentPane;
-import org.gcreator.gui.PineappleGUI;
 import org.gcreator.managers.IntegratedUndoManager;
 import org.gcreator.project.io.BasicFile;
 
 /**
- * Allows text edition
+ * Simple plain text editor.
  * 
  * @author Luís Reis
  */
@@ -55,26 +53,27 @@ public class TextEditor extends DocumentPane {
     private static final long serialVersionUID = 1L;
     private JScrollPane scroll;
     private JTextArea editor;
-    private BasicFile file;
-
     public IntegratedUndoManager undo = new IntegratedUndoManager();
-    
 
     /**
-     * Creates a text editor from a File
-     * @param e The element to read the data from.
+     * Creates a text editor from a file.
+     * 
+     * @param e The file to read the data from.
      */
     public TextEditor(BasicFile e) {
         super(e);
+        this.file = e;
+
         setBackground(Color.white);
         setLayout(new BorderLayout());
-        scroll = new JScrollPane();
-        editor = new JTextArea();
-        editor.setVisible(true);
-        scroll.setVisible(true);
-        scroll.setViewportView(editor);
-        editor.setTabSize(5);
-        add(scroll, BorderLayout.CENTER);
+        this.scroll = new JScrollPane();
+        this.editor = new JTextArea();
+        this.editor.setVisible(true);
+        this.scroll.setVisible(true);
+        this.scroll.setViewportView(editor);
+        this.editor.setTabSize(5);
+        this.add(scroll, BorderLayout.CENTER);
+
         if (e != null && e.exists()) {
             BufferedInputStream in = null;
             try {
@@ -111,7 +110,15 @@ public class TextEditor extends DocumentPane {
         });
         editor.getDocument().addUndoableEditListener(undo);
 
-        this.file = e;
+        editor.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S) {
+                    save();
+                }
+            }
+        });
     }
 
     /**
