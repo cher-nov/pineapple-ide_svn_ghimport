@@ -35,10 +35,14 @@ import org.gcreator.gui.DocumentPane;
 public interface FormatSupporter {
     
     /**
-     * @return An array of strings, each representing the name of the 
-     * file format that this supporter supports, For example, rtf, cpp, c
+     * Gets whether this format supporter will accept
+     * a given file format (extension).
+     * 
+     * @param format The format (extension) of the file.
+     * @return <tt>true</tt> if this supporter can load
+     * the given format, or <tt>false</tt> if it can't.
      */
-    public String[] getFormats();
+    public boolean accept(String format);
     
     /**
      * Creates a new {@link DocumentPaner} for the given file,

@@ -19,33 +19,31 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 package org.gcreator.editors;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import org.gcreator.gui.DocumentPane;
 import org.gcreator.gui.PineappleGUI;
 import org.gcreator.project.io.BasicFile;
 
 /**
- * Previews an image
+ * Previews an image using ImageIO.
  * 
  * @author Luís Reis
  */
-public class ImagePreviewer extends DocumentPane {
-    
-    private static final long serialVersionUID = 1L;
+public final class ImagePreviewer extends DocumentPane {
 
-    private JScrollPane scroll;
-    private JPanel panel;
-    private BufferedImage img = null;
+    private static final long serialVersionUID = 1L;
+    private JLabel label;
+    private ImageIcon image;
 
     /**
      * Creates an ImagePreviewer from a File
@@ -53,48 +51,32 @@ public class ImagePreviewer extends DocumentPane {
      */
     public ImagePreviewer(BasicFile file) {
         super(file);
-
-        scroll = new JScrollPane();
-        panel = new JPanel() {
-
-            private static final long serialVersionUID = 1;
-            
-            @Override
-            public void paint(Graphics g) {
-                if (img != null) {
-                    g.drawImage(img, 0, 0, null);
-                }
-            }
-        };
         try {
             BufferedInputStream s = new BufferedInputStream(file.getInputStream());
-            img = ImageIO.read(s);
+            BufferedImage img = ImageIO.read(s);
             s.close();
+            if (img == null) {
+                PineappleGUI.dip.remove(this);
+                return;
+            }
+            image = new ImageIcon(img);
         } catch (Exception e) {
-            System.out.println("ImagePrev>>Exception: " + e);
+            System.out.println("Exception while reading image " + file.getPath() + ": " + e);
         }
-        
-        if (img == null) {
-            PineappleGUI.dip.remove(this);
-            return;
-        }
-        scroll.setVisible(true);
-        panel.setVisible(true);
-        panel.setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
-        scroll.setViewportView(panel);
-
-        setLayout(new BorderLayout());
-        add(scroll, BorderLayout.CENTER);
+        this.setLayout(new BorderLayout());
+        label = new JLabel(image);
+        this.add(new JScrollPane(label), BorderLayout.CENTER);
     }
 
     /**
      * Gets the display image.
      * 
-     * @return The {@link java.awt.image.BufferedImage} that stores the diaply image data.
+     * @return The {@link java.awt.ImageIcon} that stores the diaply image data.
      */
-    public BufferedImage getImage() {
-        return img;
+    public ImageIcon getImage() {
+        return image;
     }
+
     /**
      * {@inheritDoc}
      */

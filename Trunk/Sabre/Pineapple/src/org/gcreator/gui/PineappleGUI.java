@@ -355,8 +355,9 @@ public class PineappleGUI implements EventHandler {
         fileMenu.add(fileNewProject);
 
         fileNewFile = new JMenuItem("New File/Folder") {
+
             private static final long serialVersionUID = 1;
-            
+
             @Override
             public boolean isEnabled() {
                 return PineappleCore.getProject() != null && super.isEnabled();
@@ -806,7 +807,7 @@ public class PineappleGUI implements EventHandler {
             if (o instanceof ProjectTreeNode) {
 
                 final ProjectTreeNode node = (ProjectTreeNode) o;
-                
+
                 JMenuItem tfileSaveProject = new JMenuItem("Save Project") {
 
                     private static final long serialVersionUID = 1;
@@ -856,7 +857,7 @@ public class PineappleGUI implements EventHandler {
                     }
                 });
                 menu.add(newFile);
-                
+
                 JMenuItem tprojectRemove = new JMenuItem("Close");
                 tprojectRemove.setMnemonic('C');
                 tprojectRemove.setVisible(true);
@@ -1021,7 +1022,7 @@ public class PineappleGUI implements EventHandler {
                         tree.updateUI();
                     }
                 });
-                
+
                 JMenuItem newFile = new JMenuItem("New File...") {
 
                     private static final long serialVersionUID = 1;
@@ -1200,8 +1201,32 @@ public class PineappleGUI implements EventHandler {
      * @param allowFolder Wheather you want to allow the user to choose folders.
      */
     public void openFile(boolean addFile, boolean allowFolder) {
-        JFileChooser fc = createFileChooser("Select files to open", getSupportedFileFormats(), "open-file");
+        JFileChooser fc = createFileChooser("Select files to open", null, "open-file");
         fc.setFileSelectionMode((allowFolder) ? JFileChooser.FILES_AND_DIRECTORIES : JFileChooser.FILES_ONLY);
+        fc.addChoosableFileFilter(new FileFilter() {
+
+            @Override
+            public boolean accept(File f) {
+                String format;
+                int i = f.getName().lastIndexOf('.');
+                if (i < 0 || i >= f.getName().length()) {
+                    format = null;
+                } else {
+                    format = f.getName().substring(i+1);
+                }
+                for (FormatSupporter fs : PineappleCore.getFormatSupporters()) {
+                    if (fs.accept(format)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            public String getDescription() {
+                return "All accepted file formats";
+            }
+        });
         fc.setMultiSelectionEnabled(true);
         File files[] = showFileChooserMultiple(fc);
         if (files != null && files.length > 0) {
@@ -1281,7 +1306,8 @@ public class PineappleGUI implements EventHandler {
     }
     //</editor-fold>
     
-    /* Private methods */
+    /* Private methods 
+     */
     
     //<editor-fold defaultstate="collapsed" desc="deleteFile(ProjectElement)">
     /**
@@ -1562,22 +1588,6 @@ public class PineappleGUI implements EventHandler {
         return formats.toArray(new String[formats.size()]);
     }
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="getSupportedFileFormats()">
-    private String[] getSupportedFileFormats() {
-        Vector<String> formats = new Vector<String>(2);
-
-        for (FormatSupporter fs : PineappleCore.getFormatSupporters()) {
-            String[] s = fs.getFormats();
-            if (s == null) {
-                continue;
-            }
-            for (String ff : s) {
-                formats.add(ff);
-            }
-        }
-        return formats.toArray(new String[formats.size()]);
-    }
-    //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="createFileChooser(String, String[], String)">
     private JFileChooser createFileChooser(String title, final String[] formats, String action) {
         JFileChooser chooser = new JFileChooser();
@@ -1585,37 +1595,39 @@ public class PineappleGUI implements EventHandler {
         if (title != null) {
             chooser.setDialogTitle(title);
         }
-        int length = Math.min(formats.length * 4, 50);
-        StringBuilder b = new StringBuilder(length);
-        for (String s : formats) {
-            if (b.length() > length) {
-                b.append("...");
-                break;
-            }
-            b.append(s + " ");
-        }
-        final String desc = b.toString();
-
-        chooser.addChoosableFileFilter(new FileFilter() {
-
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()) {
-                    return true;
+        if (formats != null) {
+            int length = Math.min(formats.length * 4, 50);
+            StringBuilder b = new StringBuilder(length);
+            for (String s : formats) {
+                if (b.length() > length) {
+                    b.append("...");
+                    break;
                 }
-                for (String s : formats) {
-                    if (f.getName().matches(".+\\." + s)) {
+                b.append(s + " ");
+            }
+            final String desc = b.toString();
+
+            chooser.addChoosableFileFilter(new FileFilter() {
+
+                @Override
+                public boolean accept(File f) {
+                    if (f.isDirectory()) {
                         return true;
                     }
+                    for (String s : formats) {
+                        if (f.getName().matches(".+\\." + s)) {
+                            return true;
+                        }
+                    }
+                    return false;
                 }
-                return false;
-            }
 
-            @Override
-            public String getDescription() {
-                return desc;
-            }
-        });
+                @Override
+                public String getDescription() {
+                    return desc;
+                }
+            });
+        }
         EventManager.fireEvent(this, FILE_CHOOSER_CREATED, chooser, action);
         return chooser;
     }
@@ -1650,9 +1662,9 @@ public class PineappleGUI implements EventHandler {
         } else {
             /* Shouldn't use FileFile, but will anyways. */
             bf = new FileFile(f, null); /* NOTE:
-                                         * Can't use getPath() method
-                                         * with null project.
-                                         */
+         * Can't use getPath() method
+         * with null project.
+         */
         }
         return bf;
     }
@@ -1674,16 +1686,8 @@ public class PineappleGUI implements EventHandler {
         Vector<FormatSupporter> supporters = new Vector<FormatSupporter>(2);
 
         for (FormatSupporter fs : PineappleCore.getFormatSupporters()) {
-            String[] s = fs.getFormats();
-            if (s == null) {
-                continue;
-            }
-            for (String ff : s) {
-                if (format == null || fname.matches(".+\\." + ff.toLowerCase())) {
-                    supporters.add(fs);
-                    /* No need to add the supporter again (if format is null or something)*/
-                    break;
-                }
+            if (fs.accept(format)) {
+                supporters.add(fs);
             }
         }
         return supporters.toArray(new FormatSupporter[supporters.size()]);
