@@ -66,6 +66,17 @@ public interface ProjectManager {
     public BasicFile createFile(ProjectFolder folder, String name, String type);
     
     /**
+     * Creates a new folder and adds it the the given folder.
+     * 
+     * @param folder The folder to add the file to. If this is
+     * <tt>null</tt>, the file will be added to the base of the project.
+     * @param name The name of the folder.
+     * 
+     * @return The created folder.
+     */
+    public BasicFile createFolder(ProjectFolder folder, String name);
+    
+    /**
      * Imports some file (such as a ZIP) to the project.
      * Note that this isn't just called 'import' because
      * that is a Java keyword.

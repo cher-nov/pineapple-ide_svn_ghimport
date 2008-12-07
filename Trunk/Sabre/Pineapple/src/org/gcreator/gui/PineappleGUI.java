@@ -839,7 +839,7 @@ public class PineappleGUI implements EventHandler {
                 });
                 menu.add(tprojectAdd);
 
-                JMenuItem newFile = new JMenuItem("New File...") {
+                JMenuItem newFile = new JMenuItem("New File/Folder...") {
 
                     private static final long serialVersionUID = 1;
 
@@ -1023,7 +1023,7 @@ public class PineappleGUI implements EventHandler {
                     }
                 });
 
-                JMenuItem newFile = new JMenuItem("New File...") {
+                JMenuItem newFile = new JMenuItem("New File/Folder...") {
 
                     private static final long serialVersionUID = 1;
 
