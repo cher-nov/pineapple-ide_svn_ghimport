@@ -45,6 +45,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.gcreator.project.Project;
 import org.gcreator.project.ProjectElement;
+import org.gcreator.project.ProjectFolder;
 import org.gcreator.project.io.BasicFile;
 import org.gcreator.project.io.ProjectManager;
 import org.w3c.dom.Document;
@@ -67,7 +68,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 public class DefaultProjectManager implements ProjectManager {
 
     protected DefaultProject project;
-    public static final String[] PROJECT_TYPES = new String[]{
+    public static final String[] PROJECT_TYPES = new String[] {
         /* Pineapple Project File */
         "pmf",
     };
@@ -114,9 +115,26 @@ public class DefaultProjectManager implements ProjectManager {
     /**
      * {@inheritDoc}
      */
-    public BasicFile createFile(Project p, String type) {
-        File f = new File(p.getProjectFolder(), "newFile." + type);
-        return new FileFile(f);
+    public BasicFile createFile(ProjectFolder folder, String name, String type) {
+        File f = new File(
+            ((folder == null) ? project.getProjectFolder() : ((FileFile)folder.getFile()).file),
+            name + "." + type);
+        try {
+            f.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        FileFile ff = new FileFile(f, project);
+        if (folder == null) {
+            try {
+                project.add(project.createElement(ff));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            folder.reload();
+        }
+        return ff;
     }
 
     /**
@@ -389,13 +407,13 @@ public class DefaultProjectManager implements ProjectManager {
                 if (path == null) {
                     System.err.println("ERROR: No path attribute for file.");
                 } else {
-                    File file = new File(path);
+                    File file = new File(project.getProjectFolder(), path.substring(1));
                     if (!file.exists()) {
                         System.err.println("ERROR: file " + file + " does not exist.");
                         return;
                     }
                     try {
-                        project.add(project.createElement(new FileFile(file)));
+                        project.add(project.createElement(new FileFile(file, project)));
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(DefaultProjectManager.class.getName()).log(Level.SEVERE, null, ex);
                     }

@@ -122,11 +122,22 @@ public interface BasicFile {
     public void rename(String newName) throws IOException;
     
     /**
-     * Returns some kind of path to the file.
-     * This should not be used for 
+     * Gets the relative path to the file.
+     * If the file is at the base of the project,
+     * it should always return '/'.
      * 
-     * @return Some kind of path to the file,
-     * like {@link java.io.File#getPath()} or something similar.
+     * @return The relative path to the file.
      */
     public String getPath();
+    
+    /**
+     * Returns the time that the file last modified.
+     *
+     * @return  A <code>long</code> value representing the time the file was
+     *          last modified, measured in milliseconds since the epoch
+     *          (00:00:00 GMT, January 1, 1970), or <code>0L</code> if the
+     *          file does not exist or if an I/O error occurs.
+     *
+     */
+    public long lastModified();
 }

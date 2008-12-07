@@ -44,8 +44,8 @@ public final class NewProjectWizard extends javax.swing.JDialog {
                 } else {
                     finishButton.setEnabled(false);
                 }
-                if (text.contains(File.separator)) {
-                    setErrorMessage("Error: Project name can't contain " + File.separator);
+                if (text.contains("/") || text.contains("\\")) {
+                    setErrorMessage("Error: Project name can't contain '/' or '\\'");
                 } else {
                     errorLabel.setVisible(false);
                 }

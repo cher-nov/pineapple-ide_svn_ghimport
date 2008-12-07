@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import org.gcreator.pineapple.PineappleCore;
+import org.gcreator.project.Project;
 import org.gcreator.project.io.BasicFile;
 
 /**
@@ -40,14 +41,17 @@ import org.gcreator.project.io.BasicFile;
 public class FileFile implements BasicFile {
 
     protected File file;
+    protected Project project;
 
     /**
      * Creates a new {@link FileFile} with a given {@link java.io.File}.
      * 
      * @param file The {@link java.io.File} to use.
+     * @param p The {@link Project} which this file should belong to.
      */
-    public FileFile(File file) {
+    public FileFile(File file, Project p) {
         this.file = file;
+        this.project = p;
     }
 
     /**
@@ -91,7 +95,7 @@ public class FileFile implements BasicFile {
             f.delete();
         } else {
             for (File sub : f.listFiles()) {
-                recursiveDelete(f);
+                recursiveDelete(sub);
             }
         }
     }
@@ -129,7 +133,7 @@ public class FileFile implements BasicFile {
         FileFile[] files = new FileFile[ffiles.length];
         int i = 0;
         for (File f : ffiles) {
-            files[i++] = new FileFile(f);
+            files[i++] = new FileFile(f, project);
         }
         return files;
     }
@@ -149,14 +153,22 @@ public class FileFile implements BasicFile {
             throw new IOException("Renaming failed for " + this.file);
         }
         if (PineappleCore.getProject() != null && PineappleCore.getProject().getManager() instanceof DefaultProjectManager) {
-            ((DefaultProjectManager)PineappleCore.getProject().getManager()).saveToManifest();
+            ((DefaultProjectManager) PineappleCore.getProject().getManager()).saveToManifest();
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public String getPath() {
-        return file.getPath();
+        return file.getPath().replaceAll(File.separator, "/").
+                substring(project.getProjectFolder().getPath().length());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public long lastModified() {
+        return file.lastModified();
     }
 }

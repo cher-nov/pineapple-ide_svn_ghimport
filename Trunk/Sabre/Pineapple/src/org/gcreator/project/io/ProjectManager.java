@@ -26,6 +26,7 @@ package org.gcreator.project.io;
 
 import java.io.File;
 import org.gcreator.project.Project;
+import org.gcreator.project.ProjectFolder;
 
 /**
  *
@@ -43,7 +44,6 @@ public interface ProjectManager {
      * @param f The {@link java.io.File} to save to.
      * This should be one the strings from {@see #getProjectFileTypes()}.
      * 
-     * @see #getProjectFileTypes() 
      */
     public void save(File f);
     
@@ -53,12 +53,17 @@ public interface ProjectManager {
     public Project getProject();
     
     /**
-     * Creates a new file.
-     * @param p The project which owns the file
-     * @param type The file type
-     * @return Returns the created file
+     * Creates a new file and adds it the the given folder.
+     * 
+     * @param folder The folder to add the file to. If this is
+     * <tt>null</tt>, the file will be added to the base of the project.
+     * @param name The name of the file. This should <strong>not</strong>
+     * include the extension.
+     * @param type The file type.
+     * 
+     * @return The created file.
      */
-    public BasicFile createFile(Project p, String type);
+    public BasicFile createFile(ProjectFolder folder, String name, String type);
     
     /**
      * Imports some file (such as a ZIP) to the project.
