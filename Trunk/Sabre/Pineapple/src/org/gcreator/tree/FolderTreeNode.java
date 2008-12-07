@@ -77,14 +77,18 @@ public class FolderTreeNode extends DefaultMutableTreeNode implements BaseTreeNo
     }
 
     /**
-     * Returns the index of the given node, or -1 if it is not in the tree.
-     *  
-     * @param node The node.
-     * @return The index of the given node, or -1 if it is not in the tree.
+     * {@inheritDoc}
+     * 
+     * @param node The node. Should be a {@link BaseTreeNodde}.
+     * @return The index of the given node, or -1 if it is not a child
+     * of this node.
      */
     @Override
     public int getIndex(TreeNode node) {
-        return folder.getChildren().indexOf(node);
+        if (node instanceof BaseTreeNode) {
+            return folder.indexOf(((BaseTreeNode)node).getElement());
+        }
+        return -1;
     }
 
     /**
@@ -108,6 +112,10 @@ public class FolderTreeNode extends DefaultMutableTreeNode implements BaseTreeNo
         return folder.getChildrenCount();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ProjectElement getElement() {
         return folder;
     }

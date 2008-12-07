@@ -34,7 +34,7 @@ import org.gcreator.project.io.BasicFile;
  * 
  * @author Serge Humphrey
  */
-public final class DefaultProjectType implements ProjectType {
+public class DefaultProjectType implements ProjectType {
     
     /**
      * {@inheritDoc}
@@ -70,8 +70,11 @@ public final class DefaultProjectType implements ProjectType {
     public String[] getProjectFileTypes() {
         return DefaultProjectManager.getProjectFileTypes();
     }
-    
-    public BasicFile createBasicFile(File f) {
-        return new FileFile(f);
+        
+    /**
+     * {@inheritDoc}
+     */
+    public BasicFile createBasicFile(File f, Project p) {
+        return new FileFile(f, p);
     }
 }

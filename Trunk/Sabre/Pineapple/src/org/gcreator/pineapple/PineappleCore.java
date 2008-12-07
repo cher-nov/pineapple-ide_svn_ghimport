@@ -66,17 +66,20 @@ public final class PineappleCore {
 
     /**
      * The file type names
+     * TODO: CHANGE THIS SYSTEM
      */
     public static Hashtable<String, String> fileTypeNames =
             new Hashtable<String, String>();
     
     /**
      * The file type descriptions
+     * TODO: CHANGE THIS SYSTEM
      */
     public static Hashtable<String, String> fileTypeDescriptions =
             new Hashtable<String, String>();
     
-    static{
+    static {
+           // TODO: CHANGE THIS SYSTEM
         fileTypeNames.put("txt", "Text File");
         
         fileTypeDescriptions.put("txt", "A plain text file");

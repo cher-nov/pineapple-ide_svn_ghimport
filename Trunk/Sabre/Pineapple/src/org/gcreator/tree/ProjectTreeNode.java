@@ -134,4 +134,14 @@ public final class ProjectTreeNode implements TreeNode {
     public Project getProject() {
         return project;
     }
+    
+    /**
+     * Gets the name of the project.
+     * 
+     * @return The name of the project.
+     */
+    @Override
+    public String toString() {
+        return project.getName();
+    }
 }

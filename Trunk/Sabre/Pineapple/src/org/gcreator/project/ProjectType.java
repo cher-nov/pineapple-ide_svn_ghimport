@@ -75,11 +75,14 @@ public interface ProjectType {
     
     /**
      * Creates a {@link Basicfile} implementation for a
-     * given {@link java.io.File java.io.File}.
+     * given project and {@link java.io.File java.io.File}.
      * 
      * @param f The {@link java.io.File} to use.
-     * @return a {@link Basicfile} implementation for a
+     * @param p The {@link Project} to which this file
+     * must belong.
+     * 
+     * @return A {@link Basicfile} implementation for a
      * given {@link java.io.File java.io.File}.
      */
-    public BasicFile createBasicFile(File f);
+    public BasicFile createBasicFile(File f, Project p);
 }

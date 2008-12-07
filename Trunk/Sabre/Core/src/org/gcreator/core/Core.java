@@ -19,7 +19,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 package org.gcreator.core;
 
 import java.io.IOException;
@@ -60,20 +60,20 @@ public class Core {
      * @see #unload()
      */
     protected static void load(boolean safe) {
-        /******************ALPHA CODE****************/
-        try{
+        /* Logging code for Alpha testing releases */
+      /*  try {
             DateFormat d = DateFormat.getDateInstance();
-            System.setErr(new PrintStream(("error-log-"+d.format(Calendar.getInstance().getTime())+".log").replaceAll("/", "-")));
-            System.setOut(new PrintStream(("output-log-"+d.format(Calendar.getInstance().getTime())+".log").replaceAll("/", "-")));
-        }
-        catch(IOException e){
+            System.setErr(new PrintStream(("error-log-" + d.format(Calendar.getInstance().getTime()) + ".log").replaceAll("/", "-")));
+            System.setOut(new PrintStream(("output-log-" + d.format(Calendar.getInstance().getTime()) + ".log").replaceAll("/", "-")));
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        /******************END OF ALPHA CODE*********/
+        /* End of logging code */
+        
         Core.safe = safe;
-        
+
         Thread.setDefaultUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler());
-        
+
         if (!Core.safe) {
             SettingsManager.load();
             PluginManager.loadPlugins();
@@ -91,7 +91,7 @@ public class Core {
                 frame.setVisible(true);
             }
         }, DefaultEventTypes.APPLICATION_INITIALIZED, EventPriority.LOW);
-        
+
         EventManager.addEventHandler(new EventHandler() {
 
             @Override
@@ -99,7 +99,7 @@ public class Core {
                 SettingsManager.unload();
             }
         }, DefaultEventTypes.WINDOW_DISPOSED, EventPriority.HIGH);
-        
+
         EventManager.fireEvent(null, DefaultEventTypes.APPLICATION_INITIALIZED);
     }
 
@@ -137,7 +137,7 @@ public class Core {
     public static StaticContext getStaticContext() {
         return staticContext;
     }
-    
+
     /**
      * Called by the JVM when the application is started.
      * 
@@ -145,29 +145,24 @@ public class Core {
      */
     public static void main(String[] args) {
         boolean safe = false;
-        
+
         if (args.length == 0) {
             safe = false;
-        }
-        
-        else if (args[0].equalsIgnoreCase("--help") || args[0].equalsIgnoreCase("-help") || args[0].equalsIgnoreCase("-h")) {
+        } else if (args[0].equalsIgnoreCase("--help") || args[0].equalsIgnoreCase("-help") || args[0].equalsIgnoreCase("-h")) {
             System.out.println("G-Creator version " + Core.version());
             System.out.println("Usage: gcreator [options] [file]");
             System.out.println("-h --help          Displays this help message");
             System.out.println("-v --version       Displays the G-Creator version");
             System.out.println("-s --safe          Doesn't load plug-ins and settings (Safe mode)");
             System.exit(0);
-        }
-        else if (args[0].equalsIgnoreCase("--version") || args[0].equalsIgnoreCase("-version") || args[0].equalsIgnoreCase("-v")) {
+        } else if (args[0].equalsIgnoreCase("--version") || args[0].equalsIgnoreCase("-version") || args[0].equalsIgnoreCase("-v")) {
             System.out.println("G-Creator version " + Core.version());
             System.out.println("Copyright © 2005-2008 The G-Creator Project");
             System.out.println("http://www.g-creator.org");
             System.exit(0);
-        }
-        else if (args[0].equalsIgnoreCase("--safe") || args[0].equalsIgnoreCase("-s") || args[0].equalsIgnoreCase("-safe")) {
+        } else if (args[0].equalsIgnoreCase("--safe") || args[0].equalsIgnoreCase("-s") || args[0].equalsIgnoreCase("-safe")) {
             safe = true;
-        }
-        else{
+        } else {
             safe = false;
         }
         load(safe);

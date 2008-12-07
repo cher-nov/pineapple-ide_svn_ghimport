@@ -43,6 +43,7 @@ public class ProjectFolder extends ProjectElement {
     protected BasicFile folder;
     protected FolderTreeNode treeNode;
     protected Project project;
+    protected long modified = -1L;
     
     /**
      * Creates a new {@link ProjectFolder} and scans for files and adds them to its children.
@@ -61,10 +62,11 @@ public class ProjectFolder extends ProjectElement {
         this.children = new Vector<ProjectElement>(folder.list().length);
         this.treeNode = new FolderTreeNode(this);
         this.project = p;
-        
-        reload();
     }
     
+    /**
+     * Reloads all of the files inside the folder.
+     */
     public void reload() {
         children.clear();
         for (BasicFile f : folder.list()) {
@@ -76,16 +78,9 @@ public class ProjectFolder extends ProjectElement {
                 Logger.getLogger(ProjectFolder.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        modified = folder.lastModified();
     }
     
-    /**
-     * Gets the folder's children.
-     * 
-     * @return The folder's children.
-     */
-    public Vector<ProjectElement> getChildren() {
-        return children;
-    }
     
     /**
      * Returns the child at the given index.
@@ -99,6 +94,9 @@ public class ProjectFolder extends ProjectElement {
      * @see #getChildrenCount()
      */
     public ProjectElement getChildAt(int index) throws ArrayIndexOutOfBoundsException {
+        if (folder.lastModified() != modified) {
+            reload();
+        }
         return children.get(index);
     }
     
@@ -108,6 +106,9 @@ public class ProjectFolder extends ProjectElement {
      * @return The number of children this folder has.
      */
     public int getChildrenCount() {
+        if (folder.lastModified() != modified) {
+            reload();
+        }
         return children.size();
     }
     
@@ -116,27 +117,6 @@ public class ProjectFolder extends ProjectElement {
      */
     public BasicFile getFile() {
         return folder;
-    }
-    
-    /**
-     * Adds a child to the children.
-     * Same as getChildren().add(e).
-     * 
-     * @param e The {@link ProjectElement} to add.
-     */
-    public void addChild(ProjectElement e) {
-        addChild(e);
-    }
-    
-    /**
-     * Adds a child to the children.
-     * 
-     * @param f The {@link java.io.File} to add.
-     * 
-     * @throws java.io.FileNotFoundException If the given file does not exist.
-     */
-    public void addChild(BasicFile f) throws FileNotFoundException {
-        addChild(project.createElement(f));
     }
 
     /**
@@ -172,5 +152,27 @@ public class ProjectFolder extends ProjectElement {
     @Override
     public String getName() {
         return folder.getName();
+    }
+    
+    /** 
+     * @return An {@link Iterable} for cycling through 
+     * the folder's children.
+     */
+    public Iterable<ProjectElement> getChildren() {
+        if (folder.lastModified() != modified) {
+            reload();
+        }
+        return children;
+    }
+    
+    /**
+     * Returns the index of the given element, or -1
+     * if it is not a child of this folder.
+     * 
+     * @param e The {@link ProjectElement} to look for.
+     * @return The
+     */
+    public int indexOf(ProjectElement e) {
+        return children.indexOf(e);
     }
 }
